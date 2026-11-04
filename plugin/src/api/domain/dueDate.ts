@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const dueDateSchema = z.object({
-  isRecurring: z.boolean(),
+  isRecurring: z.boolean().default(false),
   date: z.string(),
 });
 

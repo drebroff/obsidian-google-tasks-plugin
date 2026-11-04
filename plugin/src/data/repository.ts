@@ -1,26 +1,34 @@
 export interface RepositoryItem<Id> {
   id: Id;
-  name: string;
-  isDeleted: boolean;
-  isArchived?: boolean;
+  title: string;
+  isDeleted?: boolean;
 }
 
 export interface RepositoryReader<T, U> {
   byId(id: T): U | undefined;
-  byName(name: string): U | undefined;
+  byTitle(title: string): U | undefined;
   iter(): IterableIterator<U>;
-
   iterActive(): IterableIterator<U>;
 }
 
 export interface RepositoryWriter<U> {
   applyDiff(changed: U[]): void;
+  replaceAll(items: U[]): void;
 }
 
 export class Repository<T, U extends RepositoryItem<T>>
   implements RepositoryReader<T, U>, RepositoryWriter<U>
 {
   private readonly data: Map<T, U> = new Map();
+
+  public replaceAll(items: U[]): void {
+    this.data.clear();
+    for (const item of items) {
+      if (!item.isDeleted) {
+        this.data.set(item.id, item);
+      }
+    }
+  }
 
   public applyDiff(changed: U[]): void {
     for (const item of changed) {
@@ -36,13 +44,13 @@ export class Repository<T, U extends RepositoryItem<T>>
     return this.data.get(id);
   }
 
-  public byName(name: string): U | undefined {
+  public byTitle(title: string): U | undefined {
+    const lower = title.toLowerCase();
     for (const item of this.iter()) {
-      if (item.name === name) {
+      if (item.title.toLowerCase() === lower) {
         return item;
       }
     }
-
     return undefined;
   }
 
@@ -51,16 +59,10 @@ export class Repository<T, U extends RepositoryItem<T>>
   }
 
   public *iterActive(): IterableIterator<U> {
-    for (const item of this.iter()) {
-      if (item.isDeleted) {
-        continue;
+    for (const item of this.data.values()) {
+      if (!item.isDeleted) {
+        yield item;
       }
-
-      if (item.isArchived ?? false) {
-        continue;
-      }
-
-      yield item;
     }
   }
 }

@@ -4,11 +4,11 @@ import { Repository, type RepositoryItem } from "@/data/repository";
 
 const makeItem = (
   id: string,
-  name: string,
-  extra?: { isDeleted?: boolean; isArchived?: boolean },
+  title: string,
+  extra?: { isDeleted?: boolean },
 ): RepositoryItem<string> => ({
   id,
-  name,
+  title,
   isDeleted: false,
   ...extra,
 });
@@ -78,49 +78,62 @@ describe("Repository", () => {
     });
   });
 
-  describe("byName", () => {
+  describe("byTitle", () => {
     it("should return the item when it exists", () => {
       const repo = new Repository<string, RepositoryItem<string>>();
       repo.applyDiff([makeItem("1", "Alpha"), makeItem("2", "Beta")]);
 
-      expect(repo.byName("Beta")).toEqual(makeItem("2", "Beta"));
+      expect(repo.byTitle("Beta")).toEqual(makeItem("2", "Beta"));
     });
 
     it("should return undefined when no item matches", () => {
       const repo = new Repository<string, RepositoryItem<string>>();
       repo.applyDiff([makeItem("1", "Alpha")]);
 
-      expect(repo.byName("Nonexistent")).toBeUndefined();
+      expect(repo.byTitle("Nonexistent")).toBeUndefined();
     });
 
-    it("should return the first match when multiple items share the same name", () => {
+    it("should return the first match when multiple items share the same title", () => {
       const repo = new Repository<string, RepositoryItem<string>>();
       repo.applyDiff([makeItem("1", "Same"), makeItem("2", "Same")]);
 
-      const found = repo.byName("Same");
+      const found = repo.byTitle("Same");
       expect(found).toBeDefined();
       expect(found?.id).toBe("1");
     });
   });
 
-  describe("iter", () => {
-    it("should return all items including archived", () => {
+  describe("replaceAll", () => {
+    it("should replace all existing items", () => {
       const repo = new Repository<string, RepositoryItem<string>>();
-      repo.applyDiff([makeItem("1", "Alpha"), makeItem("2", "Beta", { isArchived: true })]);
+      repo.applyDiff([makeItem("1", "Alpha"), makeItem("2", "Beta")]);
+      repo.replaceAll([makeItem("3", "Gamma")]);
+
+      expect(repo.byId("1")).toBeUndefined();
+      expect(repo.byId("2")).toBeUndefined();
+      expect(repo.byId("3")).toEqual(makeItem("3", "Gamma"));
+    });
+  });
+
+  describe("iter", () => {
+    it("should return all non-deleted items", () => {
+      const repo = new Repository<string, RepositoryItem<string>>();
+      repo.applyDiff([makeItem("1", "Alpha"), makeItem("2", "Beta")]);
 
       const items = [...repo.iter()];
-      expect(items).toEqual([makeItem("1", "Alpha"), makeItem("2", "Beta", { isArchived: true })]);
+      expect(items).toEqual([makeItem("1", "Alpha"), makeItem("2", "Beta")]);
     });
   });
 
   describe("iterActive", () => {
-    it("should filter out archived items", () => {
+    it("should filter out deleted items", () => {
       const repo = new Repository<string, RepositoryItem<string>>();
       repo.applyDiff([
         makeItem("1", "Alpha"),
-        makeItem("2", "Beta", { isArchived: true }),
+        makeItem("2", "Beta"),
         makeItem("3", "Gamma"),
       ]);
+      repo.applyDiff([makeItem("2", "Beta", { isDeleted: true })]);
 
       const items = [...repo.iterActive()];
       expect(items).toHaveLength(2);
@@ -129,26 +142,10 @@ describe("Repository", () => {
 
     it("should return only active items", () => {
       const repo = new Repository<string, RepositoryItem<string>>();
-      repo.applyDiff([
-        makeItem("1", "Alpha"),
-        makeItem("2", "Beta", { isArchived: true }),
-        makeItem("3", "Gamma", { isArchived: false }),
-      ]);
+      repo.applyDiff([makeItem("1", "Alpha"), makeItem("2", "Beta")]);
 
       const items = [...repo.iterActive()];
-      expect(items).toEqual([
-        makeItem("1", "Alpha"),
-        makeItem("3", "Gamma", { isArchived: false }),
-      ]);
-    });
-
-    it("should treat isArchived undefined as active", () => {
-      const repo = new Repository<string, RepositoryItem<string>>();
-      repo.applyDiff([makeItem("1", "Alpha"), makeItem("2", "Beta", { isArchived: undefined })]);
-
-      const items = [...repo.iterActive()];
-      expect(items).toHaveLength(2);
-      expect(items.map((i) => i.id)).toEqual(["1", "2"]);
+      expect(items).toEqual([makeItem("1", "Alpha"), makeItem("2", "Beta")]);
     });
   });
 });

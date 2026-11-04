@@ -1,9 +1,9 @@
-import { setLanguage, t } from "@/i18n";
+import { setLanguage } from "@/i18n";
 import "@/styles/main.scss";
 import type { PluginManifest } from "obsidian";
-import { type App, Notice, Plugin } from "obsidian";
+import { type App, Plugin } from "obsidian";
 
-import { TodoistApiClient } from "@/api";
+import { GoogleTasksApiClient } from "@/api";
 import { ObsidianFetcher } from "@/api/fetcher";
 import { registerCommands } from "@/commands";
 import { secondsToMillis } from "@/infra/time";
@@ -12,11 +12,10 @@ import { makeServices, type Services } from "@/services";
 import { type Settings, useSettingsStore } from "@/settings";
 import { SettingsTab } from "@/ui/settings";
 
-// biome-ignore lint/style/noMagicNumbers: 600 seconds is easily recognizable as 10 minutes
-const metadataSyncIntervalMs = secondsToMillis(600);
+const metadataSyncIntervalMs = secondsToMillis(300);
 
 // biome-ignore lint/style/noDefaultExport: We must use default export for Obsidian plugins
-export default class TodoistPlugin extends Plugin {
+export default class GoogleTasksPlugin extends Plugin {
   public readonly services: Services;
 
   constructor(app: App, pluginManifest: PluginManifest) {
@@ -26,10 +25,13 @@ export default class TodoistPlugin extends Plugin {
 
   async onload() {
     const queryInjector = new QueryInjector(this);
+
     this.registerMarkdownCodeBlockProcessor(
-      "todoist",
+      "google-tasks",
       queryInjector.onNewBlock.bind(queryInjector),
     );
+    this.registerMarkdownCodeBlockProcessor("gtasks", queryInjector.onNewBlock.bind(queryInjector));
+
     this.addSettingTab(new SettingsTab(this.app, this));
 
     registerCommands(this);
@@ -38,81 +40,51 @@ export default class TodoistPlugin extends Plugin {
     await this.loadOptions();
 
     this.app.workspace.onLayoutReady(async () => {
-      try {
-        await this.applyMigrations();
-      } catch (error: unknown) {
-        console.error("Failed to apply migrations:", error);
-        new Notice(t().notices.migrationFailed);
-      }
       await this.loadApiClient();
     });
 
     this.registerInterval(
       window.setInterval(async () => {
-        await this.services.todoist.sync();
+        await this.services.tasks.sync();
       }, metadataSyncIntervalMs),
     );
   }
 
-  private async loadApiClient(): Promise<void> {
-    const accessor = this.services.token;
-    const token = await accessor.read();
-
-    if (token !== null) {
-      await this.services.todoist.initialize(new TodoistApiClient(token, new ObsidianFetcher()));
-      return;
+  public async loadApiClient(): Promise<void> {
+    try {
+      await this.services.auth.getValidAccessToken();
+      const apiClient = new GoogleTasksApiClient(
+        () => this.services.auth.getValidAccessToken(),
+        new ObsidianFetcher(),
+      );
+      await this.services.tasks.initialize(apiClient);
+    } catch (err) {
+      console.log("Google Tasks: not authenticated or token expired", err);
     }
-
-    this.services.modals.onboarding({
-      onTokenSubmit: async (token) => {
-        await accessor.write(token);
-        await this.services.todoist.initialize(new TodoistApiClient(token, new ObsidianFetcher()));
-      },
-    });
   }
 
   async loadOptions(): Promise<void> {
     const options = await this.loadData();
-
-    useSettingsStore.setState((old) => {
-      return {
+    useSettingsStore.setState(
+      (old) => ({
         ...old,
         ...options,
-      };
-    }, true);
+      }),
+      true,
+    );
+    await this.saveData(useSettingsStore.getState());
+  }
 
+  async saveSettings(): Promise<void> {
     await this.saveData(useSettingsStore.getState());
   }
 
   async writeOptions(update: Partial<Settings>): Promise<void> {
     useSettingsStore.setState(update);
-    await this.saveData(useSettingsStore.getState());
+    await this.saveSettings();
   }
 
-  private static readonly settingsVersion = 1;
-
-  private async applyMigrations(): Promise<void> {
-    const migrations: Record<number, () => Promise<void>> = {
-      1: async () => {
-        // Migration from 0 -> 1: migrate token to secrets
-        await this.services.token.migrateStorage("file", "secrets");
-      },
-    };
-
-    for (
-      let version = useSettingsStore.getState().version;
-      version < TodoistPlugin.settingsVersion;
-      version++
-    ) {
-      const nextVersion = version + 1;
-      const migration = migrations[nextVersion];
-      if (!migration) {
-        throw new Error(`No migration defined for version ${version} -> ${nextVersion}`);
-      }
-
-      await migration();
-
-      await this.writeOptions({ version: nextVersion });
-    }
+  getSettings(): Settings {
+    return useSettingsStore.getState();
   }
 }

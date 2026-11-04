@@ -1,41 +1,45 @@
 import { z } from "zod/v4";
 
-import { t } from "@/i18n";
-import { groupingSchema } from "@/query/schema/grouping";
 import type { QueryDefinition } from "@/query/schema/query";
-import { showSchema } from "@/query/schema/show";
-import { sortingSchema } from "@/query/schema/sorting";
-import { viewSchema } from "@/query/schema/view";
 
-const taskQuerySchema = z.object({
+export const taskQuerySchema = z.object({
   name: z.string().optional(),
-  filter: z.string(),
+  list: z
+    .union([z.string(), z.array(z.string())])
+    .optional()
+    .default("all"),
+  filter: z
+    .object({
+      status: z.enum(["needsAction", "completed", "all"]).optional().default("needsAction"),
+      due: z
+        .enum(["today", "overdue", "today-and-overdue", "upcoming", "no-date", "all"])
+        .optional()
+        .default("all"),
+      search: z.string().optional(),
+    })
+    .optional()
+    .default({ status: "needsAction", due: "all" }),
+  sorting: z.enum(["date", "my-order", "title"]).optional().default("date"),
+  sortOrder: z.enum(["asc", "desc"]).optional().default("asc"),
+  groupBy: z.enum(["none", "list", "date"]).optional().default("none"),
+  show: z
+    .array(z.enum(["notes", "due", "list"]))
+    .optional()
+    .default(["notes", "due"]),
+  limit: z.number().positive().optional(),
   autorefresh: z.number().nonnegative().optional(),
-  sorting: sortingSchema.optional(),
-  show: showSchema.optional(),
-  groupBy: groupingSchema.optional(),
-  view: viewSchema.optional(),
+  view: z
+    .object({
+      hideNoTasks: z.boolean().optional(),
+      noTasksMessage: z.string().optional(),
+    })
+    .optional(),
 });
 
 export type TaskQuery = z.infer<typeof taskQuerySchema>;
 
-const generateWarnings = (query: TaskQuery): string[] => {
-  const warnings: string[] = [];
-  if (query.show === undefined) {
-    return warnings;
-  }
-
-  const show = query.show;
-
-  if (show.has("due") && show.has("time")) {
-    warnings.push(t().query.warning.dueAndTime);
-  }
-
-  if (show.has("project") && show.has("section")) {
-    warnings.push(t().query.warning.projectAndSection);
-  }
-
-  return warnings;
+const generateWarnings = (_query: TaskQuery): string[] => {
+  return [];
 };
 
 export const taskQueryDefinition: QueryDefinition<typeof taskQuerySchema> = {

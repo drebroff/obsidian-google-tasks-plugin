@@ -1,44 +1,35 @@
 import { MarkdownView, type TFile } from "obsidian";
 
 import type { MakeCommand } from "@/commands";
-import type { Translations } from "@/i18n/translation";
-import type TodoistPlugin from "@/index";
+import type GoogleTasksPlugin from "@/index";
 import type { TaskCreationOptions } from "@/ui/createTaskModal";
 
-export const addTask: MakeCommand = (plugin: TodoistPlugin, i18n: Translations["commands"]) => {
+export const addTask: MakeCommand = (plugin: GoogleTasksPlugin) => {
   return {
-    name: i18n.addTask,
+    name: "Add Google Task",
     callback: makeCallback(plugin),
   };
 };
 
-export const addTaskWithPageInContent: MakeCommand = (
-  plugin: TodoistPlugin,
-  i18n: Translations["commands"],
-) => {
+export const addTaskWithPageInContent: MakeCommand = (plugin: GoogleTasksPlugin) => {
   return {
-    id: "add-task-page-content",
-    name: i18n.addTaskPageContent,
+    name: "Add Google Task with page link in title",
     callback: makeCallback(plugin, {
       appendLinkTo: "content",
     }),
   };
 };
 
-export const addTaskWithPageInDescription: MakeCommand = (
-  plugin: TodoistPlugin,
-  i18n: Translations["commands"],
-) => {
+export const addTaskWithPageInDescription: MakeCommand = (plugin: GoogleTasksPlugin) => {
   return {
-    id: "add-task-page-description",
-    name: i18n.addTaskPageDescription,
+    name: "Add Google Task with page link in notes",
     callback: makeCallback(plugin, {
       appendLinkTo: "description",
     }),
   };
 };
 
-const makeCallback = (plugin: TodoistPlugin, opts?: Partial<TaskCreationOptions>) => {
+const makeCallback = (plugin: GoogleTasksPlugin, opts?: Partial<TaskCreationOptions>) => {
   return () => {
     plugin.services.modals.taskCreation({
       initialContent: grabSelection(plugin),
@@ -50,16 +41,17 @@ const makeCallback = (plugin: TodoistPlugin, opts?: Partial<TaskCreationOptions>
   };
 };
 
-const grabSelection = (plugin: TodoistPlugin): string => {
-  const editorView = plugin.app.workspace.getActiveViewOfType(MarkdownView)?.editor;
-
-  if (editorView !== undefined) {
-    return editorView.getSelection();
+const grabSelection = (plugin: GoogleTasksPlugin): string | undefined => {
+  const activeView = plugin.app.workspace.getActiveViewOfType(MarkdownView);
+  if (activeView === null) {
+    return undefined;
   }
 
-  return window.getSelection()?.toString() ?? "";
+  const selection = activeView.editor.getSelection();
+  return selection.length > 0 ? selection : undefined;
 };
 
-const getFileContext = (plugin: TodoistPlugin): TFile | undefined => {
-  return plugin.app.workspace.getActiveFile() ?? undefined;
+const getFileContext = (plugin: GoogleTasksPlugin): TFile | undefined => {
+  const activeView = plugin.app.workspace.getActiveViewOfType(MarkdownView);
+  return activeView?.file ?? undefined;
 };

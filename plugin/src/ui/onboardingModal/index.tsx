@@ -1,42 +1,43 @@
-import { Notice } from "obsidian";
 import type React from "react";
 
-import { t } from "@/i18n";
-import { ModalContext } from "@/ui/context";
-
-import { TokenValidation } from "../../token";
-import { TokenInputForm } from "./TokenInputForm";
+import { ModalContext, PluginContext } from "@/ui/context";
 import "./styles.scss";
 
-type OnTokenSubmitted = (token: string) => Promise<void>;
-
 type OnboardingProps = {
-  onTokenSubmit: OnTokenSubmitted;
+  onTokenSubmit?: (token: string) => Promise<void>;
 };
 
-export const OnboardingModal: React.FC<OnboardingProps> = ({ onTokenSubmit }) => {
+export const OnboardingModal: React.FC<OnboardingProps> = () => {
   const modal = ModalContext.use();
-  const i18n = t().onboardingModal;
+  const plugin = PluginContext.use();
 
-  const callback = (token: string) => {
+  const openSettings = () => {
     modal.close();
-    onTokenSubmit(token).catch((e) => {
-      console.error("Failed to save API token", e);
-      new Notice(i18n.failureNoticeMessage);
-    });
+    try {
+      // @ts-expect-error obsidian setting API
+      plugin.app.setting?.open();
+      // @ts-expect-error obsidian setting API
+      plugin.app.setting?.openTabById(plugin.manifest.id);
+    } catch {
+      // fallback
+    }
   };
 
   return (
-    <div className="onboarding-modal-root">
-      <p>{i18n.explainer}</p>
+    <div className="onboarding-modal-root" style={{ padding: "12px" }}>
+      <h3>Welcome to Google Tasks Sync!</h3>
       <p>
-        {i18n.todoistGuideHint.before}
-        <a href="https://todoist.com/help/articles/find-your-api-token-Jpzx9IIlB">
-          {i18n.todoistGuideHint.linkText}
-        </a>
-        {i18n.todoistGuideHint.after}
+        To synchronize your tasks, please configure your Google Cloud OAuth credentials (Client ID
+        and Client Secret) in plugin settings.
       </p>
-      <TokenInputForm onTokenSubmit={callback} tester={TokenValidation.DefaultTester} />
+      <div style={{ marginTop: "16px", display: "flex", justifyContent: "flex-end", gap: "8px" }}>
+        <button type="button" onClick={() => modal.close()}>
+          Later
+        </button>
+        <button type="submit" className="mod-cta" onClick={openSettings}>
+          Open Settings
+        </button>
+      </div>
     </div>
   );
 };

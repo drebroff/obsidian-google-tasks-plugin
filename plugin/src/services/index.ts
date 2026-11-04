@@ -1,18 +1,20 @@
-import { TodoistAdapter } from "@/data";
-import type TodoistPlugin from "@/index";
+import { GoogleTasksAdapter } from "@/data";
+import type GoogleTasksPlugin from "@/index";
 import { ModalHandler } from "@/services/modals";
-import { VaultTokenAccessor } from "@/services/tokenAccessor";
+import { GoogleAuthManager } from "@/services/tokenAccessor";
 
 export type Services = {
   modals: ModalHandler;
-  token: VaultTokenAccessor;
-  todoist: TodoistAdapter;
+  auth: GoogleAuthManager;
+  tasks: GoogleTasksAdapter;
 };
 
-export const makeServices = (plugin: TodoistPlugin): Services => {
+export const makeServices = (plugin: GoogleTasksPlugin): Services => {
   return {
     modals: new ModalHandler(plugin),
-    token: new VaultTokenAccessor(plugin.app.vault, plugin.app.secretStorage),
-    todoist: new TodoistAdapter(),
+    auth: new GoogleAuthManager(async () => {
+      await plugin.saveSettings();
+    }),
+    tasks: new GoogleTasksAdapter(),
   };
 };

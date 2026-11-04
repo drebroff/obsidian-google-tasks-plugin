@@ -1,4 +1,4 @@
-import { MarkdownRenderer } from "obsidian";
+import { Component, MarkdownRenderer } from "obsidian";
 import type React from "react";
 import { useEffect, useRef } from "react";
 
@@ -10,7 +10,12 @@ interface MarkdownProps {
 }
 
 export const Markdown: React.FC<MarkdownProps> = ({ content, className }) => {
-  const renderChild = RenderChildContext.use();
+  let renderChild: any;
+  try {
+    renderChild = RenderChildContext.use();
+  } catch {
+    renderChild = new Component();
+  }
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

@@ -1,101 +1,105 @@
-import type { SecretStorage, Vault } from "obsidian";
-
-import type { TokenStorageSetting } from "@/settings";
+import { GoogleOAuthClient } from "@/api/oauth/client";
+import { OAuthLoopbackServer } from "@/api/oauth/server";
 import { useSettingsStore } from "@/settings";
 
-export class VaultTokenAccessor {
-  private readonly secrets: SecretStorage;
-  private readonly vault: Vault;
-  private readonly path: string;
+const REFRESH_MARGIN_MS = 60_000; // 1 minute buffer
 
-  constructor(vault: Vault, secrets: SecretStorage) {
-    this.secrets = secrets;
-    this.vault = vault;
-    this.path = `${vault.configDir}/todoist-token`;
+export class GoogleAuthManager {
+  private readonly oauthClient = new GoogleOAuthClient();
+  private readonly loopbackServer = new OAuthLoopbackServer();
+  private readonly saveCallback: () => Promise<void>;
+
+  constructor(saveCallback: () => Promise<void>) {
+    this.saveCallback = saveCallback;
   }
 
-  read(): Promise<string | null> {
+  public async getValidAccessToken(): Promise<string> {
     const settings = useSettingsStore.getState();
-    return this.readFromStorage(settings.tokenStorage);
+    const { accessToken, refreshToken, tokenExpiresAt, clientId, clientSecret } = settings;
+
+    if (!accessToken && !refreshToken) {
+      throw new Error("No Google credentials found. Please authenticate in plugin settings.");
+    }
+
+    if (accessToken && tokenExpiresAt && tokenExpiresAt > Date.now() + REFRESH_MARGIN_MS) {
+      return accessToken;
+    }
+
+    if (!refreshToken) {
+      throw new Error("Access token expired and no refresh token available. Please log in again.");
+    }
+
+    if (!clientId || !clientSecret) {
+      throw new Error("Client ID or Client Secret is missing. Please check plugin settings.");
+    }
+
+    const tokens = await this.oauthClient.refreshAccessToken(refreshToken, clientId, clientSecret);
+    const expiresAt = Date.now() + tokens.expires_in * 1000;
+
+    useSettingsStore.setState({
+      accessToken: tokens.access_token,
+      tokenExpiresAt: expiresAt,
+    });
+    await this.saveCallback();
+
+    return tokens.access_token;
   }
 
-  write(token: string): Promise<void> {
+  public async login(): Promise<string> {
     const settings = useSettingsStore.getState();
-    return this.writeToStorage(token, settings.tokenStorage);
-  }
+    const { clientId, clientSecret } = settings;
 
-  async migrateStorage(from: TokenStorageSetting, to: TokenStorageSetting): Promise<void> {
-    if (from === to) {
-      return;
+    if (!clientId || !clientSecret) {
+      throw new Error("Please enter both Client ID and Client Secret before logging in.");
     }
 
-    const token = await this.readFromStorage(from);
-    if (token === null) {
-      return;
-    }
+    const { code, redirectUri } = await this.loopbackServer.startAndListen();
 
-    await this.writeToStorage(token, to);
-    await this.cleanupStorage(from);
-  }
+    try {
+      const tokens = await this.oauthClient.exchangeCodeForTokens(
+        code,
+        clientId,
+        clientSecret,
+        redirectUri,
+      );
 
-  private async readFromStorage(storage: TokenStorageSetting): Promise<string | null> {
-    switch (storage) {
-      case "file": {
-        const exists = await this.vault.adapter.exists(this.path);
-        if (!exists) {
-          return null;
-        }
+      const expiresAt = Date.now() + tokens.expires_in * 1000;
+      let email: string | null = null;
 
-        const value = await this.vault.adapter.read(this.path);
-        return value === "" ? null : value;
+      try {
+        const userInfo = await this.oauthClient.fetchUserInfo(tokens.access_token);
+        email = userInfo.email;
+      } catch (err) {
+        console.warn("Could not fetch user email:", err);
       }
-      case "secrets": {
-        const secretId = useSettingsStore.getState().apiTokenSecretId;
-        const value = this.secrets.getSecret(secretId);
-        return value === "" ? null : value;
-      }
-      default: {
-        const _: never = storage;
-        throw new Error("Unknown token storage setting");
-      }
-    }
-  }
 
-  private async writeToStorage(token: string, storage: TokenStorageSetting): Promise<void> {
-    switch (storage) {
-      case "file":
-        await this.vault.adapter.write(this.path, token);
-        return;
-      case "secrets": {
-        const secretId = useSettingsStore.getState().apiTokenSecretId;
-        this.secrets.setSecret(secretId, token);
-        return;
-      }
-      default: {
-        const _: never = storage;
-        throw new Error("Unknown token storage setting");
-      }
+      useSettingsStore.setState({
+        accessToken: tokens.access_token,
+        refreshToken: tokens.refresh_token ?? settings.refreshToken,
+        tokenExpiresAt: expiresAt,
+        userEmail: email,
+      });
+      await this.saveCallback();
+
+      return email ?? "Authenticated";
+    } finally {
+      this.loopbackServer.stop();
     }
   }
 
-  private async cleanupStorage(storage: TokenStorageSetting): Promise<void> {
-    switch (storage) {
-      case "file": {
-        const exists = await this.vault.adapter.exists(this.path);
-        if (exists) {
-          await this.vault.adapter.remove(this.path);
-        }
-        return;
-      }
-      case "secrets": {
-        const secretId = useSettingsStore.getState().apiTokenSecretId;
-        this.secrets.setSecret(secretId, "");
-        return;
-      }
-      default: {
-        const _: never = storage;
-        throw new Error("Unknown token storage setting");
-      }
-    }
+  public async logout(): Promise<void> {
+    this.loopbackServer.stop();
+    useSettingsStore.setState({
+      accessToken: null,
+      refreshToken: null,
+      tokenExpiresAt: null,
+      userEmail: null,
+    });
+    await this.saveCallback();
+  }
+
+  public getAuthUrl(redirectUri = "http://127.0.0.1:42813"): string {
+    const { clientId } = useSettingsStore.getState();
+    return this.oauthClient.getAuthorizationUrl(clientId, redirectUri);
   }
 }

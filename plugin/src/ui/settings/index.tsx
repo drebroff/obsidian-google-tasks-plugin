@@ -1,30 +1,24 @@
-import { type App, PluginSettingTab } from "obsidian";
-import type React from "react";
+import { type App, Notice, PluginSettingTab } from "obsidian";
+import React, { useState } from "react";
 import { createRoot, type Root } from "react-dom/client";
 
-import { t } from "@/i18n";
+import { BuildStamp } from "@/stamp";
 import { PluginContext } from "@/ui/context";
 
-import type TodoistPlugin from "../..";
-import { type Settings, type TokenStorageSetting, useSettingsStore } from "../../settings";
-import { TokenValidation } from "../../token";
+import type GoogleTasksPlugin from "../../index";
+import { type Settings, useSettingsStore } from "../../settings";
 import { AutoRefreshIntervalControl } from "./AutoRefreshIntervalControl";
-import { LabelsControl } from "./LabelsControl";
-import { ProjectDropdownControl } from "./ProjectDropdownControl";
 import { Setting } from "./SettingItem";
-import { TokenChecker } from "./TokenChecker";
 import "./styles.scss";
 
-import { BuildStamp } from "@/stamp";
-
 export class SettingsTab extends PluginSettingTab {
-  private readonly plugin: TodoistPlugin;
+  private readonly plugin: GoogleTasksPlugin;
   private reactRoot: Root | undefined;
 
-  constructor(app: App, plugin: TodoistPlugin) {
+  constructor(app: App, plugin: GoogleTasksPlugin) {
     super(app, plugin);
     this.plugin = plugin;
-    this.icon = "list-todo";
+    this.icon = "check-square";
   }
 
   display() {
@@ -39,7 +33,7 @@ export class SettingsTab extends PluginSettingTab {
 }
 
 type Props = {
-  plugin: TodoistPlugin;
+  plugin: GoogleTasksPlugin;
 };
 
 type SettingsKeys<V> = {
@@ -48,6 +42,7 @@ type SettingsKeys<V> = {
 
 const SettingsRoot: React.FC<Props> = ({ plugin }) => {
   const settings = useSettingsStore();
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
 
   const mkOptionUpdate = <K extends keyof Settings>(key: K) => {
     return async (val: Settings[K]) => {
@@ -60,239 +55,140 @@ const SettingsRoot: React.FC<Props> = ({ plugin }) => {
   const toggleProps = (key: SettingsKeys<boolean>) => {
     const onClick = mkOptionUpdate(key);
     const value = settings[key];
-
     return {
       value,
       onClick,
     };
   };
 
-  const i18n = t().settings;
+  const handleLogin = async () => {
+    if (!settings.clientId || !settings.clientSecret) {
+      new Notice("Please enter both Client ID and Client Secret first.");
+      return;
+    }
+
+    try {
+      setIsLoggingIn(true);
+      const authUrl = plugin.services.auth.getAuthUrl();
+      window.open(authUrl);
+      new Notice("Browser opened. Please authorize in your browser...");
+
+      const email = await plugin.services.auth.login();
+      new Notice(`Successfully connected as ${email}!`);
+      await plugin.loadApiClient();
+    } catch (err: unknown) {
+      console.error("Login failed:", err);
+      new Notice(`Login failed: ${err instanceof Error ? err.message : String(err)}`);
+    } finally {
+      setIsLoggingIn(false);
+    }
+  };
+
+  const handleLogout = async () => {
+    await plugin.services.auth.logout();
+    new Notice("Disconnected from Google Tasks.");
+  };
 
   return (
     <PluginContext.Provider value={plugin}>
-      <h2>{i18n.general.header}</h2>
-      <Setting.Root name={i18n.general.links.label} description="">
-        <Setting.ButtonControl
-          label={i18n.general.links.docsButtonLabel}
-          icon="book-open"
-          onClick={() => {
-            location.replace(
-              "https://jamiebrynes7.github.io/obsidian-todoist-plugin/docs/overview/",
-            );
-          }}
-        />
-        <Setting.ButtonControl
-          label={i18n.general.links.feedbackButtonLabel}
-          icon="github"
-          onClick={() => {
-            location.replace(
-              "https://github.com/jamiebrynes7/obsidian-todoist-plugin/issues/new/choose",
-            );
-          }}
-        />
-        <Setting.ButtonControl
-          label={i18n.general.links.donateButtonLabel}
-          icon="coffee"
-          onClick={() => {
-            location.replace("https://www.buymeacoffee.com/jamiebrynes");
-          }}
-        />
-      </Setting.Root>
-      <Setting.Root
-        name={i18n.general.apiToken.label}
-        description={i18n.general.apiToken.description}
-      >
-        <TokenChecker tester={TokenValidation.DefaultTester} />
-      </Setting.Root>
-      <Setting.Root
-        name={i18n.general.tokenStorage.label}
-        description={i18n.general.tokenStorage.description}
-      >
-        <Setting.DropdownControl
-          value={settings.tokenStorage}
-          options={[
-            {
-              label: i18n.general.tokenStorage.options.secrets,
-              value: "secrets",
-            },
-            {
-              label: i18n.general.tokenStorage.options.file,
-              value: "file",
-            },
-          ]}
-          onClick={async (val: TokenStorageSetting) => {
-            const oldStorage = settings.tokenStorage;
-            await plugin.services.token.migrateStorage(oldStorage, val);
-            await plugin.writeOptions({ tokenStorage: val });
-          }}
-        />
-      </Setting.Root>
+      <div className="todoist-settings">
+        <h2>Google Tasks Authentication</h2>
+        <Setting.Root name="Client ID" description="OAuth 2.0 Client ID from Google Cloud Console.">
+          <input
+            type="text"
+            placeholder="e.g. 123456789-abcdef.apps.googleusercontent.com"
+            value={settings.clientId}
+            onChange={(e) => mkOptionUpdate("clientId")(e.target.value.trim())}
+            style={{ width: "280px" }}
+          />
+        </Setting.Root>
 
-      <h2>{i18n.autoRefresh.header}</h2>
-      <Setting.Root
-        name={i18n.autoRefresh.toggle.label}
-        description={i18n.autoRefresh.toggle.description}
-      >
-        <Setting.ToggleControl {...toggleProps("autoRefreshToggle")} />
-      </Setting.Root>
-      <Setting.Root
-        name={i18n.autoRefresh.interval.label}
-        description={i18n.autoRefresh.interval.description}
-      >
-        <AutoRefreshIntervalControl
-          initialValue={settings.autoRefreshInterval}
-          onChange={mkOptionUpdate("autoRefreshInterval")}
-        />
-      </Setting.Root>
+        <Setting.Root
+          name="Client Secret"
+          description="OAuth 2.0 Client Secret from Google Cloud Console."
+        >
+          <input
+            type="password"
+            placeholder="Enter Client Secret"
+            value={settings.clientSecret}
+            onChange={(e) => mkOptionUpdate("clientSecret")(e.target.value.trim())}
+            style={{ width: "280px" }}
+          />
+        </Setting.Root>
 
-      <h2>{i18n.rendering.header}</h2>
-      <Setting.Root
-        name={i18n.rendering.taskFadeAnimation.label}
-        description={i18n.rendering.taskFadeAnimation.description}
-      >
-        <Setting.ToggleControl {...toggleProps("fadeToggle")} />
-      </Setting.Root>
+        <Setting.Root
+          name="Account Connection"
+          description={
+            settings.userEmail
+              ? `Connected as ${settings.userEmail}`
+              : "Sign in with your Google account via browser"
+          }
+        >
+          {settings.userEmail ? (
+            <button type="button" className="mod-warning" onClick={handleLogout}>
+              Disconnect
+            </button>
+          ) : (
+            <button
+              type="button"
+              className="mod-cta"
+              disabled={isLoggingIn || !settings.clientId || !settings.clientSecret}
+              onClick={handleLogin}
+            >
+              {isLoggingIn ? "Waiting for browser..." : "Connect Google Account"}
+            </button>
+          )}
+        </Setting.Root>
 
-      <Setting.Root
-        name={i18n.rendering.dateIcon.label}
-        description={i18n.rendering.dateIcon.description}
-      >
-        <Setting.ToggleControl {...toggleProps("renderDateIcon")} />
-      </Setting.Root>
-      <Setting.Root
-        name={i18n.rendering.projectIcon.label}
-        description={i18n.rendering.projectIcon.description}
-      >
-        <Setting.ToggleControl {...toggleProps("renderProjectIcon")} />
-      </Setting.Root>
-      <Setting.Root
-        name={i18n.rendering.labelsIcon.label}
-        description={i18n.rendering.labelsIcon.description}
-      >
-        <Setting.ToggleControl {...toggleProps("renderLabelsIcon")} />
-      </Setting.Root>
+        <h2>Display</h2>
+        <Setting.Root
+          name="Fade completed tasks"
+          description="Smoothly fade completed tasks before hiding them."
+        >
+          <Setting.ToggleControl {...toggleProps("fadeToggle")} />
+        </Setting.Root>
 
-      <h2>{i18n.taskCreation.header}</h2>
-      <Setting.Root
-        name={i18n.taskCreation.wrapLinksInParens.label}
-        description={i18n.taskCreation.wrapLinksInParens.description}
-      >
-        <Setting.ToggleControl {...toggleProps("shouldWrapLinksInParens")} />
-      </Setting.Root>
-      <Setting.Root
-        name={i18n.taskCreation.addTaskButtonAddsPageLink.label}
-        description={i18n.taskCreation.addTaskButtonAddsPageLink.description}
-      >
-        <Setting.DropdownControl
-          value={settings.addTaskButtonAddsPageLink}
-          options={[
-            {
-              label: i18n.taskCreation.addTaskButtonAddsPageLink.options.off,
-              value: "off",
-            },
-            {
-              label: i18n.taskCreation.addTaskButtonAddsPageLink.options.description,
-              value: "description",
-            },
-            {
-              label: i18n.taskCreation.addTaskButtonAddsPageLink.options.content,
-              value: "content",
-            },
-          ]}
-          onClick={async (val) => {
-            await plugin.writeOptions({
-              addTaskButtonAddsPageLink: val,
-            });
-          }}
-        />
-      </Setting.Root>
-      <Setting.Root
-        name={i18n.taskCreation.defaultDueDate.label}
-        description={i18n.taskCreation.defaultDueDate.description}
-      >
-        <Setting.DropdownControl
-          value={settings.taskCreationDefaultDueDate}
-          options={[
-            {
-              label: i18n.taskCreation.defaultDueDate.options.none,
-              value: "none",
-            },
-            {
-              label: t().dates.today,
-              value: "today",
-            },
-            {
-              label: t().dates.tomorrow,
-              value: "tomorrow",
-            },
-          ]}
-          onClick={async (val) => {
-            await plugin.writeOptions({
-              taskCreationDefaultDueDate: val,
-            });
-          }}
-        />
-      </Setting.Root>
-      <Setting.Root
-        name={i18n.taskCreation.defaultProject.label}
-        description={i18n.taskCreation.defaultProject.description}
-      >
-        <ProjectDropdownControl
-          value={settings.taskCreationDefaultProject}
-          onChange={mkOptionUpdate("taskCreationDefaultProject")}
-        />
-      </Setting.Root>
-      <Setting.Root
-        name={i18n.taskCreation.defaultLabels.label}
-        description={i18n.taskCreation.defaultLabels.description}
-      >
-        <LabelsControl
-          value={settings.taskCreationDefaultLabels}
-          onChange={mkOptionUpdate("taskCreationDefaultLabels")}
-        />
-      </Setting.Root>
-      <Setting.Root
-        name={i18n.taskCreation.defaultAddTaskAction.label}
-        description={i18n.taskCreation.defaultAddTaskAction.description}
-      >
-        <Setting.DropdownControl
-          value={settings.defaultAddTaskAction}
-          options={[
-            {
-              label: i18n.taskCreation.defaultAddTaskAction.options.add,
-              value: "add",
-            },
-            {
-              label: i18n.taskCreation.defaultAddTaskAction.options.addCopyApp,
-              value: "add-copy-app",
-            },
-            {
-              label: i18n.taskCreation.defaultAddTaskAction.options.addCopyWeb,
-              value: "add-copy-web",
-            },
-          ]}
-          onClick={async (val) => {
-            await plugin.writeOptions({
-              defaultAddTaskAction: val,
-            });
-          }}
-        />
-      </Setting.Root>
+        <Setting.Root
+          name="Render date icon"
+          description="Show calendar icon next to task due dates."
+        >
+          <Setting.ToggleControl {...toggleProps("renderDateIcon")} />
+        </Setting.Root>
 
-      <h2>{i18n.advanced.header}</h2>
-      <Setting.Root
-        name={i18n.advanced.debugLogging.label}
-        description={i18n.advanced.debugLogging.description}
-      >
-        <Setting.ToggleControl {...toggleProps("debugLogging")} />
-      </Setting.Root>
-      <Setting.Root
-        name={i18n.advanced.buildStamp.label}
-        description={i18n.advanced.buildStamp.description}
-      >
-        <span className="setting-item-build-stamp">{BuildStamp}</span>
-      </Setting.Root>
+        <Setting.Root name="Render list icon" description="Show list icon next to tasklist names.">
+          <Setting.ToggleControl {...toggleProps("renderListIcon")} />
+        </Setting.Root>
+
+        <h2>Synchronization</h2>
+        <Setting.Root
+          name="Automatic Refresh"
+          description="Periodically refresh tasks in open notes."
+        >
+          <Setting.ToggleControl {...toggleProps("autoRefreshToggle")} />
+        </Setting.Root>
+
+        <Setting.Root
+          name="Auto-refresh interval"
+          description="Interval in seconds between refreshes."
+        >
+          <AutoRefreshIntervalControl
+            initialValue={settings.autoRefreshInterval}
+            onChange={mkOptionUpdate("autoRefreshInterval")}
+          />
+        </Setting.Root>
+
+        <h2>Debugging</h2>
+        <Setting.Root
+          name="Debug Logging"
+          description="Enable verbose logging in the developer console."
+        >
+          <Setting.ToggleControl {...toggleProps("debugLogging")} />
+        </Setting.Root>
+
+        <Setting.Root name="Build Version" description="Plugin build version info.">
+          <span style={{ color: "var(--text-muted)" }}>{BuildStamp}</span>
+        </Setting.Root>
+      </div>
     </PluginContext.Provider>
   );
 };

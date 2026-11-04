@@ -1,140 +1,59 @@
-import type { MarkdownPostProcessorContext } from "obsidian";
-import { MarkdownRenderChild } from "obsidian";
-import type React from "react";
-import { createRoot, type Root } from "react-dom/client";
-import { create, type StoreApi, type UseBoundStore } from "zustand";
-
-import type TodoistPlugin from "@/index";
-import { debug } from "@/log";
+import React from "react";
+import ReactDOM from "react-dom/client";
+import type { Plugin } from "obsidian";
+import type { TaskQuery } from "@/query/schema/tasks";
 import { parseQuery } from "@/query/parser";
-import { applyReplacements } from "@/query/replacements";
 import { taskQueryDefinition } from "@/query/schema/tasks";
-import {
-  type MarkdownEditButton,
-  MarkdownEditButtonContext,
-  PluginContext,
-  RenderChildContext,
-} from "@/ui/context";
-import { QueryError } from "@/ui/query/QueryError";
+import { PluginContext, QueryContext } from "@/ui/context";
 import { QueryRoot } from "@/ui/query/QueryRoot";
 
 export class QueryInjector {
-  private readonly plugin: TodoistPlugin;
-  constructor(plugin: TodoistPlugin) {
+  private plugin: Plugin;
+
+  constructor(plugin: Plugin) {
     this.plugin = plugin;
   }
 
-  onNewBlock(source: string, el: HTMLElement, ctx: MarkdownPostProcessorContext) {
-    let child: MarkdownRenderChild;
-
+  onNewBlock = (source: string, el: HTMLElement) => {
     try {
       const [query, warnings] = parseQuery(source, taskQueryDefinition);
-      applyReplacements(query, ctx);
 
-      debug({
-        msg: "Parsed query",
-        context: query,
+      // Show warnings as tooltips or notices
+      warnings.forEach((warning) => {
+        console.warn("Query warning:", warning);
       });
 
-      child = new ReactRenderer(
-        el,
-        this.plugin,
-        QueryRoot,
-        {
-          query,
-          warnings,
-        },
-        true,
-      );
-    } catch (e) {
-      console.error(e);
-      child = new ReactRenderer(
-        el,
-        this.plugin,
-        QueryError,
-        {
-          error: e,
-        },
-        false,
-      );
+      // Mount React component using existing QueryRoot
+      this.mountReactQuery(query, el);
+    } catch (error) {
+      console.error("Failed to parse query:", error);
+      el.innerHTML = `<div class="gtasks-error">Error parsing query: ${(error as Error).message}</div>`;
     }
+  };
 
-    ctx.addChild(child);
-  }
-}
+  private mountReactQuery(query: TaskQuery, container: HTMLElement) {
+    // Clear existing content
+    container.innerHTML = "";
 
-class ReactRenderer<T extends {}> extends MarkdownRenderChild {
-  private readonly plugin: TodoistPlugin;
-  private readonly props: T;
-  private readonly component: React.FC<T>;
-  private readonly reactRoot: Root;
+    // Create root div for React
+    const rootDiv = document.createElement("div");
+    container.appendChild(rootDiv);
 
-  private readonly observer: MutationObserver;
-
-  private readonly store: UseBoundStore<StoreApi<MarkdownEditButton>>;
-
-  constructor(
-    container: HTMLElement,
-    plugin: TodoistPlugin,
-    component: React.FC<T>,
-    props: T,
-    interceptEditButton: boolean,
-  ) {
-    super(container);
-    this.plugin = plugin;
-    this.component = component;
-    this.props = props;
-    this.reactRoot = createRoot(this.containerEl);
-    this.store = create(() => {
-      return { click: () => {} };
-    });
-
-    this.observer = new MutationObserver((mutations) => {
-      if (!interceptEditButton) {
-        return;
-      }
-
-      for (const mutation of mutations) {
-        for (const addedNode of mutation.addedNodes) {
-          if (!(addedNode instanceof HTMLElement)) {
-            continue;
-          }
-
-          if (!addedNode.classList.contains("edit-block-button")) {
-            continue;
-          }
-
-          addedNode.hide();
-          this.store.setState({
-            click: () => addedNode.click(),
-          });
-          return;
-        }
-      }
-    });
-  }
-
-  onload(): void {
-    if (this.containerEl.parentElement !== null) {
-      this.observer.observe(this.containerEl.parentElement, {
-        childList: true,
-      });
-    }
-
-    const Component = this.component;
-    this.reactRoot.render(
-      <MarkdownEditButtonContext.Provider value={this.store}>
-        <RenderChildContext.Provider value={this}>
-          <PluginContext.Provider value={this.plugin}>
-            <Component {...this.props} />
-          </PluginContext.Provider>
-        </RenderChildContext.Provider>
-      </MarkdownEditButtonContext.Provider>,
+    // Create React root and render QueryRoot
+    const root = ReactDOM.createRoot(rootDiv);
+    root.render(
+      React.createElement(
+        PluginContext.Provider,
+        { value: this.plugin as any },
+        React.createElement(
+          QueryContext.Provider,
+          { value: query },
+          React.createElement(QueryRoot, {
+            query,
+            warnings: [],
+          }),
+        ),
+      ),
     );
-  }
-
-  onunload(): void {
-    this.reactRoot.unmount();
-    this.observer.disconnect();
   }
 }

@@ -3,11 +3,11 @@ import type { MarkdownPostProcessorContext } from "obsidian";
 import type { TaskQuery } from "@/query/schema/tasks";
 
 export function applyReplacements(query: TaskQuery, ctx: MarkdownPostProcessorContext) {
-  // Replace {filename} with the base file name of file where the query originated.
-  const baseFileName = ctx.sourcePath.replace(/.*\//, "").replace(/\.md$/i, "");
-  query.filter = query.filter.replace(/{{filename}}/g, baseFileName);
+  const search = query.filter?.search;
+  if (!search) {
+    return;
+  }
 
-  // Normalize Unicode whitespace characters (e.g., non-breaking spaces, em spaces)
-  // to regular ASCII spaces to prevent API errors.
-  query.filter = query.filter.replace(/[\p{Zs}]/gu, " ").trim();
+  const baseFileName = ctx.sourcePath.replace(/.*\//, "").replace(/\.md$/i, "");
+  query.filter.search = search.replace(/{{filename}}/g, baseFileName).replace(/[\p{Zs}]/gu, " ").trim();
 }

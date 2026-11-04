@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 
 import type { OnSubscriptionChange, Refresh, SubscriptionResult } from "@/data";
 import { t } from "@/i18n";
-import type TodoistPlugin from "@/index";
+import type GoogleTasksPlugin from "@/index";
 import type { QueryWarning } from "@/query/parser";
 import type { TaskQuery } from "@/query/schema/tasks";
 import { type Settings, useSettingsStore } from "@/settings";
@@ -17,7 +17,7 @@ import "./styles.scss";
 import { secondsToMillis } from "@/infra/time";
 
 const useSubscription = (
-  plugin: TodoistPlugin,
+  plugin: GoogleTasksPlugin,
   query: TaskQuery,
   callback: OnSubscriptionChange,
 ): [Refresh, boolean, boolean, Date | undefined] => {
@@ -27,7 +27,7 @@ const useSubscription = (
   const [refreshedTimestamp, setRefreshedTimestamp] = useState<Date | undefined>(undefined);
 
   useEffect(() => {
-    const [unsub, refresh] = plugin.services.todoist.subscribe(query.filter, (results) => {
+    const [unsub, refresh] = plugin.services.tasks.subscribe(query, (results) => {
       callback(results);
       setRefreshedTimestamp(new Date());
     });

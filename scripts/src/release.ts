@@ -148,7 +148,7 @@ function createReleaseBranch(version: string): void {
 
 function updateChangelog(version: string): void {
   logStarted("Updating changelog...");
-  const changelogPath = join(REPO_ROOT, "docs", "docs", "changelog.md");
+  const changelogPath = join(REPO_ROOT, "CHANGELOG.md");
   const changelog = readFileSync(changelogPath, "utf-8");
 
   // Find the "Unreleased" section and replace with version + date
@@ -339,7 +339,7 @@ async function waitForReleaseBuild(version: string): Promise<void> {
 }
 
 function extractChangelogContent(version: string): string {
-  const changelogPath = join(REPO_ROOT, "docs", "docs", "changelog.md");
+  const changelogPath = join(REPO_ROOT, "CHANGELOG.md");
   const changelog = readFileSync(changelogPath, "utf-8");
 
   // Find the section for this version
@@ -409,7 +409,7 @@ async function main(): Promise<void> {
   ensureOnMaster();
   createReleaseBranch(version);
   updateChangelog(version);
-  bumpDocsVersion(version);
+  // bumpDocsVersion(version);
   updateVersionFiles(version);
   const prUrl = createAndPushPR(version);
   await waitForChecksAndMerge(prUrl);

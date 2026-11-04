@@ -2,8 +2,6 @@ import type React from "react";
 
 import type { Task } from "@/data/task";
 import { buildTaskTree, type TaskTree } from "@/data/transformations/relationships";
-import { sortTasks } from "@/data/transformations/sorting";
-import type { SortingKey } from "@/query/schema/sorting";
 import { QueryContext } from "@/ui/context";
 import { TaskList } from "@/ui/query/task/TaskList";
 
@@ -12,14 +10,12 @@ type Props = {
 };
 
 export const ListDisplay: React.FC<Props> = ({ tasks }) => {
-  const query = QueryContext.use();
-  const trees = getTaskTree(tasks, query.sorting);
+  QueryContext.use();
+  const trees = getTaskTree(tasks);
 
   return <TaskList trees={trees} />;
 };
 
-const getTaskTree = (tasks: Task[], sorting: SortingKey[] | undefined): TaskTree[] => {
-  const copy = [...tasks];
-  sortTasks(copy, sorting ?? ["order"]);
-  return buildTaskTree(copy);
+const getTaskTree = (tasks: Task[]): TaskTree[] => {
+  return buildTaskTree(tasks);
 };

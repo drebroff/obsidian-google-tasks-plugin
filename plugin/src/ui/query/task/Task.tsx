@@ -1,15 +1,12 @@
 import * as motion from "motion/react-m";
 import { Notice } from "obsidian";
-import React, { type MouseEvent } from "react";
+import type React from "react";
 import { Checkbox } from "react-aria-components";
 
-import { DueDate } from "@/data/dueDate";
 import type { TaskTree } from "@/data/transformations/relationships";
-import { t } from "@/i18n";
 import { useSettingsStore } from "@/settings";
 import { Markdown } from "@/ui/components/markdown";
 import { PluginContext, QueryContext } from "@/ui/context";
-import { showTaskContext } from "@/ui/query/task/contextMenu";
 import { TaskList } from "@/ui/query/task/TaskList";
 import { TaskMetadata } from "@/ui/query/task/TaskMetadata";
 
@@ -24,31 +21,17 @@ export const Task: React.FC<Props> = ({ tree }) => {
   const query = QueryContext.use();
   const settings = useSettingsStore();
 
-  const onContextMenu = (ev: MouseEvent) => {
-    ev.preventDefault();
-    ev.stopPropagation();
-    showTaskContext(
-      { task: tree, plugin },
-      {
-        x: ev.pageX,
-        y: ev.pageY,
-      },
-    );
-  };
-
   const onClickTask = async () => {
     try {
-      await plugin.services.todoist.actions.closeTask(tree.id);
+      await plugin.services.tasks.actions.toggleTask(tree.id, tree.status);
     } catch (error: unknown) {
-      console.error("Failed to close task", error);
-      new Notice(t().query.failedCloseMessage, noticeDurationMs);
+      console.error("Failed to update task", error);
+      new Notice("Failed to update task", noticeDurationMs);
     }
   };
 
-  const isDisabled = tree.content.startsWith("*");
-
   const shouldRenderDescription =
-    (query.show?.has("description") ?? true) && tree.description !== "";
+    (!query.show || query.show.includes("notes")) && tree.description !== "";
 
   const transitionOpacity = settings.fadeToggle ? 0 : 1;
 
@@ -56,10 +39,6 @@ export const Task: React.FC<Props> = ({ tree }) => {
     <>
       <motion.div
         className="todoist-task-container"
-        onContextMenu={onContextMenu}
-        data-priority={tree.priority}
-        data-due-metadata={getDueMetadataInfo(tree)}
-        data-has-time={getTimeMetadataInfo(tree)}
         initial={{
           opacity: transitionOpacity,
         }}
@@ -75,8 +54,7 @@ export const Task: React.FC<Props> = ({ tree }) => {
       >
         <Checkbox
           className="todoist-task-checkbox"
-          isDisabled={isDisabled}
-          isSelected={false}
+          isSelected={tree.status === "completed"}
           onChange={onClickTask}
         >
           <div />
@@ -96,76 +74,10 @@ export const Task: React.FC<Props> = ({ tree }) => {
   );
 };
 
-function getDueMetadataInfo(task: TaskTree): string | undefined {
-  if (task.due === undefined) {
-    return undefined;
-  }
-
-  const info = DueDate.parse(task.due);
-
-  if (info.start.isOverdue) {
-    return "overdue";
-  }
-
-  return info.start.flag;
-}
-
-function getTimeMetadataInfo(task: TaskTree): boolean | undefined {
-  if (task.due === undefined) {
-    return undefined;
-  }
-
-  return DueDate.parse(task.due).start.hasTime;
-}
-
 const sanitizeContent = (content: string): string => {
-  // Escape leading '#' or '-' so they aren't rendered as headers/bullets.
-  if (content.startsWith("#") || content.startsWith("-")) {
-    return `\\${content}`;
-  }
-
-  // A task starting with '*' signifies that it cannot be completed, so we should strip it from the front of the task.
-  if (content.startsWith("*")) {
-    return content.substring(1);
-  }
-
-  return content;
+  return content.replace(/^[*_~]{1,2}|[*_~]{1,2}$/g, "").trim();
 };
 
-type DescriptionRendererProps = {
-  content: string;
-};
-
-const DescriptionRenderer: React.FC<DescriptionRendererProps> = ({ content }) => {
-  const [isExpanded, setIsExpanded] = React.useState(false);
-
-  const isComplex =
-    content.includes("\n") ||
-    content.startsWith("#") ||
-    content.startsWith("*") ||
-    content.startsWith("-") ||
-    content.startsWith("1.");
-
-  const toggleExpanded = () => {
-    if (!isComplex) {
-      return;
-    }
-
-    setIsExpanded(!isExpanded);
-  };
-
-  const renderFullMarkdown = isExpanded || !isComplex;
-
-  return (
-    <div onDoubleClick={toggleExpanded} className="todoist-task-description">
-      {renderFullMarkdown ? (
-        <Markdown content={content} key={content} />
-      ) : (
-        <span>
-          {content.split("\n")[0]}
-          ...
-        </span>
-      )}
-    </div>
-  );
+const DescriptionRenderer: React.FC<{ content: string }> = ({ content }) => {
+  return <Markdown className="todoist-task-description" content={content} />;
 };

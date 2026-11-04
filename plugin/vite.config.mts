@@ -22,7 +22,7 @@ function getOutDir(): string | undefined {
     return vaultDir;
   }
 
-  return path.join(vaultDir, ".obsidian", "plugins", "todoist-sync-plugin");
+  return path.join(vaultDir, ".obsidian", "plugins", "obsidian-google-tasks-plugin");
 }
 
 function getBuildStamp(): string {
@@ -63,7 +63,7 @@ export default defineConfig({
     }),
     replace({
       "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
-      SYNC_WITH_TODOIST_BUILD_STAMP: getBuildStamp(),
+      GOOGLE_TASKS_BUILD_STAMP: getBuildStamp(),
     }),
     bundleAnalyzerPlugin(),
   ],
@@ -74,13 +74,20 @@ export default defineConfig({
     // We aren't building a website, so we build in library mode
     // and bundle the output using our index.ts as the entrypoint.
     minify: getShouldMinify(),
+    sourcemap: true,
     lib: {
       entry: resolve(__dirname, "src/index.ts"),
       fileName: "main",
       formats: ["cjs"],
     },
     rollupOptions: {
-      external: ["obsidian"],
+      // Obsidian runs on Electron which has access to all Node.js built-in modules.
+      // We must mark them as external so Vite doesn't try to bundle/polyfill them.
+      external: [
+        "obsidian",
+        "electron",
+        /^node:/,
+      ],
       output: {
         assetFileNames: (assetInfo) => {
           if (assetInfo.name === "main.css") {

@@ -27,7 +27,7 @@ export const QueryResponseHandler: React.FC<Props> = ({ result, query }) => {
     return <Displays.Empty message={query.view?.noTasksMessage} />;
   }
 
-  if (query.groupBy !== undefined) {
+  if (query.groupBy !== undefined && query.groupBy !== "none") {
     return (
       <QueryContext.Provider value={query}>
         <Displays.Grouped tasks={tasks} />

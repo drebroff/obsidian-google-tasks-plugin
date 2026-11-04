@@ -1,25 +1,16 @@
-import type { DueDate } from "@/api/domain/dueDate";
-import type { Label } from "@/api/domain/label";
-import type { Project } from "@/api/domain/project";
-import type { Section } from "@/api/domain/section";
-import type { Deadline, Duration, Priority, TaskId } from "@/api/domain/task";
+import type { TaskList } from "@/api/domain/taskList";
+import type { DueDate } from "@/data/dueDate";
+
+export type TaskId = string;
 
 export type Task = {
   id: TaskId;
-  createdAt: string;
-
   content: string;
   description: string;
-
-  project: Project;
-  section?: Section;
-  parentId?: TaskId;
-
-  labels: Label[];
-  priority: Priority;
-
+  taskList: TaskList;
+  status: "needsAction" | "completed";
   due?: DueDate;
-  duration?: Duration;
-  deadline?: Deadline;
+  position: string;
+  completed?: string;
   order: number;
 };

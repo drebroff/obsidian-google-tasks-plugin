@@ -1,11 +1,43 @@
-![Sync with Todoist Plugin for Obsidian](./docs/static/img/social-card.jpg)
+# Obsidian Google Tasks Plugin
 
-## What is it?
+Unofficial plugin for Obsidian that syncs Google Tasks with your vault.
 
-An **unofficial** plugin for Obsidian that offers the ability to have your Todoist tasks sync bidirectionally with Obsidian. Please note that this is not created by, affiliated with, or supported by Doist.
+## Features
 
-Please refer to the [documentation](https://jamiebrynes7.github.io/obsidian-todoist-plugin/docs/overview) for details on how to install and use this plugin.
+- Bidirectional sync of Google Tasks
+- Query code blocks to render task lists
+- Commands for sync and task management
 
-If you like this plugin, feel free to support the development by buying a coffee:
+## Usage
 
-<a href="https://www.buymeacoffee.com/jamiebrynes" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
+Add a code block in a note:
+
+```google-tasks
+filter:
+  status: needsAction
+  due: all
+```
+
+Supported block tags: `google-tasks`, `gtasks`.
+
+Query fields:
+- `filter.status`: `needsAction` | `completed` | `all` (default `needsAction`)
+- `filter.due`: `all` | `no-date` | `overdue` | `today` | `today-and-overdue` | `upcoming` (default `all`)
+- `filter.search`: string
+- `limit`: number
+- `name`: display name with `{task_count}` placeholder
+- `groupBy`: grouping option
+- `autorefresh`: interval in minutes
+
+## Build
+
+```bash
+cd plugin
+npm run build
+```
+
+Copy `plugin/dist/main.js`, `styles.css`, `manifest.json` to the plugin folder.
+
+## License
+
+ISC

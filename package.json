@@ -1,11 +1,10 @@
 {
-  "name": "obsidian-todoist-plugin-monorepo",
+  "name": "obsidian-google-tasks-monorepo",
   "version": "1.0.0",
   "private": true,
   "workspaces": [
     "plugin",
-    "scripts",
-    "docs"
+    "scripts"
   ],
   "scripts": {
     "gen": "npm run gen --workspace=scripts"

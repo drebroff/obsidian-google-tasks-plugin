@@ -1,8 +1,4 @@
-import { parseAbsoluteToLocal } from "@internationalized/date";
-
-import type { Task } from "@/data//task";
-import { Deadline } from "@/data/deadline";
-import { DueDate } from "@/data/dueDate";
+import type { Task } from "@/data/task";
 import type { SortingKey } from "@/query/schema/sorting";
 
 export function sortTasks<T extends Task>(tasks: T[], sort: SortingKey[]) {
@@ -25,44 +21,30 @@ export function sortTasks<T extends Task>(tasks: T[], sort: SortingKey[]) {
 // Result of "GT zero" means that self is after other
 function compareTask<T extends Task>(self: T, other: T, sorting: SortingKey): number {
   switch (sorting) {
-    case "priority":
-      // Note that priority in the API is reversed to that of in the app.
-      return other.priority - self.priority;
-    case "priorityAscending":
-      return self.priority - other.priority;
     case "dateAscending":
       return compareTaskDate(self, other);
     case "dateDescending":
       return -compareTaskDate(self, other);
     case "order":
       return self.order - other.order;
-    case "dateAddedAscending":
-      return compareTaskDateAdded(self, other);
-    case "dateAddedDescending":
-      return -compareTaskDateAdded(self, other);
     case "alphabeticalAscending":
       return compareTaskAlphabetical(self, other);
     case "alphabeticalDescending":
       return -compareTaskAlphabetical(self, other);
-    case "deadlineAscending":
-      return compareTaskDeadline(self, other);
-    case "deadlineDescending":
-      return -compareTaskDeadline(self, other);
     default:
       throw new Error(`Unexpected sorting type: '${sorting}'`);
   }
 }
 
 function compareTaskDate<T extends Task>(self: T, other: T): number {
-  // We will sort items using the following algorithm:
-  // 1. Any items without a due date are always after those with.
-  // 2. Any items on the same day, but without time are always sorted after those with time.
+  // Sort algorithm:
+  // 1. Items without a due date are always after those with one.
+  // 2. Items on the same day without time are always after those with time.
 
   if (self.due === undefined) {
     if (other.due === undefined) {
       return 0;
     }
-
     // Self doesn't have date, but other does
     return 1;
   }
@@ -72,11 +54,10 @@ function compareTaskDate<T extends Task>(self: T, other: T): number {
     return -1;
   }
 
-  const selfInfo = DueDate.parse(self.due).start;
-  const otherInfo = DueDate.parse(other.due).start;
+  const selfInfo = self.due.start;
+  const otherInfo = other.due.start;
 
-  // Then lets check if we are the same day, if not
-  // sort just based on the day.
+  // Sort by day first
   if (!isSameDay(selfInfo.raw, otherInfo.raw)) {
     return selfInfo.raw < otherInfo.raw ? -1 : 1;
   }
@@ -94,41 +75,6 @@ function compareTaskDate<T extends Task>(self: T, other: T): number {
   }
 
   return selfInfo.raw < otherInfo.raw ? -1 : 1;
-}
-
-function compareTaskDeadline<T extends Task>(self: T, other: T): number {
-  // We will sort items using the following algorithm:
-  // 1. Any items without a deadline are always after those with.
-
-  if (self.deadline === undefined) {
-    if (other.deadline === undefined) {
-      return 0;
-    }
-
-    // Self doesn't have deadline, but other does
-    return 1;
-  }
-
-  // Self has deadline, but other doesn't
-  if (other.deadline === undefined) {
-    return -1;
-  }
-
-  const selfDeadline = Deadline.parse(self.deadline).raw;
-  const otherDeadline = Deadline.parse(other.deadline).raw;
-
-  if (isSameDay(selfDeadline, otherDeadline)) {
-    return 0;
-  }
-
-  return selfDeadline < otherDeadline ? -1 : 1;
-}
-
-function compareTaskDateAdded<T extends Task>(self: T, other: T): number {
-  const selfDate = parseAbsoluteToLocal(self.createdAt);
-  const otherDate = parseAbsoluteToLocal(other.createdAt);
-
-  return selfDate.compare(otherDate) < 0 ? -1 : 1;
 }
 
 function compareTaskAlphabetical<T extends Task>(self: T, other: T): number {

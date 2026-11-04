@@ -1,26 +1,14 @@
 import { create } from "zustand";
 
-export type AddPageLinkSetting = "off" | "description" | "content";
-
-export type AddTaskAction = "add" | "add-copy-app" | "add-copy-web";
-
 export type DueDateDefaultSetting = "none" | "today" | "tomorrow";
 
-export type TokenStorageSetting = "secrets" | "file";
-
-export type ProjectDefaultSetting = {
-  projectId: string;
-  projectName: string;
-} | null;
-
-export type LabelsDefaultSetting = Array<{
-  labelId: string;
-  labelName: string;
-}>;
-
 const defaultSettings: Settings = {
-  apiTokenSecretId: "swt-todoist-api-token",
-  tokenStorage: "secrets",
+  clientId: "",
+  clientSecret: "",
+  accessToken: null,
+  refreshToken: null,
+  tokenExpiresAt: null,
+  userEmail: null,
 
   fadeToggle: true,
 
@@ -28,52 +16,36 @@ const defaultSettings: Settings = {
   autoRefreshInterval: 60,
 
   renderDateIcon: true,
-  renderProjectIcon: true,
-  renderLabelsIcon: true,
+  renderListIcon: true,
 
   shouldWrapLinksInParens: false,
-  addTaskButtonAddsPageLink: "content",
-
   taskCreationDefaultDueDate: "none",
-
-  taskCreationDefaultProject: null,
-
-  taskCreationDefaultLabels: [],
-
-  defaultAddTaskAction: "add",
+  taskCreationDefaultListId: null,
 
   debugLogging: false,
-
-  version: 0,
+  version: 1,
 };
 
 export type Settings = {
-  apiTokenSecretId: string;
-  tokenStorage: TokenStorageSetting;
+  clientId: string;
+  clientSecret: string;
+  accessToken: string | null;
+  refreshToken: string | null;
+  tokenExpiresAt: number | null;
+  userEmail: string | null;
 
   fadeToggle: boolean;
   autoRefreshToggle: boolean;
   autoRefreshInterval: number;
 
   renderDateIcon: boolean;
-
-  renderProjectIcon: boolean;
-
-  renderLabelsIcon: boolean;
+  renderListIcon: boolean;
 
   shouldWrapLinksInParens: boolean;
-  addTaskButtonAddsPageLink: AddPageLinkSetting;
-
   taskCreationDefaultDueDate: DueDateDefaultSetting;
-
-  taskCreationDefaultProject: ProjectDefaultSetting;
-
-  taskCreationDefaultLabels: LabelsDefaultSetting;
-
-  defaultAddTaskAction: AddTaskAction;
+  taskCreationDefaultListId: string | null;
 
   debugLogging: boolean;
-
   version: number;
 };
 

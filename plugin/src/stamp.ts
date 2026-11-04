@@ -1,1 +1,1 @@
-export const BuildStamp = "SYNC_WITH_TODOIST_BUILD_STAMP";
+export const BuildStamp = "GOOGLE_TASKS_BUILD_STAMP";

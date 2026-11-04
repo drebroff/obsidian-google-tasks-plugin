@@ -28,7 +28,8 @@
       transition: opacity 0.33s;
       opacity: 0;
 
-      .block-language-todoist:hover & {
+      .block-language-google-tasks:hover &,
+      .block-language-gtasks:hover & {
         opacity: 1;
       }
 

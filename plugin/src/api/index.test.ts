@@ -1,42 +1,38 @@
 import { describe, expect, it, vi } from "vitest";
 
+import { GoogleTasksApiClient } from "@/api/index";
 import type { RequestParams, WebFetcher, WebResponse } from "@/api/fetcher";
-import { TodoistApiClient, TodoistApiError } from "@/api/index";
 
 function parseUrl(url: string) {
   const parsed = new URL(url);
   return { pathname: parsed.pathname, params: parsed.searchParams };
 }
 
-function makeTask(overrides: Record<string, unknown> = {}): Record<string, unknown> {
+function makeGoogleTask(overrides: Record<string, unknown> = {}): Record<string, unknown> {
   return {
-    id: "123",
-    added_at: "2024-01-01T00:00:00Z",
-    content: "Test task",
-    description: "",
-    project_id: "456",
-    section_id: null,
-    parent_id: null,
-    labels: [],
-    priority: 1,
-    due: null,
-    duration: null,
-    deadline: null,
-    child_order: 0,
+    id: "task-1",
+    title: "Test task",
+    status: "needsAction",
+    position: "00000000000000000000",
     ...overrides,
   };
 }
 
-function makePaginatedResponse(
-  tasks: Record<string, unknown>[],
-  nextCursor: string | null = null,
+function makeTaskListResponse(
+  items: Record<string, unknown>[],
 ): WebResponse {
   return {
     statusCode: 200,
-    body: JSON.stringify({
-      results: tasks,
-      next_cursor: nextCursor,
-    }),
+    body: JSON.stringify({ kind: "tasks#taskLists", items }),
+  };
+}
+
+function makeTasksResponse(
+  items: Record<string, unknown>[],
+): WebResponse {
+  return {
+    statusCode: 200,
+    body: JSON.stringify({ kind: "tasks#tasks", items }),
   };
 }
 
@@ -46,250 +42,202 @@ function makeFetcher(): WebFetcher & {
   return { fetch: vi.fn<(params: RequestParams) => Promise<WebResponse>>() };
 }
 
-describe("TodoistApiClient", () => {
-  describe("getTasks", () => {
-    it("calls /tasks endpoint when no filter is provided", async () => {
+const TEST_LIST_ID = "list-abc";
+
+describe("GoogleTasksApiClient", () => {
+  describe("getTaskLists", () => {
+    it("calls /users/@me/lists and returns parsed task lists", async () => {
       const fetcher = makeFetcher();
-      fetcher.fetch.mockResolvedValueOnce(makePaginatedResponse([makeTask()]));
+      fetcher.fetch.mockResolvedValueOnce(
+        makeTaskListResponse([{ id: "list-1", title: "My Tasks" }]),
+      );
 
-      const client = new TodoistApiClient("test-token", fetcher);
-      const tasks = await client.getTasks();
+      const client = new GoogleTasksApiClient(async () => "test-token", fetcher);
+      const lists = await client.getTaskLists();
 
-      expect(tasks).toHaveLength(1);
-      expect(tasks[0].id).toBe("123");
+      expect(lists).toHaveLength(1);
+      expect(lists[0].id).toBe("list-1");
+      expect(lists[0].title).toBe("My Tasks");
 
       const call = fetcher.fetch.mock.calls[0][0];
       const { pathname } = parseUrl(call.url);
-      expect(pathname).toBe("/api/v1/tasks");
+      expect(pathname).toBe("/tasks/v1/users/@me/lists");
     });
 
-    it("calls /tasks/filter with query param when filter is provided", async () => {
+    it("returns empty array when no lists", async () => {
       const fetcher = makeFetcher();
-      fetcher.fetch.mockResolvedValueOnce(makePaginatedResponse([makeTask()]));
+      fetcher.fetch.mockResolvedValueOnce(makeTaskListResponse([]));
 
-      const client = new TodoistApiClient("test-token", fetcher);
-      await client.getTasks("today");
+      const client = new GoogleTasksApiClient(async () => "test-token", fetcher);
+      const lists = await client.getTaskLists();
 
-      const call = fetcher.fetch.mock.calls[0][0];
-      const { pathname, params } = parseUrl(call.url);
-      expect(pathname).toBe("/api/v1/tasks/filter");
-      expect(params.get("query")).toBe("today");
+      expect(lists).toHaveLength(0);
     });
   });
 
-  describe("pagination", () => {
-    it("returns results from a single page when nextCursor is null", async () => {
+  describe("getTasks", () => {
+    it("calls /lists/{taskListId}/tasks and returns tasks with taskListId", async () => {
       const fetcher = makeFetcher();
       fetcher.fetch.mockResolvedValueOnce(
-        makePaginatedResponse([makeTask(), makeTask({ id: "456" })]),
+        makeTasksResponse([makeGoogleTask({ id: "task-1" }), makeGoogleTask({ id: "task-2" })]),
       );
 
-      const client = new TodoistApiClient("test-token", fetcher);
-      const tasks = await client.getTasks();
+      const client = new GoogleTasksApiClient(async () => "test-token", fetcher);
+      const tasks = await client.getTasks(TEST_LIST_ID);
 
       expect(tasks).toHaveLength(2);
-      expect(fetcher.fetch).toHaveBeenCalledTimes(1);
+      expect(tasks[0].taskListId).toBe(TEST_LIST_ID);
+      expect(tasks[1].taskListId).toBe(TEST_LIST_ID);
+
+      const call = fetcher.fetch.mock.calls[0][0];
+      const { pathname } = parseUrl(call.url);
+      expect(pathname).toBe(`/tasks/v1/lists/${TEST_LIST_ID}/tasks`);
     });
 
-    it("follows pagination cursor across multiple pages", async () => {
+    it("returns empty array when no tasks", async () => {
       const fetcher = makeFetcher();
-      fetcher.fetch
-        .mockResolvedValueOnce(makePaginatedResponse([makeTask({ id: "1" })], "cursor-abc"))
-        .mockResolvedValueOnce(makePaginatedResponse([makeTask({ id: "2" })]));
+      fetcher.fetch.mockResolvedValueOnce(makeTasksResponse([]));
 
-      const client = new TodoistApiClient("test-token", fetcher);
-      const tasks = await client.getTasks();
-
-      expect(tasks).toHaveLength(2);
-      expect(tasks[0].id).toBe("1");
-      expect(tasks[1].id).toBe("2");
-      expect(fetcher.fetch).toHaveBeenCalledTimes(2);
-
-      const secondCall = fetcher.fetch.mock.calls[1][0];
-      const { params } = parseUrl(secondCall.url);
-      expect(params.get("cursor")).toBe("cursor-abc");
-    });
-
-    it("preserves filter query params across paginated requests", async () => {
-      const fetcher = makeFetcher();
-      fetcher.fetch
-        .mockResolvedValueOnce(makePaginatedResponse([makeTask({ id: "1" })], "cursor-1"))
-        .mockResolvedValueOnce(makePaginatedResponse([makeTask({ id: "2" })]));
-
-      const client = new TodoistApiClient("test-token", fetcher);
-      await client.getTasks("today");
-
-      const firstCall = fetcher.fetch.mock.calls[0][0];
-      const firstParams = parseUrl(firstCall.url).params;
-      expect(firstParams.get("query")).toBe("today");
-
-      const secondCall = fetcher.fetch.mock.calls[1][0];
-      const secondParams = parseUrl(secondCall.url).params;
-      expect(secondParams.get("query")).toBe("today");
-      expect(secondParams.get("cursor")).toBe("cursor-1");
-    });
-
-    it("returns empty array when results are empty", async () => {
-      const fetcher = makeFetcher();
-      fetcher.fetch.mockResolvedValueOnce(makePaginatedResponse([]));
-
-      const client = new TodoistApiClient("test-token", fetcher);
-      const tasks = await client.getTasks();
+      const client = new GoogleTasksApiClient(async () => "test-token", fetcher);
+      const tasks = await client.getTasks(TEST_LIST_ID);
 
       expect(tasks).toHaveLength(0);
+    });
+
+    it("passes showCompleted and showHidden query params", async () => {
+      const fetcher = makeFetcher();
+      fetcher.fetch.mockResolvedValueOnce(makeTasksResponse([]));
+
+      const client = new GoogleTasksApiClient(async () => "test-token", fetcher);
+      await client.getTasks(TEST_LIST_ID, { showCompleted: false, showHidden: false });
+
+      const call = fetcher.fetch.mock.calls[0][0];
+      const { params } = parseUrl(call.url);
+      expect(params.get("showCompleted")).toBe("false");
+      expect(params.get("showHidden")).toBe("false");
     });
   });
 
   describe("createTask", () => {
-    it("sends POST with correct body serialization including options", async () => {
+    it("sends POST with correct body and returns created task", async () => {
       const fetcher = makeFetcher();
       fetcher.fetch.mockResolvedValueOnce({
         statusCode: 200,
-        body: JSON.stringify(makeTask({ content: "New task", project_id: "proj-1", priority: 4 })),
+        body: JSON.stringify(makeGoogleTask({ id: "new-task", title: "Buy milk" })),
       });
 
-      const client = new TodoistApiClient("test-token", fetcher);
-      const task = await client.createTask("New task", {
-        projectId: "proj-1",
-        priority: 4,
-      });
+      const client = new GoogleTasksApiClient(async () => "test-token", fetcher);
+      const task = await client.createTask(TEST_LIST_ID, "Buy milk");
 
-      expect(task.content).toBe("New task");
+      expect(task.title).toBe("Buy milk");
+      expect(task.taskListId).toBe(TEST_LIST_ID);
 
       const call = fetcher.fetch.mock.calls[0][0];
       expect(call.method).toBe("POST");
       const { pathname } = parseUrl(call.url);
-      expect(pathname).toBe("/api/v1/tasks");
-      expect(call.headers["Content-Type"]).toBe("application/json");
+      expect(pathname).toBe(`/tasks/v1/lists/${TEST_LIST_ID}/tasks`);
 
       const body = JSON.parse(call.body as string);
-      expect(body.content).toBe("New task");
-      expect(body.project_id).toBe("proj-1");
-      expect(body.priority).toBe(4);
+      expect(body.title).toBe("Buy milk");
     });
 
-    it("sends POST with only content when no options provided", async () => {
+    it("includes due date when provided", async () => {
       const fetcher = makeFetcher();
       fetcher.fetch.mockResolvedValueOnce({
         statusCode: 200,
-        body: JSON.stringify(makeTask({ content: "Simple task" })),
+        body: JSON.stringify(makeGoogleTask({ due: "2026-11-01T00:00:00.000Z" })),
       });
 
-      const client = new TodoistApiClient("test-token", fetcher);
-      await client.createTask("Simple task");
+      const client = new GoogleTasksApiClient(async () => "test-token", fetcher);
+      await client.createTask(TEST_LIST_ID, "Task with due", { due: "2026-11-01T00:00:00.000Z" });
 
       const call = fetcher.fetch.mock.calls[0][0];
       const body = JSON.parse(call.body as string);
-      expect(body.content).toBe("Simple task");
-      expect(Object.keys(body)).toEqual(["content"]);
+      expect(body.due).toBe("2026-11-01T00:00:00.000Z");
     });
   });
 
-  describe("closeTask", () => {
-    it("sends POST to /tasks/{id}/close without body or Content-Type", async () => {
+  describe("completeTask / uncompleteTask", () => {
+    it("sends PATCH with status=completed for completeTask", async () => {
+      const fetcher = makeFetcher();
+      fetcher.fetch.mockResolvedValueOnce({
+        statusCode: 200,
+        body: JSON.stringify(makeGoogleTask({ status: "completed" })),
+      });
+
+      const client = new GoogleTasksApiClient(async () => "test-token", fetcher);
+      const task = await client.completeTask(TEST_LIST_ID, "task-1");
+
+      expect(task.status).toBe("completed");
+
+      const call = fetcher.fetch.mock.calls[0][0];
+      expect(call.method).toBe("PATCH");
+      const body = JSON.parse(call.body as string);
+      expect(body.status).toBe("completed");
+    });
+
+    it("sends PATCH with status=needsAction for uncompleteTask", async () => {
+      const fetcher = makeFetcher();
+      fetcher.fetch.mockResolvedValueOnce({
+        statusCode: 200,
+        body: JSON.stringify(makeGoogleTask({ status: "needsAction" })),
+      });
+
+      const client = new GoogleTasksApiClient(async () => "test-token", fetcher);
+      const task = await client.uncompleteTask(TEST_LIST_ID, "task-1");
+
+      expect(task.status).toBe("needsAction");
+
+      const call = fetcher.fetch.mock.calls[0][0];
+      expect(call.method).toBe("PATCH");
+      const body = JSON.parse(call.body as string);
+      expect(body.status).toBe("needsAction");
+    });
+  });
+
+  describe("deleteTask", () => {
+    it("sends DELETE request", async () => {
       const fetcher = makeFetcher();
       fetcher.fetch.mockResolvedValueOnce({ statusCode: 204, body: "" });
 
-      const client = new TodoistApiClient("test-token", fetcher);
-      await client.closeTask("task-789");
+      const client = new GoogleTasksApiClient(async () => "test-token", fetcher);
+      await client.deleteTask(TEST_LIST_ID, "task-1");
 
       const call = fetcher.fetch.mock.calls[0][0];
-      expect(call.method).toBe("POST");
+      expect(call.method).toBe("DELETE");
       const { pathname } = parseUrl(call.url);
-      expect(pathname).toBe("/api/v1/tasks/task-789/close");
-      expect(call.body).toBeUndefined();
-      expect(call.headers["Content-Type"]).toBeUndefined();
-    });
-  });
-
-  describe("getUser", () => {
-    it("calls /user endpoint and parses response", async () => {
-      const fetcher = makeFetcher();
-      fetcher.fetch.mockResolvedValueOnce({
-        statusCode: 200,
-        body: JSON.stringify({ is_premium: true }),
-      });
-
-      const client = new TodoistApiClient("test-token", fetcher);
-      const user = await client.getUser();
-
-      expect(user.isPremium).toBe(true);
-
-      const call = fetcher.fetch.mock.calls[0][0];
-      expect(call.method).toBe("GET");
-      const { pathname } = parseUrl(call.url);
-      expect(pathname).toBe("/api/v1/user");
-    });
-  });
-
-  describe("sync", () => {
-    it("calls /sync with snakified query params", async () => {
-      const fetcher = makeFetcher();
-      fetcher.fetch.mockResolvedValueOnce({
-        statusCode: 200,
-        body: JSON.stringify({
-          sync_token: "new-token",
-          projects: [],
-          sections: [],
-          labels: [],
-        }),
-      });
-
-      const client = new TodoistApiClient("test-token", fetcher);
-      const result = await client.sync("old-token");
-
-      expect(result.syncToken).toBe("new-token");
-
-      const call = fetcher.fetch.mock.calls[0][0];
-      expect(call.method).toBe("POST");
-      const { params } = parseUrl(call.url);
-      expect(params.get("sync_token")).toBe("old-token");
-      expect(params.get("resource_types")).not.toBeNull();
-    });
-  });
-
-  describe("error handling", () => {
-    it("throws TodoistApiError with correct statusCode on 4xx", async () => {
-      const fetcher = makeFetcher();
-      fetcher.fetch.mockResolvedValueOnce({
-        statusCode: 401,
-        body: "Unauthorized",
-      });
-
-      const client = new TodoistApiClient("test-token", fetcher);
-      await expect(client.getTasks()).rejects.toSatisfy((e) => {
-        expect(e).toBeInstanceOf(TodoistApiError);
-        expect((e as TodoistApiError).statusCode).toBe(401);
-        return true;
-      });
-    });
-
-    it("throws TodoistApiError with correct statusCode on 5xx", async () => {
-      const fetcher = makeFetcher();
-      fetcher.fetch.mockResolvedValueOnce({
-        statusCode: 500,
-        body: "Internal Server Error",
-      });
-
-      const client = new TodoistApiClient("test-token", fetcher);
-      await expect(client.getTasks()).rejects.toSatisfy((e) => {
-        expect(e).toBeInstanceOf(TodoistApiError);
-        expect((e as TodoistApiError).statusCode).toBe(500);
-        return true;
-      });
+      expect(pathname).toBe(`/tasks/v1/lists/${TEST_LIST_ID}/tasks/task-1`);
     });
   });
 
   describe("authorization", () => {
-    it("includes Bearer token in Authorization header for all requests", async () => {
+    it("includes Bearer token in Authorization header", async () => {
       const fetcher = makeFetcher();
-      fetcher.fetch.mockResolvedValueOnce(makePaginatedResponse([makeTask()]));
+      fetcher.fetch.mockResolvedValueOnce(makeTaskListResponse([]));
 
-      const client = new TodoistApiClient("my-secret-token", fetcher);
-      await client.getTasks();
+      const client = new GoogleTasksApiClient(async () => "my-secret-token", fetcher);
+      await client.getTaskLists();
 
       const call = fetcher.fetch.mock.calls[0][0];
       expect(call.headers.Authorization).toBe("Bearer my-secret-token");
+    });
+  });
+
+  describe("error handling", () => {
+    it("throws on 4xx error", async () => {
+      const fetcher = makeFetcher();
+      fetcher.fetch.mockResolvedValueOnce({ statusCode: 401, body: "Unauthorized" });
+
+      const client = new GoogleTasksApiClient(async () => "test-token", fetcher);
+      await expect(client.getTaskLists()).rejects.toThrow("401");
+    });
+
+    it("throws on 5xx error", async () => {
+      const fetcher = makeFetcher();
+      fetcher.fetch.mockResolvedValueOnce({ statusCode: 500, body: "Server Error" });
+
+      const client = new GoogleTasksApiClient(async () => "test-token", fetcher);
+      await expect(client.getTaskLists()).rejects.toThrow("500");
     });
   });
 });

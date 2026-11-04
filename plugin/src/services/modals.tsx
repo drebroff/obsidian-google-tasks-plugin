@@ -4,7 +4,7 @@ import { createRoot, type Root } from "react-dom/client";
 
 import { ModalContext, type ModalInfo, PluginContext } from "@/ui/context";
 
-import type TodoistPlugin from "..";
+import type GoogleTasksPlugin from "..";
 import { CreateTaskModal } from "../ui/createTaskModal";
 import { OnboardingModal } from "../ui/onboardingModal";
 
@@ -16,7 +16,7 @@ type ModalOptions = {
 class ReactModal<T extends {}> extends Modal {
   private readonly reactRoot: Root;
 
-  constructor(plugin: TodoistPlugin, Component: React.FC<T>, props: T, opts: ModalOptions) {
+  constructor(plugin: GoogleTasksPlugin, Component: React.FC<T>, props: T, opts: ModalOptions) {
     super(plugin.app);
     if (opts.title) {
       this.titleEl.textContent = opts.title;
@@ -63,15 +63,15 @@ class ReactModal<T extends {}> extends Modal {
 }
 
 export class ModalHandler {
-  private readonly plugin: TodoistPlugin;
+  private readonly plugin: GoogleTasksPlugin;
 
-  constructor(plugin: TodoistPlugin) {
+  constructor(plugin: GoogleTasksPlugin) {
     this.plugin = plugin;
   }
 
   public onboarding(props: React.ComponentProps<typeof OnboardingModal>) {
     new ReactModal(this.plugin, OnboardingModal, props, {
-      title: "Sync with Todoist Setup",
+      title: "Google Tasks Setup",
     }).open();
   }
 

@@ -8,21 +8,9 @@ import { t } from "@/i18n";
 import { type Settings, useSettingsStore } from "@/settings";
 import { ObsidianIcon } from "@/ui/components/obsidian-icon";
 import { MarkdownEditButtonContext, PluginContext } from "@/ui/context";
-import { useObsidianTooltip } from "@/ui/hooks";
 
-const getAddTaskCommandId = (settings: Settings): CommandId => {
-  switch (settings.addTaskButtonAddsPageLink) {
-    case "content":
-      return "add-task-page-content";
-    case "description":
-      return "add-task-page-description";
-    case "off":
-      return "add-task";
-    default: {
-      const _: never = settings.addTaskButtonAddsPageLink;
-      throw new Error("Unknown add task button setting");
-    }
-  }
+const getAddTaskCommandId = (_settings: Settings): CommandId => {
+  return "add-task";
 };
 
 type Props = {
@@ -39,10 +27,15 @@ export const QueryHeader: React.FC<Props> = ({
   refreshedTimestamp,
 }) => {
   const plugin = PluginContext.use();
-  const { click: editBlock } = MarkdownEditButtonContext.use()();
+  let editBlock = () => {};
+  try {
+    editBlock = MarkdownEditButtonContext.use()().click;
+  } catch {
+    // context not provided; disable edit button
+  }
 
   const settings = useSettingsStore();
-  const i18n = t().query.header.refreshTooltip;
+  const i18n = t().query.header;
 
   const refreshedAtDisplay =
     refreshedTimestamp !== undefined
@@ -66,7 +59,7 @@ export const QueryHeader: React.FC<Props> = ({
           action={async () => {
             await refresh();
           }}
-          tooltip={refreshedAtDisplay}
+          tooltip={refreshedAtDisplay ? i18n.header.refreshTooltip.lastRefreshed(new Date(refreshedTimestamp).toLocaleString()) : i18n.header.refreshTooltip.notRefreshed}
         />
         <HeaderButton
           className="edit-query"
@@ -97,8 +90,6 @@ const HeaderButton: React.FC<ButtonProps> = ({ iconId, action, className, toolti
       await result;
     }
   };
-
-  useObsidianTooltip(buttonRef.current, tooltip ?? "");
 
   return (
     <Button

@@ -1,271 +1,60 @@
-import type { Project } from "@/api/domain/project";
-import type { Section } from "@/api/domain/section";
-import type { Priority } from "@/api/domain/task";
 import { DueDate } from "@/data/dueDate";
 import type { Task } from "@/data/task";
-import { t } from "@/i18n";
-import type { GroupingKey } from "@/query/schema/grouping";
 
 export type GroupedTasks = {
   header: string;
   tasks: Task[];
 };
 
-export function groupBy(tasks: Task[], groupBy: GroupingKey): GroupedTasks[] {
-  switch (groupBy) {
-    case "priority":
-      return groupByPriority(tasks);
-    case "project":
-      return groupByProject(tasks);
-    case "section":
-      return groupBySection(tasks);
-    case "due":
+export function groupBy(tasks: Task[], key: "none" | "list" | "date"): GroupedTasks[] {
+  switch (key) {
+    case "list":
+      return groupByList(tasks);
+    case "date":
       return groupByDate(tasks);
-    case "label":
-      return groupByLabel(tasks);
     default:
-      throw new Error(`Cannot group by ${groupBy}`);
+      return [{ header: "", tasks }];
   }
 }
 
-function groupByPriority(tasks: Task[]): GroupedTasks[] {
-  const priorities = partitionBy(tasks, (task: Task) => task.priority);
-  const groups = Array.from(priorities.entries());
-  // We need to 'reverse' sort since priority of 4 is actually
-  // priority 1 in Todoist.
-  groups.sort((a, b) => b[0] - a[0]);
+function groupByList(tasks: Task[]): GroupedTasks[] {
+  const map = new Map<string, Task[]>();
+  for (const t of tasks) {
+    const listTitle = t.taskList.title;
+    const existing = map.get(listTitle) ?? [];
+    existing.push(t);
+    map.set(listTitle, existing);
+  }
 
-  return groups.map(([priority, tasks]) => {
-    return {
-      header: priorityHeaderLookup[priority],
-      tasks,
-    };
-  });
-}
-
-const priorityHeaderLookup: Record<Priority, string> = {
-  1: "Priority 4",
-  2: "Priority 3",
-  3: "Priority 2",
-  4: "Priority 1",
-};
-
-function groupByProject(tasks: Task[]): GroupedTasks[] {
-  const projects = partitionBy(tasks, (task: Task) => task.project);
-  const groups = Array.from(projects.entries());
-  groups.sort((a, b) => {
-    const aProject = a[0];
-    const bProject = b[0];
-    return aProject.childOrder - bProject.childOrder;
-  });
-
-  return groups.map(([project, tasks]) => {
-    return {
-      header: project?.name ?? "Unknown Project",
-      tasks,
-    };
-  });
-}
-
-function groupBySection(tasks: Task[]): GroupedTasks[] {
-  type SectionPartitionKey = {
-    project: Project;
-    section: Section | undefined;
-  };
-
-  const makeHeader = (key: SectionPartitionKey) => {
-    const project = key.project.name;
-    const section = key.section?.name;
-
-    if (section === undefined) {
-      return project;
-    }
-
-    return `${project} / ${section}`;
-  };
-
-  const sections = partitionBy<string>(tasks, (task: Task) => {
-    const key: SectionPartitionKey = {
-      project: task.project,
-      section: task.section,
-    };
-    return JSON.stringify(key);
-  });
-  const groups = Array.from(sections.entries());
-  groups.sort((a, b) => {
-    const aKey: SectionPartitionKey = JSON.parse(a[0]);
-    const bKey: SectionPartitionKey = JSON.parse(b[0]);
-
-    // First compare by project
-    const projectOrderDiff = aKey.project.childOrder - bKey.project.childOrder;
-    if (projectOrderDiff !== 0) {
-      return projectOrderDiff;
-    }
-
-    // Now lets compare by sections
-    if (aKey.section === undefined && bKey.section === undefined) {
-      return 0;
-    }
-
-    if (aKey.section === undefined) {
-      return -1;
-    }
-
-    if (bKey.section === undefined) {
-      return 1;
-    }
-
-    return aKey.section.sectionOrder - bKey.section.sectionOrder;
-  });
-
-  return groups.map(([key, tasks]) => {
-    return {
-      header: makeHeader(JSON.parse(key)),
-      tasks,
-    };
-  });
+  return Array.from(map.entries()).map(([header, tasks]) => ({
+    header,
+    tasks,
+  }));
 }
 
 function groupByDate(tasks: Task[]): GroupedTasks[] {
-  const i18n = t().query.groupedHeaders;
-  const makeHeader = (date: string | undefined): string => {
-    if (date === undefined) {
-      return i18n.noDueDate;
+  const map = new Map<string, Task[]>();
+
+  for (const t of tasks) {
+    let header = "No Due Date";
+    if (t.due) {
+      if (t.due.start.isOverdue && t.status === "needsAction") {
+        header = "Overdue";
+      } else if (t.due.start.flag === "today") {
+        header = "Today";
+      } else if (t.due.start.flag === "tomorrow") {
+        header = "Tomorrow";
+      } else {
+        header = DueDate.formatHeader(t.due);
+      }
     }
-
-    if (date === "Overdue") {
-      return i18n.overdue;
-    }
-
-    return DueDate.formatHeader(
-      DueDate.parse({
-        isRecurring: false,
-        date,
-      }),
-    );
-  };
-
-  const dates = partitionBy(tasks, (task: Task) => {
-    if (task.due?.date === undefined) {
-      return undefined;
-    }
-
-    if (DueDate.parse(task.due).start.isOverdue) {
-      return "Overdue";
-    }
-
-    // Discard any time component for grouping purposes
-    return task.due.date.split("T")[0];
-  });
-  const groups = Array.from(dates.entries());
-  groups.sort((a, b) => {
-    const aDate = a[0];
-    const bDate = b[0];
-
-    if (aDate === undefined && bDate === undefined) {
-      return 0;
-    }
-
-    if (aDate === undefined) {
-      return 1;
-    }
-
-    if (bDate === undefined) {
-      return -1;
-    }
-
-    if (aDate === "Overdue" && bDate === "Overdue") {
-      return 0;
-    }
-
-    if (aDate === "Overdue") {
-      return -1;
-    }
-
-    if (bDate === "Overdue") {
-      return 1;
-    }
-
-    return aDate.localeCompare(bDate);
-  });
-  return groups.map(([date, tasks]) => {
-    return {
-      header: makeHeader(date),
-      tasks,
-    };
-  });
-}
-
-function groupByLabel(tasks: Task[]): GroupedTasks[] {
-  const labels = partitionByMany(tasks, (task: Task) => task.labels);
-  const groups = Array.from(labels.entries());
-  groups.sort((a, b) => {
-    const aLabel = a[0];
-    const bLabel = b[0];
-
-    if (aLabel === undefined && bLabel === undefined) {
-      return 0;
-    }
-
-    if (aLabel === undefined) {
-      return 1;
-    }
-
-    if (bLabel === undefined) {
-      return -1;
-    }
-
-    return aLabel.name.localeCompare(bLabel.name);
-  });
-  return groups.map(([label, tasks]) => {
-    return {
-      header: label?.name ?? "No label",
-      tasks,
-    };
-  });
-}
-
-function partitionBy<T>(tasks: Task[], selector: (task: Task) => T): Map<T, Task[]> {
-  const mapped = new Map<T, Task[]>();
-
-  for (const task of tasks) {
-    const key = selector(task);
-
-    if (!mapped.has(key)) {
-      mapped.set(key, []);
-    }
-
-    mapped.get(key)?.push(task);
+    const existing = map.get(header) ?? [];
+    existing.push(t);
+    map.set(header, existing);
   }
 
-  return mapped;
-}
-
-function partitionByMany<T>(
-  tasks: Task[],
-  selector: (task: Task) => T[],
-): Map<T | undefined, Task[]> {
-  const mapped = new Map<T | undefined, Task[]>();
-
-  const insertTask = (key: T | undefined, task: Task) => {
-    if (!mapped.has(key)) {
-      mapped.set(key, []);
-    }
-
-    mapped.get(key)?.push(task);
-  };
-
-  for (const task of tasks) {
-    const keys = selector(task);
-
-    if (keys.length === 0) {
-      insertTask(undefined, task);
-    }
-
-    for (const key of keys) {
-      insertTask(key, task);
-    }
-  }
-
-  return mapped;
+  return Array.from(map.entries()).map(([header, tasks]) => ({
+    header,
+    tasks,
+  }));
 }

@@ -2,7 +2,7 @@ import type { MarkdownRenderChild } from "obsidian";
 import { createContext, type Provider, useContext } from "react";
 import type { StoreApi, UseBoundStore } from "zustand";
 
-import type TodoistPlugin from "@/index";
+import type GoogleTasksPlugin from "@/index";
 import type { TaskQuery } from "@/query/schema/tasks";
 
 type Context<T> = {
@@ -26,7 +26,7 @@ const makeContext = <T>(): Context<T> => {
 
 export const QueryContext = makeContext<TaskQuery>();
 
-export const PluginContext = makeContext<TodoistPlugin>();
+export const PluginContext = makeContext<GoogleTasksPlugin>();
 
 export type ModalInfo = {
   close: () => void;

@@ -10,9 +10,3 @@ export type GoogleUserInfo = {
   email: string;
 };
 
-export type OAuthState = {
-  isAuthenticated: boolean;
-  email: string | null;
-  error?: string;
-};
-

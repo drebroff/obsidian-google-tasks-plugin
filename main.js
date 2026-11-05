@@ -195,13 +195,6 @@ const en = {
         label: "Filter projects",
         placeholder: "Type a project name"
       }
-    },
-    optionsSelector: {
-      buttonLabel: "Set options",
-      optionsLabel: "Task options",
-      addLinkToContent: "Add link to content",
-      addLinkToDescription: "Add link to description",
-      doNotAddLink: "Do not add link"
     }
   },
   onboardingModal: {
@@ -29225,7 +29218,7 @@ const makeServices = (plugin) => {
     tasks: new GoogleTasksAdapter()
   };
 };
-const BuildStamp = "v2.6.0-b037d1a-261105T2203";
+const BuildStamp = "v2.6.0-48e5b80-261105T2214";
 const AutoRefreshIntervalControl = ({ initialValue, onChange }) => {
   const [value, setValue] = reactExports.useState(`${initialValue}`);
   const onInputChange = (ev) => {

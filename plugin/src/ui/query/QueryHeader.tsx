@@ -37,11 +37,6 @@ export const QueryHeader: React.FC<Props> = ({
   const settings = useSettingsStore();
   const i18n = t().query.header;
 
-  const refreshedAtDisplay =
-    refreshedTimestamp !== undefined
-      ? i18n.lastRefreshed(refreshedTimestamp.toLocaleString())
-      : i18n.notRefreshed;
-
   return (
     <div className="todoist-query-header">
       <span className="todoist-query-title">{title}</span>
@@ -59,7 +54,9 @@ export const QueryHeader: React.FC<Props> = ({
           action={async () => {
             await refresh();
           }}
-          tooltip={refreshedAtDisplay ? i18n.header.refreshTooltip.lastRefreshed(new Date(refreshedTimestamp).toLocaleString()) : i18n.header.refreshTooltip.notRefreshed}
+          tooltip={refreshedTimestamp !== undefined
+            ? i18n.refreshTooltip.lastRefreshed(refreshedTimestamp.toLocaleString())
+            : i18n.refreshTooltip.notRefreshed}
         />
         <HeaderButton
           className="edit-query"

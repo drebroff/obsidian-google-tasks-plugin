@@ -5,3 +5,4 @@ node_modules
 *.tsbuildinfo
 
 TASK.md
+data.json

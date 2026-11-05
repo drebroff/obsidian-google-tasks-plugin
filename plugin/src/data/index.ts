@@ -129,6 +129,7 @@ export class GoogleTasksAdapter {
       }
 
       this.hasSynced = true;
+      console.log(`Google Tasks: Synced ${allTasks.length} tasks`);
       this.notifySubscriptions();
     } catch (error) {
       console.error("Failed to sync Google Tasks:", error);
@@ -162,6 +163,8 @@ export class GoogleTasksAdapter {
         return;
       }
 
+      console.log("Google Tasks: Refreshing...");
+      await this.sync();
       const hydrated = this.getHydratedTasks();
       const filtered = filterAndSortTasks(hydrated, query);
       callback({ type: "success", tasks: filtered });

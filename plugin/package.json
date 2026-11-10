@@ -6,8 +6,8 @@
     "check": "tsgo --noEmit",
     "dev": "vite build --watch",
     "build": "vite build",
-    "test": "vitest",
-    "test:update": "vitest --update",
+    "test": "node ./scripts/run-vitest.mjs",
+    "test:update": "node ./scripts/run-vitest.mjs --update",
     "lint:check": "biome check ./src",
     "lint:fix": "biome check --write ./src"
   },

@@ -140,5 +140,15 @@ export default defineConfig({
       obsidian: resolve(__dirname, "src/mocks/obsidian.ts"),
     },
     setupFiles: ["./vitest-setup.ts"],
+    server: {
+      deps: {
+        // `motion` and `framer-motion` are hoisted to the monorepo root
+        // `node_modules`, while `react` is nested in `plugin/node_modules`.
+        // Externalized deps are loaded by Node, which resolves `react` from
+        // the root and fails. Inlining them lets Vite resolve `react` through
+        // the `dedupe` config above.
+        inline: ["motion", "framer-motion", "motion-dom", "motion-utils"],
+      },
+    },
   },
 });

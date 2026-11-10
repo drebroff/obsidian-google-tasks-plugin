@@ -79,7 +79,7 @@ export const CreateTaskModal: React.FC<CreateTaskProps> = ({
   };
 
   return (
-    <div className="todoist-create-task-modal">
+    <div className="google-tasks-create-task-modal">
       <h2>New Google Task</h2>
       <form
         onSubmit={handleSubmit}

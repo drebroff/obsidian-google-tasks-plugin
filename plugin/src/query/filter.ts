@@ -7,9 +7,7 @@ export function filterAndSortTasks(tasks: Task[], query: TaskQuery): Task[] {
     if (query.list && query.list !== "all") {
       const allowedLists = Array.isArray(query.list) ? query.list : [query.list];
       const match = allowedLists.some(
-        (l) =>
-          l.toLowerCase() === task.taskList.title.toLowerCase() ||
-          l === task.taskList.id,
+        (l) => l.toLowerCase() === task.taskList.title.toLowerCase() || l === task.taskList.id,
       );
       if (!match) {
         return false;
@@ -29,9 +27,7 @@ export function filterAndSortTasks(tasks: Task[], query: TaskQuery): Task[] {
         if (task.due !== undefined) {
           return false;
         }
-      } else if (!task.due) {
-        return false;
-      } else {
+      } else if (task.due) {
         const { isOverdue, flag } = task.due.start;
         switch (dueFilter) {
           case "today":
@@ -47,6 +43,8 @@ export function filterAndSortTasks(tasks: Task[], query: TaskQuery): Task[] {
             if (isOverdue || flag === "today") return false;
             break;
         }
+      } else {
+        return false;
       }
     }
 
@@ -79,10 +77,10 @@ export function filterAndSortTasks(tasks: Task[], query: TaskQuery): Task[] {
         cmp = a.position.localeCompare(b.position);
       } else if (!a.due) {
         cmp = 1;
-      } else if (!b.due) {
-        cmp = -1;
-      } else {
+      } else if (b.due) {
         cmp = a.due.start.raw.getTime() - b.due.start.raw.getTime();
+      } else {
+        cmp = -1;
       }
     }
     return isAsc ? cmp : -cmp;
@@ -94,4 +92,3 @@ export function filterAndSortTasks(tasks: Task[], query: TaskQuery): Task[] {
 
   return filtered;
 }
-

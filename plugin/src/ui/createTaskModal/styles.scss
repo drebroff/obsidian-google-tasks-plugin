@@ -409,18 +409,18 @@ button.project-selector {
   }
 }
 
-.todoist-project-icon {
-  @each $name, $color in colors.$todoist-colors {
+.google-tasks-project-icon {
+  @each $name, $color in colors.$google-tasks-colors {
     &[data-project-color="#{$name}"] {
-      --todoist-project-color: var(--todoist-#{$name});
+      --google-tasks-project-color: var(--google-tasks-#{$name});
     }
 
     &[data-label-color="#{$name}"] {
-      --todoist-label-color: var(--todoist-#{$name});
+      --google-tasks-label-color: var(--google-tasks-#{$name});
     }
   }
 
-  color: var(--todoist-project-color);
+  color: var(--google-tasks-project-color);
 }
 
 .task-time-menu {

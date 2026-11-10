@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 
-import { GoogleTasksApiClient } from "@/api/index";
 import type { RequestParams, WebFetcher, WebResponse } from "@/api/fetcher";
+import { GoogleTasksApiClient } from "@/api/index";
 
 function parseUrl(url: string) {
   const parsed = new URL(url);
@@ -18,18 +18,14 @@ function makeGoogleTask(overrides: Record<string, unknown> = {}): Record<string,
   };
 }
 
-function makeTaskListResponse(
-  items: Record<string, unknown>[],
-): WebResponse {
+function makeTaskListResponse(items: Record<string, unknown>[]): WebResponse {
   return {
     statusCode: 200,
     body: JSON.stringify({ kind: "tasks#taskLists", items }),
   };
 }
 
-function makeTasksResponse(
-  items: Record<string, unknown>[],
-): WebResponse {
+function makeTasksResponse(items: Record<string, unknown>[]): WebResponse {
   return {
     statusCode: 200,
     body: JSON.stringify({ kind: "tasks#tasks", items }),

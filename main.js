@@ -17,12 +17,12 @@ const en = {
       },
       apiToken: {
         label: "API token",
-        description: "The Todoist API token to use when fetching tasks",
+        description: "The Google Tasks API token to use when fetching tasks",
         buttonLabel: "Setup"
       },
       tokenStorage: {
         label: "Token storage",
-        description: "Where the plugin should store your Todoist API token",
+        description: "Where the plugin should store your Google Tasks API token",
         options: {
           secrets: "Obsidian secrets",
           file: "File-based"
@@ -63,7 +63,7 @@ const en = {
       header: "Task creation",
       wrapLinksInParens: {
         label: "Add parenthesis to page links",
-        description: "When enabled, wraps Obsidian page links in Todoist tasks created from the command"
+        description: "When enabled, wraps Obsidian page links in Google Tasks tasks created from the command"
       },
       addTaskButtonAddsPageLink: {
         label: "Add task button adds page link",
@@ -124,7 +124,7 @@ const en = {
     }
   },
   createTaskModal: {
-    loadingMessage: "Loading Todoist data...",
+    loadingMessage: "Loading Google Tasks data...",
     successNotice: "Task created successfully",
     errorNotice: "Failed to create task",
     taskNamePlaceholder: "Task name",
@@ -199,10 +199,10 @@ const en = {
   },
   onboardingModal: {
     failureNoticeMessage: "Failed to save API token",
-    explainer: "In order to use this plugin, you must provide your Todoist API token. This allows us to read and write data to or from your Todoist account.",
-    todoistGuideHint: {
+    explainer: "In order to use this plugin, you must provide your Google Tasks API token. This allows us to read and write data to or from your Google Tasks account.",
+    googleTasksGuideHint: {
       before: "You can follow ",
-      linkText: "Todoist's guide",
+      linkText: "Google Tasks' guide",
       after: " on finding your API token."
     },
     tokenInputLabel: "API Token",
@@ -216,9 +216,9 @@ const en = {
       },
       error: {
         header: "Error",
-        badRequest: "The Todoist API has rejected the request. Please check the filter to ensure it is valid.",
-        unauthorized: "The Todoist API request is missing or has the incorrect credentials. Please check the API token in the settings.",
-        serverError: "The Todoist API has returned an error. Please check Todoist's status page: https://status.todoist.net/ and try again later.",
+        badRequest: "The Google Tasks API has rejected the request. Please check the filter to ensure it is valid.",
+        unauthorized: "The Google Tasks API request is missing or has the incorrect credentials. Please check the API token in the settings.",
+        serverError: "The Google Tasks API has returned an error. Please check Google Tasks' status page: https://status.google.com/tasks/ and try again later.",
         unknown: "Unknown error occurred. Please check the Console in the Developer Tools window for more information"
       },
       parsingError: {
@@ -228,8 +228,8 @@ const en = {
     },
     contextMenu: {
       completeTaskLabel: "Complete task",
-      openTaskInAppLabel: "Open task in Todoist (app)",
-      openTaskInBrowserLabel: "Open task in Todoist (web)"
+      openTaskInAppLabel: "Open task in Google Tasks (app)",
+      openTaskInBrowserLabel: "Open task in Google Tasks (web)"
     },
     failedCloseMessage: "Failed to close task",
     header: {
@@ -252,14 +252,14 @@ const en = {
     }
   },
   commands: {
-    sync: "Sync with Todoist",
+    sync: "Sync with Google Tasks",
     addTask: "Add task",
     addTaskPageContent: "Add task with current page in task content",
     addTaskPageDescription: "Add task with current page in task description"
   },
   tokenValidation: {
     emptyTokenError: "API token must not be empty",
-    invalidTokenError: "Oops! Todoist does not recognize this token. Please double check and try again!"
+    invalidTokenError: "Oops! Google Tasks does not recognize this token. Please double check and try again!"
   },
   dates: {
     today: "Today",
@@ -298,7 +298,7 @@ const nl = {
       },
       apiToken: {
         label: "API-token",
-        description: "De Todoist API-token die wordt gebruikt bij het ophalen van taken",
+        description: "De Google Tasks API-token die wordt gebruikt bij het ophalen van taken",
         buttonLabel: "Instellen"
       }
     },
@@ -336,7 +336,7 @@ const nl = {
       header: "Aanmaken van een taak",
       wrapLinksInParens: {
         label: "Haakjes toevoegen aan paginalinks",
-        description: "Wanneer ingeschakeld, worden Obsidian-paginalinks in Todoist-taken tussen haakjes geplaatst"
+        description: "Wanneer ingeschakeld, worden Obsidian-paginalinks in Google Tasks-taken tussen haakjes geplaatst"
       },
       addTaskButtonAddsPageLink: {
         label: "Taak toevoegen-knop voegt paginalink toe",
@@ -360,7 +360,7 @@ const nl = {
     }
   },
   createTaskModal: {
-    loadingMessage: "Todoist-gegevens laden...",
+    loadingMessage: "Google Tasks-gegevens laden...",
     successNotice: "Taak succesvol aangemaakt",
     errorNotice: "Kan taak niet aanmaken",
     taskNamePlaceholder: "Taaknaam",
@@ -410,10 +410,10 @@ const nl = {
   },
   onboardingModal: {
     failureNoticeMessage: "Opslaan van API-token mislukt",
-    explainer: "Om deze plug-in te gebruiken, moet u uw Todoist API-token opgeven. Hiermee kunnen we gegevens lezen en schrijven naar of vanuit uw Todoist-account.",
-    todoistGuideHint: {
+    explainer: "Om deze plug-in te gebruiken, moet u uw Google Tasks API-token opgeven. Hiermee kunnen we gegevens lezen en schrijven naar of vanuit uw Google Tasks-account.",
+    googleTasksGuideHint: {
       before: "U kunt ",
-      linkText: "Todoist's gids",
+      linkText: "Google Tasks' gids",
       after: " volgen om uw API-token te vinden."
     },
     tokenInputLabel: "API-token",
@@ -426,8 +426,8 @@ const nl = {
       },
       error: {
         header: "Fout",
-        badRequest: "De Todoist API heeft het verzoek afgewezen. Controleer het filter om te zien of het geldig is.",
-        unauthorized: "Het Todoist API-verzoek mist of heeft onjuiste inloggegevens. Controleer de API-token in de instellingen.",
+        badRequest: "De Google Tasks API heeft het verzoek afgewezen. Controleer het filter om te zien of het geldig is.",
+        unauthorized: "Het Google Tasks API-verzoek mist of heeft onjuiste inloggegevens. Controleer de API-token in de instellingen.",
         unknown: "Er is een onbekende fout opgetreden. Controleer de Console in het venster Ontwikkelaarstools voor meer informatie"
       },
       parsingError: {
@@ -437,8 +437,8 @@ const nl = {
     },
     contextMenu: {
       completeTaskLabel: "Taak voltooien",
-      openTaskInAppLabel: "Open taak in Todoist (app)",
-      openTaskInBrowserLabel: "Open taak in Todoist (web)"
+      openTaskInAppLabel: "Open taak in Google Tasks (app)",
+      openTaskInBrowserLabel: "Open taak in Google Tasks (web)"
     },
     failedCloseMessage: "Kan taak niet sluiten",
     header: {
@@ -459,14 +459,14 @@ const nl = {
     }
   },
   commands: {
-    sync: "Synchroniseer met Todoist",
+    sync: "Synchroniseer met Google Tasks",
     addTask: "Taak toevoegen",
     addTaskPageContent: "Taak toevoegen met huidige pagina in taakinhoud",
     addTaskPageDescription: "Taak toevoegen met huidige pagina in taakbeschrijving"
   },
   tokenValidation: {
     emptyTokenError: "API-token mag niet leeg zijn",
-    invalidTokenError: "Oeps! Todoist herkent deze token niet. Controleer nogmaals en probeer opnieuw!"
+    invalidTokenError: "Oeps! Google Tasks herkent deze token niet. Controleer nogmaals en probeer opnieuw!"
   },
   dates: {
     today: "Vandaag",
@@ -3935,15 +3935,15 @@ function walk(obj, shallow = false) {
 function camelize(obj, shallow) {
   return typeof obj === "string" ? camelCase(obj) : walk(obj, shallow);
 }
-class TodoistValidationError extends Error {
+class GoogleTasksValidationError extends Error {
   constructor(zodError, data) {
     const formatted = formatZodError$1(zodError);
     const errorDetails = formatted.join("\n");
-    super(`Todoist API validation failed:
+    super(`Google Tasks API validation failed:
 ${errorDetails}`);
     this.zodError = zodError;
     this.data = data;
-    this.name = "TodoistValidationError";
+    this.name = "GoogleTasksValidationError";
   }
 }
 function formatZodError$1(error) {
@@ -3957,7 +3957,7 @@ function parseApiResponse(schema2, jsonBody) {
   const camelized = camelize(parsed);
   const result = schema2.safeParse(camelized);
   if (!result.success) {
-    throw new TodoistValidationError(result.error, camelized);
+    throw new GoogleTasksValidationError(result.error, camelized);
   }
   return result.data;
 }
@@ -24745,7 +24745,7 @@ function requireClassnames() {
 }
 var classnamesExports = requireClassnames();
 const classNames = /* @__PURE__ */ getDefaultExportFromCjs(classnamesExports);
-const $4e85f108e88277b8$export$b085522c77523c51 = reactExports.createContext(null);
+reactExports.createContext(null);
 reactExports.createContext(null);
 reactExports.createContext(null);
 reactExports.createContext(null);
@@ -26737,47 +26737,6 @@ function $f7dceffc5ad7768b$export$4e328f61c538687f(props = {}) {
     focusProps: within ? focusWithinProps : focusProps
   };
 }
-const $5c3e21d68f1c4674$var$styles = {
-  border: 0,
-  clip: "rect(0 0 0 0)",
-  clipPath: "inset(50%)",
-  height: "1px",
-  margin: "-1px",
-  overflow: "hidden",
-  padding: 0,
-  position: "absolute",
-  width: "1px",
-  whiteSpace: "nowrap"
-};
-function $5c3e21d68f1c4674$export$a966af930f325cab(props = {}) {
-  let { style, isFocusable } = props;
-  let [isFocused, setFocused] = reactExports.useState(false);
-  let { focusWithinProps } = $9ab94262bd0047c7$export$420e68273165f4ec({
-    isDisabled: !isFocusable,
-    onFocusWithinChange: (val) => setFocused(val)
-  });
-  let combinedStyles = reactExports.useMemo(() => {
-    if (isFocused) return style;
-    else if (style) return {
-      ...$5c3e21d68f1c4674$var$styles,
-      ...style
-    };
-    else return $5c3e21d68f1c4674$var$styles;
-  }, [
-    isFocused
-  ]);
-  return {
-    visuallyHiddenProps: {
-      ...focusWithinProps,
-      style: combinedStyles
-    }
-  };
-}
-function $5c3e21d68f1c4674$export$439d29a4e110a164(props) {
-  let { children, elementType: Element2 = "div", isFocusable, style, ...otherProps } = props;
-  let { visuallyHiddenProps } = $5c3e21d68f1c4674$export$a966af930f325cab(props);
-  return /* @__PURE__ */ React.createElement(Element2, $3ef42575df84b30b$export$9d1611c77c2fe928(otherProps, visuallyHiddenProps), children);
-}
 function $d191a55c9702f145$export$8467354a121f1b9f(props) {
   let { id: id2, label, "aria-labelledby": ariaLabelledby, "aria-label": ariaLabel, labelElementType = "label" } = props;
   id2 = $bdb11010cef70236$export$f680877a34711e37(id2);
@@ -27219,190 +27178,6 @@ function $701a24aa0da5b062$export$ea18c227d4417cc3(props, ref) {
     })
   };
 }
-function $d2c8e2b0480f3f34$export$cbe85ee05b554577(props, state, ref) {
-  let { isDisabled = false, isReadOnly = false, value, name, form, children, "aria-label": ariaLabel, "aria-labelledby": ariaLabelledby, validationState = "valid", isInvalid, onPressStart, onPressEnd, onPressChange, onPress, onPressUp, onClick } = props;
-  let onChange = (e) => {
-    e.stopPropagation();
-    state.setSelected(e.target.checked);
-  };
-  let { pressProps, isPressed } = $f6c31cce2adf654f$export$45712eceda6fad21({
-    onPressStart,
-    onPressEnd,
-    onPressChange,
-    onPress,
-    onPressUp,
-    onClick,
-    isDisabled
-  });
-  let { pressProps: labelProps, isPressed: isLabelPressed } = $f6c31cce2adf654f$export$45712eceda6fad21({
-    onPressStart,
-    onPressEnd,
-    onPressChange,
-    onPressUp,
-    onClick,
-    onPress(e) {
-      var _ref_current;
-      onPress === null || onPress === void 0 ? void 0 : onPress(e);
-      state.toggle();
-      (_ref_current = ref.current) === null || _ref_current === void 0 ? void 0 : _ref_current.focus();
-    },
-    isDisabled: isDisabled || isReadOnly
-  });
-  let { focusableProps } = $f645667febf57a63$export$4c014de7c8940b4c(props, ref);
-  let interactions = $3ef42575df84b30b$export$9d1611c77c2fe928(pressProps, focusableProps);
-  let domProps = $65484d02dcb7eb3e$export$457c3d6518dd4c6f(props, {
-    labelable: true
-  });
-  $99facab73266f662$export$5add1d006293d136(ref, state.defaultSelected, state.setSelected);
-  return {
-    labelProps: $3ef42575df84b30b$export$9d1611c77c2fe928(labelProps, {
-      onClick: (e) => e.preventDefault()
-    }),
-    inputProps: $3ef42575df84b30b$export$9d1611c77c2fe928(domProps, {
-      "aria-invalid": isInvalid || validationState === "invalid" || void 0,
-      "aria-errormessage": props["aria-errormessage"],
-      "aria-controls": props["aria-controls"],
-      "aria-readonly": isReadOnly || void 0,
-      onChange,
-      disabled: isDisabled,
-      ...value == null ? {} : {
-        value
-      },
-      name,
-      form,
-      type: "checkbox",
-      ...interactions
-    }),
-    isSelected: state.isSelected,
-    isPressed: isPressed || isLabelPressed,
-    isDisabled,
-    isReadOnly,
-    isInvalid: isInvalid || validationState === "invalid"
-  };
-}
-function $406796ff087fe49b$export$e375f10ce42261c5(props, state, inputRef) {
-  let validationState = $e5be200c675c3b3a$export$fc1a364ae1f3ff10({
-    ...props,
-    value: state.isSelected
-  });
-  let { isInvalid, validationErrors, validationDetails } = validationState.displayValidation;
-  let { labelProps, inputProps, isSelected, isPressed, isDisabled, isReadOnly } = $d2c8e2b0480f3f34$export$cbe85ee05b554577({
-    ...props,
-    isInvalid
-  }, state, inputRef);
-  $e93e671b31057976$export$b8473d3665f3a75a(props, validationState, inputRef);
-  let { isIndeterminate, isRequired, validationBehavior = "aria" } = props;
-  reactExports.useEffect(() => {
-    if (inputRef.current) inputRef.current.indeterminate = !!isIndeterminate;
-  });
-  let { pressProps } = $f6c31cce2adf654f$export$45712eceda6fad21({
-    isDisabled: isDisabled || isReadOnly,
-    onPress() {
-      let { [$e5be200c675c3b3a$export$a763b9476acd3eb]: groupValidationState } = props;
-      let { commitValidation } = groupValidationState ? groupValidationState : validationState;
-      commitValidation();
-    }
-  });
-  return {
-    labelProps: $3ef42575df84b30b$export$9d1611c77c2fe928(labelProps, pressProps, reactExports.useMemo(() => ({
-      // Prevent label from being focused when mouse down on it.
-      // Note, this does not prevent the input from being focused in the `click` event.
-      onMouseDown: (e) => e.preventDefault()
-    }), [])),
-    inputProps: {
-      ...inputProps,
-      checked: isSelected,
-      "aria-required": isRequired && validationBehavior === "aria" || void 0,
-      required: isRequired && validationBehavior === "native"
-    },
-    isSelected,
-    isPressed,
-    isDisabled,
-    isReadOnly,
-    isInvalid,
-    validationErrors,
-    validationDetails
-  };
-}
-const $1ae600c947479353$export$ec98120685d4f57d = /* @__PURE__ */ new WeakMap();
-function $3017fa7ffdddec74$export$8042c6c013fd5226(props = {}) {
-  let { isReadOnly } = props;
-  let [isSelected, setSelected] = $458b0a5536c1a7cf$export$40bfa8c7b0832715(props.isSelected, props.defaultSelected || false, props.onChange);
-  let [initialValue] = reactExports.useState(isSelected);
-  function updateSelected(value) {
-    if (!isReadOnly) setSelected(value);
-  }
-  function toggleState() {
-    if (!isReadOnly) setSelected(!isSelected);
-  }
-  var _props_defaultSelected;
-  return {
-    isSelected,
-    defaultSelected: (_props_defaultSelected = props.defaultSelected) !== null && _props_defaultSelected !== void 0 ? _props_defaultSelected : initialValue,
-    setSelected: updateSelected,
-    toggle: toggleState
-  };
-}
-function $fba3e38d5ca8983f$export$353b32fc6898d37d(props, state, inputRef) {
-  const toggleState = $3017fa7ffdddec74$export$8042c6c013fd5226({
-    isReadOnly: props.isReadOnly || state.isReadOnly,
-    isSelected: state.isSelected(props.value),
-    defaultSelected: state.defaultValue.includes(props.value),
-    onChange(isSelected) {
-      if (isSelected) state.addValue(props.value);
-      else state.removeValue(props.value);
-      if (props.onChange) props.onChange(isSelected);
-    }
-  });
-  let { name, form, descriptionId, errorMessageId, validationBehavior } = $1ae600c947479353$export$ec98120685d4f57d.get(state);
-  var _props_validationBehavior;
-  validationBehavior = (_props_validationBehavior = props.validationBehavior) !== null && _props_validationBehavior !== void 0 ? _props_validationBehavior : validationBehavior;
-  let { realtimeValidation } = $e5be200c675c3b3a$export$fc1a364ae1f3ff10({
-    ...props,
-    value: toggleState.isSelected,
-    // Server validation is handled at the group level.
-    name: void 0,
-    validationBehavior: "aria"
-  });
-  let nativeValidation = reactExports.useRef($e5be200c675c3b3a$export$dad6ae84456c676a);
-  let updateValidation = () => {
-    state.setInvalid(props.value, realtimeValidation.isInvalid ? realtimeValidation : nativeValidation.current);
-  };
-  reactExports.useEffect(updateValidation);
-  let combinedRealtimeValidation = state.realtimeValidation.isInvalid ? state.realtimeValidation : realtimeValidation;
-  let displayValidation = validationBehavior === "native" ? state.displayValidation : combinedRealtimeValidation;
-  var _props_isRequired;
-  let res = $406796ff087fe49b$export$e375f10ce42261c5({
-    ...props,
-    isReadOnly: props.isReadOnly || state.isReadOnly,
-    isDisabled: props.isDisabled || state.isDisabled,
-    name: props.name || name,
-    form: props.form || form,
-    isRequired: (_props_isRequired = props.isRequired) !== null && _props_isRequired !== void 0 ? _props_isRequired : state.isRequired,
-    validationBehavior,
-    [$e5be200c675c3b3a$export$a763b9476acd3eb]: {
-      realtimeValidation: combinedRealtimeValidation,
-      displayValidation,
-      resetValidation: state.resetValidation,
-      commitValidation: state.commitValidation,
-      updateValidation(v) {
-        nativeValidation.current = v;
-        updateValidation();
-      }
-    }
-  }, toggleState, inputRef);
-  return {
-    ...res,
-    inputProps: {
-      ...res.inputProps,
-      "aria-describedby": [
-        props["aria-describedby"],
-        state.isInvalid ? errorMessageId : null,
-        descriptionId
-      ].filter(Boolean).join(" ") || void 0
-    }
-  };
-}
 const $01b77f81d0f07f68$export$75b6ee27786ba447 = /* @__PURE__ */ reactExports.createContext({});
 const $0393f8ab869a0f1a$export$e9f3bf65a26ce129 = /* @__PURE__ */ reactExports.createContext(null);
 const $d2b4bc8c273e7be6$export$24d547caef80ccd1 = /* @__PURE__ */ reactExports.createContext({});
@@ -27488,79 +27263,6 @@ function $d2b4bc8c273e7be6$var$useDisableInteractions(props, isPending) {
 const $514c0188e459b4c0$export$9afb8bc826b033ea = /* @__PURE__ */ reactExports.createContext({});
 const $ee014567cb39d3f0$export$ff05c3ac10437e03 = /* @__PURE__ */ reactExports.createContext(null);
 const $d3e0e05bdfcf66bd$export$c24727297075ec6a = /* @__PURE__ */ reactExports.createContext(null);
-const $bc237834342dbd75$export$139c5b8563afc1fc = /* @__PURE__ */ reactExports.createContext(null);
-const $bc237834342dbd75$export$48513f6b9f8ce62d = /* @__PURE__ */ reactExports.forwardRef(function Checkbox(props, ref) {
-  let { inputRef: userProvidedInputRef = null, ...otherProps } = props;
-  [props, ref] = $64fa3d84918910a7$export$29f1550f4b0d4415(otherProps, ref, $4e85f108e88277b8$export$b085522c77523c51);
-  let { validationBehavior: formValidationBehavior } = $64fa3d84918910a7$export$fabf2dc03a41866e($d3e0e05bdfcf66bd$export$c24727297075ec6a) || {};
-  var _props_validationBehavior, _ref;
-  let validationBehavior = (_ref = (_props_validationBehavior = props.validationBehavior) !== null && _props_validationBehavior !== void 0 ? _props_validationBehavior : formValidationBehavior) !== null && _ref !== void 0 ? _ref : "native";
-  let groupState = reactExports.useContext($bc237834342dbd75$export$139c5b8563afc1fc);
-  let inputRef = $df56164dff5785e2$export$4338b53315abf666(reactExports.useMemo(() => $5dc95899b306f630$export$c9058316764c140e(userProvidedInputRef, props.inputRef !== void 0 ? props.inputRef : null), [
-    userProvidedInputRef,
-    props.inputRef
-  ]));
-  let { labelProps, inputProps, isSelected, isDisabled, isReadOnly, isPressed, isInvalid } = groupState ? $fba3e38d5ca8983f$export$353b32fc6898d37d({
-    ...$64fa3d84918910a7$export$ef03459518577ad4(props),
-    // Value is optional for standalone checkboxes, but required for CheckboxGroup items;
-    // it's passed explicitly here to avoid typescript error (requires ignore).
-    // @ts-ignore
-    value: props.value,
-    // ReactNode type doesn't allow function children.
-    children: typeof props.children === "function" ? true : props.children
-  }, groupState, inputRef) : $406796ff087fe49b$export$e375f10ce42261c5({
-    ...$64fa3d84918910a7$export$ef03459518577ad4(props),
-    children: typeof props.children === "function" ? true : props.children,
-    validationBehavior
-  }, $3017fa7ffdddec74$export$8042c6c013fd5226(props), inputRef);
-  let { isFocused, isFocusVisible, focusProps } = $f7dceffc5ad7768b$export$4e328f61c538687f();
-  let isInteractionDisabled = isDisabled || isReadOnly;
-  let { hoverProps, isHovered } = $6179b936705e76d3$export$ae780daf29e6d456({
-    ...props,
-    isDisabled: isInteractionDisabled
-  });
-  let renderProps = $64fa3d84918910a7$export$4d86445c2cf5e3({
-    ...props,
-    defaultClassName: "react-aria-Checkbox",
-    values: {
-      isSelected,
-      isIndeterminate: props.isIndeterminate || false,
-      isPressed,
-      isHovered,
-      isFocused,
-      isFocusVisible,
-      isDisabled,
-      isReadOnly,
-      isInvalid,
-      isRequired: props.isRequired || false
-    }
-  });
-  let DOMProps = $65484d02dcb7eb3e$export$457c3d6518dd4c6f(props, {
-    global: true
-  });
-  delete DOMProps.id;
-  delete DOMProps.onClick;
-  return /* @__PURE__ */ React.createElement("label", {
-    ...$3ef42575df84b30b$export$9d1611c77c2fe928(DOMProps, labelProps, hoverProps, renderProps),
-    ref,
-    slot: props.slot || void 0,
-    "data-selected": isSelected || void 0,
-    "data-indeterminate": props.isIndeterminate || void 0,
-    "data-pressed": isPressed || void 0,
-    "data-hovered": isHovered || void 0,
-    "data-focused": isFocused || void 0,
-    "data-focus-visible": isFocusVisible || void 0,
-    "data-disabled": isDisabled || void 0,
-    "data-readonly": isReadOnly || void 0,
-    "data-invalid": isInvalid || void 0,
-    "data-required": props.isRequired || void 0
-  }, /* @__PURE__ */ React.createElement($5c3e21d68f1c4674$export$439d29a4e110a164, {
-    elementType: "span"
-  }, /* @__PURE__ */ React.createElement("input", {
-    ...$3ef42575df84b30b$export$9d1611c77c2fe928(inputProps, focusProps),
-    ref: inputRef
-  })), renderProps.children);
-});
 const $a049562f99e7db0e$export$f9c6924e160136d1 = /* @__PURE__ */ reactExports.createContext({});
 const $3985021b0ad6602f$export$37fb8590cf2c088c = /* @__PURE__ */ reactExports.createContext({});
 let $3985021b0ad6602f$var$filterHoverProps = (props) => {
@@ -27726,9 +27428,9 @@ const QueryHeader = ({
   }
   useSettingsStore();
   const i18n = t().query.header;
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "todoist-query-header", children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "todoist-query-title", children: title }),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "todoist-query-controls", children: [
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "google-tasks-query-header", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "google-tasks-query-title", children: title }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "google-tasks-query-controls", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(
         HeaderButton,
         {
@@ -27771,15 +27473,7 @@ const HeaderButton = ({ iconId, action, className, tooltip }) => {
       await result;
     }
   };
-  return /* @__PURE__ */ jsxRuntimeExports.jsx(
-    $d2b4bc8c273e7be6$export$353f5b6fc5456de1,
-    {
-      className: classNames("todoist-query-control-button", className),
-      onPress: handler,
-      ref: buttonRef,
-      children: /* @__PURE__ */ jsxRuntimeExports.jsx(ObsidianIcon, { id: iconId, size: "s" })
-    }
-  );
+  return /* @__PURE__ */ jsxRuntimeExports.jsx($d2b4bc8c273e7be6$export$353f5b6fc5456de1, { onPress: handler, ref: buttonRef, children: /* @__PURE__ */ jsxRuntimeExports.jsx(ObsidianIcon, { id: iconId, size: "s" }) });
 };
 const renderContents = (content) => {
   if (typeof content === "string") {
@@ -27791,7 +27485,7 @@ const renderContents = (content) => {
   ] }, content.msg);
 };
 const Callout = ({ title, contents, iconId, className }) => {
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: classNames("todoist-callout", className), children: [
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `google-tasks-callout ${className}`, children: [
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "callout-header", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(ObsidianIcon, { id: iconId, size: "l" }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: title })
@@ -27801,8 +27495,7 @@ const Callout = ({ title, contents, iconId, className }) => {
 };
 const EmptyDisplay = ({ message }) => {
   const i18n = t().query.displays.empty;
-  const displayMessage = message ?? i18n.label;
-  return /* @__PURE__ */ jsxRuntimeExports.jsx(Callout, { className: "todoist-no-tasks", title: displayMessage, iconId: "info" });
+  message ?? i18n.label;
 };
 var QueryErrorKind = /* @__PURE__ */ ((QueryErrorKind2) => {
   QueryErrorKind2[QueryErrorKind2["BadRequest"] = 0] = "BadRequest";
@@ -28087,9 +27780,7 @@ function filterAndSortTasks(tasks, query) {
         if (task.due !== void 0) {
           return false;
         }
-      } else if (!task.due) {
-        return false;
-      } else {
+      } else if (task.due) {
         const { isOverdue, flag } = task.due.start;
         switch (dueFilter) {
           case "today":
@@ -28105,6 +27796,8 @@ function filterAndSortTasks(tasks, query) {
             if (isOverdue || flag === "today") return false;
             break;
         }
+      } else {
+        return false;
       }
     }
     if (query.filter?.search) {
@@ -28130,10 +27823,10 @@ function filterAndSortTasks(tasks, query) {
         cmp = a.position.localeCompare(b.position);
       } else if (!a.due) {
         cmp = 1;
-      } else if (!b.due) {
-        cmp = -1;
-      } else {
+      } else if (b.due) {
         cmp = a.due.start.raw.getTime() - b.due.start.raw.getTime();
+      } else {
+        cmp = -1;
       }
     }
     return isAsc ? cmp : -cmp;
@@ -28322,15 +28015,7 @@ const getErrorMessage = (kind, i18n) => {
 const ErrorDisplay = ({ kind }) => {
   const i18n = t().query.displays.error;
   const errorMessage = getErrorMessage(kind, i18n);
-  return /* @__PURE__ */ jsxRuntimeExports.jsx(
-    Callout,
-    {
-      className: "todoist-query-error",
-      title: i18n.header,
-      iconId: "lucide-alert-triangle",
-      contents: [errorMessage]
-    }
-  );
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(Callout, { title: i18n.header, iconId: "lucide-alert-triangle", contents: [errorMessage] });
 };
 function groupBy(tasks, key) {
   switch (key) {
@@ -28436,7 +28121,9 @@ const dueDateMeta = {
   name: "due",
   isShown: (show, task) => (!show || show.includes("due")) && task.due !== void 0,
   content: (task) => {
-    if (!task.due) return [];
+    if (!task.due) {
+      return [];
+    }
     return [{ content: DueDate.format(task.due) }];
   },
   icons: {
@@ -28455,16 +28142,16 @@ const TaskMetadata = ({ task, query, settings }) => {
   if (leftElements.length === 0 && rightElements.length === 0) {
     return null;
   }
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "todoist-task-metadata", children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "todoist-task-metadata-group", children: leftElements }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "todoist-task-metadata-group", children: rightElements })
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "google-tasks-task-metadata", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "google-tasks-task-metadata-group", children: leftElements }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "google-tasks-task-metadata-group", children: rightElements })
   ] });
 };
 function renderMetadata(def, task, settings) {
   const contents = def.content(task);
   const beforeIcon = def.icons.before?.shouldRender(settings, task) ? /* @__PURE__ */ jsxRuntimeExports.jsx(ObsidianIcon, { id: def.icons.before.id, size: def.icons.before.size ?? "s" }) : null;
   const afterIcon = def.icons.after?.shouldRender(settings, task) ? /* @__PURE__ */ jsxRuntimeExports.jsx(ObsidianIcon, { id: def.icons.after.id, size: def.icons.after.size ?? "s" }) : null;
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: `todoist-task-metadata-item`, "data-meta": def.name, children: [
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: `google-tasks-task-metadata-item`, "data-meta": def.name, children: [
     beforeIcon,
     contents.map((c, i) => (
       // biome-ignore lint/suspicious/noArrayIndexKey: simple metadata
@@ -28492,7 +28179,7 @@ const Task = ({ tree }) => {
     /* @__PURE__ */ jsxRuntimeExports.jsxs(
       MotionDiv,
       {
-        className: "todoist-task-container",
+        className: "google-tasks-task-container",
         initial: {
           opacity: transitionOpacity
         },
@@ -28506,20 +28193,24 @@ const Task = ({ tree }) => {
           duration: 0.4
         },
         children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            $bc237834342dbd75$export$48513f6b9f8ce62d,
-            {
-              className: "todoist-task-checkbox",
-              isSelected: tree.status === "completed",
-              onChange: onClickTask,
-              children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", {})
-            }
-          ),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "todoist-task", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "google-tasks-task-checkbox", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "input",
+              {
+                type: "radio",
+                name: `task-${tree.id}`,
+                checked: tree.status === "completed",
+                onChange: onClickTask,
+                className: "google-tasks-task-radio-input"
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "google-tasks-task-radio-indicator" })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "google-tasks-task", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx(
               Markdown,
               {
-                className: "todoist-task-content",
+                className: "google-tasks-task-content",
                 content: sanitizeContent(tree.content)
               },
               tree.content
@@ -28537,10 +28228,10 @@ const sanitizeContent = (content) => {
   return content.replace(/^[*_~]{1,2}|[*_~]{1,2}$/g, "").trim();
 };
 const DescriptionRenderer = ({ content }) => {
-  return /* @__PURE__ */ jsxRuntimeExports.jsx(Markdown, { className: "todoist-task-description", content });
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(Markdown, { className: "google-tasks-task-description", content });
 };
 const TaskList = ({ trees }) => {
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "todoist-tasks-list", children: /* @__PURE__ */ jsxRuntimeExports.jsx(AnimatePresence, { children: trees.map((tree) => /* @__PURE__ */ jsxRuntimeExports.jsx(Task, { tree }, tree.id)) }) });
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "google-tasks-tasks-list", children: /* @__PURE__ */ jsxRuntimeExports.jsx(AnimatePresence, { children: trees.map((tree) => /* @__PURE__ */ jsxRuntimeExports.jsx(Task, { tree }, tree.id)) }) });
 };
 const ListDisplay = ({ tasks }) => {
   QueryContext.use();
@@ -28570,11 +28261,11 @@ const GroupedDisplay = ({ tasks }) => {
   };
   return /* @__PURE__ */ jsxRuntimeExports.jsx(jsxRuntimeExports.Fragment, { children: groups.map((group) => {
     const isCollapsed = group.header in collapsedGroups;
-    return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "todoist-group", children: [
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "google-tasks-group", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs(
         "div",
         {
-          className: `todoist-group-title ${isCollapsed ? "collapsed" : ""}`,
+          className: `google-tasks-group-title ${isCollapsed ? "collapsed" : ""}`,
           onClick: () => toggleGroup(group.header),
           onKeyDown: (e) => {
             if (e.key === "Enter" || e.key === " ") {
@@ -28591,7 +28282,7 @@ const GroupedDisplay = ({ tasks }) => {
               {
                 size: "s",
                 id: isCollapsed ? "chevron-right" : "chevron-down",
-                className: "todoist-group-collapse-icon"
+                className: "google-tasks-group-collapse-icon"
               }
             )
           ]
@@ -28635,15 +28326,7 @@ const QueryWarnings = ({ warnings }) => {
     return null;
   }
   const i18n = t().query.warning;
-  return /* @__PURE__ */ jsxRuntimeExports.jsx(
-    Callout,
-    {
-      className: "todoist-query-warnings",
-      title: i18n.header,
-      iconId: "lucide-alert-triangle",
-      contents: warnings
-    }
-  );
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(Callout, { title: i18n.header, iconId: "lucide-alert-triangle", contents: warnings });
 };
 const useSubscription = (plugin, query, callback) => {
   const [refresher, setRefresher] = reactExports.useState(void 0);
@@ -28829,7 +28512,7 @@ ${link}` : link;
       setIsSubmitting(false);
     }
   };
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "todoist-create-task-modal", children: [
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "google-tasks-create-task-modal", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { children: "New Google Task" }),
     /* @__PURE__ */ jsxRuntimeExports.jsxs(
       "form",
@@ -29218,7 +28901,7 @@ const makeServices = (plugin) => {
     tasks: new GoogleTasksAdapter()
   };
 };
-const BuildStamp = "v2.6.0-48e5b80-261105T2214";
+const BuildStamp = "v2.6.0-d09be3a-261110T1847";
 const AutoRefreshIntervalControl = ({ initialValue, onChange }) => {
   const [value, setValue] = reactExports.useState(`${initialValue}`);
   const onInputChange = (ev) => {
@@ -29338,7 +29021,7 @@ const SettingsRoot = ({ plugin }) => {
     await plugin.services.auth.logout();
     new obsidian.Notice("Disconnected from Google Tasks.");
   };
-  return /* @__PURE__ */ jsxRuntimeExports.jsx(PluginContext.Provider, { value: plugin, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "todoist-settings", children: [
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(PluginContext.Provider, { value: plugin, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "google-tasks-settings", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { children: "Google Tasks Authentication" }),
     /* @__PURE__ */ jsxRuntimeExports.jsx(Setting.Root, { name: "Client ID", description: "OAuth 2.0 Client ID from Google Cloud Console.", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
       "input",

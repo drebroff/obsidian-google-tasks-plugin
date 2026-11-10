@@ -128,11 +128,7 @@ describe("Repository", () => {
   describe("iterActive", () => {
     it("should filter out deleted items", () => {
       const repo = new Repository<string, RepositoryItem<string>>();
-      repo.applyDiff([
-        makeItem("1", "Alpha"),
-        makeItem("2", "Beta"),
-        makeItem("3", "Gamma"),
-      ]);
+      repo.applyDiff([makeItem("1", "Alpha"), makeItem("2", "Beta"), makeItem("3", "Gamma")]);
       repo.applyDiff([makeItem("2", "Beta", { isDeleted: true })]);
 
       const items = [...repo.iterActive()];

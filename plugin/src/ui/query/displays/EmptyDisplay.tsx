@@ -10,6 +10,4 @@ type Props = {
 export const EmptyDisplay: React.FC<Props> = ({ message }) => {
   const i18n = t().query.displays.empty;
   const displayMessage = message ?? i18n.label;
-
-  return <Callout className="todoist-no-tasks" title={displayMessage} iconId="info" />;
 };

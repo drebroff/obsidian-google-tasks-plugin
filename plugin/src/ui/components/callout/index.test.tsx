@@ -50,6 +50,6 @@ describe("Callout", () => {
   it("should apply className to root element", () => {
     const { container } = render(<Callout title="Title" iconId="info" className="my-class" />);
 
-    expect(container.querySelector(".todoist-callout.my-class")).toBeInTheDocument();
+    expect(container.querySelector(".google-tasks-callout.my-class")).toBeInTheDocument();
   });
 });

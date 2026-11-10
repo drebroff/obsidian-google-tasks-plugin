@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import type { GoogleTasksApiClient } from "@/api";
 import type { SubscriptionResult } from "@/data/index";
-import { type OnSubscriptionChange, GoogleTasksAdapter } from "@/data/index";
+import { GoogleTasksAdapter, type OnSubscriptionChange } from "@/data/index";
 
 const makeMockApi = (): GoogleTasksApiClient => {
   return {
@@ -32,7 +32,10 @@ describe("GoogleTasksAdapter", () => {
         captured = r;
       };
 
-      const [, refresh] = adapter.subscribe({ list: "all", filter: { status: "all" } } as any, callback);
+      const [, refresh] = adapter.subscribe(
+        { list: "all", filter: { status: "all" } } as any,
+        callback,
+      );
       await refresh();
 
       expect(captured.type).toBe("not-ready");
@@ -59,7 +62,10 @@ describe("GoogleTasksAdapter", () => {
         captured = r;
       };
 
-      const [, refresh] = adapter.subscribe({ list: "all", filter: { status: "all" } } as any, callback);
+      const [, refresh] = adapter.subscribe(
+        { list: "all", filter: { status: "all" } } as any,
+        callback,
+      );
       await refresh();
 
       expect(captured.type).toBe("success");
@@ -96,7 +102,10 @@ describe("GoogleTasksAdapter", () => {
         captured = r;
       };
 
-      const [, refresh] = adapter.subscribe({ list: "all", filter: { status: "all" } } as any, callback);
+      const [, refresh] = adapter.subscribe(
+        { list: "all", filter: { status: "all" } } as any,
+        callback,
+      );
       await refresh();
 
       // Toggle task

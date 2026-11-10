@@ -13,7 +13,6 @@ export const QueryError: React.FC<Props> = ({ error }) => {
 
   return (
     <Callout
-      className="todoist-query-error"
       title={i18n.header}
       iconId="lucide-alert-triangle"
       contents={getErrorMessages(error) ?? [i18n.unknownErrorMessage]}

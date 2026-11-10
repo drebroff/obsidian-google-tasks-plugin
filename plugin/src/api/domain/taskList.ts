@@ -16,4 +16,3 @@ export const taskListsResponseSchema = z.object({
   items: z.array(taskListSchema).default([]),
   nextPageToken: z.string().optional(),
 });
-

@@ -1,4 +1,4 @@
-import { registry } from "@obsidian-todoist/plugin/src/i18n";
+import { registry } from "@obsidian-google-tasks/plugin/src/i18n";
 
 import { writeFileSync } from "node:fs";
 import { join } from "node:path";

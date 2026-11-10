@@ -10,7 +10,7 @@ type Props = {
 
 export const TaskList: React.FC<Props> = ({ trees }) => {
   return (
-    <div className="todoist-tasks-list">
+    <div className="google-tasks-tasks-list">
       <AnimatePresence>
         {trees.map((tree) => (
           <Task key={tree.id} tree={tree} />

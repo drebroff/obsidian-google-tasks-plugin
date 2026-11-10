@@ -187,7 +187,7 @@ export type Translations = {
   onboardingModal: {
     failureNoticeMessage: string;
     explainer: string;
-    todoistGuideHint: {
+    googleTasksGuideHint: {
       before: string;
       linkText: string;
       after: string;

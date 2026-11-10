@@ -97,4 +97,3 @@ export class GoogleOAuthClient {
     return JSON.parse(response.body) as GoogleUserInfo;
   }
 }
-

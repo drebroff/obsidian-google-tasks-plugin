@@ -1,15 +1,15 @@
 @use "../../styles/colors.scss";
 
-.todoist-query-header {
+.google-tasks-query-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
 
-  .todoist-query-title {
+  .google-tasks-query-title {
     font-size: 1.25em;
   }
 
-  .todoist-query-controls {
+  .google-tasks-query-controls {
     display: flex;
     align-items: center;
     justify-content: end;
@@ -18,7 +18,7 @@
       margin-left: 0.5em;
     }
 
-    .todoist-query-control-button {
+    .google-tasks-query-control-button {
       padding: var(--size-2-2) var(--size-2-3);
       color: var(--text-muted);
       border-radius: var(--radius-s);
@@ -55,83 +55,124 @@
   }
 }
 
-.todoist-query-warnings {
-  --todoist-callout-color: rgba(var(--color-yellow-rgb), 0.2);
+.google-tasks-query-warnings {
+  --google-tasks-callout-color: rgba(var(--color-yellow-rgb), 0.2);
 }
 
-.todoist-tasks-list {
+.google-tasks-tasks-list {
   margin-top: 1em;
 
-  .todoist-tasks-list {
+  .google-tasks-tasks-list {
     margin-top: 0em;
     margin-left: 2em;
 
-    & + .todoist-task-container {
+    & + .google-tasks-task-container {
       border-top: none;
     }
 
-    .todoist-task-container:first-child {
+    .google-tasks-task-container:first-child {
       border-top: none;
     }
   }
 }
 
-.todoist-task-container {
+.google-tasks-task-container {
+  // Default checkbox colors (used when no priority attribute is set)
+  --google-tasks-checkbox-border: var(--color-base-50);
+  --google-tasks-checkbox-border-hover: var(--interactive-accent);
+  --google-tasks-checkbox-background: transparent;
+
   display: flex;
   padding: 0.5em 0;
-  border-bottom: 1px solid var(--todoist-task-separator-color);
+  border-bottom: 1px solid var(--google-tasks-task-separator-color);
 
   &:first-child {
-    border-top: 1px solid var(--todoist-task-separator-color);
+    border-top: 1px solid var(--google-tasks-task-separator-color);
   }
 
   &[data-priority="1"] {
-    --todoist-checkbox-border: var(--todoist-p4-border);
-    --todoist-checkbox-border-hover: var(--todoist-p4-border-hover);
-    --todoist-checkbox-background: var(--todoist-p4-background);
+    --google-tasks-checkbox-border: var(--google-tasks-p4-border);
+    --google-tasks-checkbox-border-hover: var(--google-tasks-p4-border-hover);
+    --google-tasks-checkbox-background: var(--google-tasks-p4-background);
   }
   &[data-priority="2"] {
-    --todoist-checkbox-border: var(--todoist-p3-border);
-    --todoist-checkbox-border-hover: var(--todoist-p3-border-hover);
-    --todoist-checkbox-background: var(--todoist-p3-background);
+    --google-tasks-checkbox-border: var(--google-tasks-p3-border);
+    --google-tasks-checkbox-border-hover: var(--google-tasks-p3-border-hover);
+    --google-tasks-checkbox-background: var(--google-tasks-p3-background);
   }
   &[data-priority="3"] {
-    --todoist-checkbox-border: var(--todoist-p2-border);
-    --todoist-checkbox-border-hover: var(--todoist-p2-border-hover);
-    --todoist-checkbox-background: var(--todoist-p2-background);
+    --google-tasks-checkbox-border: var(--google-tasks-p2-border);
+    --google-tasks-checkbox-border-hover: var(--google-tasks-p2-border-hover);
+    --google-tasks-checkbox-background: var(--google-tasks-p2-background);
   }
   &[data-priority="4"] {
-    --todoist-checkbox-border: var(--todoist-p1-border);
-    --todoist-checkbox-border-hover: var(--todoist-p1-border-hover);
-    --todoist-checkbox-background: var(--todoist-p1-background);
+    --google-tasks-checkbox-border: var(--google-tasks-p1-border);
+    --google-tasks-checkbox-border-hover: var(--google-tasks-p1-border-hover);
+    --google-tasks-checkbox-background: var(--google-tasks-p1-background);
   }
 
-  .todoist-task-checkbox {
+  .google-tasks-task-checkbox {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
     margin-top: 3px;
 
-    div {
+    .google-tasks-task-radio-input {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .google-tasks-task-radio-indicator {
       height: 16px;
       width: 16px;
       border-radius: 50%;
-      border: 1px solid var(--todoist-checkbox-border);
-      background-color: var(--todoist-checkbox-background);
+      border: 1px solid var(--google-tasks-checkbox-border);
+      background-color: var(--google-tasks-checkbox-background);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
       &:hover {
-        border: 1px solid var(--todoist-checkbox-border-hover);
+        border: 1px solid var(--google-tasks-checkbox-border-hover);
+      }
+
+      /* Checkmark for completed tasks */
+      &::after {
+        content: "";
+        position: absolute;
+        width: 6px;
+        height: 10px;
+        border: 2px solid var(--google-tasks-checkbox-border);
+        border-left: none;
+        border-top: none;
+        transform: rotate(45deg);
+        opacity: 0;
+      }
+    }
+
+    /* Show checkmark when selected (completed) */
+    input:checked + .google-tasks-task-radio-indicator {
+      background-color: var(--google-tasks-checkbox-border);
+
+      &::after {
+        opacity: 1;
+        border-color: white;
       }
     }
   }
 
-  .todoist-task {
+  .google-tasks-task {
     margin-left: 0.5em;
     width: 100%;
 
-    .todoist-task-description {
+    .google-tasks-task-description {
       font-size: var(--font-small);
       color: var(--text-muted);
     }
 
-    .todoist-task-metadata {
+    .google-tasks-task-metadata {
       display: flex;
       justify-content: space-between;
       font-size: var(--font-smaller);
@@ -155,20 +196,20 @@
         }
 
         &[data-task-metadata-kind="project"] .obsidian-icon {
-          color: var(--todoist-project-color);
+          color: var(--google-tasks-project-color);
         }
 
         &[data-task-metadata-kind="labels"] {
-          color: var(--todoist-label-color);
+          color: var(--google-tasks-label-color);
         }
 
-        @each $name, $color in colors.$todoist-colors {
+        @each $name, $color in colors.$google-tasks-colors {
           &[data-project-color="#{$name}"] {
-            --todoist-project-color: var(--todoist-#{$name});
+            --google-tasks-project-color: var(--google-tasks-#{$name});
           }
 
           &[data-label-color="#{$name}"] {
-            --todoist-label-color: var(--todoist-#{$name});
+            --google-tasks-label-color: var(--google-tasks-#{$name});
           }
         }
       }
@@ -177,16 +218,16 @@
 
   &[data-due-metadata="overdue"] {
     .task-metadata-item[data-task-metadata-kind="due"] {
-      color: var(--todoist-red);
+      color: var(--google-tasks-red);
     }
   }
 }
 
-.todoist-group + .todoist-group {
+.google-tasks-group + .google-tasks-group {
   margin-top: 2em;
 }
 
-.todoist-group-title {
+.google-tasks-group-title {
   margin: 1em 0;
   font-weight: 600;
   cursor: pointer;
@@ -196,33 +237,33 @@
   outline: none;
 
   &.collapsed {
-    border-bottom: 1px solid var(--todoist-task-separator-color);
+    border-bottom: 1px solid var(--google-tasks-task-separator-color);
     margin-bottom: 0;
     padding-bottom: 0.5em;
   }
 
-  .todoist-group-collapse-icon {
+  .google-tasks-group-collapse-icon {
     flex-shrink: 0;
     transition: all 0.2s ease;
     border-radius: 3px;
     padding: 2px;
   }
 
-  &:focus .todoist-group-collapse-icon {
+  &:focus .google-tasks-group-collapse-icon {
     background-color: var(--interactive-hover);
     outline: 2px solid var(--interactive-accent);
     outline-offset: 1px;
   }
 
-  &:hover .todoist-group-collapse-icon {
+  &:hover .google-tasks-group-collapse-icon {
     background-color: var(--interactive-hover);
   }
 }
 
-.todoist-no-tasks {
-  --todoist-callout-color: rgba(var(--color-green-rgb), 0.2);
+.google-tasks-no-tasks {
+  --google-tasks-callout-color: rgba(var(--color-green-rgb), 0.2);
 }
 
-.todoist-query-error {
-  --todoist-callout-color: rgba(var(--color-red-rgb), 0.2);
+.google-tasks-query-error {
+  --google-tasks-callout-color: rgba(var(--color-red-rgb), 0.2);
 }

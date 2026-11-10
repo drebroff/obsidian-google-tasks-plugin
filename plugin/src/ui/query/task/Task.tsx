@@ -1,7 +1,6 @@
 import * as motion from "motion/react-m";
 import { Notice } from "obsidian";
 import type React from "react";
-import { Checkbox } from "react-aria-components";
 
 import type { TaskTree } from "@/data/transformations/relationships";
 import { useSettingsStore } from "@/settings";
@@ -38,7 +37,7 @@ export const Task: React.FC<Props> = ({ tree }) => {
   return (
     <>
       <motion.div
-        className="todoist-task-container"
+        className="google-tasks-task-container"
         initial={{
           opacity: transitionOpacity,
         }}
@@ -52,16 +51,19 @@ export const Task: React.FC<Props> = ({ tree }) => {
           duration: 0.4,
         }}
       >
-        <Checkbox
-          className="todoist-task-checkbox"
-          isSelected={tree.status === "completed"}
-          onChange={onClickTask}
-        >
-          <div />
-        </Checkbox>
-        <div className="todoist-task">
+        <label className="google-tasks-task-checkbox">
+          <input
+            type="radio"
+            name={`task-${tree.id}`}
+            checked={tree.status === "completed"}
+            onChange={onClickTask}
+            className="google-tasks-task-radio-input"
+          />
+          <div className="google-tasks-task-radio-indicator" />
+        </label>
+        <div className="google-tasks-task">
           <Markdown
-            className="todoist-task-content"
+            className="google-tasks-task-content"
             content={sanitizeContent(tree.content)}
             key={tree.content}
           />
@@ -79,5 +81,5 @@ const sanitizeContent = (content: string): string => {
 };
 
 const DescriptionRenderer: React.FC<{ content: string }> = ({ content }) => {
-  return <Markdown className="todoist-task-description" content={content} />;
+  return <Markdown className="google-tasks-task-description" content={content} />;
 };

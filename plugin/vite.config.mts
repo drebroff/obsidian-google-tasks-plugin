@@ -2,27 +2,29 @@ import replace from "@rollup/plugin-replace";
 import react from "@vitejs/plugin-react";
 import { loadEnv, type PluginOption } from "vite";
 import { analyzer } from "vite-bundle-analyzer";
-import { viteStaticCopy } from "vite-plugin-static-copy";
 import tsConfigPaths from "vite-tsconfig-paths";
 import { configDefaults, defineConfig } from "vitest/config";
 
 import { execSync } from "node:child_process";
+import fs from "node:fs";
 import path, { resolve } from "node:path";
 
 const { version } = require("./package.json");
 
-function getOutDir(): string | undefined {
+const BUILD_STAMP_TIMESTAMP_LENGTH = 12;
+
+function getOutDir(): string {
   const env = loadEnv("prod", process.cwd());
-  if (env?.VITE_ENV !== "dev") {
-    return undefined;
+  if (env?.VITE_ENV === "dev") {
+    const vaultDir = env?.VITE_OBSIDIAN_VAULT;
+    if (vaultDir === undefined) {
+      return vaultDir ?? "dist";
+    }
+
+    return path.join(vaultDir, ".obsidian", "plugins", "obsidian-google-tasks-plugin");
   }
 
-  const vaultDir = env?.VITE_OBSIDIAN_VAULT;
-  if (vaultDir === undefined) {
-    return vaultDir;
-  }
-
-  return path.join(vaultDir, ".obsidian", "plugins", "obsidian-google-tasks-plugin");
+  return "dist";
 }
 
 function getBuildStamp(): string {
@@ -49,26 +51,55 @@ function bundleAnalyzerPlugin(): PluginOption {
   return undefined;
 }
 
+function copyStaticFilesPlugin(): PluginOption {
+  const outDir = getOutDir();
+
+  return {
+    name: "copy-static-files",
+    closeBundle() {
+      // Copy manifest.json
+      const manifestSrc = path.resolve(__dirname, "../manifest.json");
+      const manifestDest = path.join(outDir, "manifest.json");
+      if (fs.existsSync(manifestSrc) && !fs.existsSync(manifestDest)) {
+        fs.copyFileSync(manifestSrc, manifestDest);
+        console.log(`Copied manifest.json to ${outDir}`);
+      }
+
+      // Copy styles.css (already in dist, but ensure it's in outDir)
+      const stylesSrc = path.resolve(__dirname, "dist/styles.css");
+      const stylesDest = path.join(outDir, "styles.css");
+      if (fs.existsSync(stylesSrc) && !fs.existsSync(stylesDest)) {
+        fs.copyFileSync(stylesSrc, stylesDest);
+        console.log(`Copied styles.css to ${outDir}`);
+      }
+
+      // Copy main.js (already in dist, but ensure it's in outDir)
+      const mainSrc = path.resolve(__dirname, "dist/main.js");
+      const mainDest = path.join(outDir, "main.js");
+      if (fs.existsSync(mainSrc) && !fs.existsSync(mainDest)) {
+        fs.copyFileSync(mainSrc, mainDest);
+        console.log(`Copied main.js to ${outDir}`);
+      }
+    },
+  };
+}
+
 export default defineConfig({
   plugins: [
     react(),
     tsConfigPaths(),
-    viteStaticCopy({
-      targets: [
-        {
-          src: "../manifest.json",
-          dest: "",
-        },
-      ],
-    }),
     replace({
       "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
       GOOGLE_TASKS_BUILD_STAMP: getBuildStamp(),
     }),
     bundleAnalyzerPlugin(),
+    copyStaticFilesPlugin(),
   ],
   resolve: {
     dedupe: ["react", "react-dom"],
+    alias: {
+      "@": resolve(__dirname, "src"),
+    },
   },
   build: {
     // We aren't building a website, so we build in library mode

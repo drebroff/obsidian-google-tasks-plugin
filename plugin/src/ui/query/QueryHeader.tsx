@@ -38,9 +38,9 @@ export const QueryHeader: React.FC<Props> = ({
   const i18n = t().query.header;
 
   return (
-    <div className="todoist-query-header">
-      <span className="todoist-query-title">{title}</span>
-      <div className="todoist-query-controls">
+    <div className="google-tasks-query-header">
+      <span className="google-tasks-query-title">{title}</span>
+      <div className="google-tasks-query-controls">
         <HeaderButton
           className="add-task"
           iconId="plus"
@@ -54,9 +54,11 @@ export const QueryHeader: React.FC<Props> = ({
           action={async () => {
             await refresh();
           }}
-          tooltip={refreshedTimestamp !== undefined
-            ? i18n.refreshTooltip.lastRefreshed(refreshedTimestamp.toLocaleString())
-            : i18n.refreshTooltip.notRefreshed}
+          tooltip={
+            refreshedTimestamp !== undefined
+              ? i18n.refreshTooltip.lastRefreshed(refreshedTimestamp.toLocaleString())
+              : i18n.refreshTooltip.notRefreshed
+          }
         />
         <HeaderButton
           className="edit-query"
@@ -89,11 +91,7 @@ const HeaderButton: React.FC<ButtonProps> = ({ iconId, action, className, toolti
   };
 
   return (
-    <Button
-      className={classNames("todoist-query-control-button", className)}
-      onPress={handler}
-      ref={buttonRef}
-    >
+    <Button onPress={handler} ref={buttonRef}>
       <ObsidianIcon id={iconId} size="s" />
     </Button>
   );

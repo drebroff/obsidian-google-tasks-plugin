@@ -1,17 +1,17 @@
 import camelize from "camelize-ts";
 import type { z } from "zod";
 
-export class TodoistValidationError extends Error {
+export class GoogleTasksValidationError extends Error {
   public readonly zodError: z.ZodError;
   public readonly data: unknown;
 
   constructor(zodError: z.ZodError, data: unknown) {
     const formatted = formatZodError(zodError);
     const errorDetails = formatted.join("\n");
-    super(`Todoist API validation failed:\n${errorDetails}`);
+    super(`Google Tasks API validation failed:\n${errorDetails}`);
     this.zodError = zodError;
     this.data = data;
-    this.name = "TodoistValidationError";
+    this.name = "GoogleTasksValidationError";
   }
 }
 
@@ -27,7 +27,7 @@ export function parseApiResponse<T>(schema: z.ZodType<T>, jsonBody: string): T {
   const camelized = camelize(parsed);
   const result = schema.safeParse(camelized);
   if (!result.success) {
-    throw new TodoistValidationError(result.error, camelized);
+    throw new GoogleTasksValidationError(result.error, camelized);
   }
   return result.data;
 }

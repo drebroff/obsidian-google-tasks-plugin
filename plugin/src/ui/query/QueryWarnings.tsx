@@ -15,12 +15,5 @@ export const QueryWarnings: React.FC<Props> = ({ warnings }) => {
 
   const i18n = t().query.warning;
 
-  return (
-    <Callout
-      className="todoist-query-warnings"
-      title={i18n.header}
-      iconId="lucide-alert-triangle"
-      contents={warnings}
-    />
-  );
+  return <Callout title={i18n.header} iconId="lucide-alert-triangle" contents={warnings} />;
 };

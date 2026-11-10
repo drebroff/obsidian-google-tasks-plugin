@@ -9,4 +9,3 @@ export type GoogleTokenResponse = {
 export type GoogleUserInfo = {
   email: string;
 };
-

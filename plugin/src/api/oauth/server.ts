@@ -2,7 +2,7 @@ import http from "node:http";
 import { URL } from "node:url";
 
 const OAUTH_TIMEOUT_MS = 120_000; // 2 minutes timeout
-const DEFAULT_PORT = 42813;
+const DEFAULT_PORT = 42_813;
 
 export class OAuthLoopbackServer {
   private server: http.Server | null = null;

@@ -1,5 +1,6 @@
 import { type App, Notice, PluginSettingTab } from "obsidian";
-import React, { useState } from "react";
+import type React from "react";
+import { useState } from "react";
 import { createRoot, type Root } from "react-dom/client";
 
 import { BuildStamp } from "@/stamp";
@@ -91,7 +92,7 @@ const SettingsRoot: React.FC<Props> = ({ plugin }) => {
 
   return (
     <PluginContext.Provider value={plugin}>
-      <div className="todoist-settings">
+      <div className="google-tasks-settings">
         <h2>Google Tasks Authentication</h2>
         <Setting.Root name="Client ID" description="OAuth 2.0 Client ID from Google Cloud Console.">
           <input

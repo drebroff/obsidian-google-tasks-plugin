@@ -1,4 +1,3 @@
-import classNames from "classnames";
 import type React from "react";
 
 import { ObsidianIcon } from "@/ui/components/obsidian-icon";
@@ -8,7 +7,7 @@ export type Contents = string | { msg: string; children: Contents[] };
 
 type Props = {
   title: string;
-  className: string;
+  className?: string;
   iconId: string;
   contents?: Contents[];
 };
@@ -30,7 +29,7 @@ const renderContents = (content: Contents): React.ReactNode => {
 
 export const Callout: React.FC<Props> = ({ title, contents, iconId, className }) => {
   return (
-    <div className={classNames("todoist-callout", className)}>
+    <div className={`google-tasks-callout ${className}`}>
       <div className="callout-header">
         <ObsidianIcon id={iconId} size="l" />
         <span>{title}</span>

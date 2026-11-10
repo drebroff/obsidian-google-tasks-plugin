@@ -40,10 +40,10 @@ export const GroupedDisplay: React.FC<Props> = ({ tasks }) => {
       {groups.map((group) => {
         const isCollapsed = group.header in collapsedGroups;
         return (
-          <div className="todoist-group" key={group.header}>
+          <div className="google-tasks-group" key={group.header}>
             {/* biome-ignore lint/a11y/useSemanticElements: Keeping as div to preserve CSS styling */}
             <div
-              className={`todoist-group-title ${isCollapsed ? "collapsed" : ""}`}
+              className={`google-tasks-group-title ${isCollapsed ? "collapsed" : ""}`}
               onClick={() => toggleGroup(group.header)}
               onKeyDown={(e) => {
                 if (e.key === "Enter" || e.key === " ") {
@@ -58,7 +58,7 @@ export const GroupedDisplay: React.FC<Props> = ({ tasks }) => {
               <ObsidianIcon
                 size="s"
                 id={isCollapsed ? "chevron-right" : "chevron-down"}
-                className="todoist-group-collapse-icon"
+                className="google-tasks-group-collapse-icon"
               />
             </div>
             {!isCollapsed && <ListDisplay tasks={group.tasks} />}

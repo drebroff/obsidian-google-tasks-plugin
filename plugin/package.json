@@ -1,5 +1,5 @@
 {
-  "name": "obsidian-google-tasks-plugin",
+  "name": "@obsidian-google-tasks/plugin",
   "version": "2.6.0",
   "description": "A Google Tasks plugin for Obsidian",
   "scripts": {

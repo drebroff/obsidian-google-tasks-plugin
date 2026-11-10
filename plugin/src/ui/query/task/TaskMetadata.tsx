@@ -46,7 +46,10 @@ const dueDateMeta: MetadataDefinition = {
   name: "due",
   isShown: (show, task) => (!show || show.includes("due")) && task.due !== undefined,
   content: (task) => {
-    if (!task.due) return [];
+    if (!task.due) {
+      return [];
+    }
+
     return [{ content: DueDate.format(task.due) }];
   },
   icons: {
@@ -82,9 +85,9 @@ export const TaskMetadata: React.FC<Props> = ({ task, query, settings }) => {
   }
 
   return (
-    <div className="todoist-task-metadata">
-      <div className="todoist-task-metadata-group">{leftElements}</div>
-      <div className="todoist-task-metadata-group">{rightElements}</div>
+    <div className="google-tasks-task-metadata">
+      <div className="google-tasks-task-metadata-group">{leftElements}</div>
+      <div className="google-tasks-task-metadata-group">{rightElements}</div>
     </div>
   );
 };
@@ -99,7 +102,7 @@ function renderMetadata(def: MetadataDefinition, task: Task, settings: Settings)
   ) : null;
 
   return (
-    <span key={def.name} className={`todoist-task-metadata-item`} data-meta={def.name}>
+    <span key={def.name} className={`google-tasks-task-metadata-item`} data-meta={def.name}>
       {beforeIcon}
       {contents.map((c, i) => (
         // biome-ignore lint/suspicious/noArrayIndexKey: simple metadata

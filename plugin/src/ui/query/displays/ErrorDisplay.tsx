@@ -31,12 +31,5 @@ export const ErrorDisplay: React.FC<Props> = ({ kind }) => {
 
   const errorMessage = getErrorMessage(kind, i18n);
 
-  return (
-    <Callout
-      className="todoist-query-error"
-      title={i18n.header}
-      iconId="lucide-alert-triangle"
-      contents={[errorMessage]}
-    />
-  );
+  return <Callout title={i18n.header} iconId="lucide-alert-triangle" contents={[errorMessage]} />;
 };

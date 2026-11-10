@@ -28,4 +28,3 @@ export const tasksResponseSchema = z.object({
   items: z.array(googleTaskSchema).default([]),
   nextPageToken: z.string().optional(),
 });
-

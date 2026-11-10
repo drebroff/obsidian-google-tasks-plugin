@@ -1,8 +1,9 @@
+import type { Plugin } from "obsidian";
 import React from "react";
 import ReactDOM from "react-dom/client";
-import type { Plugin } from "obsidian";
-import type { TaskQuery } from "@/query/schema/tasks";
+
 import { parseQuery } from "@/query/parser";
+import type { TaskQuery } from "@/query/schema/tasks";
 import { taskQueryDefinition } from "@/query/schema/tasks";
 import { PluginContext, QueryContext } from "@/ui/context";
 import { QueryRoot } from "@/ui/query/QueryRoot";

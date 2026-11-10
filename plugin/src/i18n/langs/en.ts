@@ -15,12 +15,12 @@ export const en: Translations = {
       },
       apiToken: {
         label: "API token",
-        description: "The Todoist API token to use when fetching tasks",
+        description: "The Google Tasks API token to use when fetching tasks",
         buttonLabel: "Setup",
       },
       tokenStorage: {
         label: "Token storage",
-        description: "Where the plugin should store your Todoist API token",
+        description: "Where the plugin should store your Google Tasks API token",
         options: {
           secrets: "Obsidian secrets",
           file: "File-based",
@@ -62,7 +62,7 @@ export const en: Translations = {
       wrapLinksInParens: {
         label: "Add parenthesis to page links",
         description:
-          "When enabled, wraps Obsidian page links in Todoist tasks created from the command",
+          "When enabled, wraps Obsidian page links in Google Tasks tasks created from the command",
       },
       addTaskButtonAddsPageLink: {
         label: "Add task button adds page link",
@@ -124,7 +124,7 @@ export const en: Translations = {
     },
   },
   createTaskModal: {
-    loadingMessage: "Loading Todoist data...",
+    loadingMessage: "Loading Google Tasks data...",
     successNotice: "Task created successfully",
     errorNotice: "Failed to create task",
     taskNamePlaceholder: "Task name",
@@ -205,10 +205,10 @@ export const en: Translations = {
   onboardingModal: {
     failureNoticeMessage: "Failed to save API token",
     explainer:
-      "In order to use this plugin, you must provide your Todoist API token. This allows us to read and write data to or from your Todoist account.",
-    todoistGuideHint: {
+      "In order to use this plugin, you must provide your Google Tasks API token. This allows us to read and write data to or from your Google Tasks account.",
+    googleTasksGuideHint: {
       before: "You can follow ",
-      linkText: "Todoist's guide",
+      linkText: "Google Tasks' guide",
       after: " on finding your API token.",
     },
     tokenInputLabel: "API Token",
@@ -223,11 +223,11 @@ export const en: Translations = {
       error: {
         header: "Error",
         badRequest:
-          "The Todoist API has rejected the request. Please check the filter to ensure it is valid.",
+          "The Google Tasks API has rejected the request. Please check the filter to ensure it is valid.",
         unauthorized:
-          "The Todoist API request is missing or has the incorrect credentials. Please check the API token in the settings.",
+          "The Google Tasks API request is missing or has the incorrect credentials. Please check the API token in the settings.",
         serverError:
-          "The Todoist API has returned an error. Please check Todoist's status page: https://status.todoist.net/ and try again later.",
+          "The Google Tasks API has returned an error. Please check Google Tasks' status page: https://status.google.com/tasks/ and try again later.",
         unknown:
           "Unknown error occurred. Please check the Console in the Developer Tools window for more information",
       },
@@ -239,8 +239,8 @@ export const en: Translations = {
     },
     contextMenu: {
       completeTaskLabel: "Complete task",
-      openTaskInAppLabel: "Open task in Todoist (app)",
-      openTaskInBrowserLabel: "Open task in Todoist (web)",
+      openTaskInAppLabel: "Open task in Google Tasks (app)",
+      openTaskInBrowserLabel: "Open task in Google Tasks (web)",
     },
     failedCloseMessage: "Failed to close task",
     header: {
@@ -266,7 +266,7 @@ export const en: Translations = {
     },
   },
   commands: {
-    sync: "Sync with Todoist",
+    sync: "Sync with Google Tasks",
     addTask: "Add task",
     addTaskPageContent: "Add task with current page in task content",
     addTaskPageDescription: "Add task with current page in task description",
@@ -274,7 +274,7 @@ export const en: Translations = {
   tokenValidation: {
     emptyTokenError: "API token must not be empty",
     invalidTokenError:
-      "Oops! Todoist does not recognize this token. Please double check and try again!",
+      "Oops! Google Tasks does not recognize this token. Please double check and try again!",
   },
   dates: {
     today: "Today",

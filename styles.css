@@ -1,56 +1,56 @@
 body {
-  --todoist-berry-red: #b8256f;
-  --todoist-red: #db4035;
-  --todoist-orange: #ff9933;
-  --todoist-yellow: #fad000;
-  --todoist-olive-green: #afb83b;
-  --todoist-lime-green: #7ecc49;
-  --todoist-green: #299438;
-  --todoist-mint-green: #6accbc;
-  --todoist-teal: #158fad;
-  --todoist-sky-blue: #14aaf5;
-  --todoist-light-blue: #96c3eb;
-  --todoist-blue: #4073ff;
-  --todoist-grape: #884dff;
-  --todoist-violet: #af38eb;
-  --todoist-lavender: #eb96eb;
-  --todoist-magenta: #e05194;
-  --todoist-salmon: #ff8d85;
-  --todoist-charcoal: #808080;
-  --todoist-grey: #b8b8b8;
-  --todoist-taupe: #ccac93;
+  --google-tasks-berry-red: #b8256f;
+  --google-tasks-red: #db4035;
+  --google-tasks-orange: #ff9933;
+  --google-tasks-yellow: #fad000;
+  --google-tasks-olive-green: #afb83b;
+  --google-tasks-lime-green: #7ecc49;
+  --google-tasks-green: #299438;
+  --google-tasks-mint-green: #6accbc;
+  --google-tasks-teal: #158fad;
+  --google-tasks-sky-blue: #14aaf5;
+  --google-tasks-light-blue: #96c3eb;
+  --google-tasks-blue: #4073ff;
+  --google-tasks-grape: #884dff;
+  --google-tasks-violet: #af38eb;
+  --google-tasks-lavender: #eb96eb;
+  --google-tasks-magenta: #e05194;
+  --google-tasks-salmon: #ff8d85;
+  --google-tasks-charcoal: #808080;
+  --google-tasks-grey: #b8b8b8;
+  --google-tasks-taupe: #ccac93;
 }
 
 .theme-dark {
-  --todoist-p1-border: #ff7066;
-  --todoist-p1-border-hover: #ff706680;
-  --todoist-p1-background: rgba(255, 112, 102, 0.1);
-  --todoist-p2-border: #ff9a14;
-  --todoist-p2-border-hover: #ff9a1480;
-  --todoist-p2-background: rgba(255, 154, 20, 0.1);
-  --todoist-p3-border: #5297ff;
-  --todoist-p3-border-hover: #5297ff80;
-  --todoist-p3-background: rgba(82, 151, 255, 0.1);
-  --todoist-p4-border: var(--color-base-50);
-  --todoist-p4-border-hover: var(--color-base-50);
-  --todoist-p4-background: unset;
-  --todoist-task-separator-color: var(--color-base-30);
+  --google-tasks-p1-border: #ff7066;
+  --google-tasks-p1-border-hover: #ff706680;
+  --google-tasks-p1-background: rgba(255, 112, 102, 0.1);
+  --google-tasks-p2-border: #ff9a14;
+  --google-tasks-p2-border-hover: #ff9a1480;
+  --google-tasks-p2-background: rgba(255, 154, 20, 0.1);
+  --google-tasks-p3-border: #5297ff;
+  --google-tasks-p3-border-hover: #5297ff80;
+  --google-tasks-p3-background: rgba(82, 151, 255, 0.1);
+  --google-tasks-p4-border: var(--color-base-50);
+  --google-tasks-p4-border-hover: var(--color-base-50);
+  --google-tasks-p4-background: unset;
+  --google-tasks-task-separator-color: var(--color-base-30);
 }
 
 .theme-light {
-  --todoist-p1-border: #d1453b;
-  --todoist-p1-border-hover: #d1453b80;
-  --todoist-p1-background: rgba(209, 69, 59, 0.1);
-  --todoist-p2-border: #eb8909;
-  --todoist-p2-border-hover: #eb890980;
-  --todoist-p2-background: rgba(235, 137, 9, 0.1);
-  --todoist-p3-border: #246fe0;
-  --todoist-p3-border-hover: #246fe080;
-  --todoist-p3-background: rgba(36, 111, 224, 0.1);
-  --todoist-p4-border: var(--color-base-50);
-  --todoist-p4-border-hover: var(--color-base-50);
-  --todoist-p4-background: unset;
-  --todoist-task-separator-color: var(--color-base-25);
+  --google-tasks-p1-border: #d1453b;
+  --google-tasks-p1-border-hover: #d1453b80;
+  --google-tasks-p1-background: rgba(209, 69, 59, 0.1);
+  --google-tasks-p2-border: #eb8909;
+  --google-tasks-p2-border-hover: #eb890980;
+  --google-tasks-p2-background: rgba(235, 137, 9, 0.1);
+  --google-tasks-p3-border: #246fe0;
+  --google-tasks-p3-border-hover: #246fe080;
+  --google-tasks-p3-background: rgba(36, 111, 224, 0.1);
+  --google-tasks-p4-border: var(--color-base-50);
+  --google-tasks-p4-border-hover: var(--color-base-50);
+  --google-tasks-p4-background: unset;
+  --google-tasks-task-separator-color: var(--color-base-25);
 }.obsidian-icon {
   display: flex;
   align-items: center;
@@ -74,41 +74,41 @@ body {
 .obsidian-icon[data-icon-size=xl] {
   --icon-size: var(--icon-xl);
   --icon-stroke: var(--icon-xl-stroke-width);
-}.todoist-callout {
+}.google-tasks-callout {
   margin-top: 1em;
   padding: 16px;
-  background-color: var(--todoist-callout-color);
+  background-color: var(--google-tasks-callout-color);
   border-radius: 4px;
 }
-.todoist-callout .callout-header {
+.google-tasks-callout .callout-header {
   display: flex;
   align-items: center;
   margin-bottom: 4px;
   font-weight: 600;
 }
-.todoist-callout .callout-header .obsidian-icon {
+.google-tasks-callout .callout-header .obsidian-icon {
   margin-right: 0.5em;
 }
-.todoist-callout ul {
+.google-tasks-callout ul {
   margin-block-start: 0em;
   margin-block-end: 0em;
-}.todoist-query-header {
+}.google-tasks-query-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
-.todoist-query-header .todoist-query-title {
+.google-tasks-query-header .google-tasks-query-title {
   font-size: 1.25em;
 }
-.todoist-query-header .todoist-query-controls {
+.google-tasks-query-header .google-tasks-query-controls {
   display: flex;
   align-items: center;
   justify-content: end;
 }
-.todoist-query-header .todoist-query-controls * + * {
+.google-tasks-query-header .google-tasks-query-controls * + * {
   margin-left: 0.5em;
 }
-.todoist-query-header .todoist-query-controls .todoist-query-control-button {
+.google-tasks-query-header .google-tasks-query-controls .google-tasks-query-control-button {
   padding: var(--size-2-2) var(--size-2-3);
   color: var(--text-muted);
   border-radius: var(--radius-s);
@@ -117,14 +117,14 @@ body {
   transition: opacity 0.33s;
   opacity: 0;
 }
-.block-language-google-tasks:hover .todoist-query-header .todoist-query-controls .todoist-query-control-button, .block-language-gtasks:hover .todoist-query-header .todoist-query-controls .todoist-query-control-button {
+.block-language-google-tasks:hover .google-tasks-query-header .google-tasks-query-controls .google-tasks-query-control-button, .block-language-gtasks:hover .google-tasks-query-header .google-tasks-query-controls .google-tasks-query-control-button {
   opacity: 1;
 }
-.todoist-query-header .todoist-query-controls .todoist-query-control-button:hover {
+.google-tasks-query-header .google-tasks-query-controls .google-tasks-query-control-button:hover {
   background-color: inherit;
   border: 1px solid var(--interactive-accent);
 }
-.markdown-reading-view .todoist-query-header .todoist-query-controls .todoist-query-control-button.edit-query {
+.markdown-reading-view .google-tasks-query-header .google-tasks-query-controls .google-tasks-query-control-button.edit-query {
   display: none;
 }
 @-webkit-keyframes spin {
@@ -132,232 +132,271 @@ body {
     -webkit-transform: rotate(360deg);
   }
 }
-.todoist-query-header .todoist-query-controls .todoist-query-control-button.refresh-query.is-refreshing > .obsidian-icon {
+.google-tasks-query-header .google-tasks-query-controls .google-tasks-query-control-button.refresh-query.is-refreshing > .obsidian-icon {
   animation: spin 1s linear infinite reverse;
 }
 
-.todoist-query-warnings {
-  --todoist-callout-color: rgba(var(--color-yellow-rgb), 0.2);
+.google-tasks-query-warnings {
+  --google-tasks-callout-color: rgba(var(--color-yellow-rgb), 0.2);
 }
 
-.todoist-tasks-list {
+.google-tasks-tasks-list {
   margin-top: 1em;
 }
-.todoist-tasks-list .todoist-tasks-list {
+.google-tasks-tasks-list .google-tasks-tasks-list {
   margin-top: 0em;
   margin-left: 2em;
 }
-.todoist-tasks-list .todoist-tasks-list + .todoist-task-container {
+.google-tasks-tasks-list .google-tasks-tasks-list + .google-tasks-task-container {
   border-top: none;
 }
-.todoist-tasks-list .todoist-tasks-list .todoist-task-container:first-child {
+.google-tasks-tasks-list .google-tasks-tasks-list .google-tasks-task-container:first-child {
   border-top: none;
 }
 
-.todoist-task-container {
+.google-tasks-task-container {
+  --google-tasks-checkbox-border: var(--color-base-50);
+  --google-tasks-checkbox-border-hover: var(--interactive-accent);
+  --google-tasks-checkbox-background: transparent;
   display: flex;
   padding: 0.5em 0;
-  border-bottom: 1px solid var(--todoist-task-separator-color);
+  border-bottom: 1px solid var(--google-tasks-task-separator-color);
 }
-.todoist-task-container:first-child {
-  border-top: 1px solid var(--todoist-task-separator-color);
+.google-tasks-task-container:first-child {
+  border-top: 1px solid var(--google-tasks-task-separator-color);
 }
-.todoist-task-container[data-priority="1"] {
-  --todoist-checkbox-border: var(--todoist-p4-border);
-  --todoist-checkbox-border-hover: var(--todoist-p4-border-hover);
-  --todoist-checkbox-background: var(--todoist-p4-background);
+.google-tasks-task-container[data-priority="1"] {
+  --google-tasks-checkbox-border: var(--google-tasks-p4-border);
+  --google-tasks-checkbox-border-hover: var(--google-tasks-p4-border-hover);
+  --google-tasks-checkbox-background: var(--google-tasks-p4-background);
 }
-.todoist-task-container[data-priority="2"] {
-  --todoist-checkbox-border: var(--todoist-p3-border);
-  --todoist-checkbox-border-hover: var(--todoist-p3-border-hover);
-  --todoist-checkbox-background: var(--todoist-p3-background);
+.google-tasks-task-container[data-priority="2"] {
+  --google-tasks-checkbox-border: var(--google-tasks-p3-border);
+  --google-tasks-checkbox-border-hover: var(--google-tasks-p3-border-hover);
+  --google-tasks-checkbox-background: var(--google-tasks-p3-background);
 }
-.todoist-task-container[data-priority="3"] {
-  --todoist-checkbox-border: var(--todoist-p2-border);
-  --todoist-checkbox-border-hover: var(--todoist-p2-border-hover);
-  --todoist-checkbox-background: var(--todoist-p2-background);
+.google-tasks-task-container[data-priority="3"] {
+  --google-tasks-checkbox-border: var(--google-tasks-p2-border);
+  --google-tasks-checkbox-border-hover: var(--google-tasks-p2-border-hover);
+  --google-tasks-checkbox-background: var(--google-tasks-p2-background);
 }
-.todoist-task-container[data-priority="4"] {
-  --todoist-checkbox-border: var(--todoist-p1-border);
-  --todoist-checkbox-border-hover: var(--todoist-p1-border-hover);
-  --todoist-checkbox-background: var(--todoist-p1-background);
+.google-tasks-task-container[data-priority="4"] {
+  --google-tasks-checkbox-border: var(--google-tasks-p1-border);
+  --google-tasks-checkbox-border-hover: var(--google-tasks-p1-border-hover);
+  --google-tasks-checkbox-background: var(--google-tasks-p1-background);
 }
-.todoist-task-container .todoist-task-checkbox {
+.google-tasks-task-container .google-tasks-task-checkbox {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
   margin-top: 3px;
 }
-.todoist-task-container .todoist-task-checkbox div {
+.google-tasks-task-container .google-tasks-task-checkbox .google-tasks-task-radio-input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+.google-tasks-task-container .google-tasks-task-checkbox .google-tasks-task-radio-indicator {
   height: 16px;
   width: 16px;
   border-radius: 50%;
-  border: 1px solid var(--todoist-checkbox-border);
-  background-color: var(--todoist-checkbox-background);
+  border: 1px solid var(--google-tasks-checkbox-border);
+  background-color: var(--google-tasks-checkbox-background);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.todoist-task-container .todoist-task-checkbox div:hover {
-  border: 1px solid var(--todoist-checkbox-border-hover);
+.google-tasks-task-container .google-tasks-task-checkbox .google-tasks-task-radio-indicator:hover {
+  border: 1px solid var(--google-tasks-checkbox-border-hover);
 }
-.todoist-task-container .todoist-task {
+.google-tasks-task-container .google-tasks-task-checkbox .google-tasks-task-radio-indicator {
+  /* Checkmark for completed tasks */
+}
+.google-tasks-task-container .google-tasks-task-checkbox .google-tasks-task-radio-indicator::after {
+  content: "";
+  position: absolute;
+  width: 6px;
+  height: 10px;
+  border: 2px solid var(--google-tasks-checkbox-border);
+  border-left: none;
+  border-top: none;
+  transform: rotate(45deg);
+  opacity: 0;
+}
+.google-tasks-task-container .google-tasks-task-checkbox {
+  /* Show checkmark when selected (completed) */
+}
+.google-tasks-task-container .google-tasks-task-checkbox input:checked + .google-tasks-task-radio-indicator {
+  background-color: var(--google-tasks-checkbox-border);
+}
+.google-tasks-task-container .google-tasks-task-checkbox input:checked + .google-tasks-task-radio-indicator::after {
+  opacity: 1;
+  border-color: white;
+}
+.google-tasks-task-container .google-tasks-task {
   margin-left: 0.5em;
   width: 100%;
 }
-.todoist-task-container .todoist-task .todoist-task-description {
+.google-tasks-task-container .google-tasks-task .google-tasks-task-description {
   font-size: var(--font-small);
   color: var(--text-muted);
 }
-.todoist-task-container .todoist-task .todoist-task-metadata {
+.google-tasks-task-container .google-tasks-task .google-tasks-task-metadata {
   display: flex;
   justify-content: space-between;
   font-size: var(--font-smaller);
   margin-top: 0.25em;
   color: var(--text-muted);
 }
-.todoist-task-container .todoist-task .todoist-task-metadata > div {
+.google-tasks-task-container .google-tasks-task .google-tasks-task-metadata > div {
   display: flex;
 }
-.todoist-task-container .todoist-task .todoist-task-metadata > div > * + * {
+.google-tasks-task-container .google-tasks-task .google-tasks-task-metadata > div > * + * {
   margin-left: 1em;
 }
-.todoist-task-container .todoist-task .todoist-task-metadata .task-metadata-item {
+.google-tasks-task-container .google-tasks-task .google-tasks-task-metadata .task-metadata-item {
   display: flex;
   align-items: center;
 }
-.todoist-task-container .todoist-task .todoist-task-metadata .task-metadata-item > * + * {
+.google-tasks-task-container .google-tasks-task .google-tasks-task-metadata .task-metadata-item > * + * {
   margin-left: 0.25em;
 }
-.todoist-task-container .todoist-task .todoist-task-metadata .task-metadata-item[data-task-metadata-kind=project] .obsidian-icon {
-  color: var(--todoist-project-color);
+.google-tasks-task-container .google-tasks-task .google-tasks-task-metadata .task-metadata-item[data-task-metadata-kind=project] .obsidian-icon {
+  color: var(--google-tasks-project-color);
 }
-.todoist-task-container .todoist-task .todoist-task-metadata .task-metadata-item[data-task-metadata-kind=labels] {
-  color: var(--todoist-label-color);
+.google-tasks-task-container .google-tasks-task .google-tasks-task-metadata .task-metadata-item[data-task-metadata-kind=labels] {
+  color: var(--google-tasks-label-color);
 }
-.todoist-task-container .todoist-task .todoist-task-metadata .task-metadata-item[data-project-color=berry-red] {
-  --todoist-project-color: var(--todoist-berry-red);
+.google-tasks-task-container .google-tasks-task .google-tasks-task-metadata .task-metadata-item[data-project-color=berry-red] {
+  --google-tasks-project-color: var(--google-tasks-berry-red);
 }
-.todoist-task-container .todoist-task .todoist-task-metadata .task-metadata-item[data-label-color=berry-red] {
-  --todoist-label-color: var(--todoist-berry-red);
+.google-tasks-task-container .google-tasks-task .google-tasks-task-metadata .task-metadata-item[data-label-color=berry-red] {
+  --google-tasks-label-color: var(--google-tasks-berry-red);
 }
-.todoist-task-container .todoist-task .todoist-task-metadata .task-metadata-item[data-project-color=red] {
-  --todoist-project-color: var(--todoist-red);
+.google-tasks-task-container .google-tasks-task .google-tasks-task-metadata .task-metadata-item[data-project-color=red] {
+  --google-tasks-project-color: var(--google-tasks-red);
 }
-.todoist-task-container .todoist-task .todoist-task-metadata .task-metadata-item[data-label-color=red] {
-  --todoist-label-color: var(--todoist-red);
+.google-tasks-task-container .google-tasks-task .google-tasks-task-metadata .task-metadata-item[data-label-color=red] {
+  --google-tasks-label-color: var(--google-tasks-red);
 }
-.todoist-task-container .todoist-task .todoist-task-metadata .task-metadata-item[data-project-color=orange] {
-  --todoist-project-color: var(--todoist-orange);
+.google-tasks-task-container .google-tasks-task .google-tasks-task-metadata .task-metadata-item[data-project-color=orange] {
+  --google-tasks-project-color: var(--google-tasks-orange);
 }
-.todoist-task-container .todoist-task .todoist-task-metadata .task-metadata-item[data-label-color=orange] {
-  --todoist-label-color: var(--todoist-orange);
+.google-tasks-task-container .google-tasks-task .google-tasks-task-metadata .task-metadata-item[data-label-color=orange] {
+  --google-tasks-label-color: var(--google-tasks-orange);
 }
-.todoist-task-container .todoist-task .todoist-task-metadata .task-metadata-item[data-project-color=yellow] {
-  --todoist-project-color: var(--todoist-yellow);
+.google-tasks-task-container .google-tasks-task .google-tasks-task-metadata .task-metadata-item[data-project-color=yellow] {
+  --google-tasks-project-color: var(--google-tasks-yellow);
 }
-.todoist-task-container .todoist-task .todoist-task-metadata .task-metadata-item[data-label-color=yellow] {
-  --todoist-label-color: var(--todoist-yellow);
+.google-tasks-task-container .google-tasks-task .google-tasks-task-metadata .task-metadata-item[data-label-color=yellow] {
+  --google-tasks-label-color: var(--google-tasks-yellow);
 }
-.todoist-task-container .todoist-task .todoist-task-metadata .task-metadata-item[data-project-color=olive-green] {
-  --todoist-project-color: var(--todoist-olive-green);
+.google-tasks-task-container .google-tasks-task .google-tasks-task-metadata .task-metadata-item[data-project-color=olive-green] {
+  --google-tasks-project-color: var(--google-tasks-olive-green);
 }
-.todoist-task-container .todoist-task .todoist-task-metadata .task-metadata-item[data-label-color=olive-green] {
-  --todoist-label-color: var(--todoist-olive-green);
+.google-tasks-task-container .google-tasks-task .google-tasks-task-metadata .task-metadata-item[data-label-color=olive-green] {
+  --google-tasks-label-color: var(--google-tasks-olive-green);
 }
-.todoist-task-container .todoist-task .todoist-task-metadata .task-metadata-item[data-project-color=lime-green] {
-  --todoist-project-color: var(--todoist-lime-green);
+.google-tasks-task-container .google-tasks-task .google-tasks-task-metadata .task-metadata-item[data-project-color=lime-green] {
+  --google-tasks-project-color: var(--google-tasks-lime-green);
 }
-.todoist-task-container .todoist-task .todoist-task-metadata .task-metadata-item[data-label-color=lime-green] {
-  --todoist-label-color: var(--todoist-lime-green);
+.google-tasks-task-container .google-tasks-task .google-tasks-task-metadata .task-metadata-item[data-label-color=lime-green] {
+  --google-tasks-label-color: var(--google-tasks-lime-green);
 }
-.todoist-task-container .todoist-task .todoist-task-metadata .task-metadata-item[data-project-color=green] {
-  --todoist-project-color: var(--todoist-green);
+.google-tasks-task-container .google-tasks-task .google-tasks-task-metadata .task-metadata-item[data-project-color=green] {
+  --google-tasks-project-color: var(--google-tasks-green);
 }
-.todoist-task-container .todoist-task .todoist-task-metadata .task-metadata-item[data-label-color=green] {
-  --todoist-label-color: var(--todoist-green);
+.google-tasks-task-container .google-tasks-task .google-tasks-task-metadata .task-metadata-item[data-label-color=green] {
+  --google-tasks-label-color: var(--google-tasks-green);
 }
-.todoist-task-container .todoist-task .todoist-task-metadata .task-metadata-item[data-project-color=mint-green] {
-  --todoist-project-color: var(--todoist-mint-green);
+.google-tasks-task-container .google-tasks-task .google-tasks-task-metadata .task-metadata-item[data-project-color=mint-green] {
+  --google-tasks-project-color: var(--google-tasks-mint-green);
 }
-.todoist-task-container .todoist-task .todoist-task-metadata .task-metadata-item[data-label-color=mint-green] {
-  --todoist-label-color: var(--todoist-mint-green);
+.google-tasks-task-container .google-tasks-task .google-tasks-task-metadata .task-metadata-item[data-label-color=mint-green] {
+  --google-tasks-label-color: var(--google-tasks-mint-green);
 }
-.todoist-task-container .todoist-task .todoist-task-metadata .task-metadata-item[data-project-color=teal] {
-  --todoist-project-color: var(--todoist-teal);
+.google-tasks-task-container .google-tasks-task .google-tasks-task-metadata .task-metadata-item[data-project-color=teal] {
+  --google-tasks-project-color: var(--google-tasks-teal);
 }
-.todoist-task-container .todoist-task .todoist-task-metadata .task-metadata-item[data-label-color=teal] {
-  --todoist-label-color: var(--todoist-teal);
+.google-tasks-task-container .google-tasks-task .google-tasks-task-metadata .task-metadata-item[data-label-color=teal] {
+  --google-tasks-label-color: var(--google-tasks-teal);
 }
-.todoist-task-container .todoist-task .todoist-task-metadata .task-metadata-item[data-project-color=sky-blue] {
-  --todoist-project-color: var(--todoist-sky-blue);
+.google-tasks-task-container .google-tasks-task .google-tasks-task-metadata .task-metadata-item[data-project-color=sky-blue] {
+  --google-tasks-project-color: var(--google-tasks-sky-blue);
 }
-.todoist-task-container .todoist-task .todoist-task-metadata .task-metadata-item[data-label-color=sky-blue] {
-  --todoist-label-color: var(--todoist-sky-blue);
+.google-tasks-task-container .google-tasks-task .google-tasks-task-metadata .task-metadata-item[data-label-color=sky-blue] {
+  --google-tasks-label-color: var(--google-tasks-sky-blue);
 }
-.todoist-task-container .todoist-task .todoist-task-metadata .task-metadata-item[data-project-color=light-blue] {
-  --todoist-project-color: var(--todoist-light-blue);
+.google-tasks-task-container .google-tasks-task .google-tasks-task-metadata .task-metadata-item[data-project-color=light-blue] {
+  --google-tasks-project-color: var(--google-tasks-light-blue);
 }
-.todoist-task-container .todoist-task .todoist-task-metadata .task-metadata-item[data-label-color=light-blue] {
-  --todoist-label-color: var(--todoist-light-blue);
+.google-tasks-task-container .google-tasks-task .google-tasks-task-metadata .task-metadata-item[data-label-color=light-blue] {
+  --google-tasks-label-color: var(--google-tasks-light-blue);
 }
-.todoist-task-container .todoist-task .todoist-task-metadata .task-metadata-item[data-project-color=blue] {
-  --todoist-project-color: var(--todoist-blue);
+.google-tasks-task-container .google-tasks-task .google-tasks-task-metadata .task-metadata-item[data-project-color=blue] {
+  --google-tasks-project-color: var(--google-tasks-blue);
 }
-.todoist-task-container .todoist-task .todoist-task-metadata .task-metadata-item[data-label-color=blue] {
-  --todoist-label-color: var(--todoist-blue);
+.google-tasks-task-container .google-tasks-task .google-tasks-task-metadata .task-metadata-item[data-label-color=blue] {
+  --google-tasks-label-color: var(--google-tasks-blue);
 }
-.todoist-task-container .todoist-task .todoist-task-metadata .task-metadata-item[data-project-color=grape] {
-  --todoist-project-color: var(--todoist-grape);
+.google-tasks-task-container .google-tasks-task .google-tasks-task-metadata .task-metadata-item[data-project-color=grape] {
+  --google-tasks-project-color: var(--google-tasks-grape);
 }
-.todoist-task-container .todoist-task .todoist-task-metadata .task-metadata-item[data-label-color=grape] {
-  --todoist-label-color: var(--todoist-grape);
+.google-tasks-task-container .google-tasks-task .google-tasks-task-metadata .task-metadata-item[data-label-color=grape] {
+  --google-tasks-label-color: var(--google-tasks-grape);
 }
-.todoist-task-container .todoist-task .todoist-task-metadata .task-metadata-item[data-project-color=violet] {
-  --todoist-project-color: var(--todoist-violet);
+.google-tasks-task-container .google-tasks-task .google-tasks-task-metadata .task-metadata-item[data-project-color=violet] {
+  --google-tasks-project-color: var(--google-tasks-violet);
 }
-.todoist-task-container .todoist-task .todoist-task-metadata .task-metadata-item[data-label-color=violet] {
-  --todoist-label-color: var(--todoist-violet);
+.google-tasks-task-container .google-tasks-task .google-tasks-task-metadata .task-metadata-item[data-label-color=violet] {
+  --google-tasks-label-color: var(--google-tasks-violet);
 }
-.todoist-task-container .todoist-task .todoist-task-metadata .task-metadata-item[data-project-color=lavender] {
-  --todoist-project-color: var(--todoist-lavender);
+.google-tasks-task-container .google-tasks-task .google-tasks-task-metadata .task-metadata-item[data-project-color=lavender] {
+  --google-tasks-project-color: var(--google-tasks-lavender);
 }
-.todoist-task-container .todoist-task .todoist-task-metadata .task-metadata-item[data-label-color=lavender] {
-  --todoist-label-color: var(--todoist-lavender);
+.google-tasks-task-container .google-tasks-task .google-tasks-task-metadata .task-metadata-item[data-label-color=lavender] {
+  --google-tasks-label-color: var(--google-tasks-lavender);
 }
-.todoist-task-container .todoist-task .todoist-task-metadata .task-metadata-item[data-project-color=magenta] {
-  --todoist-project-color: var(--todoist-magenta);
+.google-tasks-task-container .google-tasks-task .google-tasks-task-metadata .task-metadata-item[data-project-color=magenta] {
+  --google-tasks-project-color: var(--google-tasks-magenta);
 }
-.todoist-task-container .todoist-task .todoist-task-metadata .task-metadata-item[data-label-color=magenta] {
-  --todoist-label-color: var(--todoist-magenta);
+.google-tasks-task-container .google-tasks-task .google-tasks-task-metadata .task-metadata-item[data-label-color=magenta] {
+  --google-tasks-label-color: var(--google-tasks-magenta);
 }
-.todoist-task-container .todoist-task .todoist-task-metadata .task-metadata-item[data-project-color=salmon] {
-  --todoist-project-color: var(--todoist-salmon);
+.google-tasks-task-container .google-tasks-task .google-tasks-task-metadata .task-metadata-item[data-project-color=salmon] {
+  --google-tasks-project-color: var(--google-tasks-salmon);
 }
-.todoist-task-container .todoist-task .todoist-task-metadata .task-metadata-item[data-label-color=salmon] {
-  --todoist-label-color: var(--todoist-salmon);
+.google-tasks-task-container .google-tasks-task .google-tasks-task-metadata .task-metadata-item[data-label-color=salmon] {
+  --google-tasks-label-color: var(--google-tasks-salmon);
 }
-.todoist-task-container .todoist-task .todoist-task-metadata .task-metadata-item[data-project-color=charcoal] {
-  --todoist-project-color: var(--todoist-charcoal);
+.google-tasks-task-container .google-tasks-task .google-tasks-task-metadata .task-metadata-item[data-project-color=charcoal] {
+  --google-tasks-project-color: var(--google-tasks-charcoal);
 }
-.todoist-task-container .todoist-task .todoist-task-metadata .task-metadata-item[data-label-color=charcoal] {
-  --todoist-label-color: var(--todoist-charcoal);
+.google-tasks-task-container .google-tasks-task .google-tasks-task-metadata .task-metadata-item[data-label-color=charcoal] {
+  --google-tasks-label-color: var(--google-tasks-charcoal);
 }
-.todoist-task-container .todoist-task .todoist-task-metadata .task-metadata-item[data-project-color=grey] {
-  --todoist-project-color: var(--todoist-grey);
+.google-tasks-task-container .google-tasks-task .google-tasks-task-metadata .task-metadata-item[data-project-color=grey] {
+  --google-tasks-project-color: var(--google-tasks-grey);
 }
-.todoist-task-container .todoist-task .todoist-task-metadata .task-metadata-item[data-label-color=grey] {
-  --todoist-label-color: var(--todoist-grey);
+.google-tasks-task-container .google-tasks-task .google-tasks-task-metadata .task-metadata-item[data-label-color=grey] {
+  --google-tasks-label-color: var(--google-tasks-grey);
 }
-.todoist-task-container .todoist-task .todoist-task-metadata .task-metadata-item[data-project-color=taupe] {
-  --todoist-project-color: var(--todoist-taupe);
+.google-tasks-task-container .google-tasks-task .google-tasks-task-metadata .task-metadata-item[data-project-color=taupe] {
+  --google-tasks-project-color: var(--google-tasks-taupe);
 }
-.todoist-task-container .todoist-task .todoist-task-metadata .task-metadata-item[data-label-color=taupe] {
-  --todoist-label-color: var(--todoist-taupe);
+.google-tasks-task-container .google-tasks-task .google-tasks-task-metadata .task-metadata-item[data-label-color=taupe] {
+  --google-tasks-label-color: var(--google-tasks-taupe);
 }
-.todoist-task-container[data-due-metadata=overdue] .task-metadata-item[data-task-metadata-kind=due] {
-  color: var(--todoist-red);
+.google-tasks-task-container[data-due-metadata=overdue] .task-metadata-item[data-task-metadata-kind=due] {
+  color: var(--google-tasks-red);
 }
 
-.todoist-group + .todoist-group {
+.google-tasks-group + .google-tasks-group {
   margin-top: 2em;
 }
 
-.todoist-group-title {
+.google-tasks-group-title {
   margin: 1em 0;
   font-weight: 600;
   cursor: pointer;
@@ -366,32 +405,32 @@ body {
   gap: 0.5em;
   outline: none;
 }
-.todoist-group-title.collapsed {
-  border-bottom: 1px solid var(--todoist-task-separator-color);
+.google-tasks-group-title.collapsed {
+  border-bottom: 1px solid var(--google-tasks-task-separator-color);
   margin-bottom: 0;
   padding-bottom: 0.5em;
 }
-.todoist-group-title .todoist-group-collapse-icon {
+.google-tasks-group-title .google-tasks-group-collapse-icon {
   flex-shrink: 0;
   transition: all 0.2s ease;
   border-radius: 3px;
   padding: 2px;
 }
-.todoist-group-title:focus .todoist-group-collapse-icon {
+.google-tasks-group-title:focus .google-tasks-group-collapse-icon {
   background-color: var(--interactive-hover);
   outline: 2px solid var(--interactive-accent);
   outline-offset: 1px;
 }
-.todoist-group-title:hover .todoist-group-collapse-icon {
+.google-tasks-group-title:hover .google-tasks-group-collapse-icon {
   background-color: var(--interactive-hover);
 }
 
-.todoist-no-tasks {
-  --todoist-callout-color: rgba(var(--color-green-rgb), 0.2);
+.google-tasks-no-tasks {
+  --google-tasks-callout-color: rgba(var(--color-green-rgb), 0.2);
 }
 
-.todoist-query-error {
-  --todoist-callout-color: rgba(var(--color-red-rgb), 0.2);
+.google-tasks-query-error {
+  --google-tasks-callout-color: rgba(var(--color-red-rgb), 0.2);
 }.modal-popover {
   overflow-y: auto;
 }
@@ -716,128 +755,128 @@ button.project-selector:hover, button.project-selector:focus {
   display: none;
 }
 
-.todoist-project-icon[data-project-color=berry-red] {
-  --todoist-project-color: var(--todoist-berry-red);
+.google-tasks-project-icon[data-project-color=berry-red] {
+  --google-tasks-project-color: var(--google-tasks-berry-red);
 }
-.todoist-project-icon[data-label-color=berry-red] {
-  --todoist-label-color: var(--todoist-berry-red);
+.google-tasks-project-icon[data-label-color=berry-red] {
+  --google-tasks-label-color: var(--google-tasks-berry-red);
 }
-.todoist-project-icon[data-project-color=red] {
-  --todoist-project-color: var(--todoist-red);
+.google-tasks-project-icon[data-project-color=red] {
+  --google-tasks-project-color: var(--google-tasks-red);
 }
-.todoist-project-icon[data-label-color=red] {
-  --todoist-label-color: var(--todoist-red);
+.google-tasks-project-icon[data-label-color=red] {
+  --google-tasks-label-color: var(--google-tasks-red);
 }
-.todoist-project-icon[data-project-color=orange] {
-  --todoist-project-color: var(--todoist-orange);
+.google-tasks-project-icon[data-project-color=orange] {
+  --google-tasks-project-color: var(--google-tasks-orange);
 }
-.todoist-project-icon[data-label-color=orange] {
-  --todoist-label-color: var(--todoist-orange);
+.google-tasks-project-icon[data-label-color=orange] {
+  --google-tasks-label-color: var(--google-tasks-orange);
 }
-.todoist-project-icon[data-project-color=yellow] {
-  --todoist-project-color: var(--todoist-yellow);
+.google-tasks-project-icon[data-project-color=yellow] {
+  --google-tasks-project-color: var(--google-tasks-yellow);
 }
-.todoist-project-icon[data-label-color=yellow] {
-  --todoist-label-color: var(--todoist-yellow);
+.google-tasks-project-icon[data-label-color=yellow] {
+  --google-tasks-label-color: var(--google-tasks-yellow);
 }
-.todoist-project-icon[data-project-color=olive-green] {
-  --todoist-project-color: var(--todoist-olive-green);
+.google-tasks-project-icon[data-project-color=olive-green] {
+  --google-tasks-project-color: var(--google-tasks-olive-green);
 }
-.todoist-project-icon[data-label-color=olive-green] {
-  --todoist-label-color: var(--todoist-olive-green);
+.google-tasks-project-icon[data-label-color=olive-green] {
+  --google-tasks-label-color: var(--google-tasks-olive-green);
 }
-.todoist-project-icon[data-project-color=lime-green] {
-  --todoist-project-color: var(--todoist-lime-green);
+.google-tasks-project-icon[data-project-color=lime-green] {
+  --google-tasks-project-color: var(--google-tasks-lime-green);
 }
-.todoist-project-icon[data-label-color=lime-green] {
-  --todoist-label-color: var(--todoist-lime-green);
+.google-tasks-project-icon[data-label-color=lime-green] {
+  --google-tasks-label-color: var(--google-tasks-lime-green);
 }
-.todoist-project-icon[data-project-color=green] {
-  --todoist-project-color: var(--todoist-green);
+.google-tasks-project-icon[data-project-color=green] {
+  --google-tasks-project-color: var(--google-tasks-green);
 }
-.todoist-project-icon[data-label-color=green] {
-  --todoist-label-color: var(--todoist-green);
+.google-tasks-project-icon[data-label-color=green] {
+  --google-tasks-label-color: var(--google-tasks-green);
 }
-.todoist-project-icon[data-project-color=mint-green] {
-  --todoist-project-color: var(--todoist-mint-green);
+.google-tasks-project-icon[data-project-color=mint-green] {
+  --google-tasks-project-color: var(--google-tasks-mint-green);
 }
-.todoist-project-icon[data-label-color=mint-green] {
-  --todoist-label-color: var(--todoist-mint-green);
+.google-tasks-project-icon[data-label-color=mint-green] {
+  --google-tasks-label-color: var(--google-tasks-mint-green);
 }
-.todoist-project-icon[data-project-color=teal] {
-  --todoist-project-color: var(--todoist-teal);
+.google-tasks-project-icon[data-project-color=teal] {
+  --google-tasks-project-color: var(--google-tasks-teal);
 }
-.todoist-project-icon[data-label-color=teal] {
-  --todoist-label-color: var(--todoist-teal);
+.google-tasks-project-icon[data-label-color=teal] {
+  --google-tasks-label-color: var(--google-tasks-teal);
 }
-.todoist-project-icon[data-project-color=sky-blue] {
-  --todoist-project-color: var(--todoist-sky-blue);
+.google-tasks-project-icon[data-project-color=sky-blue] {
+  --google-tasks-project-color: var(--google-tasks-sky-blue);
 }
-.todoist-project-icon[data-label-color=sky-blue] {
-  --todoist-label-color: var(--todoist-sky-blue);
+.google-tasks-project-icon[data-label-color=sky-blue] {
+  --google-tasks-label-color: var(--google-tasks-sky-blue);
 }
-.todoist-project-icon[data-project-color=light-blue] {
-  --todoist-project-color: var(--todoist-light-blue);
+.google-tasks-project-icon[data-project-color=light-blue] {
+  --google-tasks-project-color: var(--google-tasks-light-blue);
 }
-.todoist-project-icon[data-label-color=light-blue] {
-  --todoist-label-color: var(--todoist-light-blue);
+.google-tasks-project-icon[data-label-color=light-blue] {
+  --google-tasks-label-color: var(--google-tasks-light-blue);
 }
-.todoist-project-icon[data-project-color=blue] {
-  --todoist-project-color: var(--todoist-blue);
+.google-tasks-project-icon[data-project-color=blue] {
+  --google-tasks-project-color: var(--google-tasks-blue);
 }
-.todoist-project-icon[data-label-color=blue] {
-  --todoist-label-color: var(--todoist-blue);
+.google-tasks-project-icon[data-label-color=blue] {
+  --google-tasks-label-color: var(--google-tasks-blue);
 }
-.todoist-project-icon[data-project-color=grape] {
-  --todoist-project-color: var(--todoist-grape);
+.google-tasks-project-icon[data-project-color=grape] {
+  --google-tasks-project-color: var(--google-tasks-grape);
 }
-.todoist-project-icon[data-label-color=grape] {
-  --todoist-label-color: var(--todoist-grape);
+.google-tasks-project-icon[data-label-color=grape] {
+  --google-tasks-label-color: var(--google-tasks-grape);
 }
-.todoist-project-icon[data-project-color=violet] {
-  --todoist-project-color: var(--todoist-violet);
+.google-tasks-project-icon[data-project-color=violet] {
+  --google-tasks-project-color: var(--google-tasks-violet);
 }
-.todoist-project-icon[data-label-color=violet] {
-  --todoist-label-color: var(--todoist-violet);
+.google-tasks-project-icon[data-label-color=violet] {
+  --google-tasks-label-color: var(--google-tasks-violet);
 }
-.todoist-project-icon[data-project-color=lavender] {
-  --todoist-project-color: var(--todoist-lavender);
+.google-tasks-project-icon[data-project-color=lavender] {
+  --google-tasks-project-color: var(--google-tasks-lavender);
 }
-.todoist-project-icon[data-label-color=lavender] {
-  --todoist-label-color: var(--todoist-lavender);
+.google-tasks-project-icon[data-label-color=lavender] {
+  --google-tasks-label-color: var(--google-tasks-lavender);
 }
-.todoist-project-icon[data-project-color=magenta] {
-  --todoist-project-color: var(--todoist-magenta);
+.google-tasks-project-icon[data-project-color=magenta] {
+  --google-tasks-project-color: var(--google-tasks-magenta);
 }
-.todoist-project-icon[data-label-color=magenta] {
-  --todoist-label-color: var(--todoist-magenta);
+.google-tasks-project-icon[data-label-color=magenta] {
+  --google-tasks-label-color: var(--google-tasks-magenta);
 }
-.todoist-project-icon[data-project-color=salmon] {
-  --todoist-project-color: var(--todoist-salmon);
+.google-tasks-project-icon[data-project-color=salmon] {
+  --google-tasks-project-color: var(--google-tasks-salmon);
 }
-.todoist-project-icon[data-label-color=salmon] {
-  --todoist-label-color: var(--todoist-salmon);
+.google-tasks-project-icon[data-label-color=salmon] {
+  --google-tasks-label-color: var(--google-tasks-salmon);
 }
-.todoist-project-icon[data-project-color=charcoal] {
-  --todoist-project-color: var(--todoist-charcoal);
+.google-tasks-project-icon[data-project-color=charcoal] {
+  --google-tasks-project-color: var(--google-tasks-charcoal);
 }
-.todoist-project-icon[data-label-color=charcoal] {
-  --todoist-label-color: var(--todoist-charcoal);
+.google-tasks-project-icon[data-label-color=charcoal] {
+  --google-tasks-label-color: var(--google-tasks-charcoal);
 }
-.todoist-project-icon[data-project-color=grey] {
-  --todoist-project-color: var(--todoist-grey);
+.google-tasks-project-icon[data-project-color=grey] {
+  --google-tasks-project-color: var(--google-tasks-grey);
 }
-.todoist-project-icon[data-label-color=grey] {
-  --todoist-label-color: var(--todoist-grey);
+.google-tasks-project-icon[data-label-color=grey] {
+  --google-tasks-label-color: var(--google-tasks-grey);
 }
-.todoist-project-icon[data-project-color=taupe] {
-  --todoist-project-color: var(--todoist-taupe);
+.google-tasks-project-icon[data-project-color=taupe] {
+  --google-tasks-project-color: var(--google-tasks-taupe);
 }
-.todoist-project-icon[data-label-color=taupe] {
-  --todoist-label-color: var(--todoist-taupe);
+.google-tasks-project-icon[data-label-color=taupe] {
+  --google-tasks-label-color: var(--google-tasks-taupe);
 }
-.todoist-project-icon {
-  color: var(--todoist-project-color);
+.google-tasks-project-icon {
+  color: var(--google-tasks-project-color);
 }
 
 .task-time-menu {
@@ -903,39 +942,39 @@ button.project-selector:hover, button.project-selector:focus {
 .task-duration-menu .duration-option.is-selected {
   background-color: var(--interactive-accent);
   color: var(--text-on-accent);
-}.todoist-onboarding-token-form {
+}.google-tasks-onboarding-token-form {
   margin: 2em 0;
 }
-.todoist-onboarding-token-form .react-aria-TextField {
+.google-tasks-onboarding-token-form .react-aria-TextField {
   display: flex;
   flex-direction: column;
 }
-.todoist-onboarding-token-form .react-aria-TextField > * + * {
+.google-tasks-onboarding-token-form .react-aria-TextField > * + * {
   margin-top: 0.5em;
 }
-.todoist-onboarding-token-form .react-aria-TextField .react-aria-Group {
+.google-tasks-onboarding-token-form .react-aria-TextField .react-aria-Group {
   display: flex;
   align-items: center;
 }
-.todoist-onboarding-token-form .react-aria-TextField .react-aria-Group > * + * {
+.google-tasks-onboarding-token-form .react-aria-TextField .react-aria-Group > * + * {
   margin-left: 0.5em;
 }
-.todoist-onboarding-token-form .react-aria-TextField input {
+.google-tasks-onboarding-token-form .react-aria-TextField input {
   flex-grow: 1;
 }
-.todoist-onboarding-token-form .react-aria-TextField input[data-invalid] {
+.google-tasks-onboarding-token-form .react-aria-TextField input[data-invalid] {
   border: 1px solid var(--background-modifier-error);
 }
-.todoist-onboarding-token-form .react-aria-TextField .react-aria-Label {
+.google-tasks-onboarding-token-form .react-aria-TextField .react-aria-Label {
   font-weight: 600;
 }
-.todoist-onboarding-token-form .controls {
+.google-tasks-onboarding-token-form .controls {
   display: flex;
   justify-content: flex-end;
   gap: 1em;
   margin-top: 1em;
 }
-.todoist-onboarding-token-form .react-aria-FieldError {
+.google-tasks-onboarding-token-form .react-aria-FieldError {
   color: var(--text-error);
   font-size: var(--font-small);
 }.mod-cta .setting-button-icon {
@@ -1009,64 +1048,64 @@ button.project-selector:hover, button.project-selector:focus {
   flex: 1;
 }
 .labels-control-container .labels-control-item .labels-control-item-details .label-icon[data-label-color=berry-red] {
-  color: var(--todoist-berry-red);
+  color: var(--google-tasks-berry-red);
 }
 .labels-control-container .labels-control-item .labels-control-item-details .label-icon[data-label-color=red] {
-  color: var(--todoist-red);
+  color: var(--google-tasks-red);
 }
 .labels-control-container .labels-control-item .labels-control-item-details .label-icon[data-label-color=orange] {
-  color: var(--todoist-orange);
+  color: var(--google-tasks-orange);
 }
 .labels-control-container .labels-control-item .labels-control-item-details .label-icon[data-label-color=yellow] {
-  color: var(--todoist-yellow);
+  color: var(--google-tasks-yellow);
 }
 .labels-control-container .labels-control-item .labels-control-item-details .label-icon[data-label-color=olive-green] {
-  color: var(--todoist-olive-green);
+  color: var(--google-tasks-olive-green);
 }
 .labels-control-container .labels-control-item .labels-control-item-details .label-icon[data-label-color=lime-green] {
-  color: var(--todoist-lime-green);
+  color: var(--google-tasks-lime-green);
 }
 .labels-control-container .labels-control-item .labels-control-item-details .label-icon[data-label-color=green] {
-  color: var(--todoist-green);
+  color: var(--google-tasks-green);
 }
 .labels-control-container .labels-control-item .labels-control-item-details .label-icon[data-label-color=mint-green] {
-  color: var(--todoist-mint-green);
+  color: var(--google-tasks-mint-green);
 }
 .labels-control-container .labels-control-item .labels-control-item-details .label-icon[data-label-color=teal] {
-  color: var(--todoist-teal);
+  color: var(--google-tasks-teal);
 }
 .labels-control-container .labels-control-item .labels-control-item-details .label-icon[data-label-color=sky-blue] {
-  color: var(--todoist-sky-blue);
+  color: var(--google-tasks-sky-blue);
 }
 .labels-control-container .labels-control-item .labels-control-item-details .label-icon[data-label-color=light-blue] {
-  color: var(--todoist-light-blue);
+  color: var(--google-tasks-light-blue);
 }
 .labels-control-container .labels-control-item .labels-control-item-details .label-icon[data-label-color=blue] {
-  color: var(--todoist-blue);
+  color: var(--google-tasks-blue);
 }
 .labels-control-container .labels-control-item .labels-control-item-details .label-icon[data-label-color=grape] {
-  color: var(--todoist-grape);
+  color: var(--google-tasks-grape);
 }
 .labels-control-container .labels-control-item .labels-control-item-details .label-icon[data-label-color=violet] {
-  color: var(--todoist-violet);
+  color: var(--google-tasks-violet);
 }
 .labels-control-container .labels-control-item .labels-control-item-details .label-icon[data-label-color=lavender] {
-  color: var(--todoist-lavender);
+  color: var(--google-tasks-lavender);
 }
 .labels-control-container .labels-control-item .labels-control-item-details .label-icon[data-label-color=magenta] {
-  color: var(--todoist-magenta);
+  color: var(--google-tasks-magenta);
 }
 .labels-control-container .labels-control-item .labels-control-item-details .label-icon[data-label-color=salmon] {
-  color: var(--todoist-salmon);
+  color: var(--google-tasks-salmon);
 }
 .labels-control-container .labels-control-item .labels-control-item-details .label-icon[data-label-color=charcoal] {
-  color: var(--todoist-charcoal);
+  color: var(--google-tasks-charcoal);
 }
 .labels-control-container .labels-control-item .labels-control-item-details .label-icon[data-label-color=grey] {
-  color: var(--todoist-grey);
+  color: var(--google-tasks-grey);
 }
 .labels-control-container .labels-control-item .labels-control-item-details .label-icon[data-label-color=taupe] {
-  color: var(--todoist-taupe);
+  color: var(--google-tasks-taupe);
 }
 .labels-control-container .labels-control-item .labels-control-item-details .label-deleted-warning-icon {
   color: var(--text-warning);

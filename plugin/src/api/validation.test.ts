@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { z } from "zod";
 
-import { parseApiResponse, TodoistValidationError } from "./validation";
+import { GoogleTasksValidationError, parseApiResponse } from "./validation";
 
 describe("parseApiResponse", () => {
   const testSchema = z.object({
@@ -36,11 +36,11 @@ describe("parseApiResponse", () => {
     });
   });
 
-  it("throws TodoistValidationError for invalid data", () => {
+  it("throws GoogleTasksValidationError for invalid data", () => {
     const jsonBody = JSON.stringify({ name: "John", age: "thirty" });
     expect(() => {
       parseApiResponse(testSchema, jsonBody);
-    }).toThrow(TodoistValidationError);
+    }).toThrow(GoogleTasksValidationError);
   });
 
   it("preserves camelized data in error", () => {
@@ -49,8 +49,8 @@ describe("parseApiResponse", () => {
       parseApiResponse(testSchema, jsonBody);
       expect.fail("Should have thrown an error");
     } catch (error) {
-      expect(error).toBeInstanceOf(TodoistValidationError);
-      const validationError = error as TodoistValidationError;
+      expect(error).toBeInstanceOf(GoogleTasksValidationError);
+      const validationError = error as GoogleTasksValidationError;
       // Data should be camelized before validation
       expect(validationError.data).toEqual({ name: "John", age: "thirty" });
     }
@@ -62,9 +62,9 @@ describe("parseApiResponse", () => {
       parseApiResponse(testSchema, jsonBody);
       expect.fail("Should have thrown an error");
     } catch (error) {
-      expect(error).toBeInstanceOf(TodoistValidationError);
-      const validationError = error as TodoistValidationError;
-      expect(validationError.message).toContain("Todoist API validation failed");
+      expect(error).toBeInstanceOf(GoogleTasksValidationError);
+      const validationError = error as GoogleTasksValidationError;
+      expect(validationError.message).toContain("Google Tasks API validation failed");
       expect(validationError.message).toContain("age");
     }
   });
@@ -114,7 +114,7 @@ describe("parseApiResponse", () => {
     const jsonBody = JSON.stringify({ items: ["a", 123, "c"] });
     expect(() => {
       parseApiResponse(arraySchema, jsonBody);
-    }).toThrow(TodoistValidationError);
+    }).toThrow(GoogleTasksValidationError);
   });
 
   it("validates nullable fields", () => {
@@ -139,7 +139,7 @@ describe("parseApiResponse", () => {
   });
 });
 
-describe("TodoistValidationError", () => {
+describe("GoogleTasksValidationError", () => {
   it("contains zodError and original data", () => {
     const schema = z.object({ id: z.number() });
     const jsonBody = JSON.stringify({ id: "not-a-number" });
@@ -148,11 +148,11 @@ describe("TodoistValidationError", () => {
       parseApiResponse(schema, jsonBody);
       expect.fail("Should have thrown an error");
     } catch (error) {
-      expect(error).toBeInstanceOf(TodoistValidationError);
-      const validationError = error as TodoistValidationError;
+      expect(error).toBeInstanceOf(GoogleTasksValidationError);
+      const validationError = error as GoogleTasksValidationError;
       expect(validationError.zodError).toBeDefined();
       expect(validationError.data).toEqual({ id: "not-a-number" });
-      expect(validationError.name).toBe("TodoistValidationError");
+      expect(validationError.name).toBe("GoogleTasksValidationError");
     }
   });
 });

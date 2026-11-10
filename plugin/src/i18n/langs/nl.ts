@@ -13,7 +13,7 @@ export const nl: DeepPartial<Translations> = {
       },
       apiToken: {
         label: "API-token",
-        description: "De Todoist API-token die wordt gebruikt bij het ophalen van taken",
+        description: "De Google Tasks API-token die wordt gebruikt bij het ophalen van taken",
         buttonLabel: "Instellen",
       },
     },
@@ -52,7 +52,7 @@ export const nl: DeepPartial<Translations> = {
       wrapLinksInParens: {
         label: "Haakjes toevoegen aan paginalinks",
         description:
-          "Wanneer ingeschakeld, worden Obsidian-paginalinks in Todoist-taken tussen haakjes geplaatst",
+          "Wanneer ingeschakeld, worden Obsidian-paginalinks in Google Tasks-taken tussen haakjes geplaatst",
       },
       addTaskButtonAddsPageLink: {
         label: "Taak toevoegen-knop voegt paginalink toe",
@@ -78,7 +78,7 @@ export const nl: DeepPartial<Translations> = {
     },
   },
   createTaskModal: {
-    loadingMessage: "Todoist-gegevens laden...",
+    loadingMessage: "Google Tasks-gegevens laden...",
     successNotice: "Taak succesvol aangemaakt",
     errorNotice: "Kan taak niet aanmaken",
     taskNamePlaceholder: "Taaknaam",
@@ -130,10 +130,10 @@ export const nl: DeepPartial<Translations> = {
   onboardingModal: {
     failureNoticeMessage: "Opslaan van API-token mislukt",
     explainer:
-      "Om deze plug-in te gebruiken, moet u uw Todoist API-token opgeven. Hiermee kunnen we gegevens lezen en schrijven naar of vanuit uw Todoist-account.",
-    todoistGuideHint: {
+      "Om deze plug-in te gebruiken, moet u uw Google Tasks API-token opgeven. Hiermee kunnen we gegevens lezen en schrijven naar of vanuit uw Google Tasks-account.",
+    googleTasksGuideHint: {
       before: "U kunt ",
-      linkText: "Todoist's gids",
+      linkText: "Google Tasks' gids",
       after: " volgen om uw API-token te vinden.",
     },
     tokenInputLabel: "API-token",
@@ -147,9 +147,9 @@ export const nl: DeepPartial<Translations> = {
       error: {
         header: "Fout",
         badRequest:
-          "De Todoist API heeft het verzoek afgewezen. Controleer het filter om te zien of het geldig is.",
+          "De Google Tasks API heeft het verzoek afgewezen. Controleer het filter om te zien of het geldig is.",
         unauthorized:
-          "Het Todoist API-verzoek mist of heeft onjuiste inloggegevens. Controleer de API-token in de instellingen.",
+          "Het Google Tasks API-verzoek mist of heeft onjuiste inloggegevens. Controleer de API-token in de instellingen.",
         unknown:
           "Er is een onbekende fout opgetreden. Controleer de Console in het venster Ontwikkelaarstools voor meer informatie",
       },
@@ -161,8 +161,8 @@ export const nl: DeepPartial<Translations> = {
     },
     contextMenu: {
       completeTaskLabel: "Taak voltooien",
-      openTaskInAppLabel: "Open taak in Todoist (app)",
-      openTaskInBrowserLabel: "Open taak in Todoist (web)",
+      openTaskInAppLabel: "Open taak in Google Tasks (app)",
+      openTaskInBrowserLabel: "Open taak in Google Tasks (web)",
     },
     failedCloseMessage: "Kan taak niet sluiten",
     header: {
@@ -185,7 +185,7 @@ export const nl: DeepPartial<Translations> = {
     },
   },
   commands: {
-    sync: "Synchroniseer met Todoist",
+    sync: "Synchroniseer met Google Tasks",
     addTask: "Taak toevoegen",
     addTaskPageContent: "Taak toevoegen met huidige pagina in taakinhoud",
     addTaskPageDescription: "Taak toevoegen met huidige pagina in taakbeschrijving",
@@ -193,7 +193,7 @@ export const nl: DeepPartial<Translations> = {
   tokenValidation: {
     emptyTokenError: "API-token mag niet leeg zijn",
     invalidTokenError:
-      "Oeps! Todoist herkent deze token niet. Controleer nogmaals en probeer opnieuw!",
+      "Oeps! Google Tasks herkent deze token niet. Controleer nogmaals en probeer opnieuw!",
   },
   dates: {
     today: "Vandaag",

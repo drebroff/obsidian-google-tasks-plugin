@@ -17,9 +17,9 @@ All commands run from this `plugin/` directory:
 ## Project Structure
 
 - `src/index.ts` - Plugin entry point; initializes services, registers commands
-- `src/api/` - Todoist REST API client and domain models
+- `src/api/` - Google Tasks REST API client and domain models
 - `src/data/` - Repository pattern for caching API data with sync
-- `src/query/` - Custom query language parser and `todoist` code block renderer
+- `src/query/` - Custom query language parser and `google-tasks` code block renderer
 - `src/ui/` - React components (React 19 + React Aria Components + Framer Motion)
 - `src/services/` - Business logic (token management, modal orchestration)
 - `src/commands/` - Obsidian command definitions
@@ -28,7 +28,7 @@ All commands run from this `plugin/` directory:
 
 ## Key Design Decisions
 
-- **Repository pattern** (`src/data/repository.ts`): Generic caching layer that decouples UI from API fetch timing. All Todoist data flows through repositories.
+- **Repository pattern** (`src/data/repository.ts`): Generic caching layer that decouples UI from API fetch timing. All Google Tasks data flows through repositories.
 - **Zustand for settings** (`src/settings.ts`): Reactive state management for plugin configuration, avoids prop drilling.
 - **React Aria Components**: Accessibility-first UI primitives. Prefer these over custom interactive elements.
 - **SCSS with component-scoped styles**: Each component has co-located `.scss`; supports Obsidian light/dark themes.

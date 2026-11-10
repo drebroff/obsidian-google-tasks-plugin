@@ -187,7 +187,7 @@
         }
       }
 
-      .task-metadata-item {
+      .google-tasks-task-metadata-item {
         display: flex;
         align-items: center;
 
@@ -217,7 +217,7 @@
   }
 
   &[data-due-metadata="overdue"] {
-    .task-metadata-item[data-task-metadata-kind="due"] {
+    .google-tasks-task-metadata-item[data-meta="due"] {
       color: var(--google-tasks-red);
     }
   }

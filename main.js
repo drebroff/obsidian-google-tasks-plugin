@@ -27495,7 +27495,8 @@ const Callout = ({ title, contents, iconId, className }) => {
 };
 const EmptyDisplay = ({ message }) => {
   const i18n = t().query.displays.empty;
-  message ?? i18n.label;
+  const displayMessage = message ?? i18n.label;
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(Callout, { className: "google-tasks-no-tasks", title: displayMessage, iconId: "info" });
 };
 var QueryErrorKind = /* @__PURE__ */ ((QueryErrorKind2) => {
   QueryErrorKind2[QueryErrorKind2["BadRequest"] = 0] = "BadRequest";
@@ -28901,7 +28902,7 @@ const makeServices = (plugin) => {
     tasks: new GoogleTasksAdapter()
   };
 };
-const BuildStamp = "v2.6.0-d09be3a-261110T1847";
+const BuildStamp = "v2.6.0-5c319b4-261110T2039";
 const AutoRefreshIntervalControl = ({ initialValue, onChange }) => {
   const [value, setValue] = reactExports.useState(`${initialValue}`);
   const onInputChange = (ev) => {

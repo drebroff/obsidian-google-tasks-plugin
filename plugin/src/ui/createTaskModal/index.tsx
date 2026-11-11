@@ -7,6 +7,7 @@ import type { TaskList } from "@/api/domain/taskList";
 import { ModalContext, PluginContext } from "@/ui/context";
 
 import { TaskContentInput } from "./TaskContentInput";
+import { TaskListSelect } from "./TaskListSelect";
 import "./styles.scss";
 
 export type LinkDestination = "content" | "description";
@@ -113,18 +114,7 @@ export const CreateTaskModal: React.FC<CreateTaskProps> = ({
       />
       <div className="task-creation-selectors">
         <div className="task-creation-selectors-group">
-          <select
-            className="dropdown task-list-selector"
-            value={activeListId}
-            onChange={(e) => setSelectedListId(e.target.value)}
-            aria-label="List"
-          >
-            {lists.map((l) => (
-              <option key={l.id} value={l.id}>
-                {l.title}
-              </option>
-            ))}
-          </select>
+          <TaskListSelect lists={lists} value={activeListId} onChange={setSelectedListId} />
           <input
             type="date"
             className="input task-due-date"

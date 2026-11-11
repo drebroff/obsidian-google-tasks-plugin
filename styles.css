@@ -471,31 +471,48 @@ body {
 .task-creation-modal-root .task-creation-selectors .task-creation-selectors-group > * + * {
   margin-left: 0.5em;
 }
+.task-creation-modal-root .task-creation-selectors .task-creation-selectors-group > * {
+  flex: 0 0 auto;
+}
 .task-creation-modal-root .task-creation-selectors button,
-.task-creation-modal-root .task-creation-selectors select,
 .task-creation-modal-root .task-creation-selectors input[type=date] {
   box-shadow: none;
   background-color: unset;
-  border: 1px solid var(--color-base-25);
+  border: 1px solid var(--modal-border-color, var(--background-modifier-border));
   color: var(--text-muted);
   font-size: var(--font-ui-small);
+  border-radius: var(--radius-m, 8px);
 }
 .task-creation-modal-root .task-creation-selectors button > * + *,
-.task-creation-modal-root .task-creation-selectors select > * + *,
 .task-creation-modal-root .task-creation-selectors input[type=date] > * + * {
   margin-left: 0.5em;
 }
 .task-creation-modal-root .task-creation-selectors button:hover, .task-creation-modal-root .task-creation-selectors button:focus,
-.task-creation-modal-root .task-creation-selectors select:hover,
-.task-creation-modal-root .task-creation-selectors select:focus,
 .task-creation-modal-root .task-creation-selectors input[type=date]:hover,
 .task-creation-modal-root .task-creation-selectors input[type=date]:focus {
   border: 1px solid var(--interactive-accent);
   box-shadow: var(--box-shadow-hover);
 }
-.task-creation-modal-root .task-creation-selectors select,
 .task-creation-modal-root .task-creation-selectors input[type=date] {
   padding: var(--size-2-1) var(--size-2-2);
+}
+.task-creation-modal-root .task-creation-selectors .task-list-select-trigger {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  padding: var(--size-2-1) var(--size-2-2);
+}
+.task-creation-modal-root .task-creation-selectors .task-list-select-trigger > * + * {
+  margin-left: 0;
+}
+.task-creation-modal-root .task-creation-selectors .task-list-select-trigger .task-list-select-value {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 240px;
+}
+.task-creation-modal-root .task-creation-selectors .task-list-select-trigger .task-list-select-chevron {
+  color: var(--text-faint);
 }
 .task-creation-modal-root .task-creation-notes ul {
   padding-inline-start: 16px;
@@ -553,10 +570,39 @@ body {
 .task-option-dialog {
   background-color: var(--modal-background);
   border: var(--modal-border-width) solid var(--modal-border-color);
-  border-radius: 4px;
+  border-radius: var(--radius-m, 8px);
   min-width: 200px;
   box-shadow: var(--shadow-s);
   padding: 0.5em 0;
+}
+
+.task-list-select-popover {
+  min-width: 140px;
+  z-index: 1000;
+}
+
+.task-list-select-listbox {
+  display: flex;
+  flex-direction: column;
+  max-height: 260px;
+  overflow-y: auto;
+}
+
+.task-list-select-option {
+  padding: 6px 1em;
+  font-size: var(--font-ui-small);
+  border-radius: var(--radius-s, 4px);
+  margin: 2px 0.5em;
+  cursor: pointer;
+  white-space: nowrap;
+  outline: none;
+}
+.task-list-select-option:hover, .task-list-select-option[data-focused] {
+  background-color: var(--background-modifier-hover);
+}
+.task-list-select-option[data-selected] {
+  color: var(--interactive-accent);
+  font-weight: var(--font-semibold);
 }
 
 .task-date-menu .react-aria-MenuItem[data-focused] {

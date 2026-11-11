@@ -1,11 +1,15 @@
+import { toCalendarDateTime } from "@internationalized/date";
 import { Notice, type TFile } from "obsidian";
 import type React from "react";
 import { useState } from "react";
 import { Button } from "react-aria-components";
 
 import type { TaskList } from "@/api/domain/taskList";
+import { timezone, today } from "@/infra/time";
+import { type DueDateDefaultSetting, useSettingsStore } from "@/settings";
 import { ModalContext, PluginContext } from "@/ui/context";
 
+import { type DueDate, DueDateSelector } from "./DueDateSelector";
 import { TaskContentInput } from "./TaskContentInput";
 import { TaskListSelect } from "./TaskListSelect";
 import "./styles.scss";
@@ -35,6 +39,33 @@ const getLinkDestinationMessage = (
   }
 };
 
+const calculateDefaultDueDate = (setting: DueDateDefaultSetting): DueDate | undefined => {
+  switch (setting) {
+    case "none":
+      return undefined;
+    case "today":
+      return { date: today(), timeInfo: undefined };
+    case "tomorrow":
+      return { date: today().add({ days: 1 }), timeInfo: undefined };
+    default: {
+      const _: never = setting;
+      throw new Error("Unknown due date default setting");
+    }
+  }
+};
+
+const getDueRFC3339 = (due: DueDate | undefined): string | undefined => {
+  if (due === undefined) {
+    return undefined;
+  }
+
+  if (due.timeInfo !== undefined) {
+    return toCalendarDateTime(due.date, due.timeInfo.time).toDate(timezone()).toISOString();
+  }
+
+  return `${due.date.toString()}T00:00:00.000Z`;
+};
+
 export const CreateTaskModal: React.FC<CreateTaskProps> = ({
   initialContent = "",
   fileContext,
@@ -45,7 +76,9 @@ export const CreateTaskModal: React.FC<CreateTaskProps> = ({
 
   const [title, setTitle] = useState(initialContent);
   const [notes, setNotes] = useState("");
-  const [dueDate, setDueDate] = useState("");
+  const [dueDate, setDueDate] = useState<DueDate | undefined>(() =>
+    calculateDefaultDueDate(useSettingsStore.getState().taskCreationDefaultDueDate),
+  );
   const [selectedListId, setSelectedListId] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -77,7 +110,7 @@ export const CreateTaskModal: React.FC<CreateTaskProps> = ({
 
     try {
       setIsSubmitting(true);
-      const dueRFC3339 = dueDate ? `${dueDate}T00:00:00.000Z` : undefined;
+      const dueRFC3339 = getDueRFC3339(dueDate);
 
       await plugin.services.tasks.actions.createTask(activeListId, finalTitle, {
         notes: finalNotes || undefined,
@@ -114,14 +147,8 @@ export const CreateTaskModal: React.FC<CreateTaskProps> = ({
       />
       <div className="task-creation-selectors">
         <div className="task-creation-selectors-group">
+          <DueDateSelector selected={dueDate} setSelected={setDueDate} />
           <TaskListSelect lists={lists} value={activeListId} onChange={setSelectedListId} />
-          <input
-            type="date"
-            className="input task-due-date"
-            value={dueDate}
-            onChange={(e) => setDueDate(e.target.value)}
-            aria-label="Due date"
-          />
         </div>
       </div>
       <div className="task-creation-notes">

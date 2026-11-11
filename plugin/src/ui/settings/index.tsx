@@ -3,11 +3,12 @@ import type React from "react";
 import { useState } from "react";
 import { createRoot, type Root } from "react-dom/client";
 
+import { t } from "@/i18n";
 import { BuildStamp } from "@/stamp";
 import { PluginContext } from "@/ui/context";
 
 import type GoogleTasksPlugin from "../../index";
-import { type Settings, useSettingsStore } from "../../settings";
+import { type DueDateDefaultSetting, type Settings, useSettingsStore } from "../../settings";
 import { AutoRefreshIntervalControl } from "./AutoRefreshIntervalControl";
 import { Setting } from "./SettingItem";
 import "./styles.scss";
@@ -175,6 +176,31 @@ const SettingsRoot: React.FC<Props> = ({ plugin }) => {
           <AutoRefreshIntervalControl
             initialValue={settings.autoRefreshInterval}
             onChange={mkOptionUpdate("autoRefreshInterval")}
+          />
+        </Setting.Root>
+
+        <h2>{t().settings.taskCreation.header}</h2>
+        <Setting.Root
+          name={t().settings.taskCreation.defaultDueDate.label}
+          description={t().settings.taskCreation.defaultDueDate.description}
+        >
+          <Setting.DropdownControl<DueDateDefaultSetting>
+            value={settings.taskCreationDefaultDueDate}
+            options={[
+              {
+                label: t().settings.taskCreation.defaultDueDate.options.none,
+                value: "none",
+              },
+              {
+                label: t().settings.taskCreation.defaultDueDate.options.today,
+                value: "today",
+              },
+              {
+                label: t().settings.taskCreation.defaultDueDate.options.tomorrow,
+                value: "tomorrow",
+              },
+            ]}
+            onClick={mkOptionUpdate("taskCreationDefaultDueDate")}
           />
         </Setting.Root>
 

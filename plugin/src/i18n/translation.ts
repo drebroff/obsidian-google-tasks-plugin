@@ -75,6 +75,8 @@ export type Translations = {
         description: string;
         options: {
           none: string;
+          today: string;
+          tomorrow: string;
         };
       };
       defaultProject: {

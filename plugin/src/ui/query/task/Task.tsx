@@ -38,6 +38,11 @@ export const Task: React.FC<Props> = ({ tree }) => {
     <>
       <motion.div
         className="google-tasks-task-container"
+        data-due-metadata={
+          tree.status !== "completed" && tree.due !== undefined && tree.due.start.isOverdue
+            ? "overdue"
+            : undefined
+        }
         initial={{
           opacity: transitionOpacity,
         }}

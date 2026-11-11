@@ -79,6 +79,8 @@ export const en: Translations = {
         description: "The default due date to set when creating new tasks",
         options: {
           none: "No default",
+          today: "Today",
+          tomorrow: "Tomorrow",
         },
       },
       defaultProject: {

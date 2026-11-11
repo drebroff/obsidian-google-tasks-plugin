@@ -25,9 +25,19 @@ export type DueDate = {
   end: DateInfo | undefined;
 };
 
+// Google Tasks has no all-day support: date-only due dates are stored as
+// datetimes at midnight (conventionally in UTC). Treat such timestamps as
+// all-day dates for display purposes.
+const allDayTimestampPattern = /T00:00(?::00(?:\.\d+)?)?(?:Z|\+00:00)$/;
+
+const isAllDayTimestamp = (date: string): boolean => {
+  return allDayTimestampPattern.test(date);
+};
+
 const parseDueDate = (dueDate: ApiDueDate): DueDate => {
   let start: ZonedDateTime | CalendarDate;
-  const hasTime = dueDate.date.includes("T");
+  const hasDateTime = dueDate.date.includes("T");
+  const hasTime = hasDateTime && !isAllDayTimestamp(dueDate.date);
   if (hasTime) {
     // If the datetime comes with a trailing Z, then the task has a fixed timezone. We respect
     // this and convert it into their local timezone. Otherwise, it is a floating timezone and we
@@ -37,6 +47,8 @@ const parseDueDate = (dueDate: ApiDueDate): DueDate => {
     } else {
       start = fromDate(parseDateTime(dueDate.date).toDate(timezone()), timezone());
     }
+  } else if (hasDateTime) {
+    start = parseDate(dueDate.date.slice(0, 10));
   } else {
     start = parseDate(dueDate.date);
   }

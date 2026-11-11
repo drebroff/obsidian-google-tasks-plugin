@@ -78,7 +78,9 @@ const en = {
         label: "Default due date",
         description: "The default due date to set when creating new tasks",
         options: {
-          none: "No default"
+          none: "No default",
+          today: "Today",
+          tomorrow: "Tomorrow"
         }
       },
       defaultProject: {
@@ -345,6 +347,15 @@ const nl = {
           off: "Uitgeschakeld",
           description: "Taakbeschrijving",
           content: "Taaknaam"
+        }
+      },
+      defaultDueDate: {
+        label: "Standaard vervaldatum",
+        description: "De standaard vervaldatum voor nieuwe taken",
+        options: {
+          none: "Geen standaard",
+          today: "Vandaag",
+          tomorrow: "Morgen"
         }
       }
     },
@@ -4762,10 +4773,139 @@ class $3b62074eb05584b2$export$80ee6245ec4f29ec {
     this.identifier = "gregory";
   }
 }
+const $2fe286d2fb449abb$export$7a5acbd77d414bd9 = {
+  "001": 1,
+  AD: 1,
+  AE: 6,
+  AF: 6,
+  AI: 1,
+  AL: 1,
+  AM: 1,
+  AN: 1,
+  AR: 1,
+  AT: 1,
+  AU: 1,
+  AX: 1,
+  AZ: 1,
+  BA: 1,
+  BE: 1,
+  BG: 1,
+  BH: 6,
+  BM: 1,
+  BN: 1,
+  BY: 1,
+  CH: 1,
+  CL: 1,
+  CM: 1,
+  CN: 1,
+  CR: 1,
+  CY: 1,
+  CZ: 1,
+  DE: 1,
+  DJ: 6,
+  DK: 1,
+  DZ: 6,
+  EC: 1,
+  EE: 1,
+  EG: 6,
+  ES: 1,
+  FI: 1,
+  FJ: 1,
+  FO: 1,
+  FR: 1,
+  GB: 1,
+  GE: 1,
+  GF: 1,
+  GP: 1,
+  GR: 1,
+  HR: 1,
+  HU: 1,
+  IE: 1,
+  IQ: 6,
+  IR: 6,
+  IS: 1,
+  IT: 1,
+  JO: 6,
+  KG: 1,
+  KW: 6,
+  KZ: 1,
+  LB: 1,
+  LI: 1,
+  LK: 1,
+  LT: 1,
+  LU: 1,
+  LV: 1,
+  LY: 6,
+  MC: 1,
+  MD: 1,
+  ME: 1,
+  MK: 1,
+  MN: 1,
+  MQ: 1,
+  MV: 5,
+  MY: 1,
+  NL: 1,
+  NO: 1,
+  NZ: 1,
+  OM: 6,
+  PL: 1,
+  QA: 6,
+  RE: 1,
+  RO: 1,
+  RS: 1,
+  RU: 1,
+  SD: 6,
+  SE: 1,
+  SI: 1,
+  SK: 1,
+  SM: 1,
+  SY: 6,
+  TJ: 1,
+  TM: 1,
+  TR: 1,
+  UA: 1,
+  UY: 1,
+  UZ: 1,
+  VA: 1,
+  VN: 1,
+  XK: 1
+};
+function $14e0f24ef4ac5c92$export$ea39ec197993aef0(a, b) {
+  b = $11d87f3f76e88657$export$b4a036af3fc0b032(b, a.calendar);
+  return a.era === b.era && a.year === b.year && a.month === b.month && a.day === b.day;
+}
+function $14e0f24ef4ac5c92$export$a18c89cbd24170ff(a, b) {
+  b = $11d87f3f76e88657$export$b4a036af3fc0b032(b, a.calendar);
+  a = $14e0f24ef4ac5c92$export$a5a3b454ada2268e(a);
+  b = $14e0f24ef4ac5c92$export$a5a3b454ada2268e(b);
+  return a.era === b.era && a.year === b.year && a.month === b.month;
+}
+function $14e0f24ef4ac5c92$export$91b62ebf2ba703ee(a, b) {
+  return $14e0f24ef4ac5c92$export$dbc69fd56b53d5e(a.calendar, b.calendar) && $14e0f24ef4ac5c92$export$ea39ec197993aef0(a, b);
+}
 function $14e0f24ef4ac5c92$export$dbc69fd56b53d5e(a, b) {
   var _a_isEqual, _b_isEqual;
   var _a_isEqual1, _ref;
   return (_ref = (_a_isEqual1 = (_a_isEqual = a.isEqual) === null || _a_isEqual === void 0 ? void 0 : _a_isEqual.call(a, b)) !== null && _a_isEqual1 !== void 0 ? _a_isEqual1 : (_b_isEqual = b.isEqual) === null || _b_isEqual === void 0 ? void 0 : _b_isEqual.call(b, a)) !== null && _ref !== void 0 ? _ref : a.identifier === b.identifier;
+}
+function $14e0f24ef4ac5c92$export$629b0a497aa65267(date2, timeZone) {
+  return $14e0f24ef4ac5c92$export$ea39ec197993aef0(date2, $14e0f24ef4ac5c92$export$d0bdf45af03a6ea3(timeZone));
+}
+const $14e0f24ef4ac5c92$var$DAY_MAP = {
+  sun: 0,
+  mon: 1,
+  tue: 2,
+  wed: 3,
+  thu: 4,
+  fri: 5,
+  sat: 6
+};
+function $14e0f24ef4ac5c92$export$2061056d06d7cdf7(date2, locale2, firstDayOfWeek) {
+  let julian = date2.calendar.toJulianDay(date2);
+  let weekStart = firstDayOfWeek ? $14e0f24ef4ac5c92$var$DAY_MAP[firstDayOfWeek] : $14e0f24ef4ac5c92$var$getWeekStart(locale2);
+  let dayOfWeek = Math.ceil(julian + 1 - weekStart) % 7;
+  if (dayOfWeek < 0) dayOfWeek += 7;
+  return dayOfWeek;
 }
 function $14e0f24ef4ac5c92$export$461939dd4422153(timeZone) {
   return $11d87f3f76e88657$export$1b96692a1ba042ac(Date.now(), timeZone);
@@ -4786,6 +4926,113 @@ let $14e0f24ef4ac5c92$var$localTimeZone = null;
 function $14e0f24ef4ac5c92$export$aa8b41735afcabd2() {
   if ($14e0f24ef4ac5c92$var$localTimeZone == null) $14e0f24ef4ac5c92$var$localTimeZone = new Intl.DateTimeFormat().resolvedOptions().timeZone;
   return $14e0f24ef4ac5c92$var$localTimeZone;
+}
+function $14e0f24ef4ac5c92$export$a5a3b454ada2268e(date2) {
+  return date2.subtract({
+    days: date2.day - 1
+  });
+}
+function $14e0f24ef4ac5c92$export$a2258d9c4118825c(date2) {
+  return date2.add({
+    days: date2.calendar.getDaysInMonth(date2) - date2.day
+  });
+}
+function $14e0f24ef4ac5c92$export$f91e89d3d0406102(date2) {
+  return $14e0f24ef4ac5c92$export$a5a3b454ada2268e(date2.subtract({
+    months: date2.month - 1
+  }));
+}
+function $14e0f24ef4ac5c92$export$5412ac11713b72ad(date2) {
+  if (date2.calendar.getMinimumMonthInYear) return date2.calendar.getMinimumMonthInYear(date2);
+  return 1;
+}
+function $14e0f24ef4ac5c92$export$b2f4953d301981d5(date2) {
+  if (date2.calendar.getMinimumDayInMonth) return date2.calendar.getMinimumDayInMonth(date2);
+  return 1;
+}
+function $14e0f24ef4ac5c92$export$42c81a444fbfb5d4(date2, locale2, firstDayOfWeek) {
+  let dayOfWeek = $14e0f24ef4ac5c92$export$2061056d06d7cdf7(date2, locale2, firstDayOfWeek);
+  return date2.subtract({
+    days: dayOfWeek
+  });
+}
+function $14e0f24ef4ac5c92$export$ef8b6d9133084f4e(date2, locale2, firstDayOfWeek) {
+  return $14e0f24ef4ac5c92$export$42c81a444fbfb5d4(date2, locale2, firstDayOfWeek).add({
+    days: 6
+  });
+}
+const $14e0f24ef4ac5c92$var$cachedRegions = /* @__PURE__ */ new Map();
+const $14e0f24ef4ac5c92$var$cachedWeekInfo = /* @__PURE__ */ new Map();
+function $14e0f24ef4ac5c92$var$getRegion(locale2) {
+  if (Intl.Locale) {
+    let region = $14e0f24ef4ac5c92$var$cachedRegions.get(locale2);
+    if (!region) {
+      region = new Intl.Locale(locale2).maximize().region;
+      if (region) $14e0f24ef4ac5c92$var$cachedRegions.set(locale2, region);
+    }
+    return region;
+  }
+  let part = locale2.split("-")[1];
+  return part === "u" ? void 0 : part;
+}
+function $14e0f24ef4ac5c92$var$getWeekStart(locale2) {
+  let weekInfo = $14e0f24ef4ac5c92$var$cachedWeekInfo.get(locale2);
+  if (!weekInfo) {
+    if (Intl.Locale) {
+      let localeInst = new Intl.Locale(locale2);
+      if ("getWeekInfo" in localeInst) {
+        weekInfo = localeInst.getWeekInfo();
+        if (weekInfo) {
+          $14e0f24ef4ac5c92$var$cachedWeekInfo.set(locale2, weekInfo);
+          return weekInfo.firstDay;
+        }
+      }
+    }
+    let region = $14e0f24ef4ac5c92$var$getRegion(locale2);
+    if (locale2.includes("-fw-")) {
+      let day = locale2.split("-fw-")[1].split("-")[0];
+      if (day === "mon") weekInfo = {
+        firstDay: 1
+      };
+      else if (day === "tue") weekInfo = {
+        firstDay: 2
+      };
+      else if (day === "wed") weekInfo = {
+        firstDay: 3
+      };
+      else if (day === "thu") weekInfo = {
+        firstDay: 4
+      };
+      else if (day === "fri") weekInfo = {
+        firstDay: 5
+      };
+      else if (day === "sat") weekInfo = {
+        firstDay: 6
+      };
+      else weekInfo = {
+        firstDay: 0
+      };
+    } else if (locale2.includes("-ca-iso8601")) weekInfo = {
+      firstDay: 1
+    };
+    else weekInfo = {
+      firstDay: region ? $2fe286d2fb449abb$export$7a5acbd77d414bd9[region] || 0 : 0
+    };
+    $14e0f24ef4ac5c92$var$cachedWeekInfo.set(locale2, weekInfo);
+  }
+  return weekInfo.firstDay;
+}
+function $14e0f24ef4ac5c92$export$ccc1b2479e7dd654(date2, locale2, firstDayOfWeek) {
+  let days = date2.calendar.getDaysInMonth(date2);
+  return Math.ceil(($14e0f24ef4ac5c92$export$2061056d06d7cdf7($14e0f24ef4ac5c92$export$a5a3b454ada2268e(date2), locale2, firstDayOfWeek) + days) / 7);
+}
+function $14e0f24ef4ac5c92$export$5c333a116e949cdd(a, b) {
+  if (a && b) return a.compare(b) <= 0 ? a : b;
+  return a || b;
+}
+function $14e0f24ef4ac5c92$export$a75f2bff57811055(a, b) {
+  if (a && b) return a.compare(b) >= 0 ? a : b;
+  return a || b;
 }
 function $11d87f3f76e88657$export$bd4fb2bc8bb06fb(date2) {
   date2 = $11d87f3f76e88657$export$b4a036af3fc0b032(date2, new $3b62074eb05584b2$export$80ee6245ec4f29ec());
@@ -4913,6 +5160,9 @@ function $11d87f3f76e88657$export$b21e0b124e224484(date2, time2) {
   else if ("hour" in date2 && !time2) return date2;
   if (time2) ({ hour, minute, second, millisecond } = time2);
   return new $35ea8db9cb2ccb90$export$ca871e8dbb80966f(date2.calendar, date2.era, date2.year, date2.month, date2.day, hour, minute, second, millisecond);
+}
+function $11d87f3f76e88657$export$d33f79e3ffc3dc83(dateTime) {
+  return new $35ea8db9cb2ccb90$export$680ea196effce5f(dateTime.hour, dateTime.minute, dateTime.second, dateTime.millisecond);
 }
 function $11d87f3f76e88657$export$b4a036af3fc0b032(date2, calendar) {
   if ($14e0f24ef4ac5c92$export$dbc69fd56b53d5e(date2.calendar, calendar)) return date2;
@@ -5072,6 +5322,14 @@ function $735220c2d4774dd3$var$addTimeFields(time2, duration2) {
   time2.second += duration2.seconds || 0;
   time2.millisecond += duration2.milliseconds || 0;
   return $735220c2d4774dd3$var$balanceTime(time2);
+}
+function $735220c2d4774dd3$export$7ed87b6bc2506470(time2, duration2) {
+  let res = time2.copy();
+  $735220c2d4774dd3$var$addTimeFields(res, duration2);
+  return res;
+}
+function $735220c2d4774dd3$export$fe34d3a381cd7501(time2, duration2) {
+  return $735220c2d4774dd3$export$7ed87b6bc2506470(time2, $735220c2d4774dd3$export$3e2544e88a25bff8(duration2));
 }
 function $735220c2d4774dd3$export$d52ced6badfb9a4c(value, field, amount, options) {
   let mutable = value.copy();
@@ -5366,6 +5624,51 @@ class $35ea8db9cb2ccb90$export$99faa760c7908e4f {
     $735220c2d4774dd3$export$c4e2ecac49351ef2(this);
   }
 }
+var $35ea8db9cb2ccb90$var$_type1 = /* @__PURE__ */ new WeakMap();
+class $35ea8db9cb2ccb90$export$680ea196effce5f {
+  /** Returns a copy of this time. */
+  copy() {
+    return new $35ea8db9cb2ccb90$export$680ea196effce5f(this.hour, this.minute, this.second, this.millisecond);
+  }
+  /** Returns a new `Time` with the given duration added to it. */
+  add(duration2) {
+    return $735220c2d4774dd3$export$7ed87b6bc2506470(this, duration2);
+  }
+  /** Returns a new `Time` with the given duration subtracted from it. */
+  subtract(duration2) {
+    return $735220c2d4774dd3$export$fe34d3a381cd7501(this, duration2);
+  }
+  /** Returns a new `Time` with the given fields set to the provided values. Other fields will be constrained accordingly. */
+  set(fields) {
+    return $735220c2d4774dd3$export$e5d5e1c1822b6e56(this, fields);
+  }
+  /**
+  * Returns a new `Time` with the given field adjusted by a specified amount.
+  * When the resulting value reaches the limits of the field, it wraps around.
+  */
+  cycle(field, amount, options) {
+    return $735220c2d4774dd3$export$dd02b3e0007dfe28(this, field, amount, options);
+  }
+  /** Converts the time to an ISO 8601 formatted string. */
+  toString() {
+    return $fae977aafc393c5c$export$f59dee82248f5ad4(this);
+  }
+  /** Compares this time with another. A negative result indicates that this time is before the given one, and a positive time indicates that it is after. */
+  compare(b) {
+    return $14e0f24ef4ac5c92$export$c19a80a9721b80f6(this, b);
+  }
+  constructor(hour = 0, minute = 0, second = 0, millisecond = 0) {
+    _class_private_field_init(this, $35ea8db9cb2ccb90$var$_type1, {
+      writable: true,
+      value: void 0
+    });
+    this.hour = hour;
+    this.minute = minute;
+    this.second = second;
+    this.millisecond = millisecond;
+    $735220c2d4774dd3$export$7555de1e070510cb(this);
+  }
+}
 var $35ea8db9cb2ccb90$var$_type2 = /* @__PURE__ */ new WeakMap();
 class $35ea8db9cb2ccb90$export$ca871e8dbb80966f {
   /** Returns a copy of this date. */
@@ -5495,6 +5798,867 @@ class $35ea8db9cb2ccb90$export$d3b7288e7994edea {
     this.millisecond = args.shift() || 0;
     $735220c2d4774dd3$export$c4e2ecac49351ef2(this);
   }
+}
+const $62225008020f0a13$var$ERA_START_DATES = [
+  [
+    1868,
+    9,
+    8
+  ],
+  [
+    1912,
+    7,
+    30
+  ],
+  [
+    1926,
+    12,
+    25
+  ],
+  [
+    1989,
+    1,
+    8
+  ],
+  [
+    2019,
+    5,
+    1
+  ]
+];
+const $62225008020f0a13$var$ERA_END_DATES = [
+  [
+    1912,
+    7,
+    29
+  ],
+  [
+    1926,
+    12,
+    24
+  ],
+  [
+    1989,
+    1,
+    7
+  ],
+  [
+    2019,
+    4,
+    30
+  ]
+];
+const $62225008020f0a13$var$ERA_ADDENDS = [
+  1867,
+  1911,
+  1925,
+  1988,
+  2018
+];
+const $62225008020f0a13$var$ERA_NAMES = [
+  "meiji",
+  "taisho",
+  "showa",
+  "heisei",
+  "reiwa"
+];
+function $62225008020f0a13$var$findEraFromGregorianDate(date2) {
+  const idx = $62225008020f0a13$var$ERA_START_DATES.findIndex(([year, month, day]) => {
+    if (date2.year < year) return true;
+    if (date2.year === year && date2.month < month) return true;
+    if (date2.year === year && date2.month === month && date2.day < day) return true;
+    return false;
+  });
+  if (idx === -1) return $62225008020f0a13$var$ERA_START_DATES.length - 1;
+  if (idx === 0) return 0;
+  return idx - 1;
+}
+function $62225008020f0a13$var$toGregorian(date2) {
+  let eraAddend = $62225008020f0a13$var$ERA_ADDENDS[$62225008020f0a13$var$ERA_NAMES.indexOf(date2.era)];
+  if (!eraAddend) throw new Error("Unknown era: " + date2.era);
+  return new $35ea8db9cb2ccb90$export$99faa760c7908e4f(date2.year + eraAddend, date2.month, date2.day);
+}
+class $62225008020f0a13$export$b746ab2b60cdffbf extends $3b62074eb05584b2$export$80ee6245ec4f29ec {
+  fromJulianDay(jd) {
+    let date2 = super.fromJulianDay(jd);
+    let era = $62225008020f0a13$var$findEraFromGregorianDate(date2);
+    return new $35ea8db9cb2ccb90$export$99faa760c7908e4f(this, $62225008020f0a13$var$ERA_NAMES[era], date2.year - $62225008020f0a13$var$ERA_ADDENDS[era], date2.month, date2.day);
+  }
+  toJulianDay(date2) {
+    return super.toJulianDay($62225008020f0a13$var$toGregorian(date2));
+  }
+  balanceDate(date2) {
+    let gregorianDate = $62225008020f0a13$var$toGregorian(date2);
+    let era = $62225008020f0a13$var$findEraFromGregorianDate(gregorianDate);
+    if ($62225008020f0a13$var$ERA_NAMES[era] !== date2.era) {
+      date2.era = $62225008020f0a13$var$ERA_NAMES[era];
+      date2.year = gregorianDate.year - $62225008020f0a13$var$ERA_ADDENDS[era];
+    }
+    this.constrainDate(date2);
+  }
+  constrainDate(date2) {
+    let idx = $62225008020f0a13$var$ERA_NAMES.indexOf(date2.era);
+    let end = $62225008020f0a13$var$ERA_END_DATES[idx];
+    if (end != null) {
+      let [endYear, endMonth, endDay] = end;
+      let maxYear = endYear - $62225008020f0a13$var$ERA_ADDENDS[idx];
+      date2.year = Math.max(1, Math.min(maxYear, date2.year));
+      if (date2.year === maxYear) {
+        date2.month = Math.min(endMonth, date2.month);
+        if (date2.month === endMonth) date2.day = Math.min(endDay, date2.day);
+      }
+    }
+    if (date2.year === 1 && idx >= 0) {
+      let [, startMonth, startDay] = $62225008020f0a13$var$ERA_START_DATES[idx];
+      date2.month = Math.max(startMonth, date2.month);
+      if (date2.month === startMonth) date2.day = Math.max(startDay, date2.day);
+    }
+  }
+  getEras() {
+    return $62225008020f0a13$var$ERA_NAMES;
+  }
+  getYearsInEra(date2) {
+    let era = $62225008020f0a13$var$ERA_NAMES.indexOf(date2.era);
+    let cur = $62225008020f0a13$var$ERA_START_DATES[era];
+    let next = $62225008020f0a13$var$ERA_START_DATES[era + 1];
+    if (next == null)
+      return 9999 - cur[0] + 1;
+    let years = next[0] - cur[0];
+    if (date2.month < next[1] || date2.month === next[1] && date2.day < next[2]) years++;
+    return years;
+  }
+  getDaysInMonth(date2) {
+    return super.getDaysInMonth($62225008020f0a13$var$toGregorian(date2));
+  }
+  getMinimumMonthInYear(date2) {
+    let start = $62225008020f0a13$var$getMinimums(date2);
+    return start ? start[1] : 1;
+  }
+  getMinimumDayInMonth(date2) {
+    let start = $62225008020f0a13$var$getMinimums(date2);
+    return start && date2.month === start[1] ? start[2] : 1;
+  }
+  constructor(...args) {
+    super(...args), this.identifier = "japanese";
+  }
+}
+function $62225008020f0a13$var$getMinimums(date2) {
+  if (date2.year === 1) {
+    let idx = $62225008020f0a13$var$ERA_NAMES.indexOf(date2.era);
+    return $62225008020f0a13$var$ERA_START_DATES[idx];
+  }
+}
+const $8d73d47422ca7302$var$BUDDHIST_ERA_START = -543;
+class $8d73d47422ca7302$export$42d20a78301dee44 extends $3b62074eb05584b2$export$80ee6245ec4f29ec {
+  fromJulianDay(jd) {
+    let gregorianDate = super.fromJulianDay(jd);
+    let year = $3b62074eb05584b2$export$c36e0ecb2d4fa69d(gregorianDate.era, gregorianDate.year);
+    return new $35ea8db9cb2ccb90$export$99faa760c7908e4f(this, year - $8d73d47422ca7302$var$BUDDHIST_ERA_START, gregorianDate.month, gregorianDate.day);
+  }
+  toJulianDay(date2) {
+    return super.toJulianDay($8d73d47422ca7302$var$toGregorian(date2));
+  }
+  getEras() {
+    return [
+      "BE"
+    ];
+  }
+  getDaysInMonth(date2) {
+    return super.getDaysInMonth($8d73d47422ca7302$var$toGregorian(date2));
+  }
+  balanceDate() {
+  }
+  constructor(...args) {
+    super(...args), this.identifier = "buddhist";
+  }
+}
+function $8d73d47422ca7302$var$toGregorian(date2) {
+  let [era, year] = $3b62074eb05584b2$export$4475b7e617eb123c(date2.year + $8d73d47422ca7302$var$BUDDHIST_ERA_START);
+  return new $35ea8db9cb2ccb90$export$99faa760c7908e4f(era, year, date2.month, date2.day);
+}
+const $5f31bd6f0c8940b2$var$TAIWAN_ERA_START = 1911;
+function $5f31bd6f0c8940b2$var$gregorianYear(date2) {
+  return date2.era === "minguo" ? date2.year + $5f31bd6f0c8940b2$var$TAIWAN_ERA_START : 1 - date2.year + $5f31bd6f0c8940b2$var$TAIWAN_ERA_START;
+}
+function $5f31bd6f0c8940b2$var$gregorianToTaiwan(year) {
+  let y = year - $5f31bd6f0c8940b2$var$TAIWAN_ERA_START;
+  if (y > 0) return [
+    "minguo",
+    y
+  ];
+  else return [
+    "before_minguo",
+    1 - y
+  ];
+}
+class $5f31bd6f0c8940b2$export$65e01080afcb0799 extends $3b62074eb05584b2$export$80ee6245ec4f29ec {
+  fromJulianDay(jd) {
+    let date2 = super.fromJulianDay(jd);
+    let extendedYear = $3b62074eb05584b2$export$c36e0ecb2d4fa69d(date2.era, date2.year);
+    let [era, year] = $5f31bd6f0c8940b2$var$gregorianToTaiwan(extendedYear);
+    return new $35ea8db9cb2ccb90$export$99faa760c7908e4f(this, era, year, date2.month, date2.day);
+  }
+  toJulianDay(date2) {
+    return super.toJulianDay($5f31bd6f0c8940b2$var$toGregorian(date2));
+  }
+  getEras() {
+    return [
+      "before_minguo",
+      "minguo"
+    ];
+  }
+  balanceDate(date2) {
+    let [era, year] = $5f31bd6f0c8940b2$var$gregorianToTaiwan($5f31bd6f0c8940b2$var$gregorianYear(date2));
+    date2.era = era;
+    date2.year = year;
+  }
+  isInverseEra(date2) {
+    return date2.era === "before_minguo";
+  }
+  getDaysInMonth(date2) {
+    return super.getDaysInMonth($5f31bd6f0c8940b2$var$toGregorian(date2));
+  }
+  getYearsInEra(date2) {
+    return date2.era === "before_minguo" ? 9999 : 9999 - $5f31bd6f0c8940b2$var$TAIWAN_ERA_START;
+  }
+  constructor(...args) {
+    super(...args), this.identifier = "roc";
+  }
+}
+function $5f31bd6f0c8940b2$var$toGregorian(date2) {
+  let [era, year] = $3b62074eb05584b2$export$4475b7e617eb123c($5f31bd6f0c8940b2$var$gregorianYear(date2));
+  return new $35ea8db9cb2ccb90$export$99faa760c7908e4f(era, year, date2.month, date2.day);
+}
+const $f3ed2e4472ae7e25$var$PERSIAN_EPOCH = 1948320;
+const $f3ed2e4472ae7e25$var$MONTH_START = [
+  0,
+  31,
+  62,
+  93,
+  124,
+  155,
+  186,
+  216,
+  246,
+  276,
+  306,
+  336
+  // Esfand
+];
+class $f3ed2e4472ae7e25$export$37fccdbfd14c5939 {
+  fromJulianDay(jd) {
+    let daysSinceEpoch = jd - $f3ed2e4472ae7e25$var$PERSIAN_EPOCH;
+    let year = 1 + Math.floor((33 * daysSinceEpoch + 3) / 12053);
+    let farvardin1 = 365 * (year - 1) + Math.floor((8 * year + 21) / 33);
+    let dayOfYear = daysSinceEpoch - farvardin1;
+    let month = dayOfYear < 216 ? Math.floor(dayOfYear / 31) : Math.floor((dayOfYear - 6) / 30);
+    let day = dayOfYear - $f3ed2e4472ae7e25$var$MONTH_START[month] + 1;
+    return new $35ea8db9cb2ccb90$export$99faa760c7908e4f(this, year, month + 1, day);
+  }
+  toJulianDay(date2) {
+    let jd = $f3ed2e4472ae7e25$var$PERSIAN_EPOCH - 1 + 365 * (date2.year - 1) + Math.floor((8 * date2.year + 21) / 33);
+    jd += $f3ed2e4472ae7e25$var$MONTH_START[date2.month - 1];
+    jd += date2.day;
+    return jd;
+  }
+  getMonthsInYear() {
+    return 12;
+  }
+  getDaysInMonth(date2) {
+    if (date2.month <= 6) return 31;
+    if (date2.month <= 11) return 30;
+    let isLeapYear = $2b4dce13dd5a17fa$export$842a2cf37af977e1(25 * date2.year + 11, 33) < 8;
+    return isLeapYear ? 30 : 29;
+  }
+  getEras() {
+    return [
+      "AP"
+    ];
+  }
+  getYearsInEra() {
+    return 9377;
+  }
+  constructor() {
+    this.identifier = "persian";
+  }
+}
+const $82c358003bdda0a8$var$INDIAN_ERA_START = 78;
+const $82c358003bdda0a8$var$INDIAN_YEAR_START = 80;
+class $82c358003bdda0a8$export$39f31c639fa15726 extends $3b62074eb05584b2$export$80ee6245ec4f29ec {
+  fromJulianDay(jd) {
+    let date2 = super.fromJulianDay(jd);
+    let indianYear = date2.year - $82c358003bdda0a8$var$INDIAN_ERA_START;
+    let yDay = jd - $3b62074eb05584b2$export$f297eb839006d339(date2.era, date2.year, 1, 1);
+    let leapMonth;
+    if (yDay < $82c358003bdda0a8$var$INDIAN_YEAR_START) {
+      indianYear--;
+      leapMonth = $3b62074eb05584b2$export$553d7fa8e3805fc0(date2.year - 1) ? 31 : 30;
+      yDay += leapMonth + 155 + 90 + 10;
+    } else {
+      leapMonth = $3b62074eb05584b2$export$553d7fa8e3805fc0(date2.year) ? 31 : 30;
+      yDay -= $82c358003bdda0a8$var$INDIAN_YEAR_START;
+    }
+    let indianMonth;
+    let indianDay;
+    if (yDay < leapMonth) {
+      indianMonth = 1;
+      indianDay = yDay + 1;
+    } else {
+      let mDay = yDay - leapMonth;
+      if (mDay < 155) {
+        indianMonth = Math.floor(mDay / 31) + 2;
+        indianDay = mDay % 31 + 1;
+      } else {
+        mDay -= 155;
+        indianMonth = Math.floor(mDay / 30) + 7;
+        indianDay = mDay % 30 + 1;
+      }
+    }
+    return new $35ea8db9cb2ccb90$export$99faa760c7908e4f(this, indianYear, indianMonth, indianDay);
+  }
+  toJulianDay(date2) {
+    let extendedYear = date2.year + $82c358003bdda0a8$var$INDIAN_ERA_START;
+    let [era, year] = $3b62074eb05584b2$export$4475b7e617eb123c(extendedYear);
+    let leapMonth;
+    let jd;
+    if ($3b62074eb05584b2$export$553d7fa8e3805fc0(year)) {
+      leapMonth = 31;
+      jd = $3b62074eb05584b2$export$f297eb839006d339(era, year, 3, 21);
+    } else {
+      leapMonth = 30;
+      jd = $3b62074eb05584b2$export$f297eb839006d339(era, year, 3, 22);
+    }
+    if (date2.month === 1) return jd + date2.day - 1;
+    jd += leapMonth + Math.min(date2.month - 2, 5) * 31;
+    if (date2.month >= 8) jd += (date2.month - 7) * 30;
+    jd += date2.day - 1;
+    return jd;
+  }
+  getDaysInMonth(date2) {
+    if (date2.month === 1 && $3b62074eb05584b2$export$553d7fa8e3805fc0(date2.year + $82c358003bdda0a8$var$INDIAN_ERA_START)) return 31;
+    if (date2.month >= 2 && date2.month <= 6) return 31;
+    return 30;
+  }
+  getYearsInEra() {
+    return 9919;
+  }
+  getEras() {
+    return [
+      "saka"
+    ];
+  }
+  balanceDate() {
+  }
+  constructor(...args) {
+    super(...args), this.identifier = "indian";
+  }
+}
+const $f2f3e0e3a817edbd$var$CIVIL_EPOC = 1948440;
+const $f2f3e0e3a817edbd$var$ASTRONOMICAL_EPOC = 1948439;
+const $f2f3e0e3a817edbd$var$UMALQURA_YEAR_START = 1300;
+const $f2f3e0e3a817edbd$var$UMALQURA_YEAR_END = 1600;
+const $f2f3e0e3a817edbd$var$UMALQURA_START_DAYS = 460322;
+function $f2f3e0e3a817edbd$var$islamicToJulianDay(epoch, year, month, day) {
+  return day + Math.ceil(29.5 * (month - 1)) + (year - 1) * 354 + Math.floor((3 + 11 * year) / 30) + epoch - 1;
+}
+function $f2f3e0e3a817edbd$var$julianDayToIslamic(calendar, epoch, jd) {
+  let year = Math.floor((30 * (jd - epoch) + 10646) / 10631);
+  let month = Math.min(12, Math.ceil((jd - (29 + $f2f3e0e3a817edbd$var$islamicToJulianDay(epoch, year, 1, 1))) / 29.5) + 1);
+  let day = jd - $f2f3e0e3a817edbd$var$islamicToJulianDay(epoch, year, month, 1) + 1;
+  return new $35ea8db9cb2ccb90$export$99faa760c7908e4f(calendar, year, month, day);
+}
+function $f2f3e0e3a817edbd$var$isLeapYear(year) {
+  return (14 + 11 * year) % 30 < 11;
+}
+class $f2f3e0e3a817edbd$export$2066795aadd37bfc {
+  fromJulianDay(jd) {
+    return $f2f3e0e3a817edbd$var$julianDayToIslamic(this, $f2f3e0e3a817edbd$var$CIVIL_EPOC, jd);
+  }
+  toJulianDay(date2) {
+    return $f2f3e0e3a817edbd$var$islamicToJulianDay($f2f3e0e3a817edbd$var$CIVIL_EPOC, date2.year, date2.month, date2.day);
+  }
+  getDaysInMonth(date2) {
+    let length = 29 + date2.month % 2;
+    if (date2.month === 12 && $f2f3e0e3a817edbd$var$isLeapYear(date2.year)) length++;
+    return length;
+  }
+  getMonthsInYear() {
+    return 12;
+  }
+  getDaysInYear(date2) {
+    return $f2f3e0e3a817edbd$var$isLeapYear(date2.year) ? 355 : 354;
+  }
+  getYearsInEra() {
+    return 9665;
+  }
+  getEras() {
+    return [
+      "AH"
+    ];
+  }
+  constructor() {
+    this.identifier = "islamic-civil";
+  }
+}
+class $f2f3e0e3a817edbd$export$37f0887f2f9d22f7 extends $f2f3e0e3a817edbd$export$2066795aadd37bfc {
+  fromJulianDay(jd) {
+    return $f2f3e0e3a817edbd$var$julianDayToIslamic(this, $f2f3e0e3a817edbd$var$ASTRONOMICAL_EPOC, jd);
+  }
+  toJulianDay(date2) {
+    return $f2f3e0e3a817edbd$var$islamicToJulianDay($f2f3e0e3a817edbd$var$ASTRONOMICAL_EPOC, date2.year, date2.month, date2.day);
+  }
+  constructor(...args) {
+    super(...args), this.identifier = "islamic-tbla";
+  }
+}
+const $f2f3e0e3a817edbd$var$UMALQURA_DATA = "qgpUDckO1AbqBmwDrQpVBakGkgepC9QF2gpcBS0NlQZKB1QLagutBa4ETwoXBYsGpQbVCtYCWwmdBE0KJg2VDawFtgm6AlsKKwWVCsoG6Qr0AnYJtgJWCcoKpAvSC9kF3AJtCU0FpQpSC6ULtAW2CVcFlwJLBaMGUgdlC2oFqworBZUMSg2lDcoF1gpXCasESwmlClILagt1BXYCtwhbBFUFqQW0BdoJ3QRuAjYJqgpUDbIN1QXaAlsJqwRVCkkLZAtxC7QFtQpVCiUNkg7JDtQG6QprCasEkwpJDaQNsg25CroEWworBZUKKgtVC1wFvQQ9Ah0JlQpKC1oLbQW2AjsJmwRVBqkGVAdqC2wFrQpVBSkLkgupC9QF2gpaBasKlQVJB2QHqgu1BbYCVgpNDiULUgtqC60FrgIvCZcESwalBqwG1gpdBZ0ETQoWDZUNqgW1BdoCWwmtBJUFygbkBuoK9QS2AlYJqgpUC9IL2QXqAm0JrQSVCkoLpQuyBbUJ1gSXCkcFkwZJB1ULagVrCisFiwpGDaMNygXWCtsEawJLCaUKUgtpC3UFdgG3CFsCKwVlBbQF2gntBG0BtgimClINqQ3UBdoKWwmrBFMGKQdiB6kLsgW1ClUFJQuSDckO0gbpCmsFqwRVCikNVA2qDbUJugQ7CpsETQqqCtUK2gJdCV4ELgqaDFUNsga5BroEXQotBZUKUguoC7QLuQXaAloJSgukDdEO6AZqC20FNQWVBkoNqA3UDdoGWwWdAisGFQtKC5ULqgWuCi4JjwwnBZUGqgbWCl0FnQI=";
+let $f2f3e0e3a817edbd$var$UMALQURA_MONTHLENGTH;
+let $f2f3e0e3a817edbd$var$UMALQURA_YEAR_START_TABLE;
+function $f2f3e0e3a817edbd$var$umalquraYearStart(year) {
+  return $f2f3e0e3a817edbd$var$UMALQURA_START_DAYS + $f2f3e0e3a817edbd$var$UMALQURA_YEAR_START_TABLE[year - $f2f3e0e3a817edbd$var$UMALQURA_YEAR_START];
+}
+function $f2f3e0e3a817edbd$var$umalquraMonthLength(year, month) {
+  let idx = year - $f2f3e0e3a817edbd$var$UMALQURA_YEAR_START;
+  let mask = 1 << 11 - (month - 1);
+  if (($f2f3e0e3a817edbd$var$UMALQURA_MONTHLENGTH[idx] & mask) === 0) return 29;
+  else return 30;
+}
+function $f2f3e0e3a817edbd$var$umalquraMonthStart(year, month) {
+  let day = $f2f3e0e3a817edbd$var$umalquraYearStart(year);
+  for (let i = 1; i < month; i++) day += $f2f3e0e3a817edbd$var$umalquraMonthLength(year, i);
+  return day;
+}
+function $f2f3e0e3a817edbd$var$umalquraYearLength(year) {
+  return $f2f3e0e3a817edbd$var$UMALQURA_YEAR_START_TABLE[year + 1 - $f2f3e0e3a817edbd$var$UMALQURA_YEAR_START] - $f2f3e0e3a817edbd$var$UMALQURA_YEAR_START_TABLE[year - $f2f3e0e3a817edbd$var$UMALQURA_YEAR_START];
+}
+class $f2f3e0e3a817edbd$export$5baab4758c231076 extends $f2f3e0e3a817edbd$export$2066795aadd37bfc {
+  fromJulianDay(jd) {
+    let days = jd - $f2f3e0e3a817edbd$var$CIVIL_EPOC;
+    let startDays = $f2f3e0e3a817edbd$var$umalquraYearStart($f2f3e0e3a817edbd$var$UMALQURA_YEAR_START);
+    let endDays = $f2f3e0e3a817edbd$var$umalquraYearStart($f2f3e0e3a817edbd$var$UMALQURA_YEAR_END);
+    if (days < startDays || days > endDays) return super.fromJulianDay(jd);
+    else {
+      let y = $f2f3e0e3a817edbd$var$UMALQURA_YEAR_START - 1;
+      let m = 1;
+      let d = 1;
+      while (d > 0) {
+        y++;
+        d = days - $f2f3e0e3a817edbd$var$umalquraYearStart(y) + 1;
+        let yearLength = $f2f3e0e3a817edbd$var$umalquraYearLength(y);
+        if (d === yearLength) {
+          m = 12;
+          break;
+        } else if (d < yearLength) {
+          let monthLength = $f2f3e0e3a817edbd$var$umalquraMonthLength(y, m);
+          m = 1;
+          while (d > monthLength) {
+            d -= monthLength;
+            m++;
+            monthLength = $f2f3e0e3a817edbd$var$umalquraMonthLength(y, m);
+          }
+          break;
+        }
+      }
+      return new $35ea8db9cb2ccb90$export$99faa760c7908e4f(this, y, m, days - $f2f3e0e3a817edbd$var$umalquraMonthStart(y, m) + 1);
+    }
+  }
+  toJulianDay(date2) {
+    if (date2.year < $f2f3e0e3a817edbd$var$UMALQURA_YEAR_START || date2.year > $f2f3e0e3a817edbd$var$UMALQURA_YEAR_END) return super.toJulianDay(date2);
+    return $f2f3e0e3a817edbd$var$CIVIL_EPOC + $f2f3e0e3a817edbd$var$umalquraMonthStart(date2.year, date2.month) + (date2.day - 1);
+  }
+  getDaysInMonth(date2) {
+    if (date2.year < $f2f3e0e3a817edbd$var$UMALQURA_YEAR_START || date2.year > $f2f3e0e3a817edbd$var$UMALQURA_YEAR_END) return super.getDaysInMonth(date2);
+    return $f2f3e0e3a817edbd$var$umalquraMonthLength(date2.year, date2.month);
+  }
+  getDaysInYear(date2) {
+    if (date2.year < $f2f3e0e3a817edbd$var$UMALQURA_YEAR_START || date2.year > $f2f3e0e3a817edbd$var$UMALQURA_YEAR_END) return super.getDaysInYear(date2);
+    return $f2f3e0e3a817edbd$var$umalquraYearLength(date2.year);
+  }
+  constructor() {
+    super(), this.identifier = "islamic-umalqura";
+    if (!$f2f3e0e3a817edbd$var$UMALQURA_MONTHLENGTH) $f2f3e0e3a817edbd$var$UMALQURA_MONTHLENGTH = new Uint16Array(Uint8Array.from(atob($f2f3e0e3a817edbd$var$UMALQURA_DATA), (c) => c.charCodeAt(0)).buffer);
+    if (!$f2f3e0e3a817edbd$var$UMALQURA_YEAR_START_TABLE) {
+      $f2f3e0e3a817edbd$var$UMALQURA_YEAR_START_TABLE = new Uint32Array($f2f3e0e3a817edbd$var$UMALQURA_YEAR_END - $f2f3e0e3a817edbd$var$UMALQURA_YEAR_START + 1);
+      let yearStart = 0;
+      for (let year = $f2f3e0e3a817edbd$var$UMALQURA_YEAR_START; year <= $f2f3e0e3a817edbd$var$UMALQURA_YEAR_END; year++) {
+        $f2f3e0e3a817edbd$var$UMALQURA_YEAR_START_TABLE[year - $f2f3e0e3a817edbd$var$UMALQURA_YEAR_START] = yearStart;
+        for (let i = 1; i <= 12; i++) yearStart += $f2f3e0e3a817edbd$var$umalquraMonthLength(year, i);
+      }
+    }
+  }
+}
+const $7c5f6fbf42389787$var$HEBREW_EPOCH = 347997;
+const $7c5f6fbf42389787$var$HOUR_PARTS = 1080;
+const $7c5f6fbf42389787$var$DAY_PARTS = 24 * $7c5f6fbf42389787$var$HOUR_PARTS;
+const $7c5f6fbf42389787$var$MONTH_DAYS = 29;
+const $7c5f6fbf42389787$var$MONTH_FRACT = 12 * $7c5f6fbf42389787$var$HOUR_PARTS + 793;
+const $7c5f6fbf42389787$var$MONTH_PARTS = $7c5f6fbf42389787$var$MONTH_DAYS * $7c5f6fbf42389787$var$DAY_PARTS + $7c5f6fbf42389787$var$MONTH_FRACT;
+function $7c5f6fbf42389787$var$isLeapYear(year) {
+  return $2b4dce13dd5a17fa$export$842a2cf37af977e1(year * 7 + 1, 19) < 7;
+}
+function $7c5f6fbf42389787$var$hebrewDelay1(year) {
+  let months = Math.floor((235 * year - 234) / 19);
+  let parts = 12084 + 13753 * months;
+  let day = months * 29 + Math.floor(parts / 25920);
+  if ($2b4dce13dd5a17fa$export$842a2cf37af977e1(3 * (day + 1), 7) < 3) day += 1;
+  return day;
+}
+function $7c5f6fbf42389787$var$hebrewDelay2(year) {
+  let last = $7c5f6fbf42389787$var$hebrewDelay1(year - 1);
+  let present = $7c5f6fbf42389787$var$hebrewDelay1(year);
+  let next = $7c5f6fbf42389787$var$hebrewDelay1(year + 1);
+  if (next - present === 356) return 2;
+  if (present - last === 382) return 1;
+  return 0;
+}
+function $7c5f6fbf42389787$var$startOfYear(year) {
+  return $7c5f6fbf42389787$var$hebrewDelay1(year) + $7c5f6fbf42389787$var$hebrewDelay2(year);
+}
+function $7c5f6fbf42389787$var$getDaysInYear(year) {
+  return $7c5f6fbf42389787$var$startOfYear(year + 1) - $7c5f6fbf42389787$var$startOfYear(year);
+}
+function $7c5f6fbf42389787$var$getYearType(year) {
+  let yearLength = $7c5f6fbf42389787$var$getDaysInYear(year);
+  if (yearLength > 380) yearLength -= 30;
+  switch (yearLength) {
+    case 353:
+      return 0;
+    // deficient
+    case 354:
+      return 1;
+    // normal
+    case 355:
+      return 2;
+  }
+}
+function $7c5f6fbf42389787$var$getDaysInMonth(year, month) {
+  if (month >= 6 && !$7c5f6fbf42389787$var$isLeapYear(year)) month++;
+  if (month === 4 || month === 7 || month === 9 || month === 11 || month === 13) return 29;
+  let yearType = $7c5f6fbf42389787$var$getYearType(year);
+  if (month === 2) return yearType === 2 ? 30 : 29;
+  if (month === 3) return yearType === 0 ? 29 : 30;
+  if (month === 6) return $7c5f6fbf42389787$var$isLeapYear(year) ? 30 : 0;
+  return 30;
+}
+class $7c5f6fbf42389787$export$ca405048b8fb5af {
+  fromJulianDay(jd) {
+    let d = jd - $7c5f6fbf42389787$var$HEBREW_EPOCH;
+    let m = d * $7c5f6fbf42389787$var$DAY_PARTS / $7c5f6fbf42389787$var$MONTH_PARTS;
+    let year = Math.floor((19 * m + 234) / 235) + 1;
+    let ys = $7c5f6fbf42389787$var$startOfYear(year);
+    let dayOfYear = Math.floor(d - ys);
+    while (dayOfYear < 1) {
+      year--;
+      ys = $7c5f6fbf42389787$var$startOfYear(year);
+      dayOfYear = Math.floor(d - ys);
+    }
+    let month = 1;
+    let monthStart = 0;
+    while (monthStart < dayOfYear) {
+      monthStart += $7c5f6fbf42389787$var$getDaysInMonth(year, month);
+      month++;
+    }
+    month--;
+    monthStart -= $7c5f6fbf42389787$var$getDaysInMonth(year, month);
+    let day = dayOfYear - monthStart;
+    return new $35ea8db9cb2ccb90$export$99faa760c7908e4f(this, year, month, day);
+  }
+  toJulianDay(date2) {
+    let jd = $7c5f6fbf42389787$var$startOfYear(date2.year);
+    for (let month = 1; month < date2.month; month++) jd += $7c5f6fbf42389787$var$getDaysInMonth(date2.year, month);
+    return jd + date2.day + $7c5f6fbf42389787$var$HEBREW_EPOCH;
+  }
+  getDaysInMonth(date2) {
+    return $7c5f6fbf42389787$var$getDaysInMonth(date2.year, date2.month);
+  }
+  getMonthsInYear(date2) {
+    return $7c5f6fbf42389787$var$isLeapYear(date2.year) ? 13 : 12;
+  }
+  getDaysInYear(date2) {
+    return $7c5f6fbf42389787$var$getDaysInYear(date2.year);
+  }
+  getYearsInEra() {
+    return 9999;
+  }
+  getEras() {
+    return [
+      "AM"
+    ];
+  }
+  balanceYearMonth(date2, previousDate) {
+    if (previousDate.year !== date2.year) {
+      if ($7c5f6fbf42389787$var$isLeapYear(previousDate.year) && !$7c5f6fbf42389787$var$isLeapYear(date2.year) && previousDate.month > 6) date2.month--;
+      else if (!$7c5f6fbf42389787$var$isLeapYear(previousDate.year) && $7c5f6fbf42389787$var$isLeapYear(date2.year) && previousDate.month > 6) date2.month++;
+    }
+  }
+  constructor() {
+    this.identifier = "hebrew";
+  }
+}
+const $b956b2d7a6cf451f$var$ETHIOPIC_EPOCH = 1723856;
+const $b956b2d7a6cf451f$var$COPTIC_EPOCH = 1824665;
+const $b956b2d7a6cf451f$var$AMETE_MIHRET_DELTA = 5500;
+function $b956b2d7a6cf451f$var$ceToJulianDay(epoch, year, month, day) {
+  return epoch + 365 * year + Math.floor(year / 4) + 30 * (month - 1) + day - 1;
+}
+function $b956b2d7a6cf451f$var$julianDayToCE(epoch, jd) {
+  let year = Math.floor(4 * (jd - epoch) / 1461);
+  let month = 1 + Math.floor((jd - $b956b2d7a6cf451f$var$ceToJulianDay(epoch, year, 1, 1)) / 30);
+  let day = jd + 1 - $b956b2d7a6cf451f$var$ceToJulianDay(epoch, year, month, 1);
+  return [
+    year,
+    month,
+    day
+  ];
+}
+function $b956b2d7a6cf451f$var$getLeapDay(year) {
+  return Math.floor(year % 4 / 3);
+}
+function $b956b2d7a6cf451f$var$getDaysInMonth(year, month) {
+  if (month % 13 !== 0)
+    return 30;
+  else
+    return $b956b2d7a6cf451f$var$getLeapDay(year) + 5;
+}
+class $b956b2d7a6cf451f$export$26ba6eab5e20cd7d {
+  fromJulianDay(jd) {
+    let [year, month, day] = $b956b2d7a6cf451f$var$julianDayToCE($b956b2d7a6cf451f$var$ETHIOPIC_EPOCH, jd);
+    let era = "AM";
+    if (year <= 0) {
+      era = "AA";
+      year += $b956b2d7a6cf451f$var$AMETE_MIHRET_DELTA;
+    }
+    return new $35ea8db9cb2ccb90$export$99faa760c7908e4f(this, era, year, month, day);
+  }
+  toJulianDay(date2) {
+    let year = date2.year;
+    if (date2.era === "AA") year -= $b956b2d7a6cf451f$var$AMETE_MIHRET_DELTA;
+    return $b956b2d7a6cf451f$var$ceToJulianDay($b956b2d7a6cf451f$var$ETHIOPIC_EPOCH, year, date2.month, date2.day);
+  }
+  getDaysInMonth(date2) {
+    return $b956b2d7a6cf451f$var$getDaysInMonth(date2.year, date2.month);
+  }
+  getMonthsInYear() {
+    return 13;
+  }
+  getDaysInYear(date2) {
+    return 365 + $b956b2d7a6cf451f$var$getLeapDay(date2.year);
+  }
+  getYearsInEra(date2) {
+    return date2.era === "AA" ? 9999 : 9991;
+  }
+  getEras() {
+    return [
+      "AA",
+      "AM"
+    ];
+  }
+  constructor() {
+    this.identifier = "ethiopic";
+  }
+}
+class $b956b2d7a6cf451f$export$d72e0c37005a4914 extends $b956b2d7a6cf451f$export$26ba6eab5e20cd7d {
+  fromJulianDay(jd) {
+    let [year, month, day] = $b956b2d7a6cf451f$var$julianDayToCE($b956b2d7a6cf451f$var$ETHIOPIC_EPOCH, jd);
+    year += $b956b2d7a6cf451f$var$AMETE_MIHRET_DELTA;
+    return new $35ea8db9cb2ccb90$export$99faa760c7908e4f(this, "AA", year, month, day);
+  }
+  getEras() {
+    return [
+      "AA"
+    ];
+  }
+  getYearsInEra() {
+    return 9999;
+  }
+  constructor(...args) {
+    super(...args), this.identifier = "ethioaa";
+  }
+}
+class $b956b2d7a6cf451f$export$fe6243cbe1a4b7c1 extends $b956b2d7a6cf451f$export$26ba6eab5e20cd7d {
+  fromJulianDay(jd) {
+    let [year, month, day] = $b956b2d7a6cf451f$var$julianDayToCE($b956b2d7a6cf451f$var$COPTIC_EPOCH, jd);
+    let era = "CE";
+    if (year <= 0) {
+      era = "BCE";
+      year = 1 - year;
+    }
+    return new $35ea8db9cb2ccb90$export$99faa760c7908e4f(this, era, year, month, day);
+  }
+  toJulianDay(date2) {
+    let year = date2.year;
+    if (date2.era === "BCE") year = 1 - year;
+    return $b956b2d7a6cf451f$var$ceToJulianDay($b956b2d7a6cf451f$var$COPTIC_EPOCH, year, date2.month, date2.day);
+  }
+  getDaysInMonth(date2) {
+    let year = date2.year;
+    if (date2.era === "BCE") year = 1 - year;
+    return $b956b2d7a6cf451f$var$getDaysInMonth(year, date2.month);
+  }
+  isInverseEra(date2) {
+    return date2.era === "BCE";
+  }
+  balanceDate(date2) {
+    if (date2.year <= 0) {
+      date2.era = date2.era === "BCE" ? "CE" : "BCE";
+      date2.year = 1 - date2.year;
+    }
+  }
+  getEras() {
+    return [
+      "BCE",
+      "CE"
+    ];
+  }
+  getYearsInEra(date2) {
+    return date2.era === "BCE" ? 9999 : 9715;
+  }
+  constructor(...args) {
+    super(...args), this.identifier = "coptic";
+  }
+}
+function $64244302c3013299$export$dd0bbc9b26defe37(name) {
+  switch (name) {
+    case "buddhist":
+      return new $8d73d47422ca7302$export$42d20a78301dee44();
+    case "ethiopic":
+      return new $b956b2d7a6cf451f$export$26ba6eab5e20cd7d();
+    case "ethioaa":
+      return new $b956b2d7a6cf451f$export$d72e0c37005a4914();
+    case "coptic":
+      return new $b956b2d7a6cf451f$export$fe6243cbe1a4b7c1();
+    case "hebrew":
+      return new $7c5f6fbf42389787$export$ca405048b8fb5af();
+    case "indian":
+      return new $82c358003bdda0a8$export$39f31c639fa15726();
+    case "islamic-civil":
+      return new $f2f3e0e3a817edbd$export$2066795aadd37bfc();
+    case "islamic-tbla":
+      return new $f2f3e0e3a817edbd$export$37f0887f2f9d22f7();
+    case "islamic-umalqura":
+      return new $f2f3e0e3a817edbd$export$5baab4758c231076();
+    case "japanese":
+      return new $62225008020f0a13$export$b746ab2b60cdffbf();
+    case "persian":
+      return new $f3ed2e4472ae7e25$export$37fccdbfd14c5939();
+    case "roc":
+      return new $5f31bd6f0c8940b2$export$65e01080afcb0799();
+    case "gregory":
+    default:
+      return new $3b62074eb05584b2$export$80ee6245ec4f29ec();
+  }
+}
+let $fb18d541ea1ad717$var$formatterCache = /* @__PURE__ */ new Map();
+class $fb18d541ea1ad717$export$ad991b66133851cf {
+  /** Formats a date as a string according to the locale and format options passed to the constructor. */
+  format(value) {
+    return this.formatter.format(value);
+  }
+  /** Formats a date to an array of parts such as separators, numbers, punctuation, and more. */
+  formatToParts(value) {
+    return this.formatter.formatToParts(value);
+  }
+  /** Formats a date range as a string. */
+  formatRange(start, end) {
+    if (typeof this.formatter.formatRange === "function")
+      return this.formatter.formatRange(start, end);
+    if (end < start) throw new RangeError("End date must be >= start date");
+    return `${this.formatter.format(start)} – ${this.formatter.format(end)}`;
+  }
+  /** Formats a date range as an array of parts. */
+  formatRangeToParts(start, end) {
+    if (typeof this.formatter.formatRangeToParts === "function")
+      return this.formatter.formatRangeToParts(start, end);
+    if (end < start) throw new RangeError("End date must be >= start date");
+    let startParts = this.formatter.formatToParts(start);
+    let endParts = this.formatter.formatToParts(end);
+    return [
+      ...startParts.map((p) => ({
+        ...p,
+        source: "startRange"
+      })),
+      {
+        type: "literal",
+        value: " – ",
+        source: "shared"
+      },
+      ...endParts.map((p) => ({
+        ...p,
+        source: "endRange"
+      }))
+    ];
+  }
+  /** Returns the resolved formatting options based on the values passed to the constructor. */
+  resolvedOptions() {
+    let resolvedOptions = this.formatter.resolvedOptions();
+    if ($fb18d541ea1ad717$var$hasBuggyResolvedHourCycle()) {
+      if (!this.resolvedHourCycle) this.resolvedHourCycle = $fb18d541ea1ad717$var$getResolvedHourCycle(resolvedOptions.locale, this.options);
+      resolvedOptions.hourCycle = this.resolvedHourCycle;
+      resolvedOptions.hour12 = this.resolvedHourCycle === "h11" || this.resolvedHourCycle === "h12";
+    }
+    if (resolvedOptions.calendar === "ethiopic-amete-alem") resolvedOptions.calendar = "ethioaa";
+    return resolvedOptions;
+  }
+  constructor(locale2, options = {}) {
+    this.formatter = $fb18d541ea1ad717$var$getCachedDateFormatter(locale2, options);
+    this.options = options;
+  }
+}
+const $fb18d541ea1ad717$var$hour12Preferences = {
+  true: {
+    // Only Japanese uses the h11 style for 12 hour time. All others use h12.
+    ja: "h11"
+  },
+  false: {}
+};
+function $fb18d541ea1ad717$var$getCachedDateFormatter(locale2, options = {}) {
+  if (typeof options.hour12 === "boolean" && $fb18d541ea1ad717$var$hasBuggyHour12Behavior()) {
+    options = {
+      ...options
+    };
+    let pref = $fb18d541ea1ad717$var$hour12Preferences[String(options.hour12)][locale2.split("-")[0]];
+    let defaultHourCycle = options.hour12 ? "h12" : "h23";
+    options.hourCycle = pref !== null && pref !== void 0 ? pref : defaultHourCycle;
+    delete options.hour12;
+  }
+  let cacheKey = locale2 + (options ? Object.entries(options).sort((a, b) => a[0] < b[0] ? -1 : 1).join() : "");
+  if ($fb18d541ea1ad717$var$formatterCache.has(cacheKey)) return $fb18d541ea1ad717$var$formatterCache.get(cacheKey);
+  let numberFormatter = new Intl.DateTimeFormat(locale2, options);
+  $fb18d541ea1ad717$var$formatterCache.set(cacheKey, numberFormatter);
+  return numberFormatter;
+}
+let $fb18d541ea1ad717$var$_hasBuggyHour12Behavior = null;
+function $fb18d541ea1ad717$var$hasBuggyHour12Behavior() {
+  if ($fb18d541ea1ad717$var$_hasBuggyHour12Behavior == null) $fb18d541ea1ad717$var$_hasBuggyHour12Behavior = new Intl.DateTimeFormat("en-US", {
+    hour: "numeric",
+    hour12: false
+  }).format(new Date(2020, 2, 3, 0)) === "24";
+  return $fb18d541ea1ad717$var$_hasBuggyHour12Behavior;
+}
+let $fb18d541ea1ad717$var$_hasBuggyResolvedHourCycle = null;
+function $fb18d541ea1ad717$var$hasBuggyResolvedHourCycle() {
+  if ($fb18d541ea1ad717$var$_hasBuggyResolvedHourCycle == null) $fb18d541ea1ad717$var$_hasBuggyResolvedHourCycle = new Intl.DateTimeFormat("fr", {
+    hour: "numeric",
+    hour12: false
+  }).resolvedOptions().hourCycle === "h12";
+  return $fb18d541ea1ad717$var$_hasBuggyResolvedHourCycle;
+}
+function $fb18d541ea1ad717$var$getResolvedHourCycle(locale2, options) {
+  if (!options.timeStyle && !options.hour) return void 0;
+  locale2 = locale2.replace(/(-u-)?-nu-[a-zA-Z0-9]+/, "");
+  locale2 += (locale2.includes("-u-") ? "" : "-u") + "-nu-latn";
+  let formatter = $fb18d541ea1ad717$var$getCachedDateFormatter(locale2, {
+    ...options,
+    timeZone: void 0
+    // use local timezone
+  });
+  let min = parseInt(formatter.formatToParts(new Date(2020, 2, 3, 0)).find((p) => p.type === "hour").value, 10);
+  let max = parseInt(formatter.formatToParts(new Date(2020, 2, 3, 23)).find((p) => p.type === "hour").value, 10);
+  if (min === 0 && max === 23) return "h23";
+  if (min === 24 && max === 23) return "h24";
+  if (min === 0 && max === 11) return "h11";
+  if (min === 12 && max === 11) return "h12";
+  throw new Error("Unexpected hour cycle result");
 }
 const today = () => {
   return $14e0f24ef4ac5c92$export$d0bdf45af03a6ea3($14e0f24ef4ac5c92$export$aa8b41735afcabd2());
@@ -24750,7 +25914,7 @@ reactExports.createContext(null);
 reactExports.createContext(null);
 reactExports.createContext(null);
 reactExports.createContext(null);
-reactExports.createContext({});
+const $4e85f108e88277b8$export$d688439359537581 = reactExports.createContext({});
 const $4e85f108e88277b8$export$b0d3ecf7112093a7 = reactExports.createContext(null);
 const $4e85f108e88277b8$export$698f465ec27e93df = reactExports.createContext(null);
 const $f0a04ccd8dbdd83b$export$e5c5a5f917a5871c = typeof document !== "undefined" ? React.useLayoutEffect : () => {
@@ -25372,6 +26536,13 @@ const $ea8dcbcb9ea1b556$var$RouterContext = /* @__PURE__ */ reactExports.createC
 function $ea8dcbcb9ea1b556$export$9a302a45f65d0572() {
   return reactExports.useContext($ea8dcbcb9ea1b556$var$RouterContext);
 }
+function $ea8dcbcb9ea1b556$export$efa8c9099e530235(link, modifiers) {
+  let target = link.getAttribute("target");
+  return (!target || target === "_self") && link.origin === location.origin && !link.hasAttribute("download") && !modifiers.metaKey && // open in new tab (mac)
+  !modifiers.ctrlKey && // open in new tab (windows)
+  !modifiers.altKey && // download
+  !modifiers.shiftKey;
+}
 function $ea8dcbcb9ea1b556$export$95185d699e05d4d7(target, modifiers, setOpening = true) {
   var _window_event_type, _window_event;
   let { metaKey, ctrlKey, altKey, shiftKey } = modifiers;
@@ -25429,6 +26600,13 @@ function $ea8dcbcb9ea1b556$export$7e924b3091a3bd18(props) {
     ping: props === null || props === void 0 ? void 0 : props.ping,
     referrerPolicy: props === null || props === void 0 ? void 0 : props.referrerPolicy
   };
+}
+function $ea8dcbcb9ea1b556$export$13aea1a3cb5e3f1f(e, router, href, routerOptions) {
+  if (!router.isNative && e.currentTarget instanceof HTMLAnchorElement && e.currentTarget.href && // If props are applied to a router Link component, it may have already prevented default.
+  !e.isDefaultPrevented() && $ea8dcbcb9ea1b556$export$efa8c9099e530235(e.currentTarget, e) && href) {
+    e.preventDefault();
+    router.open(e.currentTarget, e, href, routerOptions);
+  }
 }
 let $bbed8b41f857bcc0$var$transitionsByElement = /* @__PURE__ */ new Map();
 let $bbed8b41f857bcc0$var$transitionCallbacks = /* @__PURE__ */ new Set();
@@ -25574,6 +26752,22 @@ function $df56164dff5785e2$export$4338b53315abf666(ref) {
   }), [
     refEffect
   ]);
+}
+function $4f58c5f72bcf79f7$export$496315a1608d9602(effect, dependencies) {
+  const isInitialMount = reactExports.useRef(true);
+  const lastDeps = reactExports.useRef(null);
+  reactExports.useEffect(() => {
+    isInitialMount.current = true;
+    return () => {
+      isInitialMount.current = false;
+    };
+  }, []);
+  reactExports.useEffect(() => {
+    let prevDeps = lastDeps.current;
+    if (isInitialMount.current) isInitialMount.current = false;
+    else if (!prevDeps || dependencies.some((dep, i) => !Object.is(dep, prevDeps[i]))) effect();
+    lastDeps.current = dependencies;
+  }, dependencies);
 }
 function $ca9b37712f007381$export$72ef708ab07251f1(effect, dependencies) {
   const isInitialMount = reactExports.useRef(true);
@@ -25813,6 +27007,12 @@ function $6a7db85432448f7f$export$60278871457622de(event) {
 }
 function $6a7db85432448f7f$export$29bf1b5f2c56cf63(event) {
   return !$c87311424ea30a05$export$a11b0059900ceec8() && event.width === 0 && event.height === 0 || event.width === 1 && event.height === 1 && event.pressure === 0 && event.detail === 0 && event.pointerType === "mouse";
+}
+function $5a387cc49350e6db$export$722debc0e56fea39(value, isEqual) {
+  let lastValue = reactExports.useRef(null);
+  if (value && lastValue.current && isEqual(value, lastValue.current)) value = lastValue.current;
+  lastValue.current = value;
+  return value;
 }
 function $99facab73266f662$export$5add1d006293d136(ref, initialValue, onReset) {
   let handleReset = $8ae05eaa5c114e9c$export$7f54fc3180508a52(() => {
@@ -26157,6 +27357,9 @@ function $319e236875307eab$export$a9b970dcc4ae71a9(message, assertiveness = "ass
     }, 100);
     else $319e236875307eab$var$liveAnnouncer.announce(message, assertiveness, timeout);
   } else $319e236875307eab$var$liveAnnouncer.announce(message, assertiveness, timeout);
+}
+function $319e236875307eab$export$d10ae4f68404609a(assertiveness) {
+  if ($319e236875307eab$var$liveAnnouncer) $319e236875307eab$var$liveAnnouncer.clear(assertiveness);
 }
 class $319e236875307eab$var$LiveAnnouncer {
   isAttached() {
@@ -26741,6 +27944,382 @@ function $fca6afa0e843324b$export$f12b703ca79dfbb1(strings, packageName) {
     dictionary
   ]);
 }
+function $896ba0a80a8f4d36$export$85fd5fdf27bacc79(options) {
+  options = $5a387cc49350e6db$export$722debc0e56fea39(options !== null && options !== void 0 ? options : {}, $896ba0a80a8f4d36$var$isEqual);
+  let { locale: locale2 } = $18f2051aff69b9bf$export$43bb16f9c6d9e3f7();
+  return reactExports.useMemo(() => new $fb18d541ea1ad717$export$ad991b66133851cf(locale2, options), [
+    locale2,
+    options
+  ]);
+}
+function $896ba0a80a8f4d36$var$isEqual(a, b) {
+  if (a === b) return true;
+  let aKeys = Object.keys(a);
+  let bKeys = Object.keys(b);
+  if (aKeys.length !== bKeys.length) return false;
+  for (let key of aKeys) {
+    if (b[key] !== a[key]) return false;
+  }
+  return true;
+}
+let $488c6ddbf4ef74c2$var$formatterCache = /* @__PURE__ */ new Map();
+let $488c6ddbf4ef74c2$var$supportsSignDisplay = false;
+try {
+  $488c6ddbf4ef74c2$var$supportsSignDisplay = new Intl.NumberFormat("de-DE", {
+    signDisplay: "exceptZero"
+  }).resolvedOptions().signDisplay === "exceptZero";
+} catch {
+}
+let $488c6ddbf4ef74c2$var$supportsUnit = false;
+try {
+  $488c6ddbf4ef74c2$var$supportsUnit = new Intl.NumberFormat("de-DE", {
+    style: "unit",
+    unit: "degree"
+  }).resolvedOptions().style === "unit";
+} catch {
+}
+const $488c6ddbf4ef74c2$var$UNITS = {
+  degree: {
+    narrow: {
+      default: "°",
+      "ja-JP": " 度",
+      "zh-TW": "度",
+      "sl-SI": " °"
+    }
+  }
+};
+class $488c6ddbf4ef74c2$export$cc77c4ff7e8673c5 {
+  /** Formats a number value as a string, according to the locale and options provided to the constructor. */
+  format(value) {
+    let res = "";
+    if (!$488c6ddbf4ef74c2$var$supportsSignDisplay && this.options.signDisplay != null) res = $488c6ddbf4ef74c2$export$711b50b3c525e0f2(this.numberFormatter, this.options.signDisplay, value);
+    else res = this.numberFormatter.format(value);
+    if (this.options.style === "unit" && !$488c6ddbf4ef74c2$var$supportsUnit) {
+      var _UNITS_unit;
+      let { unit, unitDisplay = "short", locale: locale2 } = this.resolvedOptions();
+      if (!unit) return res;
+      let values = (_UNITS_unit = $488c6ddbf4ef74c2$var$UNITS[unit]) === null || _UNITS_unit === void 0 ? void 0 : _UNITS_unit[unitDisplay];
+      res += values[locale2] || values.default;
+    }
+    return res;
+  }
+  /** Formats a number to an array of parts such as separators, digits, punctuation, and more. */
+  formatToParts(value) {
+    return this.numberFormatter.formatToParts(value);
+  }
+  /** Formats a number range as a string. */
+  formatRange(start, end) {
+    if (typeof this.numberFormatter.formatRange === "function") return this.numberFormatter.formatRange(start, end);
+    if (end < start) throw new RangeError("End date must be >= start date");
+    return `${this.format(start)} – ${this.format(end)}`;
+  }
+  /** Formats a number range as an array of parts. */
+  formatRangeToParts(start, end) {
+    if (typeof this.numberFormatter.formatRangeToParts === "function") return this.numberFormatter.formatRangeToParts(start, end);
+    if (end < start) throw new RangeError("End date must be >= start date");
+    let startParts = this.numberFormatter.formatToParts(start);
+    let endParts = this.numberFormatter.formatToParts(end);
+    return [
+      ...startParts.map((p) => ({
+        ...p,
+        source: "startRange"
+      })),
+      {
+        type: "literal",
+        value: " – ",
+        source: "shared"
+      },
+      ...endParts.map((p) => ({
+        ...p,
+        source: "endRange"
+      }))
+    ];
+  }
+  /** Returns the resolved formatting options based on the values passed to the constructor. */
+  resolvedOptions() {
+    let options = this.numberFormatter.resolvedOptions();
+    if (!$488c6ddbf4ef74c2$var$supportsSignDisplay && this.options.signDisplay != null) options = {
+      ...options,
+      signDisplay: this.options.signDisplay
+    };
+    if (!$488c6ddbf4ef74c2$var$supportsUnit && this.options.style === "unit") options = {
+      ...options,
+      style: "unit",
+      unit: this.options.unit,
+      unitDisplay: this.options.unitDisplay
+    };
+    return options;
+  }
+  constructor(locale2, options = {}) {
+    this.numberFormatter = $488c6ddbf4ef74c2$var$getCachedNumberFormatter(locale2, options);
+    this.options = options;
+  }
+}
+function $488c6ddbf4ef74c2$var$getCachedNumberFormatter(locale2, options = {}) {
+  let { numberingSystem } = options;
+  if (numberingSystem && locale2.includes("-nu-")) {
+    if (!locale2.includes("-u-")) locale2 += "-u-";
+    locale2 += `-nu-${numberingSystem}`;
+  }
+  if (options.style === "unit" && !$488c6ddbf4ef74c2$var$supportsUnit) {
+    var _UNITS_unit;
+    let { unit, unitDisplay = "short" } = options;
+    if (!unit) throw new Error('unit option must be provided with style: "unit"');
+    if (!((_UNITS_unit = $488c6ddbf4ef74c2$var$UNITS[unit]) === null || _UNITS_unit === void 0 ? void 0 : _UNITS_unit[unitDisplay])) throw new Error(`Unsupported unit ${unit} with unitDisplay = ${unitDisplay}`);
+    options = {
+      ...options,
+      style: "decimal"
+    };
+  }
+  let cacheKey = locale2 + (options ? Object.entries(options).sort((a, b) => a[0] < b[0] ? -1 : 1).join() : "");
+  if ($488c6ddbf4ef74c2$var$formatterCache.has(cacheKey)) return $488c6ddbf4ef74c2$var$formatterCache.get(cacheKey);
+  let numberFormatter = new Intl.NumberFormat(locale2, options);
+  $488c6ddbf4ef74c2$var$formatterCache.set(cacheKey, numberFormatter);
+  return numberFormatter;
+}
+function $488c6ddbf4ef74c2$export$711b50b3c525e0f2(numberFormat, signDisplay, num) {
+  if (signDisplay === "auto") return numberFormat.format(num);
+  else if (signDisplay === "never") return numberFormat.format(Math.abs(num));
+  else {
+    let needsPositiveSign = false;
+    if (signDisplay === "always") needsPositiveSign = num > 0 || Object.is(num, 0);
+    else if (signDisplay === "exceptZero") {
+      if (Object.is(num, -0) || Object.is(num, 0)) num = Math.abs(num);
+      else needsPositiveSign = num > 0;
+    }
+    if (needsPositiveSign) {
+      let negative = numberFormat.format(-num);
+      let noSign = numberFormat.format(num);
+      let minus = negative.replace(noSign, "").replace(/\u200e|\u061C/, "");
+      if ([
+        ...minus
+      ].length !== 1) console.warn("@react-aria/i18n polyfill for NumberFormat signDisplay: Unsupported case");
+      let positive = negative.replace(noSign, "!!!").replace(minus, "+").replace("!!!", noSign);
+      return positive;
+    } else return numberFormat.format(num);
+  }
+}
+const $6c7bd7858deea686$var$CURRENCY_SIGN_REGEX = new RegExp("^.*\\(.*\\).*$");
+const $6c7bd7858deea686$var$NUMBERING_SYSTEMS = [
+  "latn",
+  "arab",
+  "hanidec",
+  "deva",
+  "beng",
+  "fullwide"
+];
+class $6c7bd7858deea686$export$cd11ab140839f11d {
+  /**
+  * Parses the given string to a number. Returns NaN if a valid number could not be parsed.
+  */
+  parse(value) {
+    return $6c7bd7858deea686$var$getNumberParserImpl(this.locale, this.options, value).parse(value);
+  }
+  /**
+  * Returns whether the given string could potentially be a valid number. This should be used to
+  * validate user input as the user types. If a `minValue` or `maxValue` is provided, the validity
+  * of the minus/plus sign characters can be checked.
+  */
+  isValidPartialNumber(value, minValue, maxValue) {
+    return $6c7bd7858deea686$var$getNumberParserImpl(this.locale, this.options, value).isValidPartialNumber(value, minValue, maxValue);
+  }
+  /**
+  * Returns a numbering system for which the given string is valid in the current locale.
+  * If no numbering system could be detected, the default numbering system for the current
+  * locale is returned.
+  */
+  getNumberingSystem(value) {
+    return $6c7bd7858deea686$var$getNumberParserImpl(this.locale, this.options, value).options.numberingSystem;
+  }
+  constructor(locale2, options = {}) {
+    this.locale = locale2;
+    this.options = options;
+  }
+}
+const $6c7bd7858deea686$var$numberParserCache = /* @__PURE__ */ new Map();
+function $6c7bd7858deea686$var$getNumberParserImpl(locale2, options, value) {
+  let defaultParser = $6c7bd7858deea686$var$getCachedNumberParser(locale2, options);
+  if (!locale2.includes("-nu-") && !defaultParser.isValidPartialNumber(value)) {
+    for (let numberingSystem of $6c7bd7858deea686$var$NUMBERING_SYSTEMS) if (numberingSystem !== defaultParser.options.numberingSystem) {
+      let parser = $6c7bd7858deea686$var$getCachedNumberParser(locale2 + (locale2.includes("-u-") ? "-nu-" : "-u-nu-") + numberingSystem, options);
+      if (parser.isValidPartialNumber(value)) return parser;
+    }
+  }
+  return defaultParser;
+}
+function $6c7bd7858deea686$var$getCachedNumberParser(locale2, options) {
+  let cacheKey = locale2 + (options ? Object.entries(options).sort((a, b) => a[0] < b[0] ? -1 : 1).join() : "");
+  let parser = $6c7bd7858deea686$var$numberParserCache.get(cacheKey);
+  if (!parser) {
+    parser = new $6c7bd7858deea686$var$NumberParserImpl(locale2, options);
+    $6c7bd7858deea686$var$numberParserCache.set(cacheKey, parser);
+  }
+  return parser;
+}
+class $6c7bd7858deea686$var$NumberParserImpl {
+  parse(value) {
+    let fullySanitizedValue = this.sanitize(value);
+    if (this.symbols.group)
+      fullySanitizedValue = $6c7bd7858deea686$var$replaceAll(fullySanitizedValue, this.symbols.group, "");
+    if (this.symbols.decimal) fullySanitizedValue = fullySanitizedValue.replace(this.symbols.decimal, ".");
+    if (this.symbols.minusSign) fullySanitizedValue = fullySanitizedValue.replace(this.symbols.minusSign, "-");
+    fullySanitizedValue = fullySanitizedValue.replace(this.symbols.numeral, this.symbols.index);
+    if (this.options.style === "percent") {
+      let isNegative = fullySanitizedValue.indexOf("-");
+      fullySanitizedValue = fullySanitizedValue.replace("-", "");
+      fullySanitizedValue = fullySanitizedValue.replace("+", "");
+      let index2 = fullySanitizedValue.indexOf(".");
+      if (index2 === -1) index2 = fullySanitizedValue.length;
+      fullySanitizedValue = fullySanitizedValue.replace(".", "");
+      if (index2 - 2 === 0) fullySanitizedValue = `0.${fullySanitizedValue}`;
+      else if (index2 - 2 === -1) fullySanitizedValue = `0.0${fullySanitizedValue}`;
+      else if (index2 - 2 === -2) fullySanitizedValue = "0.00";
+      else fullySanitizedValue = `${fullySanitizedValue.slice(0, index2 - 2)}.${fullySanitizedValue.slice(index2 - 2)}`;
+      if (isNegative > -1) fullySanitizedValue = `-${fullySanitizedValue}`;
+    }
+    let newValue = fullySanitizedValue ? +fullySanitizedValue : NaN;
+    if (isNaN(newValue)) return NaN;
+    if (this.options.style === "percent") {
+      var _this_options_minimumFractionDigits, _this_options_maximumFractionDigits;
+      let options = {
+        ...this.options,
+        style: "decimal",
+        minimumFractionDigits: Math.min(((_this_options_minimumFractionDigits = this.options.minimumFractionDigits) !== null && _this_options_minimumFractionDigits !== void 0 ? _this_options_minimumFractionDigits : 0) + 2, 20),
+        maximumFractionDigits: Math.min(((_this_options_maximumFractionDigits = this.options.maximumFractionDigits) !== null && _this_options_maximumFractionDigits !== void 0 ? _this_options_maximumFractionDigits : 0) + 2, 20)
+      };
+      return new $6c7bd7858deea686$export$cd11ab140839f11d(this.locale, options).parse(new $488c6ddbf4ef74c2$export$cc77c4ff7e8673c5(this.locale, options).format(newValue));
+    }
+    if (this.options.currencySign === "accounting" && $6c7bd7858deea686$var$CURRENCY_SIGN_REGEX.test(value)) newValue = -1 * newValue;
+    return newValue;
+  }
+  sanitize(value) {
+    value = value.replace(this.symbols.literals, "");
+    if (this.symbols.minusSign) value = value.replace("-", this.symbols.minusSign);
+    if (this.options.numberingSystem === "arab") {
+      if (this.symbols.decimal) {
+        value = value.replace(",", this.symbols.decimal);
+        value = value.replace(String.fromCharCode(1548), this.symbols.decimal);
+      }
+      if (this.symbols.group) value = $6c7bd7858deea686$var$replaceAll(value, ".", this.symbols.group);
+    }
+    if (this.symbols.group === "’" && value.includes("'")) value = $6c7bd7858deea686$var$replaceAll(value, "'", this.symbols.group);
+    if (this.options.locale === "fr-FR" && this.symbols.group) {
+      value = $6c7bd7858deea686$var$replaceAll(value, " ", this.symbols.group);
+      value = $6c7bd7858deea686$var$replaceAll(value, /\u00A0/g, this.symbols.group);
+    }
+    return value;
+  }
+  isValidPartialNumber(value, minValue = -Infinity, maxValue = Infinity) {
+    value = this.sanitize(value);
+    if (this.symbols.minusSign && value.startsWith(this.symbols.minusSign) && minValue < 0) value = value.slice(this.symbols.minusSign.length);
+    else if (this.symbols.plusSign && value.startsWith(this.symbols.plusSign) && maxValue > 0) value = value.slice(this.symbols.plusSign.length);
+    if (this.symbols.group && value.startsWith(this.symbols.group)) return false;
+    if (this.symbols.decimal && value.indexOf(this.symbols.decimal) > -1 && this.options.maximumFractionDigits === 0) return false;
+    if (this.symbols.group) value = $6c7bd7858deea686$var$replaceAll(value, this.symbols.group, "");
+    value = value.replace(this.symbols.numeral, "");
+    if (this.symbols.decimal) value = value.replace(this.symbols.decimal, "");
+    return value.length === 0;
+  }
+  constructor(locale2, options = {}) {
+    this.locale = locale2;
+    if (options.roundingIncrement !== 1 && options.roundingIncrement != null) {
+      if (options.maximumFractionDigits == null && options.minimumFractionDigits == null) {
+        options.maximumFractionDigits = 0;
+        options.minimumFractionDigits = 0;
+      } else if (options.maximumFractionDigits == null) options.maximumFractionDigits = options.minimumFractionDigits;
+      else if (options.minimumFractionDigits == null) options.minimumFractionDigits = options.maximumFractionDigits;
+    }
+    this.formatter = new Intl.NumberFormat(locale2, options);
+    this.options = this.formatter.resolvedOptions();
+    this.symbols = $6c7bd7858deea686$var$getSymbols(locale2, this.formatter, this.options, options);
+    var _this_options_minimumFractionDigits, _this_options_maximumFractionDigits;
+    if (this.options.style === "percent" && (((_this_options_minimumFractionDigits = this.options.minimumFractionDigits) !== null && _this_options_minimumFractionDigits !== void 0 ? _this_options_minimumFractionDigits : 0) > 18 || ((_this_options_maximumFractionDigits = this.options.maximumFractionDigits) !== null && _this_options_maximumFractionDigits !== void 0 ? _this_options_maximumFractionDigits : 0) > 18)) console.warn("NumberParser cannot handle percentages with greater than 18 decimal places, please reduce the number in your options.");
+  }
+}
+const $6c7bd7858deea686$var$nonLiteralParts = /* @__PURE__ */ new Set([
+  "decimal",
+  "fraction",
+  "integer",
+  "minusSign",
+  "plusSign",
+  "group"
+]);
+const $6c7bd7858deea686$var$pluralNumbers = [
+  0,
+  4,
+  2,
+  1,
+  11,
+  20,
+  3,
+  7,
+  100,
+  21,
+  0.1,
+  1.1
+];
+function $6c7bd7858deea686$var$getSymbols(locale2, formatter, intlOptions, originalOptions) {
+  var _allParts_find, _posAllParts_find, _decimalParts_find, _allParts_find1;
+  let symbolFormatter = new Intl.NumberFormat(locale2, {
+    ...intlOptions,
+    // Resets so we get the full range of symbols
+    minimumSignificantDigits: 1,
+    maximumSignificantDigits: 21,
+    roundingIncrement: 1,
+    roundingPriority: "auto",
+    roundingMode: "halfExpand"
+  });
+  let allParts = symbolFormatter.formatToParts(-10000.111);
+  let posAllParts = symbolFormatter.formatToParts(10000.111);
+  let pluralParts = $6c7bd7858deea686$var$pluralNumbers.map((n) => symbolFormatter.formatToParts(n));
+  var _allParts_find_value;
+  let minusSign = (_allParts_find_value = (_allParts_find = allParts.find((p) => p.type === "minusSign")) === null || _allParts_find === void 0 ? void 0 : _allParts_find.value) !== null && _allParts_find_value !== void 0 ? _allParts_find_value : "-";
+  let plusSign = (_posAllParts_find = posAllParts.find((p) => p.type === "plusSign")) === null || _posAllParts_find === void 0 ? void 0 : _posAllParts_find.value;
+  if (!plusSign && ((originalOptions === null || originalOptions === void 0 ? void 0 : originalOptions.signDisplay) === "exceptZero" || (originalOptions === null || originalOptions === void 0 ? void 0 : originalOptions.signDisplay) === "always")) plusSign = "+";
+  let decimalParts = new Intl.NumberFormat(locale2, {
+    ...intlOptions,
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  }).formatToParts(1e-3);
+  let decimal = (_decimalParts_find = decimalParts.find((p) => p.type === "decimal")) === null || _decimalParts_find === void 0 ? void 0 : _decimalParts_find.value;
+  let group = (_allParts_find1 = allParts.find((p) => p.type === "group")) === null || _allParts_find1 === void 0 ? void 0 : _allParts_find1.value;
+  let allPartsLiterals = allParts.filter((p) => !$6c7bd7858deea686$var$nonLiteralParts.has(p.type)).map((p) => $6c7bd7858deea686$var$escapeRegex(p.value));
+  let pluralPartsLiterals = pluralParts.flatMap((p) => p.filter((p2) => !$6c7bd7858deea686$var$nonLiteralParts.has(p2.type)).map((p2) => $6c7bd7858deea686$var$escapeRegex(p2.value)));
+  let sortedLiterals = [
+    .../* @__PURE__ */ new Set([
+      ...allPartsLiterals,
+      ...pluralPartsLiterals
+    ])
+  ].sort((a, b) => b.length - a.length);
+  let literals = sortedLiterals.length === 0 ? new RegExp("[\\p{White_Space}]", "gu") : new RegExp(`${sortedLiterals.join("|")}|[\\p{White_Space}]`, "gu");
+  let numerals = [
+    ...new Intl.NumberFormat(intlOptions.locale, {
+      useGrouping: false
+    }).format(9876543210)
+  ].reverse();
+  let indexes = new Map(numerals.map((d, i) => [
+    d,
+    i
+  ]));
+  let numeral = new RegExp(`[${numerals.join("")}]`, "g");
+  let index2 = (d) => String(indexes.get(d));
+  return {
+    minusSign,
+    plusSign,
+    decimal,
+    group,
+    literals,
+    numeral,
+    index: index2
+  };
+}
+function $6c7bd7858deea686$var$replaceAll(str2, find, replace) {
+  if (str2.replaceAll) return str2.replaceAll(find, replace);
+  return str2.split(find).join(replace);
+}
+function $6c7bd7858deea686$var$escapeRegex(string2) {
+  return string2.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
 let $325a3faab7a68acd$var$cache = /* @__PURE__ */ new Map();
 function $325a3faab7a68acd$export$a16aca283550c30d(options) {
   let { locale: locale2 } = $18f2051aff69b9bf$export$43bb16f9c6d9e3f7();
@@ -26749,6 +28328,51 @@ function $325a3faab7a68acd$export$a16aca283550c30d(options) {
   let formatter = new Intl.Collator(locale2, options);
   $325a3faab7a68acd$var$cache.set(cacheKey, formatter);
   return formatter;
+}
+function $bb77f239b46e8c72$export$3274cf84b703fff(options) {
+  let collator = $325a3faab7a68acd$export$a16aca283550c30d({
+    usage: "search",
+    ...options
+  });
+  let startsWith = reactExports.useCallback((string2, substring) => {
+    if (substring.length === 0) return true;
+    string2 = string2.normalize("NFC");
+    substring = substring.normalize("NFC");
+    return collator.compare(string2.slice(0, substring.length), substring) === 0;
+  }, [
+    collator
+  ]);
+  let endsWith = reactExports.useCallback((string2, substring) => {
+    if (substring.length === 0) return true;
+    string2 = string2.normalize("NFC");
+    substring = substring.normalize("NFC");
+    return collator.compare(string2.slice(-substring.length), substring) === 0;
+  }, [
+    collator
+  ]);
+  let contains = reactExports.useCallback((string2, substring) => {
+    if (substring.length === 0) return true;
+    string2 = string2.normalize("NFC");
+    substring = substring.normalize("NFC");
+    let scan = 0;
+    let sliceLen = substring.length;
+    for (; scan + sliceLen <= string2.length; scan++) {
+      let slice = string2.slice(scan, scan + sliceLen);
+      if (collator.compare(substring, slice) === 0) return true;
+    }
+    return false;
+  }, [
+    collator
+  ]);
+  return reactExports.useMemo(() => ({
+    startsWith,
+    endsWith,
+    contains
+  }), [
+    startsWith,
+    endsWith,
+    contains
+  ]);
 }
 let $2a41e45df1593e64$var$visualViewport = typeof document !== "undefined" ? window.visualViewport : null;
 function $2a41e45df1593e64$export$d39e1813b3bdd0e1(props) {
@@ -27768,6 +29392,28 @@ function $f645667febf57a63$export$4c014de7c8940b4c(props, domRef) {
     }, interactionProps)
   };
 }
+const $f1ab8c75478c6f73$export$3351871ee4b288b8 = /* @__PURE__ */ React.forwardRef(({ children, ...props }, ref) => {
+  let isRegistered = reactExports.useRef(false);
+  let prevContext = reactExports.useContext($ae1eeba8b9eafd08$export$5165eccb35aaadb5);
+  ref = $df56164dff5785e2$export$4338b53315abf666(ref || (prevContext === null || prevContext === void 0 ? void 0 : prevContext.ref));
+  let context = $3ef42575df84b30b$export$9d1611c77c2fe928(prevContext || {}, {
+    ...props,
+    ref,
+    register() {
+      isRegistered.current = true;
+      if (prevContext) prevContext.register();
+    }
+  });
+  $e7801be82b4b2a53$export$4debdb1a3f0fa79e(prevContext, ref);
+  reactExports.useEffect(() => {
+    if (!isRegistered.current) {
+      isRegistered.current = true;
+    }
+  }, []);
+  return /* @__PURE__ */ React.createElement($ae1eeba8b9eafd08$export$5165eccb35aaadb5.Provider, {
+    value: context
+  }, children);
+});
 function $f1ab8c75478c6f73$export$cf75428e0b9ed1ea({ children }) {
   let context = reactExports.useMemo(() => ({
     register: () => {
@@ -28549,6 +30195,87 @@ function $9bf71ea28793e738$export$2d6ec8fc375ceafa(root, opts, scope) {
   if (opts === null || opts === void 0 ? void 0 : opts.from) walker.currentNode = opts.from;
   return walker;
 }
+function $9bf71ea28793e738$export$c5251b9e124bf29(ref, defaultOptions = {}) {
+  return {
+    focusNext(opts = {}) {
+      let root = ref.current;
+      if (!root) return null;
+      let { from, tabbable = defaultOptions.tabbable, wrap = defaultOptions.wrap, accept = defaultOptions.accept } = opts;
+      let node = from || $d4ee10de306f2510$export$cd4e5573fbe2b576($431fbd86ca7dc216$export$b204af158042fbac(root));
+      let walker = $9bf71ea28793e738$export$2d6ec8fc375ceafa(root, {
+        tabbable,
+        accept
+      });
+      if (root.contains(node)) walker.currentNode = node;
+      let nextNode = walker.nextNode();
+      if (!nextNode && wrap) {
+        walker.currentNode = root;
+        nextNode = walker.nextNode();
+      }
+      if (nextNode) $9bf71ea28793e738$var$focusElement(nextNode, true);
+      return nextNode;
+    },
+    focusPrevious(opts = defaultOptions) {
+      let root = ref.current;
+      if (!root) return null;
+      let { from, tabbable = defaultOptions.tabbable, wrap = defaultOptions.wrap, accept = defaultOptions.accept } = opts;
+      let node = from || $d4ee10de306f2510$export$cd4e5573fbe2b576($431fbd86ca7dc216$export$b204af158042fbac(root));
+      let walker = $9bf71ea28793e738$export$2d6ec8fc375ceafa(root, {
+        tabbable,
+        accept
+      });
+      if (root.contains(node)) walker.currentNode = node;
+      else {
+        let next = $9bf71ea28793e738$var$last(walker);
+        if (next) $9bf71ea28793e738$var$focusElement(next, true);
+        return next !== null && next !== void 0 ? next : null;
+      }
+      let previousNode = walker.previousNode();
+      if (!previousNode && wrap) {
+        walker.currentNode = root;
+        let lastNode = $9bf71ea28793e738$var$last(walker);
+        if (!lastNode)
+          return null;
+        previousNode = lastNode;
+      }
+      if (previousNode) $9bf71ea28793e738$var$focusElement(previousNode, true);
+      return previousNode !== null && previousNode !== void 0 ? previousNode : null;
+    },
+    focusFirst(opts = defaultOptions) {
+      let root = ref.current;
+      if (!root) return null;
+      let { tabbable = defaultOptions.tabbable, accept = defaultOptions.accept } = opts;
+      let walker = $9bf71ea28793e738$export$2d6ec8fc375ceafa(root, {
+        tabbable,
+        accept
+      });
+      let nextNode = walker.nextNode();
+      if (nextNode) $9bf71ea28793e738$var$focusElement(nextNode, true);
+      return nextNode;
+    },
+    focusLast(opts = defaultOptions) {
+      let root = ref.current;
+      if (!root) return null;
+      let { tabbable = defaultOptions.tabbable, accept = defaultOptions.accept } = opts;
+      let walker = $9bf71ea28793e738$export$2d6ec8fc375ceafa(root, {
+        tabbable,
+        accept
+      });
+      let next = $9bf71ea28793e738$var$last(walker);
+      if (next) $9bf71ea28793e738$var$focusElement(next, true);
+      return next !== null && next !== void 0 ? next : null;
+    }
+  };
+}
+function $9bf71ea28793e738$var$last(walker) {
+  let next = void 0;
+  let last;
+  do {
+    last = walker.lastChild();
+    if (last) next = last;
+  } while (last);
+  return next;
+}
 class $9bf71ea28793e738$var$Tree {
   get size() {
     return this.fastMap.size;
@@ -29127,12 +30854,12 @@ function $5c3e21d68f1c4674$export$439d29a4e110a164(props) {
   let { visuallyHiddenProps } = $5c3e21d68f1c4674$export$a966af930f325cab(props);
   return /* @__PURE__ */ React.createElement(Element2, $3ef42575df84b30b$export$9d1611c77c2fe928(otherProps, visuallyHiddenProps), children);
 }
-function $parcel$interopDefault$1(a) {
+function $parcel$interopDefault$8(a) {
   return a && a.__esModule ? a.default : a;
 }
 function $86ea4cb521eb2e37$export$2317d149ed6f78c4(props) {
   let { onDismiss, ...otherProps } = props;
-  let stringFormatter = $fca6afa0e843324b$export$f12b703ca79dfbb1($parcel$interopDefault$1($a2f21f5f14f60553$exports), "@react-aria/overlays");
+  let stringFormatter = $fca6afa0e843324b$export$f12b703ca79dfbb1($parcel$interopDefault$8($a2f21f5f14f60553$exports), "@react-aria/overlays");
   let labels = $313b98861ee5dd6c$export$d6875122194c7b44(otherProps, stringFormatter.format("dismiss"));
   let onClick = () => {
     if (onDismiss) onDismiss();
@@ -29328,6 +31055,15 @@ function $337b884510726a0d$export$c6fdb837b070b4ff(props) {
     value: contextValue
   }, /* @__PURE__ */ React.createElement($f1ab8c75478c6f73$export$cf75428e0b9ed1ea, null, contents));
   return /* @__PURE__ */ $dbSRa$reactdom.createPortal(contents, portalContainer);
+}
+function $337b884510726a0d$export$14c98a7594375490() {
+  let ctx = reactExports.useContext($337b884510726a0d$export$a2200b96afd16271);
+  let setContain = ctx === null || ctx === void 0 ? void 0 : ctx.setContain;
+  $f0a04ccd8dbdd83b$export$e5c5a5f917a5871c(() => {
+    setContain === null || setContain === void 0 ? void 0 : setContain(true);
+  }, [
+    setContain
+  ]);
 }
 const $b1f0cad8af73213b$export$3585ede4d035bf14 = /* @__PURE__ */ new WeakMap();
 function $b1f0cad8af73213b$var$normalizeKey(key) {
@@ -30929,7 +32665,7 @@ $2cbb7ca666678a14$exports = {
   "zh-CN": $2d9960c02ccac927$exports,
   "zh-TW": $f1b682a4c8c5631c$exports
 };
-function $parcel$interopDefault(a) {
+function $parcel$interopDefault$7(a) {
   return a && a.__esModule ? a.default : a;
 }
 function $168583247155ddda$export$dc9c12ed27dd1b49(props, state, ref) {
@@ -30960,7 +32696,7 @@ function $168583247155ddda$export$dc9c12ed27dd1b49(props, state, ref) {
         if ("continuePropagation" in e) e.continuePropagation();
     }
   };
-  let stringFormatter = $fca6afa0e843324b$export$f12b703ca79dfbb1($parcel$interopDefault($2cbb7ca666678a14$exports), "@react-aria/menu");
+  let stringFormatter = $fca6afa0e843324b$export$f12b703ca79dfbb1($parcel$interopDefault$7($2cbb7ca666678a14$exports), "@react-aria/menu");
   let { longPressProps } = $8a26561d2877236e$export$c24ed0104d07eab9({
     isDisabled: isDisabled || trigger !== "longPress",
     accessibilityDescription: stringFormatter.format("longPressMessage"),
@@ -31000,6 +32736,249 @@ function $168583247155ddda$export$dc9c12ed27dd1b49(props, state, ref) {
       "aria-labelledby": menuTriggerId,
       autoFocus: state.focusStrategy || true,
       onClose: state.close
+    }
+  };
+}
+const $fc79756100351201$export$6f49b4016bfc8d56 = /* @__PURE__ */ new WeakMap();
+function $d5336fe17ce95402$export$38eaa17faae8f579(props, state, ref) {
+  let { shouldFocusWrap = true, onKeyDown, onKeyUp, ...otherProps } = props;
+  if (!props["aria-label"] && !props["aria-labelledby"] && false) ;
+  let domProps = $65484d02dcb7eb3e$export$457c3d6518dd4c6f(props, {
+    labelable: true
+  });
+  let { listProps } = $982254629710d113$export$b95089534ab7c1fd({
+    ...otherProps,
+    ref,
+    selectionManager: state.selectionManager,
+    collection: state.collection,
+    disabledKeys: state.disabledKeys,
+    shouldFocusWrap,
+    linkBehavior: "override"
+  });
+  $fc79756100351201$export$6f49b4016bfc8d56.set(state, {
+    onClose: props.onClose,
+    onAction: props.onAction,
+    shouldUseVirtualFocus: props.shouldUseVirtualFocus
+  });
+  return {
+    menuProps: $3ef42575df84b30b$export$9d1611c77c2fe928(domProps, {
+      onKeyDown,
+      onKeyUp
+    }, {
+      role: "menu",
+      ...listProps,
+      onKeyDown: (e) => {
+        var _listProps_onKeyDown;
+        if (e.key !== "Escape" || props.shouldUseVirtualFocus) (_listProps_onKeyDown = listProps.onKeyDown) === null || _listProps_onKeyDown === void 0 ? void 0 : _listProps_onKeyDown.call(listProps, e);
+      }
+    })
+  };
+}
+function $a2e5df62f93c7633$export$9d32628fc2aea7da(props, state, ref) {
+  let { id: id2, key, closeOnSelect, isVirtualized, "aria-haspopup": hasPopup, onPressStart, onPressUp: pressUpProp, onPress, onPressChange: pressChangeProp, onPressEnd, onClick: onClickProp, onHoverStart: hoverStartProp, onHoverChange, onHoverEnd, onKeyDown, onKeyUp, onFocus, onFocusChange, onBlur, selectionManager = state.selectionManager } = props;
+  let isTrigger = !!hasPopup;
+  let isTriggerExpanded = isTrigger && props["aria-expanded"] === "true";
+  var _props_isDisabled;
+  let isDisabled = (_props_isDisabled = props.isDisabled) !== null && _props_isDisabled !== void 0 ? _props_isDisabled : selectionManager.isDisabled(key);
+  var _props_isSelected;
+  let isSelected = (_props_isSelected = props.isSelected) !== null && _props_isSelected !== void 0 ? _props_isSelected : selectionManager.isSelected(key);
+  let data = $fc79756100351201$export$6f49b4016bfc8d56.get(state);
+  let item = state.collection.getItem(key);
+  let onClose = props.onClose || data.onClose;
+  let router = $ea8dcbcb9ea1b556$export$9a302a45f65d0572();
+  let performAction = () => {
+    var _item_props;
+    if (isTrigger) return;
+    if (item === null || item === void 0 ? void 0 : (_item_props = item.props) === null || _item_props === void 0 ? void 0 : _item_props.onAction) item.props.onAction();
+    else if (props.onAction) props.onAction(key);
+    if (data.onAction) {
+      let onAction = data.onAction;
+      onAction(key);
+    }
+  };
+  let role = "menuitem";
+  if (!isTrigger) {
+    if (selectionManager.selectionMode === "single") role = "menuitemradio";
+    else if (selectionManager.selectionMode === "multiple") role = "menuitemcheckbox";
+  }
+  let labelId = $bdb11010cef70236$export$b4cc09c592e8fdb8();
+  let descriptionId = $bdb11010cef70236$export$b4cc09c592e8fdb8();
+  let keyboardId = $bdb11010cef70236$export$b4cc09c592e8fdb8();
+  let ariaProps = {
+    id: id2,
+    "aria-disabled": isDisabled || void 0,
+    role,
+    "aria-label": props["aria-label"],
+    "aria-labelledby": labelId,
+    "aria-describedby": [
+      descriptionId,
+      keyboardId
+    ].filter(Boolean).join(" ") || void 0,
+    "aria-controls": props["aria-controls"],
+    "aria-haspopup": hasPopup,
+    "aria-expanded": props["aria-expanded"]
+  };
+  if (selectionManager.selectionMode !== "none" && !isTrigger) ariaProps["aria-checked"] = isSelected;
+  if (isVirtualized) {
+    ariaProps["aria-posinset"] = item === null || item === void 0 ? void 0 : item.index;
+    ariaProps["aria-setsize"] = $453cc9f0df89c0a5$export$77d5aafae4e095b2(state.collection);
+  }
+  let isPressedRef = reactExports.useRef(false);
+  let onPressChange = (isPressed2) => {
+    pressChangeProp === null || pressChangeProp === void 0 ? void 0 : pressChangeProp(isPressed2);
+    isPressedRef.current = isPressed2;
+  };
+  let interaction = reactExports.useRef(null);
+  let onPressUp = (e) => {
+    if (e.pointerType !== "keyboard") interaction.current = {
+      pointerType: e.pointerType
+    };
+    if (e.pointerType === "mouse") {
+      if (!isPressedRef.current) e.target.click();
+    }
+    pressUpProp === null || pressUpProp === void 0 ? void 0 : pressUpProp(e);
+  };
+  let onClick = (e) => {
+    var _interaction_current, _interaction_current1;
+    onClickProp === null || onClickProp === void 0 ? void 0 : onClickProp(e);
+    performAction();
+    $ea8dcbcb9ea1b556$export$13aea1a3cb5e3f1f(e, router, item.props.href, item === null || item === void 0 ? void 0 : item.props.routerOptions);
+    let shouldClose = ((_interaction_current = interaction.current) === null || _interaction_current === void 0 ? void 0 : _interaction_current.pointerType) === "keyboard" ? ((_interaction_current1 = interaction.current) === null || _interaction_current1 === void 0 ? void 0 : _interaction_current1.key) === "Enter" || selectionManager.selectionMode === "none" || selectionManager.isLink(key) : selectionManager.selectionMode !== "multiple" || selectionManager.isLink(key);
+    shouldClose = closeOnSelect !== null && closeOnSelect !== void 0 ? closeOnSelect : shouldClose;
+    if (onClose && !isTrigger && shouldClose) onClose();
+    interaction.current = null;
+  };
+  let { itemProps, isFocused } = $880e95eb8b93ba9a$export$ecf600387e221c37({
+    id: id2,
+    selectionManager,
+    key,
+    ref,
+    shouldSelectOnPressUp: true,
+    allowsDifferentPressOrigin: true,
+    // Disable all handling of links in useSelectable item
+    // because we handle it ourselves. The behavior of menus
+    // is slightly different from other collections because
+    // actions are performed on key down rather than key up.
+    linkBehavior: "none",
+    shouldUseVirtualFocus: data.shouldUseVirtualFocus
+  });
+  let { pressProps, isPressed } = $f6c31cce2adf654f$export$45712eceda6fad21({
+    onPressStart,
+    onPress,
+    onPressUp,
+    onPressChange,
+    onPressEnd,
+    isDisabled
+  });
+  let { hoverProps } = $6179b936705e76d3$export$ae780daf29e6d456({
+    isDisabled,
+    onHoverStart(e) {
+      if (!$507fabe10e71c6fb$export$b9b3dfddab17db27() && !(isTriggerExpanded && hasPopup)) {
+        selectionManager.setFocused(true);
+        selectionManager.setFocusedKey(key);
+      }
+      hoverStartProp === null || hoverStartProp === void 0 ? void 0 : hoverStartProp(e);
+    },
+    onHoverChange,
+    onHoverEnd
+  });
+  let { keyboardProps } = $46d819fcbaf35654$export$8f71654801c2f7cd({
+    onKeyDown: (e) => {
+      if (e.repeat) {
+        e.continuePropagation();
+        return;
+      }
+      switch (e.key) {
+        case " ":
+          interaction.current = {
+            pointerType: "keyboard",
+            key: " "
+          };
+          e.target.click();
+          break;
+        case "Enter":
+          interaction.current = {
+            pointerType: "keyboard",
+            key: "Enter"
+          };
+          if (e.target.tagName !== "A") e.target.click();
+          break;
+        default:
+          if (!isTrigger) e.continuePropagation();
+          onKeyDown === null || onKeyDown === void 0 ? void 0 : onKeyDown(e);
+          break;
+      }
+    },
+    onKeyUp
+  });
+  let { focusProps } = $a1ea59d68270f0dd$export$f8168d8dd8fd66e6({
+    onBlur,
+    onFocus,
+    onFocusChange
+  });
+  let domProps = $65484d02dcb7eb3e$export$457c3d6518dd4c6f(item === null || item === void 0 ? void 0 : item.props);
+  delete domProps.id;
+  let linkProps = $ea8dcbcb9ea1b556$export$7e924b3091a3bd18(item === null || item === void 0 ? void 0 : item.props);
+  return {
+    menuItemProps: {
+      ...ariaProps,
+      ...$3ef42575df84b30b$export$9d1611c77c2fe928(
+        domProps,
+        linkProps,
+        isTrigger ? {
+          onFocus: itemProps.onFocus,
+          "data-collection": itemProps["data-collection"],
+          "data-key": itemProps["data-key"]
+        } : itemProps,
+        pressProps,
+        hoverProps,
+        keyboardProps,
+        focusProps,
+        // Prevent DOM focus from moving on mouse down when using virtual focus or this is a submenu/subdialog trigger.
+        data.shouldUseVirtualFocus || isTrigger ? {
+          onMouseDown: (e) => e.preventDefault()
+        } : void 0,
+        isDisabled ? void 0 : {
+          onClick
+        }
+      ),
+      // If a submenu is expanded, set the tabIndex to -1 so that shift tabbing goes out of the menu instead of the parent menu item.
+      tabIndex: itemProps.tabIndex != null && isTriggerExpanded && !data.shouldUseVirtualFocus ? -1 : itemProps.tabIndex
+    },
+    labelProps: {
+      id: labelId
+    },
+    descriptionProps: {
+      id: descriptionId
+    },
+    keyboardShortcutProps: {
+      id: keyboardId
+    },
+    isFocused,
+    isFocusVisible: isFocused && selectionManager.isFocused && $507fabe10e71c6fb$export$b9b3dfddab17db27() && !isTriggerExpanded,
+    isSelected,
+    isPressed,
+    isDisabled
+  };
+}
+function $3e5eb2498db5b506$export$73f7a44322579622(props) {
+  let { heading, "aria-label": ariaLabel } = props;
+  let headingId = $bdb11010cef70236$export$f680877a34711e37();
+  return {
+    itemProps: {
+      role: "presentation"
+    },
+    headingProps: heading ? {
+      // Techincally, menus cannot contain headings according to ARIA.
+      // We hide the heading from assistive technology, using role="presentation",
+      // and only use it as a label for the nested group.
+      id: headingId,
+      role: "presentation"
+    } : {},
+    groupProps: {
+      role: "group",
+      "aria-label": ariaLabel,
+      "aria-labelledby": heading ? headingId : void 0
     }
   };
 }
@@ -31984,6 +33963,18 @@ function $e1995378a142960e$export$18af5c7a9e9b3664(CollectionNodeClass, render) 
   Result.displayName = render.name;
   return Result;
 }
+function $e1995378a142960e$export$e953bb1cd0f19726(CollectionNodeClass, render, useChildren = $e1995378a142960e$var$useCollectionChildren) {
+  let Component = ({ node }) => render(node.props, node.props.ref, node);
+  let Result = reactExports.forwardRef((props, ref) => {
+    let children = useChildren(props);
+    var _useSSRCollectionNode;
+    return (_useSSRCollectionNode = $e1995378a142960e$var$useSSRCollectionNode(CollectionNodeClass, props, ref, null, children, (node) => /* @__PURE__ */ React.createElement(Component, {
+      node
+    }))) !== null && _useSSRCollectionNode !== void 0 ? _useSSRCollectionNode : /* @__PURE__ */ React.createElement(React.Fragment, null);
+  });
+  Result.displayName = render.name;
+  return Result;
+}
 function $e1995378a142960e$var$useCollectionChildren(options) {
   return $e948873055cbafe4$export$727c8fc270210f13({
     ...options,
@@ -32027,6 +34018,10 @@ function $e1995378a142960e$var$CollectionRoot({ children }) {
   }, wrappedChildren) : /* @__PURE__ */ reactDomExports.createPortal(wrappedChildren, doc);
 }
 const $7135fc7d473fd974$export$d40e14dec8b060a8 = /* @__PURE__ */ reactExports.createContext(null);
+const $7135fc7d473fd974$export$6e2c8f0811a474ce = /* @__PURE__ */ $e1995378a142960e$export$e953bb1cd0f19726("section", (props, ref, section) => {
+  let { name, render } = reactExports.useContext($7135fc7d473fd974$export$d40e14dec8b060a8);
+  return render(props, ref, section, "react-aria-Section");
+});
 const $7135fc7d473fd974$export$a164736487e3f0ae = {
   CollectionRoot({ collection, renderDropIndicator }) {
     return $7135fc7d473fd974$var$useCollectionRender(collection, null, renderDropIndicator);
@@ -32080,6 +34075,13 @@ function $7135fc7d473fd974$export$2dbbd341daed716d(collection, node, renderDropI
   return afterIndicators;
 }
 const $7135fc7d473fd974$export$4feb769f8ddf26c5 = /* @__PURE__ */ reactExports.createContext($7135fc7d473fd974$export$a164736487e3f0ae);
+function $7135fc7d473fd974$export$90e00781bc59d8f9(focusedKey) {
+  return reactExports.useMemo(() => focusedKey != null ? /* @__PURE__ */ new Set([
+    focusedKey
+  ]) : null, [
+    focusedKey
+  ]);
+}
 function $701a24aa0da5b062$export$ea18c227d4417cc3(props, ref) {
   let { elementType = "button", isDisabled, onPress, onPressStart, onPressEnd, onPressUp, onPressChange, preventFocusOnPress, allowFocusWhenDisabled, onClick, href, target, rel, type: type2 = "button" } = props;
   let additionalProps;
@@ -32130,6 +34132,2641 @@ function $701a24aa0da5b062$export$ea18c227d4417cc3(props, ref) {
       "aria-current": props["aria-current"],
       "aria-disabled": props["aria-disabled"]
     })
+  };
+}
+var $39324ace0d945f59$exports = {};
+$39324ace0d945f59$exports = {
+  "dateRange": (args) => `${args.startDate} إلى ${args.endDate}`,
+  "dateSelected": (args) => `${args.date} المحدد`,
+  "finishRangeSelectionPrompt": `انقر لإنهاء عملية تحديد نطاق التاريخ`,
+  "maximumDate": `آخر تاريخ متاح`,
+  "minimumDate": `أول تاريخ متاح`,
+  "next": `التالي`,
+  "previous": `السابق`,
+  "selectedDateDescription": (args) => `تاريخ محدد: ${args.date}`,
+  "selectedRangeDescription": (args) => `المدى الزمني المحدد: ${args.dateRange}`,
+  "startRangeSelectionPrompt": `انقر لبدء عملية تحديد نطاق التاريخ`,
+  "todayDate": (args) => `اليوم، ${args.date}`,
+  "todayDateSelected": (args) => `اليوم، ${args.date} محدد`
+};
+var $1830a539e98c7baf$exports = {};
+$1830a539e98c7baf$exports = {
+  "dateRange": (args) => `${args.startDate} до ${args.endDate}`,
+  "dateSelected": (args) => `Избрано е ${args.date}`,
+  "finishRangeSelectionPrompt": `Натиснете, за да довършите избора на времеви интервал`,
+  "maximumDate": `Последна налична дата`,
+  "minimumDate": `Първа налична дата`,
+  "next": `Напред`,
+  "previous": `Назад`,
+  "selectedDateDescription": (args) => `Избрана дата: ${args.date}`,
+  "selectedRangeDescription": (args) => `Избран диапазон: ${args.dateRange}`,
+  "startRangeSelectionPrompt": `Натиснете, за да пристъпите към избора на времеви интервал`,
+  "todayDate": (args) => `Днес, ${args.date}`,
+  "todayDateSelected": (args) => `Днес, ${args.date} са избрани`
+};
+var $f4b92528965aab97$exports = {};
+$f4b92528965aab97$exports = {
+  "dateRange": (args) => `${args.startDate} až ${args.endDate}`,
+  "dateSelected": (args) => `Vybráno ${args.date}`,
+  "finishRangeSelectionPrompt": `Kliknutím dokončíte výběr rozsahu dat`,
+  "maximumDate": `Poslední dostupné datum`,
+  "minimumDate": `První dostupné datum`,
+  "next": `Další`,
+  "previous": `Předchozí`,
+  "selectedDateDescription": (args) => `Vybrané datum: ${args.date}`,
+  "selectedRangeDescription": (args) => `Vybrané období: ${args.dateRange}`,
+  "startRangeSelectionPrompt": `Kliknutím zahájíte výběr rozsahu dat`,
+  "todayDate": (args) => `Dnes, ${args.date}`,
+  "todayDateSelected": (args) => `Dnes, vybráno ${args.date}`
+};
+var $1cd578ef0547c8f1$exports = {};
+$1cd578ef0547c8f1$exports = {
+  "dateRange": (args) => `${args.startDate} til ${args.endDate}`,
+  "dateSelected": (args) => `${args.date} valgt`,
+  "finishRangeSelectionPrompt": `Klik for at fuldføre valg af datoområde`,
+  "maximumDate": `Sidste ledige dato`,
+  "minimumDate": `Første ledige dato`,
+  "next": `Næste`,
+  "previous": `Forrige`,
+  "selectedDateDescription": (args) => `Valgt dato: ${args.date}`,
+  "selectedRangeDescription": (args) => `Valgt interval: ${args.dateRange}`,
+  "startRangeSelectionPrompt": `Klik for at starte valg af datoområde`,
+  "todayDate": (args) => `I dag, ${args.date}`,
+  "todayDateSelected": (args) => `I dag, ${args.date} valgt`
+};
+var $db55a8973925d619$exports = {};
+$db55a8973925d619$exports = {
+  "dateRange": (args) => `${args.startDate} bis ${args.endDate}`,
+  "dateSelected": (args) => `${args.date} ausgewählt`,
+  "finishRangeSelectionPrompt": `Klicken, um die Auswahl des Datumsbereichs zu beenden`,
+  "maximumDate": `Letztes verfügbares Datum`,
+  "minimumDate": `Erstes verfügbares Datum`,
+  "next": `Weiter`,
+  "previous": `Zurück`,
+  "selectedDateDescription": (args) => `Ausgewähltes Datum: ${args.date}`,
+  "selectedRangeDescription": (args) => `Ausgewählter Bereich: ${args.dateRange}`,
+  "startRangeSelectionPrompt": `Klicken, um die Auswahl des Datumsbereichs zu beginnen`,
+  "todayDate": (args) => `Heute, ${args.date}`,
+  "todayDateSelected": (args) => `Heute, ${args.date} ausgewählt`
+};
+var $ec6937d58566d443$exports = {};
+$ec6937d58566d443$exports = {
+  "dateRange": (args) => `${args.startDate} έως ${args.endDate}`,
+  "dateSelected": (args) => `Επιλέχθηκε ${args.date}`,
+  "finishRangeSelectionPrompt": `Κάντε κλικ για να ολοκληρώσετε την επιλογή εύρους ημερομηνιών`,
+  "maximumDate": `Τελευταία διαθέσιμη ημερομηνία`,
+  "minimumDate": `Πρώτη διαθέσιμη ημερομηνία`,
+  "next": `Επόμενο`,
+  "previous": `Προηγούμενο`,
+  "selectedDateDescription": (args) => `Επιλεγμένη ημερομηνία: ${args.date}`,
+  "selectedRangeDescription": (args) => `Επιλεγμένο εύρος: ${args.dateRange}`,
+  "startRangeSelectionPrompt": `Κάντε κλικ για να ξεκινήσετε την επιλογή εύρους ημερομηνιών`,
+  "todayDate": (args) => `Σήμερα, ${args.date}`,
+  "todayDateSelected": (args) => `Σήμερα, επιλέχτηκε ${args.date}`
+};
+var $1f5cea0742dc284a$exports = {};
+$1f5cea0742dc284a$exports = {
+  "previous": `Previous`,
+  "next": `Next`,
+  "selectedDateDescription": (args) => `Selected Date: ${args.date}`,
+  "selectedRangeDescription": (args) => `Selected Range: ${args.dateRange}`,
+  "todayDate": (args) => `Today, ${args.date}`,
+  "todayDateSelected": (args) => `Today, ${args.date} selected`,
+  "dateSelected": (args) => `${args.date} selected`,
+  "startRangeSelectionPrompt": `Click to start selecting date range`,
+  "finishRangeSelectionPrompt": `Click to finish selecting date range`,
+  "minimumDate": `First available date`,
+  "maximumDate": `Last available date`,
+  "dateRange": (args) => `${args.startDate} to ${args.endDate}`
+};
+var $2ca7ea366384817b$exports = {};
+$2ca7ea366384817b$exports = {
+  "dateRange": (args) => `${args.startDate} a ${args.endDate}`,
+  "dateSelected": (args) => `${args.date} seleccionado`,
+  "finishRangeSelectionPrompt": `Haga clic para terminar de seleccionar rango de fechas`,
+  "maximumDate": `Última fecha disponible`,
+  "minimumDate": `Primera fecha disponible`,
+  "next": `Siguiente`,
+  "previous": `Anterior`,
+  "selectedDateDescription": (args) => `Fecha seleccionada: ${args.date}`,
+  "selectedRangeDescription": (args) => `Intervalo seleccionado: ${args.dateRange}`,
+  "startRangeSelectionPrompt": `Haga clic para comenzar a seleccionar un rango de fechas`,
+  "todayDate": (args) => `Hoy, ${args.date}`,
+  "todayDateSelected": (args) => `Hoy, ${args.date} seleccionado`
+};
+var $97874a7fe9cd091f$exports = {};
+$97874a7fe9cd091f$exports = {
+  "dateRange": (args) => `${args.startDate} kuni ${args.endDate}`,
+  "dateSelected": (args) => `${args.date} valitud`,
+  "finishRangeSelectionPrompt": `Klõpsake kuupäevavahemiku valimise lõpetamiseks`,
+  "maximumDate": `Viimane saadaolev kuupäev`,
+  "minimumDate": `Esimene saadaolev kuupäev`,
+  "next": `Järgmine`,
+  "previous": `Eelmine`,
+  "selectedDateDescription": (args) => `Valitud kuupäev: ${args.date}`,
+  "selectedRangeDescription": (args) => `Valitud vahemik: ${args.dateRange}`,
+  "startRangeSelectionPrompt": `Klõpsake kuupäevavahemiku valimiseks`,
+  "todayDate": (args) => `Täna, ${args.date}`,
+  "todayDateSelected": (args) => `Täna, ${args.date} valitud`
+};
+var $5d376b7fce1a45b2$exports = {};
+$5d376b7fce1a45b2$exports = {
+  "dateRange": (args) => `${args.startDate} – ${args.endDate}`,
+  "dateSelected": (args) => `${args.date} valittu`,
+  "finishRangeSelectionPrompt": `Lopeta päivämääräalueen valinta napsauttamalla tätä.`,
+  "maximumDate": `Viimeinen varattavissa oleva päivämäärä`,
+  "minimumDate": `Ensimmäinen varattavissa oleva päivämäärä`,
+  "next": `Seuraava`,
+  "previous": `Edellinen`,
+  "selectedDateDescription": (args) => `Valittu päivämäärä: ${args.date}`,
+  "selectedRangeDescription": (args) => `Valittu aikaväli: ${args.dateRange}`,
+  "startRangeSelectionPrompt": `Aloita päivämääräalueen valinta napsauttamalla tätä.`,
+  "todayDate": (args) => `Tänään, ${args.date}`,
+  "todayDateSelected": (args) => `Tänään, ${args.date} valittu`
+};
+var $3bf722b362aaf54d$exports = {};
+$3bf722b362aaf54d$exports = {
+  "dateRange": (args) => `${args.startDate} à ${args.endDate}`,
+  "dateSelected": (args) => `${args.date} sélectionné`,
+  "finishRangeSelectionPrompt": `Cliquer pour finir de sélectionner la plage de dates`,
+  "maximumDate": `Dernière date disponible`,
+  "minimumDate": `Première date disponible`,
+  "next": `Suivant`,
+  "previous": `Précédent`,
+  "selectedDateDescription": (args) => `Date sélectionnée : ${args.date}`,
+  "selectedRangeDescription": (args) => `Plage sélectionnée : ${args.dateRange}`,
+  "startRangeSelectionPrompt": `Cliquer pour commencer à sélectionner la plage de dates`,
+  "todayDate": (args) => `Aujourd'hui, ${args.date}`,
+  "todayDateSelected": (args) => `Aujourd’hui, ${args.date} sélectionné`
+};
+var $38c43f8322316031$exports = {};
+$38c43f8322316031$exports = {
+  "dateRange": (args) => `${args.startDate} עד ${args.endDate}`,
+  "dateSelected": (args) => `${args.date} נבחר`,
+  "finishRangeSelectionPrompt": `חץ כדי לסיים את בחירת טווח התאריכים`,
+  "maximumDate": `תאריך פנוי אחרון`,
+  "minimumDate": `תאריך פנוי ראשון`,
+  "next": `הבא`,
+  "previous": `הקודם`,
+  "selectedDateDescription": (args) => `תאריך נבחר: ${args.date}`,
+  "selectedRangeDescription": (args) => `טווח נבחר: ${args.dateRange}`,
+  "startRangeSelectionPrompt": `לחץ כדי להתחיל בבחירת טווח התאריכים`,
+  "todayDate": (args) => `היום, ${args.date}`,
+  "todayDateSelected": (args) => `היום, ${args.date} נבחר`
+};
+var $c90e0f32b44630bf$exports = {};
+$c90e0f32b44630bf$exports = {
+  "dateRange": (args) => `${args.startDate} do ${args.endDate}`,
+  "dateSelected": (args) => `${args.date} odabran`,
+  "finishRangeSelectionPrompt": `Kliknite da dovršite raspon odabranih datuma`,
+  "maximumDate": `Posljednji raspoloživi datum`,
+  "minimumDate": `Prvi raspoloživi datum`,
+  "next": `Sljedeći`,
+  "previous": `Prethodni`,
+  "selectedDateDescription": (args) => `Odabrani datum: ${args.date}`,
+  "selectedRangeDescription": (args) => `Odabrani raspon: ${args.dateRange}`,
+  "startRangeSelectionPrompt": `Kliknite da započnete raspon odabranih datuma`,
+  "todayDate": (args) => `Danas, ${args.date}`,
+  "todayDateSelected": (args) => `Danas, odabran ${args.date}`
+};
+var $715875e6e7a338f4$exports = {};
+$715875e6e7a338f4$exports = {
+  "dateRange": (args) => `${args.startDate}–${args.endDate}`,
+  "dateSelected": (args) => `${args.date} kiválasztva`,
+  "finishRangeSelectionPrompt": `Kattintson a dátumtartomány kijelölésének befejezéséhez`,
+  "maximumDate": `Utolsó elérhető dátum`,
+  "minimumDate": `Az első elérhető dátum`,
+  "next": `Következő`,
+  "previous": `Előző`,
+  "selectedDateDescription": (args) => `Kijelölt dátum: ${args.date}`,
+  "selectedRangeDescription": (args) => `Kijelölt tartomány: ${args.dateRange}`,
+  "startRangeSelectionPrompt": `Kattintson a dátumtartomány kijelölésének indításához`,
+  "todayDate": (args) => `Ma, ${args.date}`,
+  "todayDateSelected": (args) => `Ma, ${args.date} kijelölve`
+};
+var $37d77c66e34daccf$exports = {};
+$37d77c66e34daccf$exports = {
+  "dateRange": (args) => `Da ${args.startDate} a ${args.endDate}`,
+  "dateSelected": (args) => `${args.date} selezionata`,
+  "finishRangeSelectionPrompt": `Fai clic per completare la selezione dell’intervallo di date`,
+  "maximumDate": `Ultima data disponibile`,
+  "minimumDate": `Prima data disponibile`,
+  "next": `Successivo`,
+  "previous": `Precedente`,
+  "selectedDateDescription": (args) => `Data selezionata: ${args.date}`,
+  "selectedRangeDescription": (args) => `Intervallo selezionato: ${args.dateRange}`,
+  "startRangeSelectionPrompt": `Fai clic per selezionare l’intervallo di date`,
+  "todayDate": (args) => `Oggi, ${args.date}`,
+  "todayDateSelected": (args) => `Oggi, ${args.date} selezionata`
+};
+var $542f39aee29303c3$exports = {};
+$542f39aee29303c3$exports = {
+  "dateRange": (args) => `${args.startDate} から ${args.endDate}`,
+  "dateSelected": (args) => `${args.date} を選択`,
+  "finishRangeSelectionPrompt": `クリックして日付範囲の選択を終了`,
+  "maximumDate": `最終利用可能日`,
+  "minimumDate": `最初の利用可能日`,
+  "next": `次へ`,
+  "previous": `前へ`,
+  "selectedDateDescription": (args) => `選択した日付 : ${args.date}`,
+  "selectedRangeDescription": (args) => `選択範囲 : ${args.dateRange}`,
+  "startRangeSelectionPrompt": `クリックして日付範囲の選択を開始`,
+  "todayDate": (args) => `本日、${args.date}`,
+  "todayDateSelected": (args) => `本日、${args.date} を選択`
+};
+var $22a5f0623ea73e4f$exports = {};
+$22a5f0623ea73e4f$exports = {
+  "dateRange": (args) => `${args.startDate} ~ ${args.endDate}`,
+  "dateSelected": (args) => `${args.date} 선택됨`,
+  "finishRangeSelectionPrompt": `날짜 범위 선택을 완료하려면 클릭하십시오.`,
+  "maximumDate": `마지막으로 사용 가능한 일자`,
+  "minimumDate": `처음으로 사용 가능한 일자`,
+  "next": `다음`,
+  "previous": `이전`,
+  "selectedDateDescription": (args) => `선택 일자: ${args.date}`,
+  "selectedRangeDescription": (args) => `선택 범위: ${args.dateRange}`,
+  "startRangeSelectionPrompt": `날짜 범위 선택을 시작하려면 클릭하십시오.`,
+  "todayDate": (args) => `오늘, ${args.date}`,
+  "todayDateSelected": (args) => `오늘, ${args.date} 선택됨`
+};
+var $522380d13d62cba0$exports = {};
+$522380d13d62cba0$exports = {
+  "dateRange": (args) => `Nuo ${args.startDate} iki ${args.endDate}`,
+  "dateSelected": (args) => `Pasirinkta ${args.date}`,
+  "finishRangeSelectionPrompt": `Spustelėkite, kad baigtumėte pasirinkti datų intervalą`,
+  "maximumDate": `Paskutinė galima data`,
+  "minimumDate": `Pirmoji galima data`,
+  "next": `Paskesnis`,
+  "previous": `Ankstesnis`,
+  "selectedDateDescription": (args) => `Pasirinkta data: ${args.date}`,
+  "selectedRangeDescription": (args) => `Pasirinktas intervalas: ${args.dateRange}`,
+  "startRangeSelectionPrompt": `Spustelėkite, kad pradėtumėte pasirinkti datų intervalą`,
+  "todayDate": (args) => `Šiandien, ${args.date}`,
+  "todayDateSelected": (args) => `Šiandien, pasirinkta ${args.date}`
+};
+var $8a7bc830b2fe6485$exports = {};
+$8a7bc830b2fe6485$exports = {
+  "dateRange": (args) => `No ${args.startDate} līdz ${args.endDate}`,
+  "dateSelected": (args) => `Atlasīts: ${args.date}`,
+  "finishRangeSelectionPrompt": `Noklikšķiniet, lai pabeigtu datumu diapazona atlasi`,
+  "maximumDate": `Pēdējais pieejamais datums`,
+  "minimumDate": `Pirmais pieejamais datums`,
+  "next": `Tālāk`,
+  "previous": `Atpakaļ`,
+  "selectedDateDescription": (args) => `Atlasītais datums: ${args.date}`,
+  "selectedRangeDescription": (args) => `Atlasītais diapazons: ${args.dateRange}`,
+  "startRangeSelectionPrompt": `Noklikšķiniet, lai sāktu datumu diapazona atlasi`,
+  "todayDate": (args) => `Šodien, ${args.date}`,
+  "todayDateSelected": (args) => `Atlasīta šodiena, ${args.date}`
+};
+var $9fac9c044470683b$exports = {};
+$9fac9c044470683b$exports = {
+  "dateRange": (args) => `${args.startDate} til ${args.endDate}`,
+  "dateSelected": (args) => `${args.date} valgt`,
+  "finishRangeSelectionPrompt": `Klikk for å fullføre valg av datoområde`,
+  "maximumDate": `Siste tilgjengelige dato`,
+  "minimumDate": `Første tilgjengelige dato`,
+  "next": `Neste`,
+  "previous": `Forrige`,
+  "selectedDateDescription": (args) => `Valgt dato: ${args.date}`,
+  "selectedRangeDescription": (args) => `Valgt område: ${args.dateRange}`,
+  "startRangeSelectionPrompt": `Klikk for å starte valg av datoområde`,
+  "todayDate": (args) => `I dag, ${args.date}`,
+  "todayDateSelected": (args) => `I dag, ${args.date} valgt`
+};
+var $b127d3569efb1449$exports = {};
+$b127d3569efb1449$exports = {
+  "dateRange": (args) => `${args.startDate} tot ${args.endDate}`,
+  "dateSelected": (args) => `${args.date} geselecteerd`,
+  "finishRangeSelectionPrompt": `Klik om de selectie van het datumbereik te voltooien`,
+  "maximumDate": `Laatste beschikbare datum`,
+  "minimumDate": `Eerste beschikbare datum`,
+  "next": `Volgende`,
+  "previous": `Vorige`,
+  "selectedDateDescription": (args) => `Geselecteerde datum: ${args.date}`,
+  "selectedRangeDescription": (args) => `Geselecteerd bereik: ${args.dateRange}`,
+  "startRangeSelectionPrompt": `Klik om het datumbereik te selecteren`,
+  "todayDate": (args) => `Vandaag, ${args.date}`,
+  "todayDateSelected": (args) => `Vandaag, ${args.date} geselecteerd`
+};
+var $51404a4090633490$exports = {};
+$51404a4090633490$exports = {
+  "dateRange": (args) => `${args.startDate} do ${args.endDate}`,
+  "dateSelected": (args) => `Wybrano ${args.date}`,
+  "finishRangeSelectionPrompt": `Kliknij, aby zakończyć wybór zakresu dat`,
+  "maximumDate": `Ostatnia dostępna data`,
+  "minimumDate": `Pierwsza dostępna data`,
+  "next": `Dalej`,
+  "previous": `Wstecz`,
+  "selectedDateDescription": (args) => `Wybrana data: ${args.date}`,
+  "selectedRangeDescription": (args) => `Wybrany zakres: ${args.dateRange}`,
+  "startRangeSelectionPrompt": `Kliknij, aby rozpocząć wybór zakresu dat`,
+  "todayDate": (args) => `Dzisiaj, ${args.date}`,
+  "todayDateSelected": (args) => `Dzisiaj wybrano ${args.date}`
+};
+var $e5e6a3fe3b4527df$exports = {};
+$e5e6a3fe3b4527df$exports = {
+  "dateRange": (args) => `${args.startDate} a ${args.endDate}`,
+  "dateSelected": (args) => `${args.date} selecionado`,
+  "finishRangeSelectionPrompt": `Clique para concluir a seleção do intervalo de datas`,
+  "maximumDate": `Última data disponível`,
+  "minimumDate": `Primeira data disponível`,
+  "next": `Próximo`,
+  "previous": `Anterior`,
+  "selectedDateDescription": (args) => `Data selecionada: ${args.date}`,
+  "selectedRangeDescription": (args) => `Intervalo selecionado: ${args.dateRange}`,
+  "startRangeSelectionPrompt": `Clique para iniciar a seleção do intervalo de datas`,
+  "todayDate": (args) => `Hoje, ${args.date}`,
+  "todayDateSelected": (args) => `Hoje, ${args.date} selecionado`
+};
+var $c519dcadcbb1ee47$exports = {};
+$c519dcadcbb1ee47$exports = {
+  "dateRange": (args) => `${args.startDate} a ${args.endDate}`,
+  "dateSelected": (args) => `${args.date} selecionado`,
+  "finishRangeSelectionPrompt": `Clique para terminar de selecionar o intervalo de datas`,
+  "maximumDate": `Última data disponível`,
+  "minimumDate": `Primeira data disponível`,
+  "next": `Próximo`,
+  "previous": `Anterior`,
+  "selectedDateDescription": (args) => `Data selecionada: ${args.date}`,
+  "selectedRangeDescription": (args) => `Intervalo selecionado: ${args.dateRange}`,
+  "startRangeSelectionPrompt": `Clique para começar a selecionar o intervalo de datas`,
+  "todayDate": (args) => `Hoje, ${args.date}`,
+  "todayDateSelected": (args) => `Hoje, ${args.date} selecionado`
+};
+var $e5aa0186ca7889c6$exports = {};
+$e5aa0186ca7889c6$exports = {
+  "dateRange": (args) => `De la ${args.startDate} până la ${args.endDate}`,
+  "dateSelected": (args) => `${args.date} selectată`,
+  "finishRangeSelectionPrompt": `Apăsaţi pentru a finaliza selecţia razei pentru dată`,
+  "maximumDate": `Ultima dată disponibilă`,
+  "minimumDate": `Prima dată disponibilă`,
+  "next": `Următorul`,
+  "previous": `Înainte`,
+  "selectedDateDescription": (args) => `Dată selectată: ${args.date}`,
+  "selectedRangeDescription": (args) => `Interval selectat: ${args.dateRange}`,
+  "startRangeSelectionPrompt": `Apăsaţi pentru a începe selecţia razei pentru dată`,
+  "todayDate": (args) => `Astăzi, ${args.date}`,
+  "todayDateSelected": (args) => `Azi, ${args.date} selectată`
+};
+var $5b907f5fa3eee652$exports = {};
+$5b907f5fa3eee652$exports = {
+  "dateRange": (args) => `С ${args.startDate} по ${args.endDate}`,
+  "dateSelected": (args) => `Выбрано ${args.date}`,
+  "finishRangeSelectionPrompt": `Щелкните, чтобы завершить выбор диапазона дат`,
+  "maximumDate": `Последняя доступная дата`,
+  "minimumDate": `Первая доступная дата`,
+  "next": `Далее`,
+  "previous": `Назад`,
+  "selectedDateDescription": (args) => `Выбранная дата: ${args.date}`,
+  "selectedRangeDescription": (args) => `Выбранный диапазон: ${args.dateRange}`,
+  "startRangeSelectionPrompt": `Щелкните, чтобы начать выбор диапазона дат`,
+  "todayDate": (args) => `Сегодня, ${args.date}`,
+  "todayDateSelected": (args) => `Сегодня, выбрано ${args.date}`
+};
+var $1b4c51359c99cf79$exports = {};
+$1b4c51359c99cf79$exports = {
+  "dateRange": (args) => `Od ${args.startDate} do ${args.endDate}`,
+  "dateSelected": (args) => `Vybratý dátum ${args.date}`,
+  "finishRangeSelectionPrompt": `Kliknutím dokončíte výber rozsahu dátumov`,
+  "maximumDate": `Posledný dostupný dátum`,
+  "minimumDate": `Prvý dostupný dátum`,
+  "next": `Nasledujúce`,
+  "previous": `Predchádzajúce`,
+  "selectedDateDescription": (args) => `Vybratý dátum: ${args.date}`,
+  "selectedRangeDescription": (args) => `Vybratý rozsah: ${args.dateRange}`,
+  "startRangeSelectionPrompt": `Kliknutím spustíte výber rozsahu dátumov`,
+  "todayDate": (args) => `Dnes ${args.date}`,
+  "todayDateSelected": (args) => `Vybratý dnešný dátum ${args.date}`
+};
+var $02e4e6a4608cc6f3$exports = {};
+$02e4e6a4608cc6f3$exports = {
+  "dateRange": (args) => `${args.startDate} do ${args.endDate}`,
+  "dateSelected": (args) => `${args.date} izbrano`,
+  "finishRangeSelectionPrompt": `Kliknite za dokončanje izbire datumskega obsega`,
+  "maximumDate": `Zadnji razpoložljivi datum`,
+  "minimumDate": `Prvi razpoložljivi datum`,
+  "next": `Naprej`,
+  "previous": `Nazaj`,
+  "selectedDateDescription": (args) => `Izbrani datum: ${args.date}`,
+  "selectedRangeDescription": (args) => `Izbrano območje: ${args.dateRange}`,
+  "startRangeSelectionPrompt": `Kliknite za začetek izbire datumskega obsega`,
+  "todayDate": (args) => `Danes, ${args.date}`,
+  "todayDateSelected": (args) => `Danes, ${args.date} izbrano`
+};
+var $6dd2fbaad93b6878$exports = {};
+$6dd2fbaad93b6878$exports = {
+  "dateRange": (args) => `${args.startDate} do ${args.endDate}`,
+  "dateSelected": (args) => `${args.date} izabran`,
+  "finishRangeSelectionPrompt": `Kliknite da dovršite opseg izabranih datuma`,
+  "maximumDate": `Zadnji raspoloživi datum`,
+  "minimumDate": `Prvi raspoloživi datum`,
+  "next": `Sledeći`,
+  "previous": `Prethodni`,
+  "selectedDateDescription": (args) => `Izabrani datum: ${args.date}`,
+  "selectedRangeDescription": (args) => `Izabrani period: ${args.dateRange}`,
+  "startRangeSelectionPrompt": `Kliknite da započnete opseg izabranih datuma`,
+  "todayDate": (args) => `Danas, ${args.date}`,
+  "todayDateSelected": (args) => `Danas, izabran ${args.date}`
+};
+var $33ea59bfe6e804e0$exports = {};
+$33ea59bfe6e804e0$exports = {
+  "dateRange": (args) => `${args.startDate} till ${args.endDate}`,
+  "dateSelected": (args) => `${args.date} har valts`,
+  "finishRangeSelectionPrompt": `Klicka för att avsluta val av datumintervall`,
+  "maximumDate": `Sista tillgängliga datum`,
+  "minimumDate": `Första tillgängliga datum`,
+  "next": `Nästa`,
+  "previous": `Föregående`,
+  "selectedDateDescription": (args) => `Valt datum: ${args.date}`,
+  "selectedRangeDescription": (args) => `Valt intervall: ${args.dateRange}`,
+  "startRangeSelectionPrompt": `Klicka för att välja datumintervall`,
+  "todayDate": (args) => `Idag, ${args.date}`,
+  "todayDateSelected": (args) => `Idag, ${args.date} har valts`
+};
+var $4603b0d0246969b2$exports = {};
+$4603b0d0246969b2$exports = {
+  "dateRange": (args) => `${args.startDate} - ${args.endDate}`,
+  "dateSelected": (args) => `${args.date} seçildi`,
+  "finishRangeSelectionPrompt": `Tarih aralığı seçimini tamamlamak için tıklayın`,
+  "maximumDate": `Son müsait tarih`,
+  "minimumDate": `İlk müsait tarih`,
+  "next": `Sonraki`,
+  "previous": `Önceki`,
+  "selectedDateDescription": (args) => `Seçilen Tarih: ${args.date}`,
+  "selectedRangeDescription": (args) => `Seçilen Aralık: ${args.dateRange}`,
+  "startRangeSelectionPrompt": `Tarih aralığı seçimini başlatmak için tıklayın`,
+  "todayDate": (args) => `Bugün, ${args.date}`,
+  "todayDateSelected": (args) => `Bugün, ${args.date} seçildi`
+};
+var $82649816f530bb1b$exports = {};
+$82649816f530bb1b$exports = {
+  "dateRange": (args) => `${args.startDate} — ${args.endDate}`,
+  "dateSelected": (args) => `Вибрано ${args.date}`,
+  "finishRangeSelectionPrompt": `Натисніть, щоб завершити вибір діапазону дат`,
+  "maximumDate": `Остання доступна дата`,
+  "minimumDate": `Перша доступна дата`,
+  "next": `Наступний`,
+  "previous": `Попередній`,
+  "selectedDateDescription": (args) => `Вибрана дата: ${args.date}`,
+  "selectedRangeDescription": (args) => `Вибраний діапазон: ${args.dateRange}`,
+  "startRangeSelectionPrompt": `Натисніть, щоб почати вибір діапазону дат`,
+  "todayDate": (args) => `Сьогодні, ${args.date}`,
+  "todayDateSelected": (args) => `Сьогодні, вибрано ${args.date}`
+};
+var $628e140a43dfb330$exports = {};
+$628e140a43dfb330$exports = {
+  "dateRange": (args) => `${args.startDate} 至 ${args.endDate}`,
+  "dateSelected": (args) => `已选择 ${args.date}`,
+  "finishRangeSelectionPrompt": `单击以完成选择日期范围`,
+  "maximumDate": `最后一个可用日期`,
+  "minimumDate": `第一个可用日期`,
+  "next": `下一页`,
+  "previous": `上一页`,
+  "selectedDateDescription": (args) => `选定的日期：${args.date}`,
+  "selectedRangeDescription": (args) => `选定的范围：${args.dateRange}`,
+  "startRangeSelectionPrompt": `单击以开始选择日期范围`,
+  "todayDate": (args) => `今天，即 ${args.date}`,
+  "todayDateSelected": (args) => `已选择今天，即 ${args.date}`
+};
+var $745937250cd4679c$exports = {};
+$745937250cd4679c$exports = {
+  "dateRange": (args) => `${args.startDate} 至 ${args.endDate}`,
+  "dateSelected": (args) => `已選取 ${args.date}`,
+  "finishRangeSelectionPrompt": `按一下以完成選取日期範圍`,
+  "maximumDate": `最後一個可用日期`,
+  "minimumDate": `第一個可用日期`,
+  "next": `下一頁`,
+  "previous": `上一頁`,
+  "selectedDateDescription": (args) => `選定的日期：${args.date}`,
+  "selectedRangeDescription": (args) => `選定的範圍：${args.dateRange}`,
+  "startRangeSelectionPrompt": `按一下以開始選取日期範圍`,
+  "todayDate": (args) => `今天，${args.date}`,
+  "todayDateSelected": (args) => `已選取今天，${args.date}`
+};
+var $3904726b442bd9b2$exports = {};
+$3904726b442bd9b2$exports = {
+  "ar-AE": $39324ace0d945f59$exports,
+  "bg-BG": $1830a539e98c7baf$exports,
+  "cs-CZ": $f4b92528965aab97$exports,
+  "da-DK": $1cd578ef0547c8f1$exports,
+  "de-DE": $db55a8973925d619$exports,
+  "el-GR": $ec6937d58566d443$exports,
+  "en-US": $1f5cea0742dc284a$exports,
+  "es-ES": $2ca7ea366384817b$exports,
+  "et-EE": $97874a7fe9cd091f$exports,
+  "fi-FI": $5d376b7fce1a45b2$exports,
+  "fr-FR": $3bf722b362aaf54d$exports,
+  "he-IL": $38c43f8322316031$exports,
+  "hr-HR": $c90e0f32b44630bf$exports,
+  "hu-HU": $715875e6e7a338f4$exports,
+  "it-IT": $37d77c66e34daccf$exports,
+  "ja-JP": $542f39aee29303c3$exports,
+  "ko-KR": $22a5f0623ea73e4f$exports,
+  "lt-LT": $522380d13d62cba0$exports,
+  "lv-LV": $8a7bc830b2fe6485$exports,
+  "nb-NO": $9fac9c044470683b$exports,
+  "nl-NL": $b127d3569efb1449$exports,
+  "pl-PL": $51404a4090633490$exports,
+  "pt-BR": $e5e6a3fe3b4527df$exports,
+  "pt-PT": $c519dcadcbb1ee47$exports,
+  "ro-RO": $e5aa0186ca7889c6$exports,
+  "ru-RU": $5b907f5fa3eee652$exports,
+  "sk-SK": $1b4c51359c99cf79$exports,
+  "sl-SI": $02e4e6a4608cc6f3$exports,
+  "sr-SP": $6dd2fbaad93b6878$exports,
+  "sv-SE": $33ea59bfe6e804e0$exports,
+  "tr-TR": $4603b0d0246969b2$exports,
+  "uk-UA": $82649816f530bb1b$exports,
+  "zh-CN": $628e140a43dfb330$exports,
+  "zh-TW": $745937250cd4679c$exports
+};
+function $parcel$interopDefault$6(a) {
+  return a && a.__esModule ? a.default : a;
+}
+const $a074e1e2d0f0a665$export$653eddfc964b0f8a = /* @__PURE__ */ new WeakMap();
+function $a074e1e2d0f0a665$export$134cbb7fb09a9522(date2) {
+  return (date2 === null || date2 === void 0 ? void 0 : date2.calendar.identifier) === "gregory" && date2.era === "BC" ? "short" : void 0;
+}
+function $a074e1e2d0f0a665$export$b6df97c887c38e1a(state) {
+  let stringFormatter = $fca6afa0e843324b$export$f12b703ca79dfbb1($parcel$interopDefault$6($3904726b442bd9b2$exports), "@react-aria/calendar");
+  let start, end;
+  var _state_value;
+  if ("highlightedRange" in state) ({ start, end } = state.highlightedRange || {});
+  else start = end = (_state_value = state.value) !== null && _state_value !== void 0 ? _state_value : void 0;
+  let dateFormatter = $896ba0a80a8f4d36$export$85fd5fdf27bacc79({
+    weekday: "long",
+    month: "long",
+    year: "numeric",
+    day: "numeric",
+    era: $a074e1e2d0f0a665$export$134cbb7fb09a9522(start) || $a074e1e2d0f0a665$export$134cbb7fb09a9522(end),
+    timeZone: state.timeZone
+  });
+  let anchorDate = "anchorDate" in state ? state.anchorDate : null;
+  return reactExports.useMemo(() => {
+    if (!anchorDate && start && end) {
+      if ($14e0f24ef4ac5c92$export$ea39ec197993aef0(start, end)) {
+        let date2 = dateFormatter.format(start.toDate(state.timeZone));
+        return stringFormatter.format("selectedDateDescription", {
+          date: date2
+        });
+      } else {
+        let dateRange = $a074e1e2d0f0a665$var$formatRange(dateFormatter, stringFormatter, start, end, state.timeZone);
+        return stringFormatter.format("selectedRangeDescription", {
+          dateRange
+        });
+      }
+    }
+    return "";
+  }, [
+    start,
+    end,
+    anchorDate,
+    state.timeZone,
+    stringFormatter,
+    dateFormatter
+  ]);
+}
+function $a074e1e2d0f0a665$export$31afe65d91ef6e8(startDate, endDate, timeZone, isAria) {
+  let stringFormatter = $fca6afa0e843324b$export$f12b703ca79dfbb1($parcel$interopDefault$6($3904726b442bd9b2$exports), "@react-aria/calendar");
+  let era = $a074e1e2d0f0a665$export$134cbb7fb09a9522(startDate) || $a074e1e2d0f0a665$export$134cbb7fb09a9522(endDate);
+  let monthFormatter = $896ba0a80a8f4d36$export$85fd5fdf27bacc79({
+    month: "long",
+    year: "numeric",
+    era,
+    calendar: startDate.calendar.identifier,
+    timeZone
+  });
+  let dateFormatter = $896ba0a80a8f4d36$export$85fd5fdf27bacc79({
+    month: "long",
+    year: "numeric",
+    day: "numeric",
+    era,
+    calendar: startDate.calendar.identifier,
+    timeZone
+  });
+  return reactExports.useMemo(() => {
+    if ($14e0f24ef4ac5c92$export$ea39ec197993aef0(startDate, $14e0f24ef4ac5c92$export$a5a3b454ada2268e(startDate))) {
+      let startMonth = startDate;
+      let endMonth = endDate;
+      if (startDate.calendar.getFormattableMonth) startMonth = startDate.calendar.getFormattableMonth(startDate);
+      if (endDate.calendar.getFormattableMonth) endMonth = endDate.calendar.getFormattableMonth(endDate);
+      if ($14e0f24ef4ac5c92$export$ea39ec197993aef0(endDate, $14e0f24ef4ac5c92$export$a2258d9c4118825c(startDate))) return monthFormatter.format(startMonth.toDate(timeZone));
+      else if ($14e0f24ef4ac5c92$export$ea39ec197993aef0(endDate, $14e0f24ef4ac5c92$export$a2258d9c4118825c(endDate))) return isAria ? $a074e1e2d0f0a665$var$formatRange(monthFormatter, stringFormatter, startMonth, endMonth, timeZone) : monthFormatter.formatRange(startMonth.toDate(timeZone), endMonth.toDate(timeZone));
+    }
+    return isAria ? $a074e1e2d0f0a665$var$formatRange(dateFormatter, stringFormatter, startDate, endDate, timeZone) : dateFormatter.formatRange(startDate.toDate(timeZone), endDate.toDate(timeZone));
+  }, [
+    startDate,
+    endDate,
+    monthFormatter,
+    dateFormatter,
+    stringFormatter,
+    timeZone,
+    isAria
+  ]);
+}
+function $a074e1e2d0f0a665$var$formatRange(dateFormatter, stringFormatter, start, end, timeZone) {
+  let parts = dateFormatter.formatRangeToParts(start.toDate(timeZone), end.toDate(timeZone));
+  let separatorIndex = -1;
+  for (let i = 0; i < parts.length; i++) {
+    let part = parts[i];
+    if (part.source === "shared" && part.type === "literal") separatorIndex = i;
+    else if (part.source === "endRange") break;
+  }
+  let startValue = "";
+  let endValue = "";
+  for (let i = 0; i < parts.length; i++) {
+    if (i < separatorIndex) startValue += parts[i].value;
+    else if (i > separatorIndex) endValue += parts[i].value;
+  }
+  return stringFormatter.format("dateRange", {
+    startDate: startValue,
+    endDate: endValue
+  });
+}
+function $parcel$interopDefault$5(a) {
+  return a && a.__esModule ? a.default : a;
+}
+function $c4acc1de3ab169cf$export$d652b3ea2d672d5b(props, state) {
+  let stringFormatter = $fca6afa0e843324b$export$f12b703ca79dfbb1($parcel$interopDefault$5($3904726b442bd9b2$exports), "@react-aria/calendar");
+  let domProps = $65484d02dcb7eb3e$export$457c3d6518dd4c6f(props);
+  let title = $a074e1e2d0f0a665$export$31afe65d91ef6e8(state.visibleRange.start, state.visibleRange.end, state.timeZone, false);
+  let visibleRangeDescription = $a074e1e2d0f0a665$export$31afe65d91ef6e8(state.visibleRange.start, state.visibleRange.end, state.timeZone, true);
+  $4f58c5f72bcf79f7$export$496315a1608d9602(() => {
+    if (!state.isFocused) $319e236875307eab$export$a9b970dcc4ae71a9(visibleRangeDescription);
+  }, [
+    visibleRangeDescription
+  ]);
+  let selectedDateDescription = $a074e1e2d0f0a665$export$b6df97c887c38e1a(state);
+  $4f58c5f72bcf79f7$export$496315a1608d9602(() => {
+    if (selectedDateDescription) $319e236875307eab$export$a9b970dcc4ae71a9(selectedDateDescription, "polite", 4e3);
+  }, [
+    selectedDateDescription
+  ]);
+  let errorMessageId = $bdb11010cef70236$export$b4cc09c592e8fdb8([
+    Boolean(props.errorMessage),
+    props.isInvalid,
+    props.validationState
+  ]);
+  $a074e1e2d0f0a665$export$653eddfc964b0f8a.set(state, {
+    ariaLabel: props["aria-label"],
+    ariaLabelledBy: props["aria-labelledby"],
+    errorMessageId,
+    selectedDateDescription
+  });
+  let [nextFocused, setNextFocused] = reactExports.useState(false);
+  let nextDisabled = props.isDisabled || state.isNextVisibleRangeInvalid();
+  if (nextDisabled && nextFocused) {
+    setNextFocused(false);
+    state.setFocused(true);
+  }
+  let [previousFocused, setPreviousFocused] = reactExports.useState(false);
+  let previousDisabled = props.isDisabled || state.isPreviousVisibleRangeInvalid();
+  if (previousDisabled && previousFocused) {
+    setPreviousFocused(false);
+    state.setFocused(true);
+  }
+  let labelProps = $313b98861ee5dd6c$export$d6875122194c7b44({
+    id: props["id"],
+    "aria-label": [
+      props["aria-label"],
+      visibleRangeDescription
+    ].filter(Boolean).join(", "),
+    "aria-labelledby": props["aria-labelledby"]
+  });
+  return {
+    calendarProps: $3ef42575df84b30b$export$9d1611c77c2fe928(domProps, labelProps, {
+      role: "application",
+      "aria-details": props["aria-details"] || void 0,
+      "aria-describedby": props["aria-describedby"] || void 0
+    }),
+    nextButtonProps: {
+      onPress: () => state.focusNextPage(),
+      "aria-label": stringFormatter.format("next"),
+      isDisabled: nextDisabled,
+      onFocusChange: setNextFocused
+    },
+    prevButtonProps: {
+      onPress: () => state.focusPreviousPage(),
+      "aria-label": stringFormatter.format("previous"),
+      isDisabled: previousDisabled,
+      onFocusChange: setPreviousFocused
+    },
+    errorMessageProps: {
+      id: errorMessageId
+    },
+    title
+  };
+}
+function $9942cad8a072a530$export$3ee915f8151bd4f1(props, state) {
+  return $c4acc1de3ab169cf$export$d652b3ea2d672d5b(props, state);
+}
+function $e3031d1f8c9d64eb$export$cb95147730a423f5(props, state) {
+  let { startDate = state.visibleRange.start, endDate = state.visibleRange.end, firstDayOfWeek } = props;
+  let { direction } = $18f2051aff69b9bf$export$43bb16f9c6d9e3f7();
+  let onKeyDown = (e) => {
+    switch (e.key) {
+      case "Enter":
+      case " ":
+        e.preventDefault();
+        state.selectFocusedDate();
+        break;
+      case "PageUp":
+        e.preventDefault();
+        e.stopPropagation();
+        state.focusPreviousSection(e.shiftKey);
+        break;
+      case "PageDown":
+        e.preventDefault();
+        e.stopPropagation();
+        state.focusNextSection(e.shiftKey);
+        break;
+      case "End":
+        e.preventDefault();
+        e.stopPropagation();
+        state.focusSectionEnd();
+        break;
+      case "Home":
+        e.preventDefault();
+        e.stopPropagation();
+        state.focusSectionStart();
+        break;
+      case "ArrowLeft":
+        e.preventDefault();
+        e.stopPropagation();
+        if (direction === "rtl") state.focusNextDay();
+        else state.focusPreviousDay();
+        break;
+      case "ArrowUp":
+        e.preventDefault();
+        e.stopPropagation();
+        state.focusPreviousRow();
+        break;
+      case "ArrowRight":
+        e.preventDefault();
+        e.stopPropagation();
+        if (direction === "rtl") state.focusPreviousDay();
+        else state.focusNextDay();
+        break;
+      case "ArrowDown":
+        e.preventDefault();
+        e.stopPropagation();
+        state.focusNextRow();
+        break;
+      case "Escape":
+        if ("setAnchorDate" in state) {
+          e.preventDefault();
+          state.setAnchorDate(null);
+        }
+        break;
+    }
+  };
+  let visibleRangeDescription = $a074e1e2d0f0a665$export$31afe65d91ef6e8(startDate, endDate, state.timeZone, true);
+  let { ariaLabel, ariaLabelledBy } = $a074e1e2d0f0a665$export$653eddfc964b0f8a.get(state);
+  let labelProps = $313b98861ee5dd6c$export$d6875122194c7b44({
+    "aria-label": [
+      ariaLabel,
+      visibleRangeDescription
+    ].filter(Boolean).join(", "),
+    "aria-labelledby": ariaLabelledBy
+  });
+  let dayFormatter = $896ba0a80a8f4d36$export$85fd5fdf27bacc79({
+    weekday: props.weekdayStyle || "narrow",
+    timeZone: state.timeZone
+  });
+  let { locale: locale2 } = $18f2051aff69b9bf$export$43bb16f9c6d9e3f7();
+  let weekDays = reactExports.useMemo(() => {
+    let weekStart = $14e0f24ef4ac5c92$export$42c81a444fbfb5d4($14e0f24ef4ac5c92$export$d0bdf45af03a6ea3(state.timeZone), locale2, firstDayOfWeek);
+    return [
+      ...new Array(7).keys()
+    ].map((index2) => {
+      let date2 = weekStart.add({
+        days: index2
+      });
+      let dateDay = date2.toDate(state.timeZone);
+      return dayFormatter.format(dateDay);
+    });
+  }, [
+    locale2,
+    state.timeZone,
+    dayFormatter,
+    firstDayOfWeek
+  ]);
+  let weeksInMonth = $14e0f24ef4ac5c92$export$ccc1b2479e7dd654(startDate, locale2, firstDayOfWeek);
+  return {
+    gridProps: $3ef42575df84b30b$export$9d1611c77c2fe928(labelProps, {
+      role: "grid",
+      "aria-readonly": state.isReadOnly || void 0,
+      "aria-disabled": state.isDisabled || void 0,
+      "aria-multiselectable": "highlightedRange" in state || void 0,
+      onKeyDown,
+      onFocus: () => state.setFocused(true),
+      onBlur: () => state.setFocused(false)
+    }),
+    headerProps: {
+      // Column headers are hidden to screen readers to make navigating with a touch screen reader easier.
+      // The day names are already included in the label of each cell, so there's no need to announce them twice.
+      "aria-hidden": true
+    },
+    weekDays,
+    weeksInMonth
+  };
+}
+function $parcel$interopDefault$4(a) {
+  return a && a.__esModule ? a.default : a;
+}
+function $36a0ac60f04457c5$export$136073280381448e(props, state, ref) {
+  let { date: date2, isDisabled } = props;
+  let { errorMessageId, selectedDateDescription } = $a074e1e2d0f0a665$export$653eddfc964b0f8a.get(state);
+  let stringFormatter = $fca6afa0e843324b$export$f12b703ca79dfbb1($parcel$interopDefault$4($3904726b442bd9b2$exports), "@react-aria/calendar");
+  let dateFormatter = $896ba0a80a8f4d36$export$85fd5fdf27bacc79({
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    era: $a074e1e2d0f0a665$export$134cbb7fb09a9522(date2),
+    timeZone: state.timeZone
+  });
+  let isSelected = state.isSelected(date2);
+  let isFocused = state.isCellFocused(date2) && !props.isOutsideMonth;
+  isDisabled = isDisabled || state.isCellDisabled(date2);
+  let isUnavailable = state.isCellUnavailable(date2);
+  let isSelectable = !isDisabled && !isUnavailable;
+  let isInvalid = state.isValueInvalid && Boolean("highlightedRange" in state ? !state.anchorDate && state.highlightedRange && date2.compare(state.highlightedRange.start) >= 0 && date2.compare(state.highlightedRange.end) <= 0 : state.value && $14e0f24ef4ac5c92$export$ea39ec197993aef0(state.value, date2));
+  if (isInvalid) isSelected = true;
+  date2 = $5a387cc49350e6db$export$722debc0e56fea39(date2, $14e0f24ef4ac5c92$export$91b62ebf2ba703ee);
+  let nativeDate = reactExports.useMemo(() => date2.toDate(state.timeZone), [
+    date2,
+    state.timeZone
+  ]);
+  let isDateToday = $14e0f24ef4ac5c92$export$629b0a497aa65267(date2, state.timeZone);
+  let label = reactExports.useMemo(() => {
+    let label2 = "";
+    if ("highlightedRange" in state && state.value && !state.anchorDate && ($14e0f24ef4ac5c92$export$ea39ec197993aef0(date2, state.value.start) || $14e0f24ef4ac5c92$export$ea39ec197993aef0(date2, state.value.end))) label2 = selectedDateDescription + ", ";
+    label2 += dateFormatter.format(nativeDate);
+    if (isDateToday)
+      label2 = stringFormatter.format(isSelected ? "todayDateSelected" : "todayDate", {
+        date: label2
+      });
+    else if (isSelected)
+      label2 = stringFormatter.format("dateSelected", {
+        date: label2
+      });
+    if (state.minValue && $14e0f24ef4ac5c92$export$ea39ec197993aef0(date2, state.minValue)) label2 += ", " + stringFormatter.format("minimumDate");
+    else if (state.maxValue && $14e0f24ef4ac5c92$export$ea39ec197993aef0(date2, state.maxValue)) label2 += ", " + stringFormatter.format("maximumDate");
+    return label2;
+  }, [
+    dateFormatter,
+    nativeDate,
+    stringFormatter,
+    isSelected,
+    isDateToday,
+    date2,
+    state,
+    selectedDateDescription
+  ]);
+  let rangeSelectionPrompt = "";
+  if ("anchorDate" in state && isFocused && !state.isReadOnly && isSelectable) {
+    if (state.anchorDate) rangeSelectionPrompt = stringFormatter.format("finishRangeSelectionPrompt");
+    else rangeSelectionPrompt = stringFormatter.format("startRangeSelectionPrompt");
+  }
+  let descriptionProps = $ef06256079686ba0$export$f8aeda7b10753fa1(rangeSelectionPrompt);
+  let isAnchorPressed = reactExports.useRef(false);
+  let isRangeBoundaryPressed = reactExports.useRef(false);
+  let touchDragTimerRef = reactExports.useRef(void 0);
+  let { pressProps, isPressed } = $f6c31cce2adf654f$export$45712eceda6fad21({
+    // When dragging to select a range, we don't want dragging over the original anchor
+    // again to trigger onPressStart. Cancel presses immediately when the pointer exits.
+    shouldCancelOnPointerExit: "anchorDate" in state && !!state.anchorDate,
+    preventFocusOnPress: true,
+    isDisabled: !isSelectable || state.isReadOnly,
+    onPressStart(e) {
+      if (state.isReadOnly) {
+        state.setFocusedDate(date2);
+        return;
+      }
+      if ("highlightedRange" in state && !state.anchorDate && (e.pointerType === "mouse" || e.pointerType === "touch")) {
+        if (state.highlightedRange && !isInvalid) {
+          if ($14e0f24ef4ac5c92$export$ea39ec197993aef0(date2, state.highlightedRange.start)) {
+            state.setAnchorDate(state.highlightedRange.end);
+            state.setFocusedDate(date2);
+            state.setDragging(true);
+            isRangeBoundaryPressed.current = true;
+            return;
+          } else if ($14e0f24ef4ac5c92$export$ea39ec197993aef0(date2, state.highlightedRange.end)) {
+            state.setAnchorDate(state.highlightedRange.start);
+            state.setFocusedDate(date2);
+            state.setDragging(true);
+            isRangeBoundaryPressed.current = true;
+            return;
+          }
+        }
+        let startDragging = () => {
+          state.setDragging(true);
+          touchDragTimerRef.current = void 0;
+          state.selectDate(date2);
+          state.setFocusedDate(date2);
+          isAnchorPressed.current = true;
+        };
+        if (e.pointerType === "touch") touchDragTimerRef.current = setTimeout(startDragging, 200);
+        else startDragging();
+      }
+    },
+    onPressEnd() {
+      isRangeBoundaryPressed.current = false;
+      isAnchorPressed.current = false;
+      clearTimeout(touchDragTimerRef.current);
+      touchDragTimerRef.current = void 0;
+    },
+    onPress() {
+      if (!("anchorDate" in state) && !state.isReadOnly) {
+        state.selectDate(date2);
+        state.setFocusedDate(date2);
+      }
+    },
+    onPressUp(e) {
+      if (state.isReadOnly) return;
+      if ("anchorDate" in state && touchDragTimerRef.current) {
+        state.selectDate(date2);
+        state.setFocusedDate(date2);
+      }
+      if ("anchorDate" in state) {
+        if (isRangeBoundaryPressed.current)
+          state.setAnchorDate(date2);
+        else if (state.anchorDate && !isAnchorPressed.current) {
+          state.selectDate(date2);
+          state.setFocusedDate(date2);
+        } else if (e.pointerType === "keyboard" && !state.anchorDate) {
+          state.selectDate(date2);
+          let nextDay = date2.add({
+            days: 1
+          });
+          if (state.isInvalid(nextDay)) nextDay = date2.subtract({
+            days: 1
+          });
+          if (!state.isInvalid(nextDay)) state.setFocusedDate(nextDay);
+        } else if (e.pointerType === "virtual") {
+          state.selectDate(date2);
+          state.setFocusedDate(date2);
+        }
+      }
+    }
+  });
+  let tabIndex = void 0;
+  if (!isDisabled) tabIndex = $14e0f24ef4ac5c92$export$ea39ec197993aef0(date2, state.focusedDate) ? 0 : -1;
+  reactExports.useEffect(() => {
+    if (isFocused && ref.current) {
+      $7215afc6de606d6b$export$de79e2c695e052f3(ref.current);
+      if ($507fabe10e71c6fb$export$630ff653c5ada6a9() !== "pointer" && document.activeElement === ref.current) $2f04cbc44ee30ce0$export$c826860796309d1b(ref.current, {
+        containingElement: $62d8ded9296f3872$export$cfa2225e87938781(ref.current)
+      });
+    }
+  }, [
+    isFocused,
+    ref
+  ]);
+  let cellDateFormatter = $896ba0a80a8f4d36$export$85fd5fdf27bacc79({
+    day: "numeric",
+    timeZone: state.timeZone,
+    calendar: date2.calendar.identifier
+  });
+  let formattedDate = reactExports.useMemo(() => cellDateFormatter.formatToParts(nativeDate).find((part) => part.type === "day").value, [
+    cellDateFormatter,
+    nativeDate
+  ]);
+  return {
+    cellProps: {
+      role: "gridcell",
+      "aria-disabled": !isSelectable || void 0,
+      "aria-selected": isSelected || void 0,
+      "aria-invalid": isInvalid || void 0
+    },
+    buttonProps: $3ef42575df84b30b$export$9d1611c77c2fe928(pressProps, {
+      onFocus() {
+        if (!isDisabled) state.setFocusedDate(date2);
+      },
+      tabIndex,
+      role: "button",
+      "aria-disabled": !isSelectable || void 0,
+      "aria-label": label,
+      "aria-invalid": isInvalid || void 0,
+      "aria-describedby": [
+        isInvalid ? errorMessageId : void 0,
+        descriptionProps["aria-describedby"]
+      ].filter(Boolean).join(" ") || void 0,
+      onPointerEnter(e) {
+        if ("highlightDate" in state && (e.pointerType !== "touch" || state.isDragging) && isSelectable) state.highlightDate(date2);
+      },
+      onPointerDown(e) {
+        if ("releasePointerCapture" in e.target) e.target.releasePointerCapture(e.pointerId);
+      },
+      onContextMenu(e) {
+        e.preventDefault();
+      }
+    }),
+    isPressed,
+    isFocused,
+    isSelected,
+    isDisabled,
+    isUnavailable,
+    isOutsideVisibleRange: date2.compare(state.visibleRange.start) < 0 || date2.compare(state.visibleRange.end) > 0,
+    isInvalid,
+    formattedDate
+  };
+}
+var $ed6aae4e5f766f1e$exports = {};
+$ed6aae4e5f766f1e$exports = {
+  "Empty": `فارغ`
+};
+var $38854e2b175151fa$exports = {};
+$38854e2b175151fa$exports = {
+  "Empty": `Изпразни`
+};
+var $15b25ab20f3945b2$exports = {};
+$15b25ab20f3945b2$exports = {
+  "Empty": `Prázdné`
+};
+var $692a4298b6b649a2$exports = {};
+$692a4298b6b649a2$exports = {
+  "Empty": `Tom`
+};
+var $1c6e1539193f1243$exports = {};
+$1c6e1539193f1243$exports = {
+  "Empty": `Leer`
+};
+var $1e8678632c464b6d$exports = {};
+$1e8678632c464b6d$exports = {
+  "Empty": `Άδειο`
+};
+var $4adc85d9bf5b9eed$exports = {};
+$4adc85d9bf5b9eed$exports = {
+  "Empty": `Empty`
+};
+var $41c4b2bb61dafbca$exports = {};
+$41c4b2bb61dafbca$exports = {
+  "Empty": `Vacío`
+};
+var $405f8b24f5dd2a60$exports = {};
+$405f8b24f5dd2a60$exports = {
+  "Empty": `Tühjenda`
+};
+var $7efe3ed02b9b9dd4$exports = {};
+$7efe3ed02b9b9dd4$exports = {
+  "Empty": `Tyhjä`
+};
+var $99fc4c101d92daf3$exports = {};
+$99fc4c101d92daf3$exports = {
+  "Empty": `Vide`
+};
+var $f9e155e6e8cacaa2$exports = {};
+$f9e155e6e8cacaa2$exports = {
+  "Empty": `ריק`
+};
+var $c31b5e8e9a249fd5$exports = {};
+$c31b5e8e9a249fd5$exports = {
+  "Empty": `Prazno`
+};
+var $9c5435bc17499bd9$exports = {};
+$9c5435bc17499bd9$exports = {
+  "Empty": `Üres`
+};
+var $6d1fc8e84d8165e1$exports = {};
+$6d1fc8e84d8165e1$exports = {
+  "Empty": `Vuoto`
+};
+var $46ea6b3641b83e71$exports = {};
+$46ea6b3641b83e71$exports = {
+  "Empty": `空`
+};
+var $0e3cc9a288289dc5$exports = {};
+$0e3cc9a288289dc5$exports = {
+  "Empty": `비어 있음`
+};
+var $4ff2bb25c0089ffb$exports = {};
+$4ff2bb25c0089ffb$exports = {
+  "Empty": `Tuščias`
+};
+var $6cf33cd4c010a2fb$exports = {};
+$6cf33cd4c010a2fb$exports = {
+  "Empty": `Tukšs`
+};
+var $5a9f8486f8b8837e$exports = {};
+$5a9f8486f8b8837e$exports = {
+  "Empty": `Tom`
+};
+var $583f94d807f6ecea$exports = {};
+$583f94d807f6ecea$exports = {
+  "Empty": `Leeg`
+};
+var $cc4dcfeea2b4050d$exports = {};
+$cc4dcfeea2b4050d$exports = {
+  "Empty": `Pusty`
+};
+var $68ac2954d56e12b4$exports = {};
+$68ac2954d56e12b4$exports = {
+  "Empty": `Vazio`
+};
+var $fdb0616f309780b0$exports = {};
+$fdb0616f309780b0$exports = {
+  "Empty": `Vazio`
+};
+var $fe1eccf4ee1d6f52$exports = {};
+$fe1eccf4ee1d6f52$exports = {
+  "Empty": `Gol`
+};
+var $a38b6c4e18725976$exports = {};
+$a38b6c4e18725976$exports = {
+  "Empty": `Не заполнено`
+};
+var $6c14ae2b766b652c$exports = {};
+$6c14ae2b766b652c$exports = {
+  "Empty": `Prázdne`
+};
+var $8f1c9692e16dc5eb$exports = {};
+$8f1c9692e16dc5eb$exports = {
+  "Empty": `Prazen`
+};
+var $d2aa7abea627cafa$exports = {};
+$d2aa7abea627cafa$exports = {
+  "Empty": `Prazno`
+};
+var $676b82e4b56408e6$exports = {};
+$676b82e4b56408e6$exports = {
+  "Empty": `Tomt`
+};
+var $14c9042552d7ce08$exports = {};
+$14c9042552d7ce08$exports = {
+  "Empty": `Boş`
+};
+var $393254ebcb66c9f5$exports = {};
+$393254ebcb66c9f5$exports = {
+  "Empty": `Пусто`
+};
+var $d49d621f310cf6ce$exports = {};
+$d49d621f310cf6ce$exports = {
+  "Empty": `空`
+};
+var $94b60c866ca5dfe6$exports = {};
+$94b60c866ca5dfe6$exports = {
+  "Empty": `空白`
+};
+var $a99895ee3dc79e61$exports = {};
+$a99895ee3dc79e61$exports = {
+  "ar-AE": $ed6aae4e5f766f1e$exports,
+  "bg-BG": $38854e2b175151fa$exports,
+  "cs-CZ": $15b25ab20f3945b2$exports,
+  "da-DK": $692a4298b6b649a2$exports,
+  "de-DE": $1c6e1539193f1243$exports,
+  "el-GR": $1e8678632c464b6d$exports,
+  "en-US": $4adc85d9bf5b9eed$exports,
+  "es-ES": $41c4b2bb61dafbca$exports,
+  "et-EE": $405f8b24f5dd2a60$exports,
+  "fi-FI": $7efe3ed02b9b9dd4$exports,
+  "fr-FR": $99fc4c101d92daf3$exports,
+  "he-IL": $f9e155e6e8cacaa2$exports,
+  "hr-HR": $c31b5e8e9a249fd5$exports,
+  "hu-HU": $9c5435bc17499bd9$exports,
+  "it-IT": $6d1fc8e84d8165e1$exports,
+  "ja-JP": $46ea6b3641b83e71$exports,
+  "ko-KR": $0e3cc9a288289dc5$exports,
+  "lt-LT": $4ff2bb25c0089ffb$exports,
+  "lv-LV": $6cf33cd4c010a2fb$exports,
+  "nb-NO": $5a9f8486f8b8837e$exports,
+  "nl-NL": $583f94d807f6ecea$exports,
+  "pl-PL": $cc4dcfeea2b4050d$exports,
+  "pt-BR": $68ac2954d56e12b4$exports,
+  "pt-PT": $fdb0616f309780b0$exports,
+  "ro-RO": $fe1eccf4ee1d6f52$exports,
+  "ru-RU": $a38b6c4e18725976$exports,
+  "sk-SK": $6c14ae2b766b652c$exports,
+  "sl-SI": $8f1c9692e16dc5eb$exports,
+  "sr-SP": $d2aa7abea627cafa$exports,
+  "sv-SE": $676b82e4b56408e6$exports,
+  "tr-TR": $14c9042552d7ce08$exports,
+  "uk-UA": $393254ebcb66c9f5$exports,
+  "zh-CN": $d49d621f310cf6ce$exports,
+  "zh-TW": $94b60c866ca5dfe6$exports
+};
+function $parcel$interopDefault$3(a) {
+  return a && a.__esModule ? a.default : a;
+}
+function $d2e8511e6f209edf$export$e908e06f4b8e3402(props) {
+  const _async = reactExports.useRef(void 0);
+  let { value, textValue, minValue, maxValue, isDisabled, isReadOnly, isRequired, onIncrement, onIncrementPage, onDecrement, onDecrementPage, onDecrementToMin, onIncrementToMax } = props;
+  const stringFormatter = $fca6afa0e843324b$export$f12b703ca79dfbb1($parcel$interopDefault$3($a99895ee3dc79e61$exports), "@react-aria/spinbutton");
+  const clearAsync = () => clearTimeout(_async.current);
+  reactExports.useEffect(() => {
+    return () => clearAsync();
+  }, []);
+  let onKeyDown = (e) => {
+    if (e.ctrlKey || e.metaKey || e.shiftKey || e.altKey || isReadOnly || e.nativeEvent.isComposing) return;
+    switch (e.key) {
+      case "PageUp":
+        if (onIncrementPage) {
+          e.preventDefault();
+          onIncrementPage === null || onIncrementPage === void 0 ? void 0 : onIncrementPage();
+          break;
+        }
+      // fallthrough!
+      case "ArrowUp":
+      case "Up":
+        if (onIncrement) {
+          e.preventDefault();
+          onIncrement === null || onIncrement === void 0 ? void 0 : onIncrement();
+        }
+        break;
+      case "PageDown":
+        if (onDecrementPage) {
+          e.preventDefault();
+          onDecrementPage === null || onDecrementPage === void 0 ? void 0 : onDecrementPage();
+          break;
+        }
+      // fallthrough
+      case "ArrowDown":
+      case "Down":
+        if (onDecrement) {
+          e.preventDefault();
+          onDecrement === null || onDecrement === void 0 ? void 0 : onDecrement();
+        }
+        break;
+      case "Home":
+        if (onDecrementToMin) {
+          e.preventDefault();
+          onDecrementToMin === null || onDecrementToMin === void 0 ? void 0 : onDecrementToMin();
+        }
+        break;
+      case "End":
+        if (onIncrementToMax) {
+          e.preventDefault();
+          onIncrementToMax === null || onIncrementToMax === void 0 ? void 0 : onIncrementToMax();
+        }
+        break;
+    }
+  };
+  let isFocused = reactExports.useRef(false);
+  let onFocus = () => {
+    isFocused.current = true;
+  };
+  let onBlur = () => {
+    isFocused.current = false;
+  };
+  let ariaTextValue = textValue === "" ? stringFormatter.format("Empty") : (textValue || `${value}`).replace("-", "−");
+  reactExports.useEffect(() => {
+    if (isFocused.current) {
+      $319e236875307eab$export$d10ae4f68404609a("assertive");
+      $319e236875307eab$export$a9b970dcc4ae71a9(ariaTextValue, "assertive");
+    }
+  }, [
+    ariaTextValue
+  ]);
+  const onIncrementPressStart = $8ae05eaa5c114e9c$export$7f54fc3180508a52((initialStepDelay) => {
+    clearAsync();
+    onIncrement === null || onIncrement === void 0 ? void 0 : onIncrement();
+    _async.current = window.setTimeout(() => {
+      if (maxValue === void 0 || isNaN(maxValue) || value === void 0 || isNaN(value) || value < maxValue) onIncrementPressStart(60);
+    }, initialStepDelay);
+  });
+  const onDecrementPressStart = $8ae05eaa5c114e9c$export$7f54fc3180508a52((initialStepDelay) => {
+    clearAsync();
+    onDecrement === null || onDecrement === void 0 ? void 0 : onDecrement();
+    _async.current = window.setTimeout(() => {
+      if (minValue === void 0 || isNaN(minValue) || value === void 0 || isNaN(value) || value > minValue) onDecrementPressStart(60);
+    }, initialStepDelay);
+  });
+  let cancelContextMenu = (e) => {
+    e.preventDefault();
+  };
+  let { addGlobalListener, removeAllGlobalListeners } = $03deb23ff14920c4$export$4eaf04e54aa8eed6();
+  return {
+    spinButtonProps: {
+      role: "spinbutton",
+      "aria-valuenow": value !== void 0 && !isNaN(value) ? value : void 0,
+      "aria-valuetext": ariaTextValue,
+      "aria-valuemin": minValue,
+      "aria-valuemax": maxValue,
+      "aria-disabled": isDisabled || void 0,
+      "aria-readonly": isReadOnly || void 0,
+      "aria-required": isRequired || void 0,
+      onKeyDown,
+      onFocus,
+      onBlur
+    },
+    incrementButtonProps: {
+      onPressStart: () => {
+        onIncrementPressStart(400);
+        addGlobalListener(window, "contextmenu", cancelContextMenu);
+      },
+      onPressEnd: () => {
+        clearAsync();
+        removeAllGlobalListeners();
+      },
+      onFocus,
+      onBlur
+    },
+    decrementButtonProps: {
+      onPressStart: () => {
+        onDecrementPressStart(400);
+        addGlobalListener(window, "contextmenu", cancelContextMenu);
+      },
+      onPressEnd: () => {
+        clearAsync();
+        removeAllGlobalListeners();
+      },
+      onFocus,
+      onBlur
+    }
+  };
+}
+var $f23889fffbde9058$exports = {};
+$f23889fffbde9058$exports = {
+  "calendar": `التقويم`,
+  "day": `يوم`,
+  "dayPeriod": `ص/م`,
+  "endDate": `تاريخ الانتهاء`,
+  "era": `العصر`,
+  "hour": `الساعات`,
+  "minute": `الدقائق`,
+  "month": `الشهر`,
+  "second": `الثواني`,
+  "selectedDateDescription": (args) => `تاريخ محدد: ${args.date}`,
+  "selectedRangeDescription": (args) => `المدى الزمني المحدد: ${args.startDate} إلى ${args.endDate}`,
+  "selectedTimeDescription": (args) => `الوقت المحدد: ${args.time}`,
+  "startDate": `تاريخ البدء`,
+  "timeZoneName": `التوقيت`,
+  "weekday": `اليوم`,
+  "year": `السنة`
+};
+var $09d9badaa8903929$exports = {};
+$09d9badaa8903929$exports = {
+  "calendar": `Календар`,
+  "day": `ден`,
+  "dayPeriod": `пр.об./сл.об.`,
+  "endDate": `Крайна дата`,
+  "era": `ера`,
+  "hour": `час`,
+  "minute": `минута`,
+  "month": `месец`,
+  "second": `секунда`,
+  "selectedDateDescription": (args) => `Избрана дата: ${args.date}`,
+  "selectedRangeDescription": (args) => `Избран диапазон: ${args.startDate} до ${args.endDate}`,
+  "selectedTimeDescription": (args) => `Избрано време: ${args.time}`,
+  "startDate": `Начална дата`,
+  "timeZoneName": `часова зона`,
+  "weekday": `ден от седмицата`,
+  "year": `година`
+};
+var $151b77e0fd711730$exports = {};
+$151b77e0fd711730$exports = {
+  "calendar": `Kalendář`,
+  "day": `den`,
+  "dayPeriod": `část dne`,
+  "endDate": `Konečné datum`,
+  "era": `letopočet`,
+  "hour": `hodina`,
+  "minute": `minuta`,
+  "month": `měsíc`,
+  "second": `sekunda`,
+  "selectedDateDescription": (args) => `Vybrané datum: ${args.date}`,
+  "selectedRangeDescription": (args) => `Vybrané období: ${args.startDate} až ${args.endDate}`,
+  "selectedTimeDescription": (args) => `Vybraný čas: ${args.time}`,
+  "startDate": `Počáteční datum`,
+  "timeZoneName": `časové pásmo`,
+  "weekday": `den v týdnu`,
+  "year": `rok`
+};
+var $61915aa8630b90a2$exports = {};
+$61915aa8630b90a2$exports = {
+  "calendar": `Kalender`,
+  "day": `dag`,
+  "dayPeriod": `AM/PM`,
+  "endDate": `Slutdato`,
+  "era": `æra`,
+  "hour": `time`,
+  "minute": `minut`,
+  "month": `måned`,
+  "second": `sekund`,
+  "selectedDateDescription": (args) => `Valgt dato: ${args.date}`,
+  "selectedRangeDescription": (args) => `Valgt interval: ${args.startDate} til ${args.endDate}`,
+  "selectedTimeDescription": (args) => `Valgt tidspunkt: ${args.time}`,
+  "startDate": `Startdato`,
+  "timeZoneName": `tidszone`,
+  "weekday": `ugedag`,
+  "year": `år`
+};
+var $35cea00159787840$exports = {};
+$35cea00159787840$exports = {
+  "calendar": `Kalender`,
+  "day": `Tag`,
+  "dayPeriod": `Tageshälfte`,
+  "endDate": `Enddatum`,
+  "era": `Epoche`,
+  "hour": `Stunde`,
+  "minute": `Minute`,
+  "month": `Monat`,
+  "second": `Sekunde`,
+  "selectedDateDescription": (args) => `Ausgewähltes Datum: ${args.date}`,
+  "selectedRangeDescription": (args) => `Ausgewählter Bereich: ${args.startDate} bis ${args.endDate}`,
+  "selectedTimeDescription": (args) => `Ausgewählte Zeit: ${args.time}`,
+  "startDate": `Startdatum`,
+  "timeZoneName": `Zeitzone`,
+  "weekday": `Wochentag`,
+  "year": `Jahr`
+};
+var $518b4e82b9eacafd$exports = {};
+$518b4e82b9eacafd$exports = {
+  "calendar": `Ημερολόγιο`,
+  "day": `ημέρα`,
+  "dayPeriod": `π.μ./μ.μ.`,
+  "endDate": `Ημερομηνία λήξης`,
+  "era": `περίοδος`,
+  "hour": `ώρα`,
+  "minute": `λεπτό`,
+  "month": `μήνας`,
+  "second": `δευτερόλεπτο`,
+  "selectedDateDescription": (args) => `Επιλεγμένη ημερομηνία: ${args.date}`,
+  "selectedRangeDescription": (args) => `Επιλεγμένο εύρος: ${args.startDate} έως ${args.endDate}`,
+  "selectedTimeDescription": (args) => `Επιλεγμένη ώρα: ${args.time}`,
+  "startDate": `Ημερομηνία έναρξης`,
+  "timeZoneName": `ζώνη ώρας`,
+  "weekday": `καθημερινή`,
+  "year": `έτος`
+};
+var $1c2b297f7e2cf474$exports = {};
+$1c2b297f7e2cf474$exports = {
+  "era": `era`,
+  "year": `year`,
+  "month": `month`,
+  "day": `day`,
+  "hour": `hour`,
+  "minute": `minute`,
+  "second": `second`,
+  "dayPeriod": `AM/PM`,
+  "calendar": `Calendar`,
+  "startDate": `Start Date`,
+  "endDate": `End Date`,
+  "weekday": `day of the week`,
+  "timeZoneName": `time zone`,
+  "selectedDateDescription": (args) => `Selected Date: ${args.date}`,
+  "selectedRangeDescription": (args) => `Selected Range: ${args.startDate} to ${args.endDate}`,
+  "selectedTimeDescription": (args) => `Selected Time: ${args.time}`
+};
+var $07f628a707cf9b18$exports = {};
+$07f628a707cf9b18$exports = {
+  "calendar": `Calendario`,
+  "day": `día`,
+  "dayPeriod": `a. m./p. m.`,
+  "endDate": `Fecha final`,
+  "era": `era`,
+  "hour": `hora`,
+  "minute": `minuto`,
+  "month": `mes`,
+  "second": `segundo`,
+  "selectedDateDescription": (args) => `Fecha seleccionada: ${args.date}`,
+  "selectedRangeDescription": (args) => `Rango seleccionado: ${args.startDate} a ${args.endDate}`,
+  "selectedTimeDescription": (args) => `Hora seleccionada: ${args.time}`,
+  "startDate": `Fecha de inicio`,
+  "timeZoneName": `zona horaria`,
+  "weekday": `día de la semana`,
+  "year": `año`
+};
+var $db553ffe17c7f4db$exports = {};
+$db553ffe17c7f4db$exports = {
+  "calendar": `Kalender`,
+  "day": `päev`,
+  "dayPeriod": `enne/pärast lõunat`,
+  "endDate": `Lõppkuupäev`,
+  "era": `ajastu`,
+  "hour": `tund`,
+  "minute": `minut`,
+  "month": `kuu`,
+  "second": `sekund`,
+  "selectedDateDescription": (args) => `Valitud kuupäev: ${args.date}`,
+  "selectedRangeDescription": (args) => `Valitud vahemik: ${args.startDate} kuni ${args.endDate}`,
+  "selectedTimeDescription": (args) => `Valitud aeg: ${args.time}`,
+  "startDate": `Alguskuupäev`,
+  "timeZoneName": `ajavöönd`,
+  "weekday": `nädalapäev`,
+  "year": `aasta`
+};
+var $4afcfe00cd703f83$exports = {};
+$4afcfe00cd703f83$exports = {
+  "calendar": `Kalenteri`,
+  "day": `päivä`,
+  "dayPeriod": `vuorokaudenaika`,
+  "endDate": `Päättymispäivä`,
+  "era": `aikakausi`,
+  "hour": `tunti`,
+  "minute": `minuutti`,
+  "month": `kuukausi`,
+  "second": `sekunti`,
+  "selectedDateDescription": (args) => `Valittu päivämäärä: ${args.date}`,
+  "selectedRangeDescription": (args) => `Valittu aikaväli: ${args.startDate} – ${args.endDate}`,
+  "selectedTimeDescription": (args) => `Valittu aika: ${args.time}`,
+  "startDate": `Alkamispäivä`,
+  "timeZoneName": `aikavyöhyke`,
+  "weekday": `viikonpäivä`,
+  "year": `vuosi`
+};
+var $1d2645d18d4c5be0$exports = {};
+$1d2645d18d4c5be0$exports = {
+  "calendar": `Calendrier`,
+  "day": `jour`,
+  "dayPeriod": `cadran`,
+  "endDate": `Date de fin`,
+  "era": `ère`,
+  "hour": `heure`,
+  "minute": `minute`,
+  "month": `mois`,
+  "second": `seconde`,
+  "selectedDateDescription": (args) => `Date sélectionnée : ${args.date}`,
+  "selectedRangeDescription": (args) => `Plage sélectionnée : ${args.startDate} au ${args.endDate}`,
+  "selectedTimeDescription": (args) => `Heure choisie : ${args.time}`,
+  "startDate": `Date de début`,
+  "timeZoneName": `fuseau horaire`,
+  "weekday": `jour de la semaine`,
+  "year": `année`
+};
+var $64cb6a9be1f6fa48$exports = {};
+$64cb6a9be1f6fa48$exports = {
+  "calendar": `לוח שנה`,
+  "day": `יום`,
+  "dayPeriod": `לפנה״צ/אחה״צ`,
+  "endDate": `תאריך סיום`,
+  "era": `תקופה`,
+  "hour": `שעה`,
+  "minute": `דקה`,
+  "month": `חודש`,
+  "second": `שנייה`,
+  "selectedDateDescription": (args) => `תאריך נבחר: ${args.date}`,
+  "selectedRangeDescription": (args) => `טווח נבחר: ${args.startDate} עד ${args.endDate}`,
+  "selectedTimeDescription": (args) => `זמן נבחר: ${args.time}`,
+  "startDate": `תאריך התחלה`,
+  "timeZoneName": `אזור זמן`,
+  "weekday": `יום בשבוע`,
+  "year": `שנה`
+};
+var $2a1ef2e8050be27a$exports = {};
+$2a1ef2e8050be27a$exports = {
+  "calendar": `Kalendar`,
+  "day": `dan`,
+  "dayPeriod": `AM/PM`,
+  "endDate": `Datum završetka`,
+  "era": `era`,
+  "hour": `sat`,
+  "minute": `minuta`,
+  "month": `mjesec`,
+  "second": `sekunda`,
+  "selectedDateDescription": (args) => `Odabrani datum: ${args.date}`,
+  "selectedRangeDescription": (args) => `Odabrani raspon: ${args.startDate} do ${args.endDate}`,
+  "selectedTimeDescription": (args) => `Odabrano vrijeme: ${args.time}`,
+  "startDate": `Datum početka`,
+  "timeZoneName": `vremenska zona`,
+  "weekday": `dan u tjednu`,
+  "year": `godina`
+};
+var $ad429dca102acd0e$exports = {};
+$ad429dca102acd0e$exports = {
+  "calendar": `Naptár`,
+  "day": `nap`,
+  "dayPeriod": `napszak`,
+  "endDate": `Befejező dátum`,
+  "era": `éra`,
+  "hour": `óra`,
+  "minute": `perc`,
+  "month": `hónap`,
+  "second": `másodperc`,
+  "selectedDateDescription": (args) => `Kijelölt dátum: ${args.date}`,
+  "selectedRangeDescription": (args) => `Kijelölt tartomány: ${args.startDate}–${args.endDate}`,
+  "selectedTimeDescription": (args) => `Kijelölt idő: ${args.time}`,
+  "startDate": `Kezdő dátum`,
+  "timeZoneName": `időzóna`,
+  "weekday": `hét napja`,
+  "year": `év`
+};
+var $6e68cb5d1cb97bd2$exports = {};
+$6e68cb5d1cb97bd2$exports = {
+  "calendar": `Calendario`,
+  "day": `giorno`,
+  "dayPeriod": `AM/PM`,
+  "endDate": `Data finale`,
+  "era": `era`,
+  "hour": `ora`,
+  "minute": `minuto`,
+  "month": `mese`,
+  "second": `secondo`,
+  "selectedDateDescription": (args) => `Data selezionata: ${args.date}`,
+  "selectedRangeDescription": (args) => `Intervallo selezionato: da ${args.startDate} a ${args.endDate}`,
+  "selectedTimeDescription": (args) => `Ora selezionata: ${args.time}`,
+  "startDate": `Data iniziale`,
+  "timeZoneName": `fuso orario`,
+  "weekday": `giorno della settimana`,
+  "year": `anno`
+};
+var $a82ee9af063ee069$exports = {};
+$a82ee9af063ee069$exports = {
+  "calendar": `カレンダー`,
+  "day": `日`,
+  "dayPeriod": `午前/午後`,
+  "endDate": `終了日`,
+  "era": `時代`,
+  "hour": `時`,
+  "minute": `分`,
+  "month": `月`,
+  "second": `秒`,
+  "selectedDateDescription": (args) => `選択した日付 : ${args.date}`,
+  "selectedRangeDescription": (args) => `選択範囲 : ${args.startDate} から ${args.endDate}`,
+  "selectedTimeDescription": (args) => `選択した時間 : ${args.time}`,
+  "startDate": `開始日`,
+  "timeZoneName": `タイムゾーン`,
+  "weekday": `曜日`,
+  "year": `年`
+};
+var $67e9091dbf37d4eb$exports = {};
+$67e9091dbf37d4eb$exports = {
+  "calendar": `달력`,
+  "day": `일`,
+  "dayPeriod": `오전/오후`,
+  "endDate": `종료일`,
+  "era": `연호`,
+  "hour": `시`,
+  "minute": `분`,
+  "month": `월`,
+  "second": `초`,
+  "selectedDateDescription": (args) => `선택 일자: ${args.date}`,
+  "selectedRangeDescription": (args) => `선택 범위: ${args.startDate} ~ ${args.endDate}`,
+  "selectedTimeDescription": (args) => `선택 시간: ${args.time}`,
+  "startDate": `시작일`,
+  "timeZoneName": `시간대`,
+  "weekday": `요일`,
+  "year": `년`
+};
+var $75834f9729f653d1$exports = {};
+$75834f9729f653d1$exports = {
+  "calendar": `Kalendorius`,
+  "day": `diena`,
+  "dayPeriod": `iki pietų / po pietų`,
+  "endDate": `Pabaigos data`,
+  "era": `era`,
+  "hour": `valanda`,
+  "minute": `minutė`,
+  "month": `mėnuo`,
+  "second": `sekundė`,
+  "selectedDateDescription": (args) => `Pasirinkta data: ${args.date}`,
+  "selectedRangeDescription": (args) => `Pasirinktas intervalas: nuo ${args.startDate} iki ${args.endDate}`,
+  "selectedTimeDescription": (args) => `Pasirinktas laikas: ${args.time}`,
+  "startDate": `Pradžios data`,
+  "timeZoneName": `laiko juosta`,
+  "weekday": `savaitės diena`,
+  "year": `metai`
+};
+var $a2df2c2520b4a7f0$exports = {};
+$a2df2c2520b4a7f0$exports = {
+  "calendar": `Kalendārs`,
+  "day": `diena`,
+  "dayPeriod": `priekšpusdienā/pēcpusdienā`,
+  "endDate": `Beigu datums`,
+  "era": `ēra`,
+  "hour": `stundas`,
+  "minute": `minūtes`,
+  "month": `mēnesis`,
+  "second": `sekundes`,
+  "selectedDateDescription": (args) => `Atlasītais datums: ${args.date}`,
+  "selectedRangeDescription": (args) => `Atlasītais diapazons: no ${args.startDate} līdz ${args.endDate}`,
+  "selectedTimeDescription": (args) => `Atlasītais laiks: ${args.time}`,
+  "startDate": `Sākuma datums`,
+  "timeZoneName": `laika josla`,
+  "weekday": `nedēļas diena`,
+  "year": `gads`
+};
+var $aedcd71db4933ed5$exports = {};
+$aedcd71db4933ed5$exports = {
+  "calendar": `Kalender`,
+  "day": `dag`,
+  "dayPeriod": `a.m./p.m.`,
+  "endDate": `Sluttdato`,
+  "era": `tidsalder`,
+  "hour": `time`,
+  "minute": `minutt`,
+  "month": `måned`,
+  "second": `sekund`,
+  "selectedDateDescription": (args) => `Valgt dato: ${args.date}`,
+  "selectedRangeDescription": (args) => `Valgt område: ${args.startDate} til ${args.endDate}`,
+  "selectedTimeDescription": (args) => `Valgt tid: ${args.time}`,
+  "startDate": `Startdato`,
+  "timeZoneName": `tidssone`,
+  "weekday": `ukedag`,
+  "year": `år`
+};
+var $3b2df9e54353046c$exports = {};
+$3b2df9e54353046c$exports = {
+  "calendar": `Kalender`,
+  "day": `dag`,
+  "dayPeriod": `a.m./p.m.`,
+  "endDate": `Einddatum`,
+  "era": `tijdperk`,
+  "hour": `uur`,
+  "minute": `minuut`,
+  "month": `maand`,
+  "second": `seconde`,
+  "selectedDateDescription": (args) => `Geselecteerde datum: ${args.date}`,
+  "selectedRangeDescription": (args) => `Geselecteerd bereik: ${args.startDate} tot ${args.endDate}`,
+  "selectedTimeDescription": (args) => `Geselecteerde tijd: ${args.time}`,
+  "startDate": `Startdatum`,
+  "timeZoneName": `tijdzone`,
+  "weekday": `dag van de week`,
+  "year": `jaar`
+};
+var $c03fe977fcfafe93$exports = {};
+$c03fe977fcfafe93$exports = {
+  "calendar": `Kalendarz`,
+  "day": `dzień`,
+  "dayPeriod": `rano / po południu / wieczorem`,
+  "endDate": `Data końcowa`,
+  "era": `era`,
+  "hour": `godzina`,
+  "minute": `minuta`,
+  "month": `miesiąc`,
+  "second": `sekunda`,
+  "selectedDateDescription": (args) => `Wybrana data: ${args.date}`,
+  "selectedRangeDescription": (args) => `Wybrany zakres: ${args.startDate} do ${args.endDate}`,
+  "selectedTimeDescription": (args) => `Wybrany czas: ${args.time}`,
+  "startDate": `Data początkowa`,
+  "timeZoneName": `strefa czasowa`,
+  "weekday": `dzień tygodnia`,
+  "year": `rok`
+};
+var $569f006fc292345f$exports = {};
+$569f006fc292345f$exports = {
+  "calendar": `Calendário`,
+  "day": `dia`,
+  "dayPeriod": `AM/PM`,
+  "endDate": `Data final`,
+  "era": `era`,
+  "hour": `hora`,
+  "minute": `minuto`,
+  "month": `mês`,
+  "second": `segundo`,
+  "selectedDateDescription": (args) => `Data selecionada: ${args.date}`,
+  "selectedRangeDescription": (args) => `Intervalo selecionado: ${args.startDate} a ${args.endDate}`,
+  "selectedTimeDescription": (args) => `Hora selecionada: ${args.time}`,
+  "startDate": `Data inicial`,
+  "timeZoneName": `fuso horário`,
+  "weekday": `dia da semana`,
+  "year": `ano`
+};
+var $7c2494e14452f2dd$exports = {};
+$7c2494e14452f2dd$exports = {
+  "calendar": `Calendário`,
+  "day": `dia`,
+  "dayPeriod": `am/pm`,
+  "endDate": `Data de Término`,
+  "era": `era`,
+  "hour": `hora`,
+  "minute": `minuto`,
+  "month": `mês`,
+  "second": `segundo`,
+  "selectedDateDescription": (args) => `Data selecionada: ${args.date}`,
+  "selectedRangeDescription": (args) => `Intervalo selecionado: ${args.startDate} a ${args.endDate}`,
+  "selectedTimeDescription": (args) => `Hora selecionada: ${args.time}`,
+  "startDate": `Data de Início`,
+  "timeZoneName": `fuso horário`,
+  "weekday": `dia da semana`,
+  "year": `ano`
+};
+var $eb82ef981b5592bf$exports = {};
+$eb82ef981b5592bf$exports = {
+  "calendar": `Calendar`,
+  "day": `zi`,
+  "dayPeriod": `a.m/p.m.`,
+  "endDate": `Dată final`,
+  "era": `eră`,
+  "hour": `oră`,
+  "minute": `minut`,
+  "month": `lună`,
+  "second": `secundă`,
+  "selectedDateDescription": (args) => `Dată selectată: ${args.date}`,
+  "selectedRangeDescription": (args) => `Interval selectat: de la ${args.startDate} până la ${args.endDate}`,
+  "selectedTimeDescription": (args) => `Ora selectată: ${args.time}`,
+  "startDate": `Dată început`,
+  "timeZoneName": `fus orar`,
+  "weekday": `ziua din săptămână`,
+  "year": `an`
+};
+var $6efa0e119f396950$exports = {};
+$6efa0e119f396950$exports = {
+  "calendar": `Календарь`,
+  "day": `день`,
+  "dayPeriod": `AM/PM`,
+  "endDate": `Дата окончания`,
+  "era": `эра`,
+  "hour": `час`,
+  "minute": `минута`,
+  "month": `месяц`,
+  "second": `секунда`,
+  "selectedDateDescription": (args) => `Выбранная дата: ${args.date}`,
+  "selectedRangeDescription": (args) => `Выбранный диапазон: с ${args.startDate} по ${args.endDate}`,
+  "selectedTimeDescription": (args) => `Выбранное время: ${args.time}`,
+  "startDate": `Дата начала`,
+  "timeZoneName": `часовой пояс`,
+  "weekday": `день недели`,
+  "year": `год`
+};
+var $7f5e57085d7f5049$exports = {};
+$7f5e57085d7f5049$exports = {
+  "calendar": `Kalendár`,
+  "day": `deň`,
+  "dayPeriod": `AM/PM`,
+  "endDate": `Dátum ukončenia`,
+  "era": `letopočet`,
+  "hour": `hodina`,
+  "minute": `minúta`,
+  "month": `mesiac`,
+  "second": `sekunda`,
+  "selectedDateDescription": (args) => `Vybratý dátum: ${args.date}`,
+  "selectedRangeDescription": (args) => `Vybratý rozsah: od ${args.startDate} do ${args.endDate}`,
+  "selectedTimeDescription": (args) => `Vybratý čas: ${args.time}`,
+  "startDate": `Dátum začatia`,
+  "timeZoneName": `časové pásmo`,
+  "weekday": `deň týždňa`,
+  "year": `rok`
+};
+var $578ee7c11dcdde7a$exports = {};
+$578ee7c11dcdde7a$exports = {
+  "calendar": `Koledar`,
+  "day": `dan`,
+  "dayPeriod": `dop/pop`,
+  "endDate": `Datum konca`,
+  "era": `doba`,
+  "hour": `ura`,
+  "minute": `minuta`,
+  "month": `mesec`,
+  "second": `sekunda`,
+  "selectedDateDescription": (args) => `Izbrani datum: ${args.date}`,
+  "selectedRangeDescription": (args) => `Izbrano območje: ${args.startDate} do ${args.endDate}`,
+  "selectedTimeDescription": (args) => `Izbrani čas: ${args.time}`,
+  "startDate": `Datum začetka`,
+  "timeZoneName": `časovni pas`,
+  "weekday": `dan v tednu`,
+  "year": `leto`
+};
+var $bbc3fd6cd0bc9d50$exports = {};
+$bbc3fd6cd0bc9d50$exports = {
+  "calendar": `Kalendar`,
+  "day": `дан`,
+  "dayPeriod": `пре подне/по подне`,
+  "endDate": `Datum završetka`,
+  "era": `ера`,
+  "hour": `сат`,
+  "minute": `минут`,
+  "month": `месец`,
+  "second": `секунд`,
+  "selectedDateDescription": (args) => `Izabrani datum: ${args.date}`,
+  "selectedRangeDescription": (args) => `Izabrani opseg: od ${args.startDate} do ${args.endDate}`,
+  "selectedTimeDescription": (args) => `Izabrano vreme: ${args.time}`,
+  "startDate": `Datum početka`,
+  "timeZoneName": `временска зона`,
+  "weekday": `дан у недељи`,
+  "year": `година`
+};
+var $0b04512118591d2a$exports = {};
+$0b04512118591d2a$exports = {
+  "calendar": `Kalender`,
+  "day": `dag`,
+  "dayPeriod": `fm/em`,
+  "endDate": `Slutdatum`,
+  "era": `era`,
+  "hour": `timme`,
+  "minute": `minut`,
+  "month": `månad`,
+  "second": `sekund`,
+  "selectedDateDescription": (args) => `Valt datum: ${args.date}`,
+  "selectedRangeDescription": (args) => `Valt intervall: ${args.startDate} till ${args.endDate}`,
+  "selectedTimeDescription": (args) => `Vald tid: ${args.time}`,
+  "startDate": `Startdatum`,
+  "timeZoneName": `tidszon`,
+  "weekday": `veckodag`,
+  "year": `år`
+};
+var $3a49d121fe4c9e1d$exports = {};
+$3a49d121fe4c9e1d$exports = {
+  "calendar": `Takvim`,
+  "day": `gün`,
+  "dayPeriod": `ÖÖ/ÖS`,
+  "endDate": `Bitiş Tarihi`,
+  "era": `çağ`,
+  "hour": `saat`,
+  "minute": `dakika`,
+  "month": `ay`,
+  "second": `saniye`,
+  "selectedDateDescription": (args) => `Seçilen Tarih: ${args.date}`,
+  "selectedRangeDescription": (args) => `Seçilen Aralık: ${args.startDate} - ${args.endDate}`,
+  "selectedTimeDescription": (args) => `Seçilen Zaman: ${args.time}`,
+  "startDate": `Başlangıç Tarihi`,
+  "timeZoneName": `saat dilimi`,
+  "weekday": `haftanın günü`,
+  "year": `yıl`
+};
+var $5ba21dbb8914919d$exports = {};
+$5ba21dbb8914919d$exports = {
+  "calendar": `Календар`,
+  "day": `день`,
+  "dayPeriod": `дп/пп`,
+  "endDate": `Дата завершення`,
+  "era": `ера`,
+  "hour": `година`,
+  "minute": `хвилина`,
+  "month": `місяць`,
+  "second": `секунда`,
+  "selectedDateDescription": (args) => `Вибрана дата: ${args.date}`,
+  "selectedRangeDescription": (args) => `Вибраний діапазон: ${args.startDate} — ${args.endDate}`,
+  "selectedTimeDescription": (args) => `Вибраний час: ${args.time}`,
+  "startDate": `Дата початку`,
+  "timeZoneName": `часовий пояс`,
+  "weekday": `день тижня`,
+  "year": `рік`
+};
+var $51078838e1b16cd7$exports = {};
+$51078838e1b16cd7$exports = {
+  "calendar": `日历`,
+  "day": `日`,
+  "dayPeriod": `上午/下午`,
+  "endDate": `结束日期`,
+  "era": `纪元`,
+  "hour": `小时`,
+  "minute": `分钟`,
+  "month": `月`,
+  "second": `秒`,
+  "selectedDateDescription": (args) => `选定的日期：${args.date}`,
+  "selectedRangeDescription": (args) => `选定的范围：${args.startDate} 至 ${args.endDate}`,
+  "selectedTimeDescription": (args) => `选定的时间：${args.time}`,
+  "startDate": `开始日期`,
+  "timeZoneName": `时区`,
+  "weekday": `工作日`,
+  "year": `年`
+};
+var $33fab8219207655a$exports = {};
+$33fab8219207655a$exports = {
+  "calendar": `日曆`,
+  "day": `日`,
+  "dayPeriod": `上午/下午`,
+  "endDate": `結束日期`,
+  "era": `纪元`,
+  "hour": `小时`,
+  "minute": `分钟`,
+  "month": `月`,
+  "second": `秒`,
+  "selectedDateDescription": (args) => `選定的日期：${args.date}`,
+  "selectedRangeDescription": (args) => `選定的範圍：${args.startDate} 至 ${args.endDate}`,
+  "selectedTimeDescription": (args) => `選定的時間：${args.time}`,
+  "startDate": `開始日期`,
+  "timeZoneName": `时区`,
+  "weekday": `工作日`,
+  "year": `年`
+};
+var $dfb4eba373ed9493$exports = {};
+$dfb4eba373ed9493$exports = {
+  "ar-AE": $f23889fffbde9058$exports,
+  "bg-BG": $09d9badaa8903929$exports,
+  "cs-CZ": $151b77e0fd711730$exports,
+  "da-DK": $61915aa8630b90a2$exports,
+  "de-DE": $35cea00159787840$exports,
+  "el-GR": $518b4e82b9eacafd$exports,
+  "en-US": $1c2b297f7e2cf474$exports,
+  "es-ES": $07f628a707cf9b18$exports,
+  "et-EE": $db553ffe17c7f4db$exports,
+  "fi-FI": $4afcfe00cd703f83$exports,
+  "fr-FR": $1d2645d18d4c5be0$exports,
+  "he-IL": $64cb6a9be1f6fa48$exports,
+  "hr-HR": $2a1ef2e8050be27a$exports,
+  "hu-HU": $ad429dca102acd0e$exports,
+  "it-IT": $6e68cb5d1cb97bd2$exports,
+  "ja-JP": $a82ee9af063ee069$exports,
+  "ko-KR": $67e9091dbf37d4eb$exports,
+  "lt-LT": $75834f9729f653d1$exports,
+  "lv-LV": $a2df2c2520b4a7f0$exports,
+  "nb-NO": $aedcd71db4933ed5$exports,
+  "nl-NL": $3b2df9e54353046c$exports,
+  "pl-PL": $c03fe977fcfafe93$exports,
+  "pt-BR": $569f006fc292345f$exports,
+  "pt-PT": $7c2494e14452f2dd$exports,
+  "ro-RO": $eb82ef981b5592bf$exports,
+  "ru-RU": $6efa0e119f396950$exports,
+  "sk-SK": $7f5e57085d7f5049$exports,
+  "sl-SI": $578ee7c11dcdde7a$exports,
+  "sr-SP": $bbc3fd6cd0bc9d50$exports,
+  "sv-SE": $0b04512118591d2a$exports,
+  "tr-TR": $3a49d121fe4c9e1d$exports,
+  "uk-UA": $5ba21dbb8914919d$exports,
+  "zh-CN": $51078838e1b16cd7$exports,
+  "zh-TW": $33fab8219207655a$exports
+};
+function $3dfb0f96be0d6a08$export$4a931266a3838b86(state, ref, disableArrowNavigation) {
+  let { direction } = $18f2051aff69b9bf$export$43bb16f9c6d9e3f7();
+  let focusManager = reactExports.useMemo(() => $9bf71ea28793e738$export$c5251b9e124bf29(ref), [
+    ref
+  ]);
+  let onKeyDown = (e) => {
+    if (!e.currentTarget.contains(e.target)) return;
+    if (e.altKey && (e.key === "ArrowDown" || e.key === "ArrowUp") && "setOpen" in state) {
+      e.preventDefault();
+      e.stopPropagation();
+      state.setOpen(true);
+    }
+    if (disableArrowNavigation) return;
+    switch (e.key) {
+      case "ArrowLeft":
+        e.preventDefault();
+        e.stopPropagation();
+        if (direction === "rtl") {
+          if (ref.current) {
+            let target = e.target;
+            let prev = $3dfb0f96be0d6a08$var$findNextSegment(ref.current, target.getBoundingClientRect().left, -1);
+            if (prev) prev.focus();
+          }
+        } else focusManager.focusPrevious();
+        break;
+      case "ArrowRight":
+        e.preventDefault();
+        e.stopPropagation();
+        if (direction === "rtl") {
+          if (ref.current) {
+            let target = e.target;
+            let next = $3dfb0f96be0d6a08$var$findNextSegment(ref.current, target.getBoundingClientRect().left, 1);
+            if (next) next.focus();
+          }
+        } else focusManager.focusNext();
+        break;
+    }
+  };
+  let focusLast = () => {
+    var _window_event;
+    if (!ref.current) return;
+    let target = (_window_event = window.event) === null || _window_event === void 0 ? void 0 : _window_event.target;
+    let walker = $9bf71ea28793e738$export$2d6ec8fc375ceafa(ref.current, {
+      tabbable: true
+    });
+    if (target) {
+      walker.currentNode = target;
+      target = walker.previousNode();
+    }
+    if (!target) {
+      let last;
+      do {
+        last = walker.lastChild();
+        if (last) target = last;
+      } while (last);
+    }
+    while (target === null || target === void 0 ? void 0 : target.hasAttribute("data-placeholder")) {
+      let prev = walker.previousNode();
+      if (prev && prev.hasAttribute("data-placeholder")) target = prev;
+      else break;
+    }
+    if (target) target.focus();
+  };
+  let { pressProps } = $f6c31cce2adf654f$export$45712eceda6fad21({
+    preventFocusOnPress: true,
+    allowTextSelectionOnPress: true,
+    onPressStart(e) {
+      if (e.pointerType === "mouse") focusLast();
+    },
+    onPress(e) {
+      if (e.pointerType === "touch" || e.pointerType === "pen") focusLast();
+    }
+  });
+  return $3ef42575df84b30b$export$9d1611c77c2fe928(pressProps, {
+    onKeyDown
+  });
+}
+function $3dfb0f96be0d6a08$var$findNextSegment(group, fromX, direction) {
+  let walker = $9bf71ea28793e738$export$2d6ec8fc375ceafa(group, {
+    tabbable: true
+  });
+  let node = walker.nextNode();
+  let closest = null;
+  let closestDistance = Infinity;
+  while (node) {
+    let x = node.getBoundingClientRect().left;
+    let distance = x - fromX;
+    let absoluteDistance = Math.abs(distance);
+    if (Math.sign(distance) === direction && absoluteDistance < closestDistance) {
+      closest = node;
+      closestDistance = absoluteDistance;
+    }
+    node = walker.nextNode();
+  }
+  return closest;
+}
+function $parcel$interopDefault$2(a) {
+  return a && a.__esModule ? a.default : a;
+}
+const $16f0b7bb276bc17e$export$653eddfc964b0f8a = /* @__PURE__ */ new WeakMap();
+const $16f0b7bb276bc17e$export$300019f83c56d282 = "__role_" + Date.now();
+const $16f0b7bb276bc17e$export$7b3062cd49e80452 = "__focusManager_" + Date.now();
+function $16f0b7bb276bc17e$export$5591b0b878c1a989(props, state, ref) {
+  var _state_value;
+  let { isInvalid, validationErrors, validationDetails } = state.displayValidation;
+  let { labelProps, fieldProps, descriptionProps, errorMessageProps } = $2baaea4c71418dea$export$294aa081a6c6f55d({
+    ...props,
+    labelElementType: "span",
+    isInvalid,
+    errorMessage: props.errorMessage || validationErrors
+  });
+  let valueOnFocus = reactExports.useRef(null);
+  let { focusWithinProps } = $9ab94262bd0047c7$export$420e68273165f4ec({
+    ...props,
+    onFocusWithin(e) {
+      var _props_onFocus;
+      valueOnFocus.current = state.value;
+      (_props_onFocus = props.onFocus) === null || _props_onFocus === void 0 ? void 0 : _props_onFocus.call(props, e);
+    },
+    onBlurWithin: (e) => {
+      var _props_onBlur;
+      state.confirmPlaceholder();
+      if (state.value !== valueOnFocus.current) state.commitValidation();
+      (_props_onBlur = props.onBlur) === null || _props_onBlur === void 0 ? void 0 : _props_onBlur.call(props, e);
+    },
+    onFocusWithinChange: props.onFocusChange
+  });
+  let stringFormatter = $fca6afa0e843324b$export$f12b703ca79dfbb1($parcel$interopDefault$2($dfb4eba373ed9493$exports), "@react-aria/datepicker");
+  let message = state.maxGranularity === "hour" ? "selectedTimeDescription" : "selectedDateDescription";
+  let field = state.maxGranularity === "hour" ? "time" : "date";
+  let description = state.value ? stringFormatter.format(message, {
+    [field]: state.formatValue({
+      month: "long"
+    })
+  }) : "";
+  let descProps = $ef06256079686ba0$export$f8aeda7b10753fa1(description);
+  let describedBy = props[$16f0b7bb276bc17e$export$300019f83c56d282] === "presentation" ? fieldProps["aria-describedby"] : [
+    descProps["aria-describedby"],
+    fieldProps["aria-describedby"]
+  ].filter(Boolean).join(" ") || void 0;
+  let propsFocusManager = props[$16f0b7bb276bc17e$export$7b3062cd49e80452];
+  let focusManager = reactExports.useMemo(() => propsFocusManager || $9bf71ea28793e738$export$c5251b9e124bf29(ref), [
+    propsFocusManager,
+    ref
+  ]);
+  let groupProps = $3dfb0f96be0d6a08$export$4a931266a3838b86(state, ref, props[$16f0b7bb276bc17e$export$300019f83c56d282] === "presentation");
+  $16f0b7bb276bc17e$export$653eddfc964b0f8a.set(state, {
+    ariaLabel: props["aria-label"],
+    ariaLabelledBy: [
+      labelProps.id,
+      props["aria-labelledby"]
+    ].filter(Boolean).join(" ") || void 0,
+    ariaDescribedBy: describedBy,
+    focusManager
+  });
+  let autoFocusRef = reactExports.useRef(props.autoFocus);
+  let fieldDOMProps;
+  if (props[$16f0b7bb276bc17e$export$300019f83c56d282] === "presentation") fieldDOMProps = {
+    role: "presentation"
+  };
+  else fieldDOMProps = $3ef42575df84b30b$export$9d1611c77c2fe928(fieldProps, {
+    role: "group",
+    "aria-disabled": props.isDisabled || void 0,
+    "aria-describedby": describedBy
+  });
+  reactExports.useEffect(() => {
+    if (autoFocusRef.current) focusManager.focusFirst();
+    autoFocusRef.current = false;
+  }, [
+    focusManager
+  ]);
+  $99facab73266f662$export$5add1d006293d136(props.inputRef, state.defaultValue, state.setValue);
+  $e93e671b31057976$export$b8473d3665f3a75a({
+    ...props,
+    focus() {
+      focusManager.focusFirst();
+    }
+  }, state, props.inputRef);
+  let inputProps = {
+    type: "hidden",
+    name: props.name,
+    form: props.form,
+    value: ((_state_value = state.value) === null || _state_value === void 0 ? void 0 : _state_value.toString()) || "",
+    disabled: props.isDisabled
+  };
+  if (props.validationBehavior === "native") {
+    inputProps.type = "text";
+    inputProps.hidden = true;
+    inputProps.required = props.isRequired;
+    inputProps.onChange = () => {
+    };
+  }
+  let domProps = $65484d02dcb7eb3e$export$457c3d6518dd4c6f(props);
+  return {
+    labelProps: {
+      ...labelProps,
+      onClick: () => {
+        focusManager.focusFirst();
+      }
+    },
+    fieldProps: $3ef42575df84b30b$export$9d1611c77c2fe928(domProps, fieldDOMProps, groupProps, focusWithinProps, {
+      onKeyDown(e) {
+        if (props.onKeyDown) props.onKeyDown(e);
+      },
+      onKeyUp(e) {
+        if (props.onKeyUp) props.onKeyUp(e);
+      },
+      style: {
+        unicodeBidi: "isolate"
+      }
+    }),
+    inputProps,
+    descriptionProps,
+    errorMessageProps,
+    isInvalid,
+    validationErrors,
+    validationDetails
+  };
+}
+function $16f0b7bb276bc17e$export$4c842f6a241dc825(props, state, ref) {
+  var _state_timeValue;
+  let res = $16f0b7bb276bc17e$export$5591b0b878c1a989(props, state, ref);
+  res.inputProps.value = ((_state_timeValue = state.timeValue) === null || _state_timeValue === void 0 ? void 0 : _state_timeValue.toString()) || "";
+  return res;
+}
+function $parcel$interopDefault$1(a) {
+  return a && a.__esModule ? a.default : a;
+}
+function $3aeceb3a64eb8358$export$d42c60378c8168f8() {
+  let { locale: locale2 } = $18f2051aff69b9bf$export$43bb16f9c6d9e3f7();
+  let dictionary = $fca6afa0e843324b$export$87b761675e8eaa10($parcel$interopDefault$1($dfb4eba373ed9493$exports), "@react-aria/datepicker");
+  return reactExports.useMemo(() => {
+    try {
+      return new Intl.DisplayNames(locale2, {
+        type: "dateTimeField"
+      });
+    } catch {
+      return new $3aeceb3a64eb8358$var$DisplayNamesPolyfill(locale2, dictionary);
+    }
+  }, [
+    locale2,
+    dictionary
+  ]);
+}
+class $3aeceb3a64eb8358$var$DisplayNamesPolyfill {
+  of(field) {
+    return this.dictionary.getStringForLocale(field, this.locale);
+  }
+  constructor(locale2, dictionary) {
+    this.locale = locale2;
+    this.dictionary = dictionary;
+  }
+}
+function $32489daedd52963e$export$1315d136e6f7581(segment, state, ref) {
+  let enteredKeys = reactExports.useRef("");
+  let { locale: locale2, direction } = $18f2051aff69b9bf$export$43bb16f9c6d9e3f7();
+  let displayNames = $3aeceb3a64eb8358$export$d42c60378c8168f8();
+  let { ariaLabel, ariaLabelledBy, ariaDescribedBy, focusManager } = $16f0b7bb276bc17e$export$653eddfc964b0f8a.get(state);
+  let textValue = segment.isPlaceholder ? "" : segment.text;
+  let options = reactExports.useMemo(() => state.dateFormatter.resolvedOptions(), [
+    state.dateFormatter
+  ]);
+  let monthDateFormatter = $896ba0a80a8f4d36$export$85fd5fdf27bacc79({
+    month: "long",
+    timeZone: options.timeZone
+  });
+  let hourDateFormatter = $896ba0a80a8f4d36$export$85fd5fdf27bacc79({
+    hour: "numeric",
+    hour12: options.hour12,
+    timeZone: options.timeZone
+  });
+  if (segment.type === "month" && !segment.isPlaceholder) {
+    let monthTextValue = monthDateFormatter.format(state.dateValue);
+    textValue = monthTextValue !== textValue ? `${textValue} – ${monthTextValue}` : monthTextValue;
+  } else if (segment.type === "hour" && !segment.isPlaceholder) textValue = hourDateFormatter.format(state.dateValue);
+  let { spinButtonProps } = $d2e8511e6f209edf$export$e908e06f4b8e3402({
+    // The ARIA spec says aria-valuenow is optional if there's no value, but aXe seems to require it.
+    // This doesn't seem to have any negative effects with real AT since we also use aria-valuetext.
+    // https://github.com/dequelabs/axe-core/issues/3505
+    value: segment.value,
+    textValue,
+    minValue: segment.minValue,
+    maxValue: segment.maxValue,
+    isDisabled: state.isDisabled,
+    isReadOnly: state.isReadOnly || !segment.isEditable,
+    isRequired: state.isRequired,
+    onIncrement: () => {
+      enteredKeys.current = "";
+      state.increment(segment.type);
+    },
+    onDecrement: () => {
+      enteredKeys.current = "";
+      state.decrement(segment.type);
+    },
+    onIncrementPage: () => {
+      enteredKeys.current = "";
+      state.incrementPage(segment.type);
+    },
+    onDecrementPage: () => {
+      enteredKeys.current = "";
+      state.decrementPage(segment.type);
+    },
+    onIncrementToMax: () => {
+      enteredKeys.current = "";
+      if (segment.maxValue !== void 0) state.setSegment(segment.type, segment.maxValue);
+    },
+    onDecrementToMin: () => {
+      enteredKeys.current = "";
+      if (segment.minValue !== void 0) state.setSegment(segment.type, segment.minValue);
+    }
+  });
+  let parser = reactExports.useMemo(() => new $6c7bd7858deea686$export$cd11ab140839f11d(locale2, {
+    maximumFractionDigits: 0
+  }), [
+    locale2
+  ]);
+  let backspace = () => {
+    if (segment.text === segment.placeholder) focusManager.focusPrevious();
+    if (parser.isValidPartialNumber(segment.text) && !state.isReadOnly && !segment.isPlaceholder) {
+      let newValue = segment.text.slice(0, -1);
+      let parsed = parser.parse(newValue);
+      newValue = parsed === 0 ? "" : newValue;
+      if (newValue.length === 0 || parsed === 0) state.clearSegment(segment.type);
+      else state.setSegment(segment.type, parsed);
+      enteredKeys.current = newValue;
+    } else if (segment.type === "dayPeriod") state.clearSegment(segment.type);
+  };
+  let onKeyDown = (e) => {
+    if (e.key === "a" && ($c87311424ea30a05$export$9ac100e40613ea10() ? e.metaKey : e.ctrlKey)) e.preventDefault();
+    if (e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) return;
+    switch (e.key) {
+      case "Backspace":
+      case "Delete":
+        e.preventDefault();
+        e.stopPropagation();
+        backspace();
+        break;
+    }
+  };
+  let { startsWith } = $bb77f239b46e8c72$export$3274cf84b703fff({
+    sensitivity: "base"
+  });
+  let amPmFormatter = $896ba0a80a8f4d36$export$85fd5fdf27bacc79({
+    hour: "numeric",
+    hour12: true
+  });
+  let am = reactExports.useMemo(() => {
+    let date2 = /* @__PURE__ */ new Date();
+    date2.setHours(0);
+    return amPmFormatter.formatToParts(date2).find((part) => part.type === "dayPeriod").value;
+  }, [
+    amPmFormatter
+  ]);
+  let pm = reactExports.useMemo(() => {
+    let date2 = /* @__PURE__ */ new Date();
+    date2.setHours(12);
+    return amPmFormatter.formatToParts(date2).find((part) => part.type === "dayPeriod").value;
+  }, [
+    amPmFormatter
+  ]);
+  let eraFormatter = $896ba0a80a8f4d36$export$85fd5fdf27bacc79({
+    year: "numeric",
+    era: "narrow",
+    timeZone: "UTC"
+  });
+  let eras = reactExports.useMemo(() => {
+    if (segment.type !== "era") return [];
+    let date2 = $11d87f3f76e88657$export$b4a036af3fc0b032(new $35ea8db9cb2ccb90$export$99faa760c7908e4f(1, 1, 1), state.calendar);
+    let eras2 = state.calendar.getEras().map((era) => {
+      let eraDate = date2.set({
+        year: 1,
+        month: 1,
+        day: 1,
+        era
+      }).toDate("UTC");
+      let parts = eraFormatter.formatToParts(eraDate);
+      let formatted = parts.find((p) => p.type === "era").value;
+      return {
+        era,
+        formatted
+      };
+    });
+    let prefixLength = $32489daedd52963e$var$commonPrefixLength(eras2.map((era) => era.formatted));
+    if (prefixLength) for (let era of eras2) era.formatted = era.formatted.slice(prefixLength);
+    return eras2;
+  }, [
+    eraFormatter,
+    state.calendar,
+    segment.type
+  ]);
+  let onInput = (key) => {
+    if (state.isDisabled || state.isReadOnly) return;
+    let newValue = enteredKeys.current + key;
+    switch (segment.type) {
+      case "dayPeriod":
+        if (startsWith(am, key)) state.setSegment("dayPeriod", 0);
+        else if (startsWith(pm, key)) state.setSegment("dayPeriod", 12);
+        else break;
+        focusManager.focusNext();
+        break;
+      case "era": {
+        let matched = eras.find((e) => startsWith(e.formatted, key));
+        if (matched) {
+          state.setSegment("era", matched.era);
+          focusManager.focusNext();
+        }
+        break;
+      }
+      case "day":
+      case "hour":
+      case "minute":
+      case "second":
+      case "month":
+      case "year": {
+        if (!parser.isValidPartialNumber(newValue)) return;
+        let numberValue = parser.parse(newValue);
+        let segmentValue = numberValue;
+        let allowsZero = segment.minValue === 0;
+        if (segment.type === "hour" && state.dateFormatter.resolvedOptions().hour12) {
+          switch (state.dateFormatter.resolvedOptions().hourCycle) {
+            case "h11":
+              if (numberValue > 11) segmentValue = parser.parse(key);
+              break;
+            case "h12":
+              allowsZero = false;
+              if (numberValue > 12) segmentValue = parser.parse(key);
+              break;
+          }
+          if (segment.value !== void 0 && segment.value >= 12 && numberValue > 1) numberValue += 12;
+        } else if (segment.maxValue !== void 0 && numberValue > segment.maxValue) segmentValue = parser.parse(key);
+        if (isNaN(numberValue)) return;
+        let shouldSetValue = segmentValue !== 0 || allowsZero;
+        if (shouldSetValue) state.setSegment(segment.type, segmentValue);
+        if (segment.maxValue !== void 0 && (Number(numberValue + "0") > segment.maxValue || newValue.length >= String(segment.maxValue).length)) {
+          enteredKeys.current = "";
+          if (shouldSetValue) focusManager.focusNext();
+        } else enteredKeys.current = newValue;
+        break;
+      }
+    }
+  };
+  let onFocus = () => {
+    enteredKeys.current = "";
+    if (ref.current) $2f04cbc44ee30ce0$export$c826860796309d1b(ref.current, {
+      containingElement: $62d8ded9296f3872$export$cfa2225e87938781(ref.current)
+    });
+    let selection = window.getSelection();
+    selection === null || selection === void 0 ? void 0 : selection.collapse(ref.current);
+  };
+  let documentRef = reactExports.useRef(typeof document !== "undefined" ? document : null);
+  $e9faafb641e167db$export$90fc3a17d93f704c(documentRef, "selectionchange", () => {
+    var _ref_current;
+    let selection = window.getSelection();
+    if ((selection === null || selection === void 0 ? void 0 : selection.anchorNode) && ((_ref_current = ref.current) === null || _ref_current === void 0 ? void 0 : _ref_current.contains(selection === null || selection === void 0 ? void 0 : selection.anchorNode))) selection.collapse(ref.current);
+  });
+  let compositionRef = reactExports.useRef("");
+  $e9faafb641e167db$export$90fc3a17d93f704c(ref, "beforeinput", (e) => {
+    if (!ref.current) return;
+    e.preventDefault();
+    switch (e.inputType) {
+      case "deleteContentBackward":
+      case "deleteContentForward":
+        if (parser.isValidPartialNumber(segment.text) && !state.isReadOnly) backspace();
+        break;
+      case "insertCompositionText":
+        compositionRef.current = ref.current.textContent;
+        ref.current.textContent = ref.current.textContent;
+        break;
+      default:
+        if (e.data != null) onInput(e.data);
+        break;
+    }
+  });
+  $e9faafb641e167db$export$90fc3a17d93f704c(ref, "input", (e) => {
+    let { inputType, data } = e;
+    switch (inputType) {
+      case "insertCompositionText":
+        if (ref.current) ref.current.textContent = compositionRef.current;
+        if (data != null && (startsWith(am, data) || startsWith(pm, data))) onInput(data);
+        break;
+    }
+  });
+  $f0a04ccd8dbdd83b$export$e5c5a5f917a5871c(() => {
+    let element = ref.current;
+    return () => {
+      if (document.activeElement === element) {
+        let prev = focusManager.focusPrevious();
+        if (!prev) focusManager.focusNext();
+      }
+    };
+  }, [
+    ref,
+    focusManager
+  ]);
+  let touchPropOverrides = $c87311424ea30a05$export$fedb369cb70207f1() || segment.type === "timeZoneName" ? {
+    role: "textbox",
+    "aria-valuemax": null,
+    "aria-valuemin": null,
+    "aria-valuetext": null,
+    "aria-valuenow": null
+  } : {};
+  let firstSegment = reactExports.useMemo(() => state.segments.find((s) => s.isEditable), [
+    state.segments
+  ]);
+  if (segment !== firstSegment && !state.isInvalid) ariaDescribedBy = void 0;
+  let id2 = $bdb11010cef70236$export$f680877a34711e37();
+  let isEditable = !state.isDisabled && !state.isReadOnly && segment.isEditable;
+  let name = segment.type === "literal" ? "" : displayNames.of(segment.type);
+  let labelProps = $313b98861ee5dd6c$export$d6875122194c7b44({
+    "aria-label": `${name}${ariaLabel ? `, ${ariaLabel}` : ""}${ariaLabelledBy ? ", " : ""}`,
+    "aria-labelledby": ariaLabelledBy
+  });
+  if (segment.type === "literal") return {
+    segmentProps: {
+      "aria-hidden": true
+    }
+  };
+  let segmentStyle = {
+    caretColor: "transparent"
+  };
+  if (direction === "rtl") {
+    segmentStyle.unicodeBidi = "embed";
+    let format = options[segment.type];
+    if (format === "numeric" || format === "2-digit") segmentStyle.direction = "ltr";
+  }
+  return {
+    segmentProps: $3ef42575df84b30b$export$9d1611c77c2fe928(spinButtonProps, labelProps, {
+      id: id2,
+      ...touchPropOverrides,
+      "aria-invalid": state.isInvalid ? "true" : void 0,
+      "aria-describedby": ariaDescribedBy,
+      "aria-readonly": state.isReadOnly || !segment.isEditable ? "true" : void 0,
+      "data-placeholder": segment.isPlaceholder || void 0,
+      contentEditable: isEditable,
+      suppressContentEditableWarning: isEditable,
+      spellCheck: isEditable ? "false" : void 0,
+      autoCorrect: isEditable ? "off" : void 0,
+      // Capitalization was changed in React 17...
+      [parseInt(React.version, 10) >= 17 ? "enterKeyHint" : "enterkeyhint"]: isEditable ? "next" : void 0,
+      inputMode: state.isDisabled || segment.type === "dayPeriod" || segment.type === "era" || !isEditable ? void 0 : "numeric",
+      tabIndex: state.isDisabled ? void 0 : 0,
+      onKeyDown,
+      onFocus,
+      style: segmentStyle,
+      // Prevent pointer events from reaching useDatePickerGroup, and allow native browser behavior to focus the segment.
+      onPointerDown(e) {
+        e.stopPropagation();
+      },
+      onMouseDown(e) {
+        e.stopPropagation();
+      }
+    })
+  };
+}
+function $32489daedd52963e$var$commonPrefixLength(strings) {
+  strings.sort();
+  let first = strings[0];
+  let last = strings[strings.length - 1];
+  for (let i = 0; i < first.length; i++) {
+    if (first[i] !== last[i]) return i;
+  }
+  return 0;
+}
+function $40df3f8667284809$export$d55e7ee900f34e93(props, ref) {
+  let { role = "dialog" } = props;
+  let titleId = $bdb11010cef70236$export$b4cc09c592e8fdb8();
+  titleId = props["aria-label"] ? void 0 : titleId;
+  let isRefocusing = reactExports.useRef(false);
+  reactExports.useEffect(() => {
+    if (ref.current && !ref.current.contains(document.activeElement)) {
+      $3ad3f6e1647bc98d$export$80f3e147d781571c(ref.current);
+      let timeout = setTimeout(() => {
+        if (document.activeElement === ref.current || document.activeElement === document.body) {
+          isRefocusing.current = true;
+          if (ref.current) {
+            ref.current.blur();
+            $3ad3f6e1647bc98d$export$80f3e147d781571c(ref.current);
+          }
+          isRefocusing.current = false;
+        }
+      }, 500);
+      return () => {
+        clearTimeout(timeout);
+      };
+    }
+  }, [
+    ref
+  ]);
+  $337b884510726a0d$export$14c98a7594375490();
+  return {
+    dialogProps: {
+      ...$65484d02dcb7eb3e$export$457c3d6518dd4c6f(props, {
+        labelable: true
+      }),
+      role,
+      tabIndex: -1,
+      "aria-labelledby": props["aria-labelledby"] || titleId,
+      // Prevent blur events from reaching useOverlay, which may cause
+      // popovers to close. Since focus is contained within the dialog,
+      // we don't want this to occur due to the above useEffect.
+      onBlur: (e) => {
+        if (isRefocusing.current) e.stopPropagation();
+      }
+    },
+    titleProps: {
+      id: titleId
+    }
   };
 }
 const $58aed456727eb0f3$export$703601b7e90536f8 = /* @__PURE__ */ new WeakMap();
@@ -32389,6 +37026,15 @@ function $bdd25dc72710631f$export$cbd84cdb2e668835(props) {
   return null;
 }
 const $01b77f81d0f07f68$export$75b6ee27786ba447 = /* @__PURE__ */ reactExports.createContext({});
+const $01b77f81d0f07f68$export$b04be29aa201d4f5 = /* @__PURE__ */ $f39a9eba43920ace$export$86427a43e3e48ebb(function Label(props, ref) {
+  [props, ref] = $64fa3d84918910a7$export$29f1550f4b0d4415(props, ref, $01b77f81d0f07f68$export$75b6ee27786ba447);
+  let { elementType: ElementType = "label", ...labelProps } = props;
+  return /* @__PURE__ */ React.createElement(ElementType, {
+    className: "react-aria-Label",
+    ...labelProps,
+    ref
+  });
+});
 const $0393f8ab869a0f1a$export$e9f3bf65a26ce129 = /* @__PURE__ */ reactExports.createContext(null);
 const $d2b4bc8c273e7be6$export$24d547caef80ccd1 = /* @__PURE__ */ reactExports.createContext({});
 const $d2b4bc8c273e7be6$export$353f5b6fc5456de1 = /* @__PURE__ */ $f39a9eba43920ace$export$86427a43e3e48ebb(function Button(props, ref) {
@@ -32471,6 +37117,328 @@ function $d2b4bc8c273e7be6$var$useDisableInteractions(props, isPending) {
   return props;
 }
 const $514c0188e459b4c0$export$9afb8bc826b033ea = /* @__PURE__ */ reactExports.createContext({});
+function $f62d864046160412$export$eac50920cf2fd59a(date2, minValue, maxValue) {
+  return minValue != null && date2.compare(minValue) < 0 || maxValue != null && date2.compare(maxValue) > 0;
+}
+function $f62d864046160412$export$f4a51ff076cc9a09(date2, duration2, locale2, minValue, maxValue) {
+  let halfDuration = {};
+  for (let key in duration2) {
+    halfDuration[key] = Math.floor(duration2[key] / 2);
+    if (halfDuration[key] > 0 && duration2[key] % 2 === 0) halfDuration[key]--;
+  }
+  let aligned = $f62d864046160412$export$144a00ba6044eb9(date2, duration2, locale2).subtract(halfDuration);
+  return $f62d864046160412$export$5bb865b12696a77d(date2, aligned, duration2, locale2, minValue, maxValue);
+}
+function $f62d864046160412$export$144a00ba6044eb9(date2, duration2, locale2, minValue, maxValue) {
+  let aligned = date2;
+  if (duration2.years) aligned = $14e0f24ef4ac5c92$export$f91e89d3d0406102(date2);
+  else if (duration2.months) aligned = $14e0f24ef4ac5c92$export$a5a3b454ada2268e(date2);
+  else if (duration2.weeks) aligned = $14e0f24ef4ac5c92$export$42c81a444fbfb5d4(date2, locale2);
+  return $f62d864046160412$export$5bb865b12696a77d(date2, aligned, duration2, locale2, minValue, maxValue);
+}
+function $f62d864046160412$export$530edbfc915b2b04(date2, duration2, locale2, minValue, maxValue) {
+  let d = {
+    ...duration2
+  };
+  if (d.days) d.days--;
+  else if (d.weeks) d.weeks--;
+  else if (d.months) d.months--;
+  else if (d.years) d.years--;
+  let aligned = $f62d864046160412$export$144a00ba6044eb9(date2, duration2, locale2).subtract(d);
+  return $f62d864046160412$export$5bb865b12696a77d(date2, aligned, duration2, locale2, minValue, maxValue);
+}
+function $f62d864046160412$export$5bb865b12696a77d(date2, aligned, duration2, locale2, minValue, maxValue) {
+  if (minValue && date2.compare(minValue) >= 0) {
+    let newDate = $14e0f24ef4ac5c92$export$a75f2bff57811055(aligned, $f62d864046160412$export$144a00ba6044eb9($11d87f3f76e88657$export$93522d1a439f3617(minValue), duration2, locale2));
+    if (newDate) aligned = newDate;
+  }
+  if (maxValue && date2.compare(maxValue) <= 0) {
+    let newDate = $14e0f24ef4ac5c92$export$5c333a116e949cdd(aligned, $f62d864046160412$export$530edbfc915b2b04($11d87f3f76e88657$export$93522d1a439f3617(maxValue), duration2, locale2));
+    if (newDate) aligned = newDate;
+  }
+  return aligned;
+}
+function $f62d864046160412$export$4f5203c0d889109e(date2, minValue, maxValue) {
+  if (minValue) {
+    let newDate = $14e0f24ef4ac5c92$export$a75f2bff57811055(date2, $11d87f3f76e88657$export$93522d1a439f3617(minValue));
+    if (newDate) date2 = newDate;
+  }
+  if (maxValue) {
+    let newDate = $14e0f24ef4ac5c92$export$5c333a116e949cdd(date2, $11d87f3f76e88657$export$93522d1a439f3617(maxValue));
+    if (newDate) date2 = newDate;
+  }
+  return date2;
+}
+function $f62d864046160412$export$a1d3911297b952d7(date2, minValue, isDateUnavailable) {
+  if (!isDateUnavailable) return date2;
+  while (date2.compare(minValue) >= 0 && isDateUnavailable(date2)) date2 = date2.subtract({
+    days: 1
+  });
+  if (date2.compare(minValue) >= 0) return date2;
+  return null;
+}
+function $131cf43a05231e1e$export$6d095e787d2b5e1f(props) {
+  let defaultFormatter = reactExports.useMemo(() => new $fb18d541ea1ad717$export$ad991b66133851cf(props.locale), [
+    props.locale
+  ]);
+  let resolvedOptions = reactExports.useMemo(() => defaultFormatter.resolvedOptions(), [
+    defaultFormatter
+  ]);
+  let { locale: locale2, createCalendar, visibleDuration = {
+    months: 1
+  }, minValue, maxValue, selectionAlignment, isDateUnavailable, pageBehavior = "visible", firstDayOfWeek } = props;
+  let calendar = reactExports.useMemo(() => createCalendar(resolvedOptions.calendar), [
+    createCalendar,
+    resolvedOptions.calendar
+  ]);
+  var _props_defaultValue;
+  let [value, setControlledValue] = $458b0a5536c1a7cf$export$40bfa8c7b0832715(props.value, (_props_defaultValue = props.defaultValue) !== null && _props_defaultValue !== void 0 ? _props_defaultValue : null, props.onChange);
+  let calendarDateValue = reactExports.useMemo(() => value ? $11d87f3f76e88657$export$b4a036af3fc0b032($11d87f3f76e88657$export$93522d1a439f3617(value), calendar) : null, [
+    value,
+    calendar
+  ]);
+  let timeZone = reactExports.useMemo(() => value && "timeZone" in value ? value.timeZone : resolvedOptions.timeZone, [
+    value,
+    resolvedOptions.timeZone
+  ]);
+  let focusedCalendarDate = reactExports.useMemo(() => props.focusedValue ? $f62d864046160412$export$4f5203c0d889109e($11d87f3f76e88657$export$b4a036af3fc0b032($11d87f3f76e88657$export$93522d1a439f3617(props.focusedValue), calendar), minValue, maxValue) : void 0, [
+    props.focusedValue,
+    calendar,
+    minValue,
+    maxValue
+  ]);
+  let defaultFocusedCalendarDate = reactExports.useMemo(() => $f62d864046160412$export$4f5203c0d889109e(props.defaultFocusedValue ? $11d87f3f76e88657$export$b4a036af3fc0b032($11d87f3f76e88657$export$93522d1a439f3617(props.defaultFocusedValue), calendar) : calendarDateValue || $11d87f3f76e88657$export$b4a036af3fc0b032($14e0f24ef4ac5c92$export$d0bdf45af03a6ea3(timeZone), calendar), minValue, maxValue), [
+    props.defaultFocusedValue,
+    calendarDateValue,
+    timeZone,
+    calendar,
+    minValue,
+    maxValue
+  ]);
+  let [focusedDate, setFocusedDate] = $458b0a5536c1a7cf$export$40bfa8c7b0832715(focusedCalendarDate, defaultFocusedCalendarDate, props.onFocusChange);
+  let [startDate, setStartDate] = reactExports.useState(() => {
+    switch (selectionAlignment) {
+      case "start":
+        return $f62d864046160412$export$144a00ba6044eb9(focusedDate, visibleDuration, locale2, minValue, maxValue);
+      case "end":
+        return $f62d864046160412$export$530edbfc915b2b04(focusedDate, visibleDuration, locale2, minValue, maxValue);
+      case "center":
+      default:
+        return $f62d864046160412$export$f4a51ff076cc9a09(focusedDate, visibleDuration, locale2, minValue, maxValue);
+    }
+  });
+  let [isFocused, setFocused] = reactExports.useState(props.autoFocus || false);
+  let endDate = reactExports.useMemo(() => {
+    let duration2 = {
+      ...visibleDuration
+    };
+    if (duration2.days) duration2.days--;
+    else duration2.days = -1;
+    return startDate.add(duration2);
+  }, [
+    startDate,
+    visibleDuration
+  ]);
+  let [lastCalendar, setLastCalendar] = reactExports.useState(calendar);
+  if (!$14e0f24ef4ac5c92$export$dbc69fd56b53d5e(calendar, lastCalendar)) {
+    let newFocusedDate = $11d87f3f76e88657$export$b4a036af3fc0b032(focusedDate, calendar);
+    setStartDate($f62d864046160412$export$f4a51ff076cc9a09(newFocusedDate, visibleDuration, locale2, minValue, maxValue));
+    setFocusedDate(newFocusedDate);
+    setLastCalendar(calendar);
+  }
+  if ($f62d864046160412$export$eac50920cf2fd59a(focusedDate, minValue, maxValue))
+    setFocusedDate($f62d864046160412$export$4f5203c0d889109e(focusedDate, minValue, maxValue));
+  else if (focusedDate.compare(startDate) < 0) setStartDate($f62d864046160412$export$530edbfc915b2b04(focusedDate, visibleDuration, locale2, minValue, maxValue));
+  else if (focusedDate.compare(endDate) > 0) setStartDate($f62d864046160412$export$144a00ba6044eb9(focusedDate, visibleDuration, locale2, minValue, maxValue));
+  function focusCell(date2) {
+    date2 = $f62d864046160412$export$4f5203c0d889109e(date2, minValue, maxValue);
+    setFocusedDate(date2);
+  }
+  function setValue(newValue) {
+    if (!props.isDisabled && !props.isReadOnly) {
+      let localValue = newValue;
+      if (localValue === null) {
+        setControlledValue(null);
+        return;
+      }
+      localValue = $f62d864046160412$export$4f5203c0d889109e(localValue, minValue, maxValue);
+      localValue = $f62d864046160412$export$a1d3911297b952d7(localValue, startDate, isDateUnavailable);
+      if (!localValue) return;
+      localValue = $11d87f3f76e88657$export$b4a036af3fc0b032(localValue, (value === null || value === void 0 ? void 0 : value.calendar) || new $3b62074eb05584b2$export$80ee6245ec4f29ec());
+      if (value && "hour" in value) setControlledValue(value.set(localValue));
+      else setControlledValue(localValue);
+    }
+  }
+  let isUnavailable = reactExports.useMemo(() => {
+    if (!calendarDateValue) return false;
+    if (isDateUnavailable && isDateUnavailable(calendarDateValue)) return true;
+    return $f62d864046160412$export$eac50920cf2fd59a(calendarDateValue, minValue, maxValue);
+  }, [
+    calendarDateValue,
+    isDateUnavailable,
+    minValue,
+    maxValue
+  ]);
+  let isValueInvalid = props.isInvalid || props.validationState === "invalid" || isUnavailable;
+  let validationState = isValueInvalid ? "invalid" : null;
+  let pageDuration = reactExports.useMemo(() => {
+    if (pageBehavior === "visible") return visibleDuration;
+    return $131cf43a05231e1e$var$unitDuration(visibleDuration);
+  }, [
+    pageBehavior,
+    visibleDuration
+  ]);
+  var _props_isDisabled, _props_isReadOnly;
+  return {
+    isDisabled: (_props_isDisabled = props.isDisabled) !== null && _props_isDisabled !== void 0 ? _props_isDisabled : false,
+    isReadOnly: (_props_isReadOnly = props.isReadOnly) !== null && _props_isReadOnly !== void 0 ? _props_isReadOnly : false,
+    value: calendarDateValue,
+    setValue,
+    visibleRange: {
+      start: startDate,
+      end: endDate
+    },
+    minValue,
+    maxValue,
+    focusedDate,
+    timeZone,
+    validationState,
+    isValueInvalid,
+    setFocusedDate(date2) {
+      focusCell(date2);
+      setFocused(true);
+    },
+    focusNextDay() {
+      focusCell(focusedDate.add({
+        days: 1
+      }));
+    },
+    focusPreviousDay() {
+      focusCell(focusedDate.subtract({
+        days: 1
+      }));
+    },
+    focusNextRow() {
+      if (visibleDuration.days) this.focusNextPage();
+      else if (visibleDuration.weeks || visibleDuration.months || visibleDuration.years) focusCell(focusedDate.add({
+        weeks: 1
+      }));
+    },
+    focusPreviousRow() {
+      if (visibleDuration.days) this.focusPreviousPage();
+      else if (visibleDuration.weeks || visibleDuration.months || visibleDuration.years) focusCell(focusedDate.subtract({
+        weeks: 1
+      }));
+    },
+    focusNextPage() {
+      let start = startDate.add(pageDuration);
+      setFocusedDate($f62d864046160412$export$4f5203c0d889109e(focusedDate.add(pageDuration), minValue, maxValue));
+      setStartDate($f62d864046160412$export$144a00ba6044eb9($f62d864046160412$export$5bb865b12696a77d(focusedDate, start, pageDuration, locale2, minValue, maxValue), pageDuration, locale2));
+    },
+    focusPreviousPage() {
+      let start = startDate.subtract(pageDuration);
+      setFocusedDate($f62d864046160412$export$4f5203c0d889109e(focusedDate.subtract(pageDuration), minValue, maxValue));
+      setStartDate($f62d864046160412$export$144a00ba6044eb9($f62d864046160412$export$5bb865b12696a77d(focusedDate, start, pageDuration, locale2, minValue, maxValue), pageDuration, locale2));
+    },
+    focusSectionStart() {
+      if (visibleDuration.days) focusCell(startDate);
+      else if (visibleDuration.weeks) focusCell($14e0f24ef4ac5c92$export$42c81a444fbfb5d4(focusedDate, locale2));
+      else if (visibleDuration.months || visibleDuration.years) focusCell($14e0f24ef4ac5c92$export$a5a3b454ada2268e(focusedDate));
+    },
+    focusSectionEnd() {
+      if (visibleDuration.days) focusCell(endDate);
+      else if (visibleDuration.weeks) focusCell($14e0f24ef4ac5c92$export$ef8b6d9133084f4e(focusedDate, locale2));
+      else if (visibleDuration.months || visibleDuration.years) focusCell($14e0f24ef4ac5c92$export$a2258d9c4118825c(focusedDate));
+    },
+    focusNextSection(larger) {
+      if (!larger && !visibleDuration.days) {
+        focusCell(focusedDate.add($131cf43a05231e1e$var$unitDuration(visibleDuration)));
+        return;
+      }
+      if (visibleDuration.days) this.focusNextPage();
+      else if (visibleDuration.weeks) focusCell(focusedDate.add({
+        months: 1
+      }));
+      else if (visibleDuration.months || visibleDuration.years) focusCell(focusedDate.add({
+        years: 1
+      }));
+    },
+    focusPreviousSection(larger) {
+      if (!larger && !visibleDuration.days) {
+        focusCell(focusedDate.subtract($131cf43a05231e1e$var$unitDuration(visibleDuration)));
+        return;
+      }
+      if (visibleDuration.days) this.focusPreviousPage();
+      else if (visibleDuration.weeks) focusCell(focusedDate.subtract({
+        months: 1
+      }));
+      else if (visibleDuration.months || visibleDuration.years) focusCell(focusedDate.subtract({
+        years: 1
+      }));
+    },
+    selectFocusedDate() {
+      if (!(isDateUnavailable && isDateUnavailable(focusedDate))) setValue(focusedDate);
+    },
+    selectDate(date2) {
+      setValue(date2);
+    },
+    isFocused,
+    setFocused,
+    isInvalid(date2) {
+      return $f62d864046160412$export$eac50920cf2fd59a(date2, minValue, maxValue);
+    },
+    isSelected(date2) {
+      return calendarDateValue != null && $14e0f24ef4ac5c92$export$ea39ec197993aef0(date2, calendarDateValue) && !this.isCellDisabled(date2) && !this.isCellUnavailable(date2);
+    },
+    isCellFocused(date2) {
+      return isFocused && focusedDate && $14e0f24ef4ac5c92$export$ea39ec197993aef0(date2, focusedDate);
+    },
+    isCellDisabled(date2) {
+      return props.isDisabled || date2.compare(startDate) < 0 || date2.compare(endDate) > 0 || this.isInvalid(date2);
+    },
+    isCellUnavailable(date2) {
+      return props.isDateUnavailable ? props.isDateUnavailable(date2) : false;
+    },
+    isPreviousVisibleRangeInvalid() {
+      let prev = startDate.subtract({
+        days: 1
+      });
+      return $14e0f24ef4ac5c92$export$ea39ec197993aef0(prev, startDate) || this.isInvalid(prev);
+    },
+    isNextVisibleRangeInvalid() {
+      let next = endDate.add({
+        days: 1
+      });
+      return $14e0f24ef4ac5c92$export$ea39ec197993aef0(next, endDate) || this.isInvalid(next);
+    },
+    getDatesInWeek(weekIndex, from = startDate) {
+      let date2 = from.add({
+        weeks: weekIndex
+      });
+      let dates = [];
+      date2 = $14e0f24ef4ac5c92$export$42c81a444fbfb5d4(date2, locale2, firstDayOfWeek);
+      let dayOfWeek = $14e0f24ef4ac5c92$export$2061056d06d7cdf7(date2, locale2, firstDayOfWeek);
+      for (let i = 0; i < dayOfWeek; i++) dates.push(null);
+      while (dates.length < 7) {
+        dates.push(date2);
+        let nextDate = date2.add({
+          days: 1
+        });
+        if ($14e0f24ef4ac5c92$export$ea39ec197993aef0(date2, nextDate)) break;
+        date2 = nextDate;
+      }
+      while (dates.length < 7) dates.push(null);
+      return dates;
+    }
+  };
+}
+function $131cf43a05231e1e$var$unitDuration(duration2) {
+  let unit = {
+    ...duration2
+  };
+  for (let key in duration2) unit[key] = 1;
+  return unit;
+}
 class $a02d57049d202695$export$d085fb9e920b5ca7 {
   *[Symbol.iterator]() {
     yield* this.iterable;
@@ -33052,6 +38020,1361 @@ function $fc909762b330b746$export$61c6a8c84e605fb6(props) {
     toggle
   };
 }
+var $b3427c06585c22a0$exports = {};
+$b3427c06585c22a0$exports = {
+  "rangeOverflow": (args) => `يجب أن تكون القيمة ${args.maxValue} أو قبل ذلك.`,
+  "rangeReversed": `تاريخ البدء يجب أن يكون قبل تاريخ الانتهاء.`,
+  "rangeUnderflow": (args) => `يجب أن تكون القيمة ${args.minValue} أو بعد ذلك.`,
+  "unavailableDate": `البيانات المحددة غير متاحة.`
+};
+var $d282528f459122b9$exports = {};
+$d282528f459122b9$exports = {
+  "rangeOverflow": (args) => `Стойността трябва да е ${args.maxValue} или по-ранна.`,
+  "rangeReversed": `Началната дата трябва да е преди крайната.`,
+  "rangeUnderflow": (args) => `Стойността трябва да е ${args.minValue} или по-късно.`,
+  "unavailableDate": `Избраната дата не е налична.`
+};
+var $2d5eecd634a9ca45$exports = {};
+$2d5eecd634a9ca45$exports = {
+  "rangeOverflow": (args) => `Hodnota musí být ${args.maxValue} nebo dřívější.`,
+  "rangeReversed": `Datum zahájení musí předcházet datu ukončení.`,
+  "rangeUnderflow": (args) => `Hodnota musí být ${args.minValue} nebo pozdější.`,
+  "unavailableDate": `Vybrané datum není k dispozici.`
+};
+var $c8e2288226c24a67$exports = {};
+$c8e2288226c24a67$exports = {
+  "rangeOverflow": (args) => `Værdien skal være ${args.maxValue} eller tidligere.`,
+  "rangeReversed": `Startdatoen skal være før slutdatoen.`,
+  "rangeUnderflow": (args) => `Værdien skal være ${args.minValue} eller nyere.`,
+  "unavailableDate": `Den valgte dato er ikke tilgængelig.`
+};
+var $6f5745e389c346d7$exports = {};
+$6f5745e389c346d7$exports = {
+  "rangeOverflow": (args) => `Der Wert muss ${args.maxValue} oder früher sein.`,
+  "rangeReversed": `Das Startdatum muss vor dem Enddatum liegen.`,
+  "rangeUnderflow": (args) => `Der Wert muss ${args.minValue} oder später sein.`,
+  "unavailableDate": `Das ausgewählte Datum ist nicht verfügbar.`
+};
+var $8c882ccf4300d1da$exports = {};
+$8c882ccf4300d1da$exports = {
+  "rangeOverflow": (args) => `Η τιμή πρέπει να είναι ${args.maxValue} ή παλαιότερη.`,
+  "rangeReversed": `Η ημερομηνία έναρξης πρέπει να είναι πριν από την ημερομηνία λήξης.`,
+  "rangeUnderflow": (args) => `Η τιμή πρέπει να είναι ${args.minValue} ή μεταγενέστερη.`,
+  "unavailableDate": `Η επιλεγμένη ημερομηνία δεν είναι διαθέσιμη.`
+};
+var $22195056771860be$exports = {};
+$22195056771860be$exports = {
+  "rangeUnderflow": (args) => `Value must be ${args.minValue} or later.`,
+  "rangeOverflow": (args) => `Value must be ${args.maxValue} or earlier.`,
+  "rangeReversed": `Start date must be before end date.`,
+  "unavailableDate": `Selected date unavailable.`
+};
+var $cedfa43b4e2a5906$exports = {};
+$cedfa43b4e2a5906$exports = {
+  "rangeOverflow": (args) => `El valor debe ser ${args.maxValue} o anterior.`,
+  "rangeReversed": `La fecha de inicio debe ser anterior a la fecha de finalización.`,
+  "rangeUnderflow": (args) => `El valor debe ser ${args.minValue} o posterior.`,
+  "unavailableDate": `Fecha seleccionada no disponible.`
+};
+var $eeeaa8daee3601c7$exports = {};
+$eeeaa8daee3601c7$exports = {
+  "rangeOverflow": (args) => `Väärtus peab olema ${args.maxValue} või varasem.`,
+  "rangeReversed": `Alguskuupäev peab olema enne lõppkuupäeva.`,
+  "rangeUnderflow": (args) => `Väärtus peab olema ${args.minValue} või hilisem.`,
+  "unavailableDate": `Valitud kuupäev pole saadaval.`
+};
+var $35e0614a49b3bb40$exports = {};
+$35e0614a49b3bb40$exports = {
+  "rangeOverflow": (args) => `Arvon on oltava ${args.maxValue} tai sitä aikaisempi.`,
+  "rangeReversed": `Aloituspäivän on oltava ennen lopetuspäivää.`,
+  "rangeUnderflow": (args) => `Arvon on oltava ${args.minValue} tai sitä myöhäisempi.`,
+  "unavailableDate": `Valittu päivämäärä ei ole käytettävissä.`
+};
+var $929bc63f7705a78f$exports = {};
+$929bc63f7705a78f$exports = {
+  "rangeOverflow": (args) => `La valeur doit être ${args.maxValue} ou antérieure.`,
+  "rangeReversed": `La date de début doit être antérieure à la date de fin.`,
+  "rangeUnderflow": (args) => `La valeur doit être ${args.minValue} ou ultérieure.`,
+  "unavailableDate": `La date sélectionnée n’est pas disponible.`
+};
+var $9a28d073b034d183$exports = {};
+$9a28d073b034d183$exports = {
+  "rangeOverflow": (args) => `הערך חייב להיות ${args.maxValue} או מוקדם יותר.`,
+  "rangeReversed": `תאריך ההתחלה חייב להיות לפני תאריך הסיום.`,
+  "rangeUnderflow": (args) => `הערך חייב להיות ${args.minValue} או מאוחר יותר.`,
+  "unavailableDate": `התאריך הנבחר אינו זמין.`
+};
+var $7743e79780ebcca3$exports = {};
+$7743e79780ebcca3$exports = {
+  "rangeOverflow": (args) => `Vrijednost mora biti ${args.maxValue} ili ranije.`,
+  "rangeReversed": `Datum početka mora biti prije datuma završetka.`,
+  "rangeUnderflow": (args) => `Vrijednost mora biti ${args.minValue} ili kasnije.`,
+  "unavailableDate": `Odabrani datum nije dostupan.`
+};
+var $3351817a04898858$exports = {};
+$3351817a04898858$exports = {
+  "rangeOverflow": (args) => `Az értéknek ${args.maxValue} vagy korábbinak kell lennie.`,
+  "rangeReversed": `A kezdő dátumnak a befejező dátumnál korábbinak kell lennie.`,
+  "rangeUnderflow": (args) => `Az értéknek ${args.minValue} vagy későbbinek kell lennie.`,
+  "unavailableDate": `A kiválasztott dátum nem érhető el.`
+};
+var $4120bdb1d03484db$exports = {};
+$4120bdb1d03484db$exports = {
+  "rangeOverflow": (args) => `Il valore deve essere ${args.maxValue} o precedente.`,
+  "rangeReversed": `La data di inizio deve essere antecedente alla data di fine.`,
+  "rangeUnderflow": (args) => `Il valore deve essere ${args.minValue} o successivo.`,
+  "unavailableDate": `Data selezionata non disponibile.`
+};
+var $65e5e1569f34ea4f$exports = {};
+$65e5e1569f34ea4f$exports = {
+  "rangeOverflow": (args) => `値は ${args.maxValue} 以下にする必要があります。`,
+  "rangeReversed": `開始日は終了日より前にする必要があります。`,
+  "rangeUnderflow": (args) => `値は ${args.minValue} 以上にする必要があります。`,
+  "unavailableDate": `選択した日付は使用できません。`
+};
+var $d34552a7550967e7$exports = {};
+$d34552a7550967e7$exports = {
+  "rangeOverflow": (args) => `값은 ${args.maxValue} 이전이어야 합니다.`,
+  "rangeReversed": `시작일은 종료일 이전이어야 합니다.`,
+  "rangeUnderflow": (args) => `값은 ${args.minValue} 이상이어야 합니다.`,
+  "unavailableDate": `선택한 날짜를 사용할 수 없습니다.`
+};
+var $8f855bffe63f6eca$exports = {};
+$8f855bffe63f6eca$exports = {
+  "rangeOverflow": (args) => `Reikšmė turi būti ${args.maxValue} arba ankstesnė.`,
+  "rangeReversed": `Pradžios data turi būti ankstesnė nei pabaigos data.`,
+  "rangeUnderflow": (args) => `Reikšmė turi būti ${args.minValue} arba naujesnė.`,
+  "unavailableDate": `Pasirinkta data nepasiekiama.`
+};
+var $ce40f46d09034645$exports = {};
+$ce40f46d09034645$exports = {
+  "rangeOverflow": (args) => `Vērtībai ir jābūt ${args.maxValue} vai agrākai.`,
+  "rangeReversed": `Sākuma datumam ir jābūt pirms beigu datuma.`,
+  "rangeUnderflow": (args) => `Vērtībai ir jābūt ${args.minValue} vai vēlākai.`,
+  "unavailableDate": `Atlasītais datums nav pieejams.`
+};
+var $dd1a9a73340c793e$exports = {};
+$dd1a9a73340c793e$exports = {
+  "rangeOverflow": (args) => `Verdien må være ${args.maxValue} eller tidligere.`,
+  "rangeReversed": `Startdatoen må være før sluttdatoen.`,
+  "rangeUnderflow": (args) => `Verdien må være ${args.minValue} eller senere.`,
+  "unavailableDate": `Valgt dato utilgjengelig.`
+};
+var $4ee1fb3f0cbe6f59$exports = {};
+$4ee1fb3f0cbe6f59$exports = {
+  "rangeOverflow": (args) => `Waarde moet ${args.maxValue} of eerder zijn.`,
+  "rangeReversed": `De startdatum moet voor de einddatum liggen.`,
+  "rangeUnderflow": (args) => `Waarde moet ${args.minValue} of later zijn.`,
+  "unavailableDate": `Geselecteerde datum niet beschikbaar.`
+};
+var $c85829aebb0bc94b$exports = {};
+$c85829aebb0bc94b$exports = {
+  "rangeOverflow": (args) => `Wartość musi mieć wartość ${args.maxValue} lub wcześniejszą.`,
+  "rangeReversed": `Data rozpoczęcia musi być wcześniejsza niż data zakończenia.`,
+  "rangeUnderflow": (args) => `Wartość musi mieć wartość ${args.minValue} lub późniejszą.`,
+  "unavailableDate": `Wybrana data jest niedostępna.`
+};
+var $27f5cd2291ca8a02$exports = {};
+$27f5cd2291ca8a02$exports = {
+  "rangeOverflow": (args) => `O valor deve ser ${args.maxValue} ou anterior.`,
+  "rangeReversed": `A data inicial deve ser anterior à data final.`,
+  "rangeUnderflow": (args) => `O valor deve ser ${args.minValue} ou posterior.`,
+  "unavailableDate": `Data selecionada indisponível.`
+};
+var $e046fdccd69bea8e$exports = {};
+$e046fdccd69bea8e$exports = {
+  "rangeOverflow": (args) => `O valor tem de ser ${args.maxValue} ou anterior.`,
+  "rangeReversed": `A data de início deve ser anterior à data de fim.`,
+  "rangeUnderflow": (args) => `O valor tem de ser ${args.minValue} ou posterior.`,
+  "unavailableDate": `Data selecionada indisponível.`
+};
+var $fa5f88e804986547$exports = {};
+$fa5f88e804986547$exports = {
+  "rangeOverflow": (args) => `Valoarea trebuie să fie ${args.maxValue} sau anterioară.`,
+  "rangeReversed": `Data de început trebuie să fie anterioară datei de sfârșit.`,
+  "rangeUnderflow": (args) => `Valoarea trebuie să fie ${args.minValue} sau ulterioară.`,
+  "unavailableDate": `Data selectată nu este disponibilă.`
+};
+var $28e4714602d1b568$exports = {};
+$28e4714602d1b568$exports = {
+  "rangeOverflow": (args) => `Значение должно быть не позже ${args.maxValue}.`,
+  "rangeReversed": `Дата начала должна предшествовать дате окончания.`,
+  "rangeUnderflow": (args) => `Значение должно быть не раньше ${args.minValue}.`,
+  "unavailableDate": `Выбранная дата недоступна.`
+};
+var $4e3bc8cf783ad569$exports = {};
+$4e3bc8cf783ad569$exports = {
+  "rangeOverflow": (args) => `Hodnota musí byť ${args.maxValue} alebo skoršia.`,
+  "rangeReversed": `Dátum začiatku musí byť skorší ako dátum konca.`,
+  "rangeUnderflow": (args) => `Hodnota musí byť ${args.minValue} alebo neskoršia.`,
+  "unavailableDate": `Vybratý dátum je nedostupný.`
+};
+var $bee07513333bdc15$exports = {};
+$bee07513333bdc15$exports = {
+  "rangeOverflow": (args) => `Vrednost mora biti ${args.maxValue} ali starejša.`,
+  "rangeReversed": `Začetni datum mora biti pred končnim datumom.`,
+  "rangeUnderflow": (args) => `Vrednost mora biti ${args.minValue} ali novejša.`,
+  "unavailableDate": `Izbrani datum ni na voljo.`
+};
+var $7ed9c6fad16a15ec$exports = {};
+$7ed9c6fad16a15ec$exports = {
+  "rangeOverflow": (args) => `Vrednost mora da bude ${args.maxValue} ili starija.`,
+  "rangeReversed": `Datum početka mora biti pre datuma završetka.`,
+  "rangeUnderflow": (args) => `Vrednost mora da bude ${args.minValue} ili novija.`,
+  "unavailableDate": `Izabrani datum nije dostupan.`
+};
+var $8bef6d5a236de86c$exports = {};
+$8bef6d5a236de86c$exports = {
+  "rangeOverflow": (args) => `Värdet måste vara ${args.maxValue} eller tidigare.`,
+  "rangeReversed": `Startdatumet måste vara före slutdatumet.`,
+  "rangeUnderflow": (args) => `Värdet måste vara ${args.minValue} eller senare.`,
+  "unavailableDate": `Det valda datumet är inte tillgängligt.`
+};
+var $098b9a2d2340cfc5$exports = {};
+$098b9a2d2340cfc5$exports = {
+  "rangeOverflow": (args) => `Değer, ${args.maxValue} veya öncesi olmalıdır.`,
+  "rangeReversed": `Başlangıç tarihi bitiş tarihinden önce olmalıdır.`,
+  "rangeUnderflow": (args) => `Değer, ${args.minValue} veya sonrası olmalıdır.`,
+  "unavailableDate": `Seçilen tarih kullanılamıyor.`
+};
+var $54a862ea7fad7419$exports = {};
+$54a862ea7fad7419$exports = {
+  "rangeOverflow": (args) => `Значення має бути не пізніше ${args.maxValue}.`,
+  "rangeReversed": `Дата початку має передувати даті завершення.`,
+  "rangeUnderflow": (args) => `Значення має бути не раніше ${args.minValue}.`,
+  "unavailableDate": `Вибрана дата недоступна.`
+};
+var $e6cc491d590dfda5$exports = {};
+$e6cc491d590dfda5$exports = {
+  "rangeOverflow": (args) => `值必须是 ${args.maxValue} 或更早日期。`,
+  "rangeReversed": `开始日期必须早于结束日期。`,
+  "rangeUnderflow": (args) => `值必须是 ${args.minValue} 或更晚日期。`,
+  "unavailableDate": `所选日期不可用。`
+};
+var $9aebf53181a474bd$exports = {};
+$9aebf53181a474bd$exports = {
+  "rangeOverflow": (args) => `值必須是 ${args.maxValue} 或更早。`,
+  "rangeReversed": `開始日期必須在結束日期之前。`,
+  "rangeUnderflow": (args) => `值必須是 ${args.minValue} 或更晚。`,
+  "unavailableDate": `所選日期無法使用。`
+};
+var $452ac34de8c2444e$exports = {};
+$452ac34de8c2444e$exports = {
+  "ar-AE": $b3427c06585c22a0$exports,
+  "bg-BG": $d282528f459122b9$exports,
+  "cs-CZ": $2d5eecd634a9ca45$exports,
+  "da-DK": $c8e2288226c24a67$exports,
+  "de-DE": $6f5745e389c346d7$exports,
+  "el-GR": $8c882ccf4300d1da$exports,
+  "en-US": $22195056771860be$exports,
+  "es-ES": $cedfa43b4e2a5906$exports,
+  "et-EE": $eeeaa8daee3601c7$exports,
+  "fi-FI": $35e0614a49b3bb40$exports,
+  "fr-FR": $929bc63f7705a78f$exports,
+  "he-IL": $9a28d073b034d183$exports,
+  "hr-HR": $7743e79780ebcca3$exports,
+  "hu-HU": $3351817a04898858$exports,
+  "it-IT": $4120bdb1d03484db$exports,
+  "ja-JP": $65e5e1569f34ea4f$exports,
+  "ko-KR": $d34552a7550967e7$exports,
+  "lt-LT": $8f855bffe63f6eca$exports,
+  "lv-LV": $ce40f46d09034645$exports,
+  "nb-NO": $dd1a9a73340c793e$exports,
+  "nl-NL": $4ee1fb3f0cbe6f59$exports,
+  "pl-PL": $c85829aebb0bc94b$exports,
+  "pt-BR": $27f5cd2291ca8a02$exports,
+  "pt-PT": $e046fdccd69bea8e$exports,
+  "ro-RO": $fa5f88e804986547$exports,
+  "ru-RU": $28e4714602d1b568$exports,
+  "sk-SK": $4e3bc8cf783ad569$exports,
+  "sl-SI": $bee07513333bdc15$exports,
+  "sr-SP": $7ed9c6fad16a15ec$exports,
+  "sv-SE": $8bef6d5a236de86c$exports,
+  "tr-TR": $098b9a2d2340cfc5$exports,
+  "uk-UA": $54a862ea7fad7419$exports,
+  "zh-CN": $e6cc491d590dfda5$exports,
+  "zh-TW": $9aebf53181a474bd$exports
+};
+function $parcel$interopDefault(a) {
+  return a && a.__esModule ? a.default : a;
+}
+const $35a22f14a1f04b11$var$dictionary = new $5b160d28a433310d$export$c17fa47878dc55b6($parcel$interopDefault($452ac34de8c2444e$exports));
+function $35a22f14a1f04b11$var$getLocale() {
+  let locale2 = typeof navigator !== "undefined" && (navigator.language || navigator.userLanguage) || "en-US";
+  try {
+    Intl.DateTimeFormat.supportedLocalesOf([
+      locale2
+    ]);
+  } catch {
+    locale2 = "en-US";
+  }
+  return locale2;
+}
+function $35a22f14a1f04b11$export$f18627323ab57ac0(value, minValue, maxValue, isDateUnavailable, options) {
+  let rangeOverflow = value != null && maxValue != null && value.compare(maxValue) > 0;
+  let rangeUnderflow = value != null && minValue != null && value.compare(minValue) < 0;
+  let isUnavailable = value != null && (isDateUnavailable === null || isDateUnavailable === void 0 ? void 0 : isDateUnavailable(value)) || false;
+  let isInvalid = rangeOverflow || rangeUnderflow || isUnavailable;
+  let errors = [];
+  if (isInvalid) {
+    let locale2 = $35a22f14a1f04b11$var$getLocale();
+    let strings = $5b160d28a433310d$export$c17fa47878dc55b6.getGlobalDictionaryForPackage("@react-stately/datepicker") || $35a22f14a1f04b11$var$dictionary;
+    let formatter = new $6db58dc88e78b024$export$2f817fcdc4b89ae0(locale2, strings);
+    let dateFormatter = new $fb18d541ea1ad717$export$ad991b66133851cf(locale2, $35a22f14a1f04b11$export$7e319ea407e63bc0({}, options));
+    let timeZone = dateFormatter.resolvedOptions().timeZone;
+    if (rangeUnderflow && minValue != null) errors.push(formatter.format("rangeUnderflow", {
+      minValue: dateFormatter.format(minValue.toDate(timeZone))
+    }));
+    if (rangeOverflow && maxValue != null) errors.push(formatter.format("rangeOverflow", {
+      maxValue: dateFormatter.format(maxValue.toDate(timeZone))
+    }));
+    if (isUnavailable) errors.push(formatter.format("unavailableDate"));
+  }
+  return {
+    isInvalid,
+    validationErrors: errors,
+    validationDetails: {
+      badInput: isUnavailable,
+      customError: false,
+      patternMismatch: false,
+      rangeOverflow,
+      rangeUnderflow,
+      stepMismatch: false,
+      tooLong: false,
+      tooShort: false,
+      typeMismatch: false,
+      valueMissing: false,
+      valid: !isInvalid
+    }
+  };
+}
+const $35a22f14a1f04b11$var$DEFAULT_FIELD_OPTIONS = {
+  year: "numeric",
+  month: "numeric",
+  day: "numeric",
+  hour: "numeric",
+  minute: "2-digit",
+  second: "2-digit"
+};
+const $35a22f14a1f04b11$var$TWO_DIGIT_FIELD_OPTIONS = {
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit",
+  hour: "2-digit",
+  minute: "2-digit",
+  second: "2-digit"
+};
+function $35a22f14a1f04b11$export$7e319ea407e63bc0(fieldOptions, options) {
+  let defaultFieldOptions = options.shouldForceLeadingZeros ? $35a22f14a1f04b11$var$TWO_DIGIT_FIELD_OPTIONS : $35a22f14a1f04b11$var$DEFAULT_FIELD_OPTIONS;
+  fieldOptions = {
+    ...defaultFieldOptions,
+    ...fieldOptions
+  };
+  let granularity = options.granularity || "minute";
+  let keys = Object.keys(fieldOptions);
+  var _options_maxGranularity;
+  let startIdx = keys.indexOf((_options_maxGranularity = options.maxGranularity) !== null && _options_maxGranularity !== void 0 ? _options_maxGranularity : "year");
+  if (startIdx < 0) startIdx = 0;
+  let endIdx = keys.indexOf(granularity);
+  if (endIdx < 0) endIdx = 2;
+  if (startIdx > endIdx) throw new Error("maxGranularity must be greater than granularity");
+  let opts = keys.slice(startIdx, endIdx + 1).reduce((opts2, key) => {
+    opts2[key] = fieldOptions[key];
+    return opts2;
+  }, {});
+  if (options.hourCycle != null) opts.hour12 = options.hourCycle === 12;
+  opts.timeZone = options.timeZone || "UTC";
+  let hasTime = granularity === "hour" || granularity === "minute" || granularity === "second";
+  if (hasTime && options.timeZone && !options.hideTimeZone) opts.timeZoneName = "short";
+  if (options.showEra && startIdx === 0) opts.era = "short";
+  return opts;
+}
+function $35a22f14a1f04b11$export$61a490a80c552550(value, calendar) {
+  if (value === null) return null;
+  if (!value) return void 0;
+  return $11d87f3f76e88657$export$b4a036af3fc0b032(value, calendar);
+}
+function $35a22f14a1f04b11$export$66aa2b09de4b1ea5(placeholderValue, granularity, calendar, timeZone) {
+  if (placeholderValue) return $35a22f14a1f04b11$export$61a490a80c552550(placeholderValue, calendar);
+  let date2 = $11d87f3f76e88657$export$b4a036af3fc0b032($14e0f24ef4ac5c92$export$461939dd4422153(timeZone !== null && timeZone !== void 0 ? timeZone : $14e0f24ef4ac5c92$export$aa8b41735afcabd2()).set({
+    hour: 0,
+    minute: 0,
+    second: 0,
+    millisecond: 0
+  }), calendar);
+  if (granularity === "year" || granularity === "month" || granularity === "day") return $11d87f3f76e88657$export$93522d1a439f3617(date2);
+  if (!timeZone) return $11d87f3f76e88657$export$b21e0b124e224484(date2);
+  return date2;
+}
+function $35a22f14a1f04b11$export$2440da353cedad43(v, granularity) {
+  let defaultTimeZone = v && "timeZone" in v ? v.timeZone : void 0;
+  let defaultGranularity = v && "minute" in v ? "minute" : "day";
+  if (v && granularity && !(granularity in v)) throw new Error("Invalid granularity " + granularity + " for value " + v.toString());
+  let [lastValue, setLastValue] = reactExports.useState([
+    defaultGranularity,
+    defaultTimeZone
+  ]);
+  if (v && (lastValue[0] !== defaultGranularity || lastValue[1] !== defaultTimeZone)) setLastValue([
+    defaultGranularity,
+    defaultTimeZone
+  ]);
+  if (!granularity) granularity = v ? defaultGranularity : lastValue[0];
+  let timeZone = v ? defaultTimeZone : lastValue[1];
+  return [
+    granularity,
+    timeZone
+  ];
+}
+const $3e3ed55ab2966714$var$placeholders = new $5b160d28a433310d$export$c17fa47878dc55b6({
+  ach: {
+    year: "mwaka",
+    month: "dwe",
+    day: "nino"
+  },
+  af: {
+    year: "jjjj",
+    month: "mm",
+    day: "dd"
+  },
+  am: {
+    year: "ዓዓዓዓ",
+    month: "ሚሜ",
+    day: "ቀቀ"
+  },
+  an: {
+    year: "aaaa",
+    month: "mm",
+    day: "dd"
+  },
+  ar: {
+    year: "سنة",
+    month: "شهر",
+    day: "يوم"
+  },
+  ast: {
+    year: "aaaa",
+    month: "mm",
+    day: "dd"
+  },
+  az: {
+    year: "iiii",
+    month: "aa",
+    day: "gg"
+  },
+  be: {
+    year: "гггг",
+    month: "мм",
+    day: "дд"
+  },
+  bg: {
+    year: "гггг",
+    month: "мм",
+    day: "дд"
+  },
+  bn: {
+    year: "yyyy",
+    month: "মিমি",
+    day: "dd"
+  },
+  br: {
+    year: "bbbb",
+    month: "mm",
+    day: "dd"
+  },
+  bs: {
+    year: "gggg",
+    month: "mm",
+    day: "dd"
+  },
+  ca: {
+    year: "aaaa",
+    month: "mm",
+    day: "dd"
+  },
+  cak: {
+    year: "jjjj",
+    month: "ii",
+    day: "q'q'"
+  },
+  ckb: {
+    year: "ساڵ",
+    month: "مانگ",
+    day: "ڕۆژ"
+  },
+  cs: {
+    year: "rrrr",
+    month: "mm",
+    day: "dd"
+  },
+  cy: {
+    year: "bbbb",
+    month: "mm",
+    day: "dd"
+  },
+  da: {
+    year: "åååå",
+    month: "mm",
+    day: "dd"
+  },
+  de: {
+    year: "jjjj",
+    month: "mm",
+    day: "tt"
+  },
+  dsb: {
+    year: "llll",
+    month: "mm",
+    day: "źź"
+  },
+  el: {
+    year: "εεεε",
+    month: "μμ",
+    day: "ηη"
+  },
+  en: {
+    year: "yyyy",
+    month: "mm",
+    day: "dd"
+  },
+  eo: {
+    year: "jjjj",
+    month: "mm",
+    day: "tt"
+  },
+  es: {
+    year: "aaaa",
+    month: "mm",
+    day: "dd"
+  },
+  et: {
+    year: "aaaa",
+    month: "kk",
+    day: "pp"
+  },
+  eu: {
+    year: "uuuu",
+    month: "hh",
+    day: "ee"
+  },
+  fa: {
+    year: "سال",
+    month: "ماه",
+    day: "روز"
+  },
+  ff: {
+    year: "hhhh",
+    month: "ll",
+    day: "ññ"
+  },
+  fi: {
+    year: "vvvv",
+    month: "kk",
+    day: "pp"
+  },
+  fr: {
+    year: "aaaa",
+    month: "mm",
+    day: "jj"
+  },
+  fy: {
+    year: "jjjj",
+    month: "mm",
+    day: "dd"
+  },
+  ga: {
+    year: "bbbb",
+    month: "mm",
+    day: "ll"
+  },
+  gd: {
+    year: "bbbb",
+    month: "mm",
+    day: "ll"
+  },
+  gl: {
+    year: "aaaa",
+    month: "mm",
+    day: "dd"
+  },
+  he: {
+    year: "שנה",
+    month: "חודש",
+    day: "יום"
+  },
+  hr: {
+    year: "gggg",
+    month: "mm",
+    day: "dd"
+  },
+  hsb: {
+    year: "llll",
+    month: "mm",
+    day: "dd"
+  },
+  hu: {
+    year: "éééé",
+    month: "hh",
+    day: "nn"
+  },
+  ia: {
+    year: "aaaa",
+    month: "mm",
+    day: "dd"
+  },
+  id: {
+    year: "tttt",
+    month: "bb",
+    day: "hh"
+  },
+  it: {
+    year: "aaaa",
+    month: "mm",
+    day: "gg"
+  },
+  ja: {
+    year: "年",
+    month: "月",
+    day: "日"
+  },
+  ka: {
+    year: "წწწწ",
+    month: "თთ",
+    day: "რრ"
+  },
+  kk: {
+    year: "жжжж",
+    month: "аа",
+    day: "кк"
+  },
+  kn: {
+    year: "ವವವವ",
+    month: "ಮಿಮೀ",
+    day: "ದಿದಿ"
+  },
+  ko: {
+    year: "연도",
+    month: "월",
+    day: "일"
+  },
+  lb: {
+    year: "jjjj",
+    month: "mm",
+    day: "dd"
+  },
+  lo: {
+    year: "ປປປປ",
+    month: "ດດ",
+    day: "ວວ"
+  },
+  lt: {
+    year: "mmmm",
+    month: "mm",
+    day: "dd"
+  },
+  lv: {
+    year: "gggg",
+    month: "mm",
+    day: "dd"
+  },
+  meh: {
+    year: "aaaa",
+    month: "mm",
+    day: "dd"
+  },
+  ml: {
+    year: "വർഷം",
+    month: "മാസം",
+    day: "തീയതി"
+  },
+  ms: {
+    year: "tttt",
+    month: "mm",
+    day: "hh"
+  },
+  nb: {
+    year: "åååå",
+    month: "mm",
+    day: "dd"
+  },
+  nl: {
+    year: "jjjj",
+    month: "mm",
+    day: "dd"
+  },
+  nn: {
+    year: "åååå",
+    month: "mm",
+    day: "dd"
+  },
+  no: {
+    year: "åååå",
+    month: "mm",
+    day: "dd"
+  },
+  oc: {
+    year: "aaaa",
+    month: "mm",
+    day: "jj"
+  },
+  pl: {
+    year: "rrrr",
+    month: "mm",
+    day: "dd"
+  },
+  pt: {
+    year: "aaaa",
+    month: "mm",
+    day: "dd"
+  },
+  rm: {
+    year: "oooo",
+    month: "mm",
+    day: "dd"
+  },
+  ro: {
+    year: "aaaa",
+    month: "ll",
+    day: "zz"
+  },
+  ru: {
+    year: "гггг",
+    month: "мм",
+    day: "дд"
+  },
+  sc: {
+    year: "aaaa",
+    month: "mm",
+    day: "dd"
+  },
+  scn: {
+    year: "aaaa",
+    month: "mm",
+    day: "jj"
+  },
+  sk: {
+    year: "rrrr",
+    month: "mm",
+    day: "dd"
+  },
+  sl: {
+    year: "llll",
+    month: "mm",
+    day: "dd"
+  },
+  sr: {
+    year: "гггг",
+    month: "мм",
+    day: "дд"
+  },
+  sv: {
+    year: "åååå",
+    month: "mm",
+    day: "dd"
+  },
+  szl: {
+    year: "rrrr",
+    month: "mm",
+    day: "dd"
+  },
+  tg: {
+    year: "сссс",
+    month: "мм",
+    day: "рр"
+  },
+  th: {
+    year: "ปปปป",
+    month: "ดด",
+    day: "วว"
+  },
+  tr: {
+    year: "yyyy",
+    month: "aa",
+    day: "gg"
+  },
+  uk: {
+    year: "рррр",
+    month: "мм",
+    day: "дд"
+  },
+  "zh-CN": {
+    year: "年",
+    month: "月",
+    day: "日"
+  },
+  "zh-TW": {
+    year: "年",
+    month: "月",
+    day: "日"
+  }
+}, "en");
+function $3e3ed55ab2966714$export$d3f5c5e0a5023fa0(field, value, locale2) {
+  if (field === "era" || field === "dayPeriod") return value;
+  if (field === "year" || field === "month" || field === "day") return $3e3ed55ab2966714$var$placeholders.getStringForLocale(field, locale2);
+  return "––";
+}
+const $3c0fc76039f1c516$var$EDITABLE_SEGMENTS = {
+  year: true,
+  month: true,
+  day: true,
+  hour: true,
+  minute: true,
+  second: true,
+  dayPeriod: true,
+  era: true
+};
+const $3c0fc76039f1c516$var$PAGE_STEP = {
+  year: 5,
+  month: 2,
+  day: 7,
+  hour: 2,
+  minute: 15,
+  second: 15
+};
+const $3c0fc76039f1c516$var$TYPE_MAPPING = {
+  // Node seems to convert everything to lowercase...
+  dayperiod: "dayPeriod",
+  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/formatToParts#named_years
+  relatedYear: "year",
+  yearName: "literal",
+  unknown: "literal"
+};
+function $3c0fc76039f1c516$export$60e84778edff6d26(props) {
+  let { locale: locale2, createCalendar, hideTimeZone, isDisabled = false, isReadOnly = false, isRequired = false, minValue, maxValue, isDateUnavailable } = props;
+  let v = props.value || props.defaultValue || props.placeholderValue || null;
+  let [granularity, defaultTimeZone] = $35a22f14a1f04b11$export$2440da353cedad43(v, props.granularity);
+  let timeZone = defaultTimeZone || "UTC";
+  if (v && !(granularity in v)) throw new Error("Invalid granularity " + granularity + " for value " + v.toString());
+  let defaultFormatter = reactExports.useMemo(() => new $fb18d541ea1ad717$export$ad991b66133851cf(locale2), [
+    locale2
+  ]);
+  let calendar = reactExports.useMemo(() => createCalendar(defaultFormatter.resolvedOptions().calendar), [
+    createCalendar,
+    defaultFormatter
+  ]);
+  var _props_defaultValue;
+  let [value, setDate] = $458b0a5536c1a7cf$export$40bfa8c7b0832715(props.value, (_props_defaultValue = props.defaultValue) !== null && _props_defaultValue !== void 0 ? _props_defaultValue : null, props.onChange);
+  let [initialValue] = reactExports.useState(value);
+  let calendarValue = reactExports.useMemo(() => {
+    var _convertValue;
+    return (_convertValue = $35a22f14a1f04b11$export$61a490a80c552550(value, calendar)) !== null && _convertValue !== void 0 ? _convertValue : null;
+  }, [
+    value,
+    calendar
+  ]);
+  let [placeholderDate, setPlaceholderDate] = reactExports.useState(() => $35a22f14a1f04b11$export$66aa2b09de4b1ea5(props.placeholderValue, granularity, calendar, defaultTimeZone));
+  let val = calendarValue || placeholderDate;
+  let showEra = calendar.identifier === "gregory" && val.era === "BC";
+  let formatOpts = reactExports.useMemo(() => {
+    var _props_maxGranularity2;
+    return {
+      granularity,
+      maxGranularity: (_props_maxGranularity2 = props.maxGranularity) !== null && _props_maxGranularity2 !== void 0 ? _props_maxGranularity2 : "year",
+      timeZone: defaultTimeZone,
+      hideTimeZone,
+      hourCycle: props.hourCycle,
+      showEra,
+      shouldForceLeadingZeros: props.shouldForceLeadingZeros
+    };
+  }, [
+    props.maxGranularity,
+    granularity,
+    props.hourCycle,
+    props.shouldForceLeadingZeros,
+    defaultTimeZone,
+    hideTimeZone,
+    showEra
+  ]);
+  let opts = reactExports.useMemo(() => $35a22f14a1f04b11$export$7e319ea407e63bc0({}, formatOpts), [
+    formatOpts
+  ]);
+  let dateFormatter = reactExports.useMemo(() => new $fb18d541ea1ad717$export$ad991b66133851cf(locale2, opts), [
+    locale2,
+    opts
+  ]);
+  let resolvedOptions = reactExports.useMemo(() => dateFormatter.resolvedOptions(), [
+    dateFormatter
+  ]);
+  let allSegments = reactExports.useMemo(() => dateFormatter.formatToParts(/* @__PURE__ */ new Date()).filter((seg) => $3c0fc76039f1c516$var$EDITABLE_SEGMENTS[seg.type]).reduce((p, seg) => (p[$3c0fc76039f1c516$var$TYPE_MAPPING[seg.type] || seg.type] = true, p), {}), [
+    dateFormatter
+  ]);
+  let [validSegments, setValidSegments] = reactExports.useState(() => props.value || props.defaultValue ? {
+    ...allSegments
+  } : {});
+  let clearedSegment = reactExports.useRef(null);
+  let lastCalendar = reactExports.useRef(calendar);
+  reactExports.useEffect(() => {
+    if (!$14e0f24ef4ac5c92$export$dbc69fd56b53d5e(calendar, lastCalendar.current)) {
+      lastCalendar.current = calendar;
+      setPlaceholderDate((placeholder) => Object.keys(validSegments).length > 0 ? $11d87f3f76e88657$export$b4a036af3fc0b032(placeholder, calendar) : $35a22f14a1f04b11$export$66aa2b09de4b1ea5(props.placeholderValue, granularity, calendar, defaultTimeZone));
+    }
+  }, [
+    calendar,
+    granularity,
+    validSegments,
+    defaultTimeZone,
+    props.placeholderValue
+  ]);
+  if (value && Object.keys(validSegments).length < Object.keys(allSegments).length) {
+    validSegments = {
+      ...allSegments
+    };
+    setValidSegments(validSegments);
+  }
+  if (value == null && Object.keys(validSegments).length === Object.keys(allSegments).length) {
+    validSegments = {};
+    setValidSegments(validSegments);
+    setPlaceholderDate($35a22f14a1f04b11$export$66aa2b09de4b1ea5(props.placeholderValue, granularity, calendar, defaultTimeZone));
+  }
+  let displayValue = calendarValue && Object.keys(validSegments).length >= Object.keys(allSegments).length ? calendarValue : placeholderDate;
+  let setValue = (newValue) => {
+    if (props.isDisabled || props.isReadOnly) return;
+    let validKeys = Object.keys(validSegments);
+    let allKeys = Object.keys(allSegments);
+    if (newValue == null) {
+      setDate(null);
+      setPlaceholderDate($35a22f14a1f04b11$export$66aa2b09de4b1ea5(props.placeholderValue, granularity, calendar, defaultTimeZone));
+      setValidSegments({});
+    } else if (validKeys.length === 0 && clearedSegment.current == null || validKeys.length >= allKeys.length || validKeys.length === allKeys.length - 1 && allSegments.dayPeriod && !validSegments.dayPeriod && clearedSegment.current !== "dayPeriod") {
+      if (validKeys.length === 0) {
+        validSegments = {
+          ...allSegments
+        };
+        setValidSegments(validSegments);
+      }
+      newValue = $11d87f3f76e88657$export$b4a036af3fc0b032(newValue, (v === null || v === void 0 ? void 0 : v.calendar) || new $3b62074eb05584b2$export$80ee6245ec4f29ec());
+      setDate(newValue);
+    } else setPlaceholderDate(newValue);
+    clearedSegment.current = null;
+  };
+  let dateValue = reactExports.useMemo(() => displayValue.toDate(timeZone), [
+    displayValue,
+    timeZone
+  ]);
+  let segments = reactExports.useMemo(() => $3c0fc76039f1c516$var$processSegments(dateValue, validSegments, dateFormatter, resolvedOptions, displayValue, calendar, locale2, granularity), [
+    dateValue,
+    validSegments,
+    dateFormatter,
+    resolvedOptions,
+    displayValue,
+    calendar,
+    locale2,
+    granularity
+  ]);
+  if (allSegments.era && validSegments.year && !validSegments.era) {
+    validSegments.era = true;
+    setValidSegments({
+      ...validSegments
+    });
+  } else if (!allSegments.era && validSegments.era) {
+    delete validSegments.era;
+    setValidSegments({
+      ...validSegments
+    });
+  }
+  let markValid = (part) => {
+    validSegments[part] = true;
+    if (part === "year" && allSegments.era) validSegments.era = true;
+    setValidSegments({
+      ...validSegments
+    });
+  };
+  let adjustSegment = (type2, amount) => {
+    if (!validSegments[type2]) {
+      markValid(type2);
+      let validKeys = Object.keys(validSegments);
+      let allKeys = Object.keys(allSegments);
+      if (validKeys.length >= allKeys.length || validKeys.length === allKeys.length - 1 && allSegments.dayPeriod && !validSegments.dayPeriod) setValue(displayValue);
+    } else setValue($3c0fc76039f1c516$var$addSegment(displayValue, type2, amount, resolvedOptions));
+  };
+  let builtinValidation = reactExports.useMemo(() => $35a22f14a1f04b11$export$f18627323ab57ac0(value, minValue, maxValue, isDateUnavailable, formatOpts), [
+    value,
+    minValue,
+    maxValue,
+    isDateUnavailable,
+    formatOpts
+  ]);
+  let validation = $e5be200c675c3b3a$export$fc1a364ae1f3ff10({
+    ...props,
+    value,
+    builtinValidation
+  });
+  let isValueInvalid = validation.displayValidation.isInvalid;
+  let validationState = props.validationState || (isValueInvalid ? "invalid" : null);
+  var _props_defaultValue1, _props_maxGranularity;
+  return {
+    ...validation,
+    value: calendarValue,
+    defaultValue: (_props_defaultValue1 = props.defaultValue) !== null && _props_defaultValue1 !== void 0 ? _props_defaultValue1 : initialValue,
+    dateValue,
+    calendar,
+    setValue,
+    segments,
+    dateFormatter,
+    validationState,
+    isInvalid: isValueInvalid,
+    granularity,
+    maxGranularity: (_props_maxGranularity = props.maxGranularity) !== null && _props_maxGranularity !== void 0 ? _props_maxGranularity : "year",
+    isDisabled,
+    isReadOnly,
+    isRequired,
+    increment(part) {
+      adjustSegment(part, 1);
+    },
+    decrement(part) {
+      adjustSegment(part, -1);
+    },
+    incrementPage(part) {
+      adjustSegment(part, $3c0fc76039f1c516$var$PAGE_STEP[part] || 1);
+    },
+    decrementPage(part) {
+      adjustSegment(part, -($3c0fc76039f1c516$var$PAGE_STEP[part] || 1));
+    },
+    setSegment(part, v2) {
+      markValid(part);
+      setValue($3c0fc76039f1c516$var$setSegment(displayValue, part, v2, resolvedOptions));
+    },
+    confirmPlaceholder() {
+      if (props.isDisabled || props.isReadOnly) return;
+      let validKeys = Object.keys(validSegments);
+      let allKeys = Object.keys(allSegments);
+      if (validKeys.length === allKeys.length - 1 && allSegments.dayPeriod && !validSegments.dayPeriod) {
+        validSegments = {
+          ...allSegments
+        };
+        setValidSegments(validSegments);
+        setValue(displayValue.copy());
+      }
+    },
+    clearSegment(part) {
+      delete validSegments[part];
+      clearedSegment.current = part;
+      setValidSegments({
+        ...validSegments
+      });
+      let placeholder = $35a22f14a1f04b11$export$66aa2b09de4b1ea5(props.placeholderValue, granularity, calendar, defaultTimeZone);
+      let value2 = displayValue;
+      if (part === "dayPeriod" && "hour" in displayValue && "hour" in placeholder) {
+        let isPM = displayValue.hour >= 12;
+        let shouldBePM = placeholder.hour >= 12;
+        if (isPM && !shouldBePM) value2 = displayValue.set({
+          hour: displayValue.hour - 12
+        });
+        else if (!isPM && shouldBePM) value2 = displayValue.set({
+          hour: displayValue.hour + 12
+        });
+      } else if (part === "hour" && "hour" in displayValue && displayValue.hour >= 12 && validSegments.dayPeriod) value2 = displayValue.set({
+        hour: placeholder["hour"] + 12
+      });
+      else if (part in displayValue) value2 = displayValue.set({
+        [part]: placeholder[part]
+      });
+      setDate(null);
+      setValue(value2);
+    },
+    formatValue(fieldOptions) {
+      if (!calendarValue) return "";
+      let formatOptions = $35a22f14a1f04b11$export$7e319ea407e63bc0(fieldOptions, formatOpts);
+      let formatter = new $fb18d541ea1ad717$export$ad991b66133851cf(locale2, formatOptions);
+      return formatter.format(dateValue);
+    },
+    getDateFormatter(locale3, formatOptions) {
+      let newOptions = {
+        ...formatOpts,
+        ...formatOptions
+      };
+      let newFormatOptions = $35a22f14a1f04b11$export$7e319ea407e63bc0({}, newOptions);
+      return new $fb18d541ea1ad717$export$ad991b66133851cf(locale3, newFormatOptions);
+    }
+  };
+}
+function $3c0fc76039f1c516$var$processSegments(dateValue, validSegments, dateFormatter, resolvedOptions, displayValue, calendar, locale2, granularity) {
+  let timeValue = [
+    "hour",
+    "minute",
+    "second"
+  ];
+  let segments = dateFormatter.formatToParts(dateValue);
+  let processedSegments = [];
+  for (let segment of segments) {
+    let type2 = $3c0fc76039f1c516$var$TYPE_MAPPING[segment.type] || segment.type;
+    let isEditable = $3c0fc76039f1c516$var$EDITABLE_SEGMENTS[type2];
+    if (type2 === "era" && calendar.getEras().length === 1) isEditable = false;
+    let isPlaceholder = $3c0fc76039f1c516$var$EDITABLE_SEGMENTS[type2] && !validSegments[type2];
+    let placeholder = $3c0fc76039f1c516$var$EDITABLE_SEGMENTS[type2] ? $3e3ed55ab2966714$export$d3f5c5e0a5023fa0(type2, segment.value, locale2) : null;
+    let dateSegment = {
+      type: type2,
+      text: isPlaceholder ? placeholder : segment.value,
+      ...$3c0fc76039f1c516$var$getSegmentLimits(displayValue, type2, resolvedOptions),
+      isPlaceholder,
+      placeholder,
+      isEditable
+    };
+    if (type2 === "hour") {
+      processedSegments.push({
+        type: "literal",
+        text: "⁦",
+        ...$3c0fc76039f1c516$var$getSegmentLimits(displayValue, "literal", resolvedOptions),
+        isPlaceholder: false,
+        placeholder: "",
+        isEditable: false
+      });
+      processedSegments.push(dateSegment);
+      if (type2 === granularity) processedSegments.push({
+        type: "literal",
+        text: "⁩",
+        ...$3c0fc76039f1c516$var$getSegmentLimits(displayValue, "literal", resolvedOptions),
+        isPlaceholder: false,
+        placeholder: "",
+        isEditable: false
+      });
+    } else if (timeValue.includes(type2) && type2 === granularity) {
+      processedSegments.push(dateSegment);
+      processedSegments.push({
+        type: "literal",
+        text: "⁩",
+        ...$3c0fc76039f1c516$var$getSegmentLimits(displayValue, "literal", resolvedOptions),
+        isPlaceholder: false,
+        placeholder: "",
+        isEditable: false
+      });
+    } else
+      processedSegments.push(dateSegment);
+  }
+  return processedSegments;
+}
+function $3c0fc76039f1c516$var$getSegmentLimits(date2, type2, options) {
+  switch (type2) {
+    case "era": {
+      let eras = date2.calendar.getEras();
+      return {
+        value: eras.indexOf(date2.era),
+        minValue: 0,
+        maxValue: eras.length - 1
+      };
+    }
+    case "year":
+      return {
+        value: date2.year,
+        minValue: 1,
+        maxValue: date2.calendar.getYearsInEra(date2)
+      };
+    case "month":
+      return {
+        value: date2.month,
+        minValue: $14e0f24ef4ac5c92$export$5412ac11713b72ad(date2),
+        maxValue: date2.calendar.getMonthsInYear(date2)
+      };
+    case "day":
+      return {
+        value: date2.day,
+        minValue: $14e0f24ef4ac5c92$export$b2f4953d301981d5(date2),
+        maxValue: date2.calendar.getDaysInMonth(date2)
+      };
+  }
+  if ("hour" in date2) switch (type2) {
+    case "dayPeriod":
+      return {
+        value: date2.hour >= 12 ? 12 : 0,
+        minValue: 0,
+        maxValue: 12
+      };
+    case "hour":
+      if (options.hour12) {
+        let isPM = date2.hour >= 12;
+        return {
+          value: date2.hour,
+          minValue: isPM ? 12 : 0,
+          maxValue: isPM ? 23 : 11
+        };
+      }
+      return {
+        value: date2.hour,
+        minValue: 0,
+        maxValue: 23
+      };
+    case "minute":
+      return {
+        value: date2.minute,
+        minValue: 0,
+        maxValue: 59
+      };
+    case "second":
+      return {
+        value: date2.second,
+        minValue: 0,
+        maxValue: 59
+      };
+  }
+  return {};
+}
+function $3c0fc76039f1c516$var$addSegment(value, part, amount, options) {
+  switch (part) {
+    case "era":
+    case "year":
+    case "month":
+    case "day":
+      return value.cycle(part, amount, {
+        round: part === "year"
+      });
+  }
+  if ("hour" in value) switch (part) {
+    case "dayPeriod": {
+      let hours = value.hour;
+      let isPM = hours >= 12;
+      return value.set({
+        hour: isPM ? hours - 12 : hours + 12
+      });
+    }
+    case "hour":
+    case "minute":
+    case "second":
+      return value.cycle(part, amount, {
+        round: part !== "hour",
+        hourCycle: options.hour12 ? 12 : 24
+      });
+  }
+  throw new Error("Unknown segment: " + part);
+}
+function $3c0fc76039f1c516$var$setSegment(value, part, segmentValue, options) {
+  switch (part) {
+    case "day":
+    case "month":
+    case "year":
+    case "era":
+      return value.set({
+        [part]: segmentValue
+      });
+  }
+  if ("hour" in value && typeof segmentValue === "number") switch (part) {
+    case "dayPeriod": {
+      let hours = value.hour;
+      let wasPM = hours >= 12;
+      let isPM = segmentValue >= 12;
+      if (isPM === wasPM) return value;
+      return value.set({
+        hour: wasPM ? hours - 12 : hours + 12
+      });
+    }
+    case "hour":
+      if (options.hour12) {
+        let hours = value.hour;
+        let wasPM = hours >= 12;
+        if (!wasPM && segmentValue === 12) segmentValue = 0;
+        if (wasPM && segmentValue < 12) segmentValue += 12;
+      }
+    // fallthrough
+    case "minute":
+    case "second":
+      return value.set({
+        [part]: segmentValue
+      });
+  }
+  throw new Error("Unknown segment: " + part);
+}
+function $eff5d8ee529ac4bb$export$fd53cef0cc796101(props) {
+  let { placeholderValue = new $35ea8db9cb2ccb90$export$680ea196effce5f(), minValue, maxValue, defaultValue, granularity, validate } = props;
+  let [value, setValue] = $458b0a5536c1a7cf$export$40bfa8c7b0832715(props.value, defaultValue !== null && defaultValue !== void 0 ? defaultValue : null, props.onChange);
+  let v = value || placeholderValue;
+  let day = v && "day" in v ? v : void 0;
+  let defaultValueTimeZone = defaultValue && "timeZone" in defaultValue ? defaultValue.timeZone : void 0;
+  let placeholderDate = reactExports.useMemo(() => {
+    let valueTimeZone = v && "timeZone" in v ? v.timeZone : void 0;
+    return (valueTimeZone || defaultValueTimeZone) && placeholderValue ? $11d87f3f76e88657$export$84c95a83c799e074($eff5d8ee529ac4bb$var$convertValue(placeholderValue), valueTimeZone || defaultValueTimeZone) : $eff5d8ee529ac4bb$var$convertValue(placeholderValue);
+  }, [
+    placeholderValue,
+    v,
+    defaultValueTimeZone
+  ]);
+  let minDate = reactExports.useMemo(() => $eff5d8ee529ac4bb$var$convertValue(minValue, day), [
+    minValue,
+    day
+  ]);
+  let maxDate = reactExports.useMemo(() => $eff5d8ee529ac4bb$var$convertValue(maxValue, day), [
+    maxValue,
+    day
+  ]);
+  let timeValue = reactExports.useMemo(() => value && "day" in value ? $11d87f3f76e88657$export$d33f79e3ffc3dc83(value) : value, [
+    value
+  ]);
+  let dateTime = reactExports.useMemo(() => value == null ? null : $eff5d8ee529ac4bb$var$convertValue(value), [
+    value
+  ]);
+  let defaultDateTime = reactExports.useMemo(() => defaultValue == null ? null : $eff5d8ee529ac4bb$var$convertValue(defaultValue), [
+    defaultValue
+  ]);
+  let onChange = (newValue) => {
+    setValue(day || defaultValueTimeZone ? newValue : newValue && $11d87f3f76e88657$export$d33f79e3ffc3dc83(newValue));
+  };
+  let state = $3c0fc76039f1c516$export$60e84778edff6d26({
+    ...props,
+    value: dateTime,
+    defaultValue: defaultDateTime,
+    minValue: minDate,
+    maxValue: maxDate,
+    onChange,
+    granularity: granularity || "minute",
+    maxGranularity: "hour",
+    placeholderValue: placeholderDate !== null && placeholderDate !== void 0 ? placeholderDate : void 0,
+    // Calendar should not matter for time fields.
+    createCalendar: () => new $3b62074eb05584b2$export$80ee6245ec4f29ec(),
+    validate: reactExports.useCallback(() => validate === null || validate === void 0 ? void 0 : validate(value), [
+      validate,
+      value
+    ])
+  });
+  return {
+    ...state,
+    timeValue
+  };
+}
+function $eff5d8ee529ac4bb$var$convertValue(value, date2 = $14e0f24ef4ac5c92$export$d0bdf45af03a6ea3($14e0f24ef4ac5c92$export$aa8b41735afcabd2())) {
+  if (!value) return null;
+  if ("day" in value) return value;
+  return $11d87f3f76e88657$export$b21e0b124e224484(date2, value);
+}
+function $a28c903ee9ad8dc5$export$79fefeb1c2091ac3(props) {
+  let overlayTriggerState = $fc909762b330b746$export$61c6a8c84e605fb6(props);
+  let [focusStrategy, setFocusStrategy] = reactExports.useState(null);
+  let [expandedKeysStack, setExpandedKeysStack] = reactExports.useState([]);
+  let closeAll = () => {
+    setExpandedKeysStack([]);
+    overlayTriggerState.close();
+  };
+  let openSubmenu = (triggerKey, level) => {
+    setExpandedKeysStack((oldStack) => {
+      if (level > oldStack.length) return oldStack;
+      return [
+        ...oldStack.slice(0, level),
+        triggerKey
+      ];
+    });
+  };
+  let closeSubmenu = (triggerKey, level) => {
+    setExpandedKeysStack((oldStack) => {
+      let key = oldStack[level];
+      if (key === triggerKey) return oldStack.slice(0, level);
+      else return oldStack;
+    });
+  };
+  return {
+    focusStrategy,
+    ...overlayTriggerState,
+    open(focusStrategy2 = null) {
+      setFocusStrategy(focusStrategy2);
+      overlayTriggerState.open();
+    },
+    toggle(focusStrategy2 = null) {
+      setFocusStrategy(focusStrategy2);
+      overlayTriggerState.toggle();
+    },
+    close() {
+      closeAll();
+    },
+    expandedKeysStack,
+    openSubmenu,
+    closeSubmenu
+  };
+}
 function $2bc3a590c5373a4e$export$5159ec8b34d4ec12(props) {
   let { selectionMode = "single" } = props;
   let triggerState = $fc909762b330b746$export$61c6a8c84e605fb6(props);
@@ -33162,9 +39485,382 @@ function $2bc3a590c5373a4e$var$convertValue(value) {
     value
   ];
 }
+class $05ca4cd7c4a5a999$export$863faf230ee2118a {
+  *[Symbol.iterator]() {
+    yield* this.iterable;
+  }
+  get size() {
+    return this.keyMap.size;
+  }
+  getKeys() {
+    return this.keyMap.keys();
+  }
+  getKeyBefore(key) {
+    let node = this.keyMap.get(key);
+    var _node_prevKey;
+    return node ? (_node_prevKey = node.prevKey) !== null && _node_prevKey !== void 0 ? _node_prevKey : null : null;
+  }
+  getKeyAfter(key) {
+    let node = this.keyMap.get(key);
+    var _node_nextKey;
+    return node ? (_node_nextKey = node.nextKey) !== null && _node_nextKey !== void 0 ? _node_nextKey : null : null;
+  }
+  getFirstKey() {
+    return this.firstKey;
+  }
+  getLastKey() {
+    return this.lastKey;
+  }
+  getItem(key) {
+    var _this_keyMap_get;
+    return (_this_keyMap_get = this.keyMap.get(key)) !== null && _this_keyMap_get !== void 0 ? _this_keyMap_get : null;
+  }
+  at(idx) {
+    const keys = [
+      ...this.getKeys()
+    ];
+    return this.getItem(keys[idx]);
+  }
+  constructor(nodes, { expandedKeys } = {}) {
+    this.keyMap = /* @__PURE__ */ new Map();
+    this.firstKey = null;
+    this.lastKey = null;
+    this.iterable = nodes;
+    expandedKeys = expandedKeys || /* @__PURE__ */ new Set();
+    let visit = (node) => {
+      this.keyMap.set(node.key, node);
+      if (node.childNodes && (node.type === "section" || expandedKeys.has(node.key))) for (let child of node.childNodes) visit(child);
+    };
+    for (let node of nodes) visit(node);
+    let last = null;
+    let index2 = 0;
+    for (let [key, node] of this.keyMap) {
+      if (last) {
+        last.nextKey = key;
+        node.prevKey = last.key;
+      } else {
+        this.firstKey = key;
+        node.prevKey = void 0;
+      }
+      if (node.type === "item") node.index = index2++;
+      last = node;
+      last.nextKey = void 0;
+    }
+    var _last_key;
+    this.lastKey = (_last_key = last === null || last === void 0 ? void 0 : last.key) !== null && _last_key !== void 0 ? _last_key : null;
+  }
+}
+function $875d6693e12af071$export$728d6ba534403756(props) {
+  let { onExpandedChange } = props;
+  let [expandedKeys, setExpandedKeys] = $458b0a5536c1a7cf$export$40bfa8c7b0832715(props.expandedKeys ? new Set(props.expandedKeys) : void 0, props.defaultExpandedKeys ? new Set(props.defaultExpandedKeys) : /* @__PURE__ */ new Set(), onExpandedChange);
+  let selectionState = $7af3f5b51489e0b5$export$253fe78d46329472(props);
+  let disabledKeys = reactExports.useMemo(() => props.disabledKeys ? new Set(props.disabledKeys) : /* @__PURE__ */ new Set(), [
+    props.disabledKeys
+  ]);
+  let tree = $7613b1592d41b092$export$6cd28814d92fa9c9(props, reactExports.useCallback((nodes) => new $05ca4cd7c4a5a999$export$863faf230ee2118a(nodes, {
+    expandedKeys
+  }), [
+    expandedKeys
+  ]), null);
+  reactExports.useEffect(() => {
+    if (selectionState.focusedKey != null && !tree.getItem(selectionState.focusedKey)) selectionState.setFocusedKey(null);
+  }, [
+    tree,
+    selectionState.focusedKey
+  ]);
+  let onToggle = (key) => {
+    setExpandedKeys($875d6693e12af071$var$toggleKey(expandedKeys, key));
+  };
+  return {
+    collection: tree,
+    expandedKeys,
+    disabledKeys,
+    toggleKey: onToggle,
+    setExpandedKeys,
+    selectionManager: new $d496c0a20b6e58ec$export$6c8a5aaad13c9852(tree, selectionState)
+  };
+}
+function $875d6693e12af071$var$toggleKey(set2, key) {
+  let res = new Set(set2);
+  if (res.has(key)) res.delete(key);
+  else res.add(key);
+  return res;
+}
+const $dfd62f934fc76fed$export$3b805cea1f178355 = /* @__PURE__ */ reactExports.createContext(null);
+const $dfd62f934fc76fed$export$233dd9682e1ad64b = /* @__PURE__ */ reactExports.createContext(null);
+const $dfd62f934fc76fed$export$9e31dcedda1dadc7 = /* @__PURE__ */ reactExports.createContext(null);
+const $dfd62f934fc76fed$export$5e0fc348c00f87a0 = /* @__PURE__ */ reactExports.createContext(null);
+const $dfd62f934fc76fed$export$e1aef45b828286de = /* @__PURE__ */ reactExports.forwardRef(function Calendar(props, ref) {
+  [props, ref] = $64fa3d84918910a7$export$29f1550f4b0d4415(props, ref, $dfd62f934fc76fed$export$3b805cea1f178355);
+  let { locale: locale2 } = $18f2051aff69b9bf$export$43bb16f9c6d9e3f7();
+  let state = $131cf43a05231e1e$export$6d095e787d2b5e1f({
+    ...props,
+    locale: locale2,
+    createCalendar: props.createCalendar || $64244302c3013299$export$dd0bbc9b26defe37
+  });
+  let { calendarProps, prevButtonProps, nextButtonProps, errorMessageProps, title } = $9942cad8a072a530$export$3ee915f8151bd4f1(props, state);
+  let renderProps = $64fa3d84918910a7$export$4d86445c2cf5e3({
+    ...props,
+    values: {
+      state,
+      isDisabled: props.isDisabled || false,
+      isInvalid: state.isValueInvalid
+    },
+    defaultClassName: "react-aria-Calendar"
+  });
+  let DOMProps = $65484d02dcb7eb3e$export$457c3d6518dd4c6f(props, {
+    global: true
+  });
+  return /* @__PURE__ */ React.createElement("div", {
+    ...$3ef42575df84b30b$export$9d1611c77c2fe928(DOMProps, renderProps, calendarProps),
+    ref,
+    slot: props.slot || void 0,
+    "data-disabled": props.isDisabled || void 0,
+    "data-invalid": state.isValueInvalid || void 0
+  }, /* @__PURE__ */ React.createElement($64fa3d84918910a7$export$2881499e37b75b9a, {
+    values: [
+      [
+        $d2b4bc8c273e7be6$export$24d547caef80ccd1,
+        {
+          slots: {
+            previous: prevButtonProps,
+            next: nextButtonProps
+          }
+        }
+      ],
+      [
+        $4e85f108e88277b8$export$d688439359537581,
+        {
+          "aria-hidden": true,
+          level: 2,
+          children: title
+        }
+      ],
+      [
+        $dfd62f934fc76fed$export$9e31dcedda1dadc7,
+        state
+      ],
+      [
+        $dfd62f934fc76fed$export$3b805cea1f178355,
+        props
+      ],
+      [
+        $514c0188e459b4c0$export$9afb8bc826b033ea,
+        {
+          slots: {
+            errorMessage: errorMessageProps
+          }
+        }
+      ]
+    ]
+  }, /* @__PURE__ */ React.createElement($5c3e21d68f1c4674$export$439d29a4e110a164, null, /* @__PURE__ */ React.createElement("h2", null, calendarProps["aria-label"])), renderProps.children, /* @__PURE__ */ React.createElement($5c3e21d68f1c4674$export$439d29a4e110a164, null, /* @__PURE__ */ React.createElement("button", {
+    "aria-label": nextButtonProps["aria-label"],
+    disabled: nextButtonProps.isDisabled,
+    onClick: () => state.focusNextPage(),
+    tabIndex: -1
+  }))));
+});
+const $dfd62f934fc76fed$var$InternalCalendarGridContext = /* @__PURE__ */ reactExports.createContext(null);
+const $dfd62f934fc76fed$export$5bd780d491cfc46c = /* @__PURE__ */ reactExports.forwardRef(function CalendarGrid(props, ref) {
+  let calendarState = reactExports.useContext($dfd62f934fc76fed$export$9e31dcedda1dadc7);
+  let rangeCalendarState = reactExports.useContext($dfd62f934fc76fed$export$5e0fc348c00f87a0);
+  let calenderProps = $64fa3d84918910a7$export$fabf2dc03a41866e($dfd62f934fc76fed$export$3b805cea1f178355);
+  let rangeCalenderProps = $64fa3d84918910a7$export$fabf2dc03a41866e($dfd62f934fc76fed$export$233dd9682e1ad64b);
+  let state = calendarState !== null && calendarState !== void 0 ? calendarState : rangeCalendarState;
+  let startDate = state.visibleRange.start;
+  if (props.offset) startDate = startDate.add(props.offset);
+  var _calenderProps_firstDayOfWeek;
+  let firstDayOfWeek = (_calenderProps_firstDayOfWeek = calenderProps === null || calenderProps === void 0 ? void 0 : calenderProps.firstDayOfWeek) !== null && _calenderProps_firstDayOfWeek !== void 0 ? _calenderProps_firstDayOfWeek : rangeCalenderProps === null || rangeCalenderProps === void 0 ? void 0 : rangeCalenderProps.firstDayOfWeek;
+  let { gridProps, headerProps, weekDays, weeksInMonth } = $e3031d1f8c9d64eb$export$cb95147730a423f5({
+    startDate,
+    endDate: $14e0f24ef4ac5c92$export$a2258d9c4118825c(startDate),
+    weekdayStyle: props.weekdayStyle,
+    firstDayOfWeek
+  }, state);
+  let DOMProps = $65484d02dcb7eb3e$export$457c3d6518dd4c6f(props, {
+    global: true
+  });
+  var _props_className;
+  return /* @__PURE__ */ React.createElement($dfd62f934fc76fed$var$InternalCalendarGridContext.Provider, {
+    value: {
+      headerProps,
+      weekDays,
+      startDate,
+      weeksInMonth
+    }
+  }, /* @__PURE__ */ React.createElement("table", {
+    ...$3ef42575df84b30b$export$9d1611c77c2fe928(DOMProps, gridProps),
+    ref,
+    style: props.style,
+    cellPadding: 0,
+    className: (_props_className = props.className) !== null && _props_className !== void 0 ? _props_className : "react-aria-CalendarGrid"
+  }, typeof props.children !== "function" ? props.children : /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement($dfd62f934fc76fed$export$22e2d15eaa4d2377, null, (day) => /* @__PURE__ */ React.createElement($dfd62f934fc76fed$export$ad2135cac3a11b3d, null, day)), /* @__PURE__ */ React.createElement($dfd62f934fc76fed$export$e11f8ba65d857bff, null, props.children))));
+});
+function $dfd62f934fc76fed$var$CalendarGridHeader(props, ref) {
+  let { children, style, className } = props;
+  let { headerProps, weekDays } = reactExports.useContext($dfd62f934fc76fed$var$InternalCalendarGridContext);
+  let DOMProps = $65484d02dcb7eb3e$export$457c3d6518dd4c6f(props, {
+    global: true
+  });
+  return /* @__PURE__ */ React.createElement("thead", {
+    ...$3ef42575df84b30b$export$9d1611c77c2fe928(DOMProps, headerProps),
+    ref,
+    style,
+    className: className || "react-aria-CalendarGridHeader"
+  }, /* @__PURE__ */ React.createElement("tr", null, weekDays.map((day, key) => /* @__PURE__ */ React.cloneElement(children(day), {
+    key
+  }))));
+}
+const $dfd62f934fc76fed$export$22e2d15eaa4d2377 = /* @__PURE__ */ reactExports.forwardRef($dfd62f934fc76fed$var$CalendarGridHeader);
+function $dfd62f934fc76fed$var$CalendarHeaderCell(props, ref) {
+  let { children, style, className } = props;
+  let DOMProps = $65484d02dcb7eb3e$export$457c3d6518dd4c6f(props, {
+    global: true
+  });
+  return /* @__PURE__ */ React.createElement("th", {
+    ...DOMProps,
+    ref,
+    style,
+    className: className || "react-aria-CalendarHeaderCell"
+  }, children);
+}
+const $dfd62f934fc76fed$export$ad2135cac3a11b3d = /* @__PURE__ */ reactExports.forwardRef($dfd62f934fc76fed$var$CalendarHeaderCell);
+function $dfd62f934fc76fed$var$CalendarGridBody(props, ref) {
+  let { children, style, className } = props;
+  let calendarState = reactExports.useContext($dfd62f934fc76fed$export$9e31dcedda1dadc7);
+  let rangeCalendarState = reactExports.useContext($dfd62f934fc76fed$export$5e0fc348c00f87a0);
+  let state = calendarState !== null && calendarState !== void 0 ? calendarState : rangeCalendarState;
+  let { startDate, weeksInMonth } = reactExports.useContext($dfd62f934fc76fed$var$InternalCalendarGridContext);
+  let DOMProps = $65484d02dcb7eb3e$export$457c3d6518dd4c6f(props, {
+    global: true
+  });
+  return /* @__PURE__ */ React.createElement("tbody", {
+    ...DOMProps,
+    ref,
+    style,
+    className: className || "react-aria-CalendarGridBody"
+  }, [
+    ...new Array(weeksInMonth).keys()
+  ].map((weekIndex) => /* @__PURE__ */ React.createElement("tr", {
+    key: weekIndex
+  }, state.getDatesInWeek(weekIndex, startDate).map((date2, i) => date2 ? /* @__PURE__ */ React.cloneElement(children(date2), {
+    key: i
+  }) : /* @__PURE__ */ React.createElement("td", {
+    key: i
+  })))));
+}
+const $dfd62f934fc76fed$export$e11f8ba65d857bff = /* @__PURE__ */ reactExports.forwardRef($dfd62f934fc76fed$var$CalendarGridBody);
+const $dfd62f934fc76fed$export$5d847498420df57b = /* @__PURE__ */ reactExports.forwardRef(function CalendarCell({ date: date2, ...otherProps }, ref) {
+  let calendarState = reactExports.useContext($dfd62f934fc76fed$export$9e31dcedda1dadc7);
+  let rangeCalendarState = reactExports.useContext($dfd62f934fc76fed$export$5e0fc348c00f87a0);
+  let state = calendarState !== null && calendarState !== void 0 ? calendarState : rangeCalendarState;
+  var _useContext;
+  let { startDate: currentMonth } = (_useContext = reactExports.useContext($dfd62f934fc76fed$var$InternalCalendarGridContext)) !== null && _useContext !== void 0 ? _useContext : {
+    startDate: state.visibleRange.start
+  };
+  let isOutsideMonth = !$14e0f24ef4ac5c92$export$a18c89cbd24170ff(currentMonth, date2);
+  let istoday = $14e0f24ef4ac5c92$export$629b0a497aa65267(date2, state.timeZone);
+  let buttonRef = reactExports.useRef(null);
+  let { cellProps, buttonProps, ...states } = $36a0ac60f04457c5$export$136073280381448e({
+    date: date2,
+    isOutsideMonth
+  }, state, buttonRef);
+  let { hoverProps, isHovered } = $6179b936705e76d3$export$ae780daf29e6d456({
+    ...otherProps,
+    isDisabled: states.isDisabled
+  });
+  let { focusProps, isFocusVisible } = $f7dceffc5ad7768b$export$4e328f61c538687f();
+  isFocusVisible && (isFocusVisible = states.isFocused);
+  let isSelectionStart = false;
+  let isSelectionEnd = false;
+  if ("highlightedRange" in state && state.highlightedRange) {
+    isSelectionStart = $14e0f24ef4ac5c92$export$ea39ec197993aef0(date2, state.highlightedRange.start);
+    isSelectionEnd = $14e0f24ef4ac5c92$export$ea39ec197993aef0(date2, state.highlightedRange.end);
+  }
+  let renderProps = $64fa3d84918910a7$export$4d86445c2cf5e3({
+    ...otherProps,
+    defaultChildren: states.formattedDate,
+    defaultClassName: "react-aria-CalendarCell",
+    values: {
+      date: date2,
+      isHovered,
+      isOutsideMonth,
+      isFocusVisible,
+      isSelectionStart,
+      isSelectionEnd,
+      isToday: istoday,
+      ...states
+    }
+  });
+  let dataAttrs = {
+    "data-focused": states.isFocused || void 0,
+    "data-hovered": isHovered || void 0,
+    "data-pressed": states.isPressed || void 0,
+    "data-unavailable": states.isUnavailable || void 0,
+    "data-disabled": states.isDisabled || void 0,
+    "data-focus-visible": isFocusVisible || void 0,
+    "data-outside-visible-range": states.isOutsideVisibleRange || void 0,
+    "data-outside-month": isOutsideMonth || void 0,
+    "data-selected": states.isSelected || void 0,
+    "data-selection-start": isSelectionStart || void 0,
+    "data-selection-end": isSelectionEnd || void 0,
+    "data-invalid": states.isInvalid || void 0,
+    "data-today": istoday || void 0
+  };
+  let DOMProps = $65484d02dcb7eb3e$export$457c3d6518dd4c6f(otherProps, {
+    global: true
+  });
+  return /* @__PURE__ */ React.createElement("td", {
+    ...cellProps,
+    ref
+  }, /* @__PURE__ */ React.createElement("div", {
+    ...$3ef42575df84b30b$export$9d1611c77c2fe928(DOMProps, buttonProps, focusProps, hoverProps, dataAttrs, renderProps),
+    ref: buttonRef
+  }));
+});
 const $ee014567cb39d3f0$export$ff05c3ac10437e03 = /* @__PURE__ */ reactExports.createContext(null);
 const $d3e0e05bdfcf66bd$export$c24727297075ec6a = /* @__PURE__ */ reactExports.createContext(null);
 const $a049562f99e7db0e$export$f9c6924e160136d1 = /* @__PURE__ */ reactExports.createContext({});
+const $a049562f99e7db0e$export$eb2fcfdbd7ba97d4 = /* @__PURE__ */ reactExports.forwardRef(function Group(props, ref) {
+  [props, ref] = $64fa3d84918910a7$export$29f1550f4b0d4415(props, ref, $a049562f99e7db0e$export$f9c6924e160136d1);
+  let { isDisabled, isInvalid, isReadOnly, onHoverStart, onHoverChange, onHoverEnd, ...otherProps } = props;
+  let { hoverProps, isHovered } = $6179b936705e76d3$export$ae780daf29e6d456({
+    onHoverStart,
+    onHoverChange,
+    onHoverEnd,
+    isDisabled
+  });
+  let { isFocused, isFocusVisible, focusProps } = $f7dceffc5ad7768b$export$4e328f61c538687f({
+    within: true
+  });
+  isDisabled !== null && isDisabled !== void 0 ? isDisabled : isDisabled = !!props["aria-disabled"] && props["aria-disabled"] !== "false";
+  isInvalid !== null && isInvalid !== void 0 ? isInvalid : isInvalid = !!props["aria-invalid"] && props["aria-invalid"] !== "false";
+  let renderProps = $64fa3d84918910a7$export$4d86445c2cf5e3({
+    ...props,
+    values: {
+      isHovered,
+      isFocusWithin: isFocused,
+      isFocusVisible,
+      isDisabled,
+      isInvalid
+    },
+    defaultClassName: "react-aria-Group"
+  });
+  var _props_role, _props_slot;
+  return /* @__PURE__ */ React.createElement("div", {
+    ...$3ef42575df84b30b$export$9d1611c77c2fe928(otherProps, focusProps, hoverProps),
+    ...renderProps,
+    ref,
+    role: (_props_role = props.role) !== null && _props_role !== void 0 ? _props_role : "group",
+    slot: (_props_slot = props.slot) !== null && _props_slot !== void 0 ? _props_slot : void 0,
+    "data-focus-within": isFocused || void 0,
+    "data-hovered": isHovered || void 0,
+    "data-focus-visible": isFocusVisible || void 0,
+    "data-disabled": isDisabled || void 0,
+    "data-invalid": isInvalid || void 0,
+    "data-readonly": isReadOnly || void 0
+  }, renderProps.children);
+});
 const $3985021b0ad6602f$export$37fb8590cf2c088c = /* @__PURE__ */ reactExports.createContext({});
 let $3985021b0ad6602f$var$filterHoverProps = (props) => {
   let { onHoverStart, onHoverChange, onHoverEnd, ...otherProps } = props;
@@ -33840,7 +40536,596 @@ function $07b14b47974efb58$var$PopoverInner({ state, isExiting, UNSTABLE_portalC
     portalContainer: (_ref = UNSTABLE_portalContainer !== null && UNSTABLE_portalContainer !== void 0 ? UNSTABLE_portalContainer : groupCtx === null || groupCtx === void 0 ? void 0 : groupCtx.current) !== null && _ref !== void 0 ? _ref : void 0
   }, overlay);
 }
+const $63df2425e2108aa8$export$744d98a3b8a94e1c = /* @__PURE__ */ reactExports.createContext({});
+const $3674c52c6b3c5bce$export$c7e742effb1c51e2 = /* @__PURE__ */ reactExports.createContext(null);
+const $3674c52c6b3c5bce$export$24aad8519b95b41b = /* @__PURE__ */ reactExports.createContext(null);
+const $3674c52c6b3c5bce$export$795aec4671cbae19 = /* @__PURE__ */ reactExports.createContext(null);
+const $3674c52c6b3c5bce$var$SelectionManagerContext = /* @__PURE__ */ reactExports.createContext(null);
+const $3674c52c6b3c5bce$var$SubmenuTriggerContext = /* @__PURE__ */ reactExports.createContext(null);
+class $3674c52c6b3c5bce$var$SubmenuTriggerNode extends $23b9f4fcf0fe224b$export$d68d59712b04d9d1 {
+  filter(collection, newCollection, filterFn) {
+    let triggerNode = collection.getItem(this.firstChildKey);
+    if (triggerNode && filterFn(triggerNode.textValue, this)) {
+      let clone2 = this.clone();
+      newCollection.addDescendants(clone2, collection);
+      return clone2;
+    }
+    return null;
+  }
+}
+$3674c52c6b3c5bce$var$SubmenuTriggerNode.type = "submenutrigger";
+const $3674c52c6b3c5bce$export$d9b273488cd8ce6f = /* @__PURE__ */ reactExports.forwardRef(function Menu(props, ref) {
+  [props, ref] = $64fa3d84918910a7$export$29f1550f4b0d4415(props, ref, $3674c52c6b3c5bce$export$c7e742effb1c51e2);
+  return /* @__PURE__ */ React.createElement($e1995378a142960e$export$bf788dd355e3a401, {
+    content: /* @__PURE__ */ React.createElement($e1995378a142960e$export$fb8073518f34e6ec, props)
+  }, (collection) => /* @__PURE__ */ React.createElement($3674c52c6b3c5bce$var$MenuInner, {
+    props,
+    collection,
+    menuRef: ref
+  }));
+});
+function $3674c52c6b3c5bce$var$MenuInner({ props, collection, menuRef: ref }) {
+  [props, ref] = $64fa3d84918910a7$export$29f1550f4b0d4415(props, ref, $4e85f108e88277b8$export$b0d3ecf7112093a7);
+  let { filter: filter2, ...autocompleteMenuProps } = props;
+  let filteredCollection = reactExports.useMemo(() => filter2 ? collection.filter(filter2) : collection, [
+    collection,
+    filter2
+  ]);
+  let state = $875d6693e12af071$export$728d6ba534403756({
+    ...props,
+    collection: filteredCollection,
+    children: void 0
+  });
+  let triggerState = reactExports.useContext($3674c52c6b3c5bce$export$795aec4671cbae19);
+  let { isVirtualized, CollectionRoot } = reactExports.useContext($7135fc7d473fd974$export$4feb769f8ddf26c5);
+  let { menuProps } = $d5336fe17ce95402$export$38eaa17faae8f579({
+    ...props,
+    isVirtualized,
+    onClose: props.onClose || (triggerState === null || triggerState === void 0 ? void 0 : triggerState.close)
+  }, state, ref);
+  let renderProps = $64fa3d84918910a7$export$4d86445c2cf5e3({
+    defaultClassName: "react-aria-Menu",
+    className: props.className,
+    style: props.style,
+    values: {
+      isEmpty: state.collection.size === 0
+    }
+  });
+  let emptyState = null;
+  if (state.collection.size === 0 && props.renderEmptyState) emptyState = /* @__PURE__ */ React.createElement("div", {
+    role: "menuitem",
+    style: {
+      display: "contents"
+    }
+  }, props.renderEmptyState());
+  let DOMProps = $65484d02dcb7eb3e$export$457c3d6518dd4c6f(props, {
+    global: true
+  });
+  return /* @__PURE__ */ React.createElement($9bf71ea28793e738$export$20e40289641fbbb6, null, /* @__PURE__ */ React.createElement("div", {
+    ...$3ef42575df84b30b$export$9d1611c77c2fe928(DOMProps, renderProps, menuProps),
+    ref,
+    slot: props.slot || void 0,
+    "data-empty": state.collection.size === 0 || void 0,
+    onScroll: props.onScroll
+  }, /* @__PURE__ */ React.createElement($64fa3d84918910a7$export$2881499e37b75b9a, {
+    values: [
+      [
+        $3674c52c6b3c5bce$export$24aad8519b95b41b,
+        state
+      ],
+      [
+        $431f98aba6844401$export$6615d83f6de245ce,
+        {
+          elementType: "div"
+        }
+      ],
+      [
+        $7135fc7d473fd974$export$d40e14dec8b060a8,
+        {
+          name: "MenuSection",
+          render: $3674c52c6b3c5bce$var$MenuSectionInner
+        }
+      ],
+      [
+        $3674c52c6b3c5bce$var$SubmenuTriggerContext,
+        {
+          parentMenuRef: ref,
+          shouldUseVirtualFocus: autocompleteMenuProps === null || autocompleteMenuProps === void 0 ? void 0 : autocompleteMenuProps.shouldUseVirtualFocus
+        }
+      ],
+      [
+        $3674c52c6b3c5bce$var$MenuItemContext,
+        null
+      ],
+      [
+        $4e85f108e88277b8$export$b0d3ecf7112093a7,
+        null
+      ],
+      [
+        $4e85f108e88277b8$export$698f465ec27e93df,
+        null
+      ],
+      [
+        $3674c52c6b3c5bce$var$SelectionManagerContext,
+        state.selectionManager
+      ],
+      /* Ensure root MenuTriggerState is defined, in case Menu is rendered outside a MenuTrigger. */
+      /* We assume the context can never change between defined and undefined. */
+      /* eslint-disable-next-line react-hooks/rules-of-hooks */
+      [
+        $3674c52c6b3c5bce$export$795aec4671cbae19,
+        triggerState !== null && triggerState !== void 0 ? triggerState : $a28c903ee9ad8dc5$export$79fefeb1c2091ac3({})
+      ]
+    ]
+  }, /* @__PURE__ */ React.createElement($c8a5a149f625efcf$export$758399f318e6385a, null, /* @__PURE__ */ React.createElement(CollectionRoot, {
+    collection: state.collection,
+    persistedKeys: $7135fc7d473fd974$export$90e00781bc59d8f9(state.selectionManager.focusedKey),
+    scrollRef: ref
+  }))), emptyState));
+}
+class $3674c52c6b3c5bce$var$GroupSelectionManager extends $d496c0a20b6e58ec$export$6c8a5aaad13c9852 {
+  get focusedKey() {
+    return this.parent.focusedKey;
+  }
+  get isFocused() {
+    return this.parent.isFocused;
+  }
+  setFocusedKey(key, childFocusStrategy) {
+    return this.parent.setFocusedKey(key, childFocusStrategy);
+  }
+  setFocused(isFocused) {
+    this.parent.setFocused(isFocused);
+  }
+  get childFocusStrategy() {
+    return this.parent.childFocusStrategy;
+  }
+  constructor(parent, state) {
+    super(parent.collection, state);
+    this.parent = parent;
+  }
+}
+function $3674c52c6b3c5bce$var$MenuSectionInner(props, ref, section, className = "react-aria-MenuSection") {
+  var _section_props, _section_props1;
+  let state = reactExports.useContext($3674c52c6b3c5bce$export$24aad8519b95b41b);
+  let { CollectionBranch } = reactExports.useContext($7135fc7d473fd974$export$4feb769f8ddf26c5);
+  let [headingRef, heading] = $64fa3d84918910a7$export$9d4c57ee4c6ffdd8();
+  var _section_props_arialabel;
+  let { headingProps, groupProps } = $3e5eb2498db5b506$export$73f7a44322579622({
+    heading,
+    "aria-label": (_section_props_arialabel = section.props["aria-label"]) !== null && _section_props_arialabel !== void 0 ? _section_props_arialabel : void 0
+  });
+  let renderProps = $64fa3d84918910a7$export$4d86445c2cf5e3({
+    defaultClassName: className,
+    className: (_section_props = section.props) === null || _section_props === void 0 ? void 0 : _section_props.className,
+    style: (_section_props1 = section.props) === null || _section_props1 === void 0 ? void 0 : _section_props1.style,
+    values: {}
+  });
+  let parent = reactExports.useContext($3674c52c6b3c5bce$var$SelectionManagerContext);
+  let selectionState = $7af3f5b51489e0b5$export$253fe78d46329472(props);
+  let manager = props.selectionMode != null ? new $3674c52c6b3c5bce$var$GroupSelectionManager(parent, selectionState) : parent;
+  let DOMProps = $65484d02dcb7eb3e$export$457c3d6518dd4c6f(props, {
+    global: true
+  });
+  delete DOMProps.id;
+  return /* @__PURE__ */ React.createElement("section", {
+    ...$3ef42575df84b30b$export$9d1611c77c2fe928(DOMProps, renderProps, groupProps),
+    ref
+  }, /* @__PURE__ */ React.createElement($64fa3d84918910a7$export$2881499e37b75b9a, {
+    values: [
+      [
+        $72a5793c14baf454$export$e0e4026c12a8bdbb,
+        {
+          ...headingProps,
+          ref: headingRef
+        }
+      ],
+      [
+        $3674c52c6b3c5bce$var$SelectionManagerContext,
+        manager
+      ]
+    ]
+  }, /* @__PURE__ */ React.createElement(CollectionBranch, {
+    collection: state.collection,
+    parent: section
+  })));
+}
+const $3674c52c6b3c5bce$var$MenuItemContext = /* @__PURE__ */ reactExports.createContext(null);
+const $3674c52c6b3c5bce$export$2ce376c2cc3355c8 = /* @__PURE__ */ $e1995378a142960e$export$18af5c7a9e9b3664($23b9f4fcf0fe224b$export$fd11f34e1d07f134, function MenuItem(props, forwardedRef, item) {
+  var _useSlottedContext;
+  [props, forwardedRef] = $64fa3d84918910a7$export$29f1550f4b0d4415(props, forwardedRef, $3674c52c6b3c5bce$var$MenuItemContext);
+  let id2 = (_useSlottedContext = $64fa3d84918910a7$export$fabf2dc03a41866e($3674c52c6b3c5bce$var$MenuItemContext)) === null || _useSlottedContext === void 0 ? void 0 : _useSlottedContext.id;
+  let state = reactExports.useContext($3674c52c6b3c5bce$export$24aad8519b95b41b);
+  let ref = $df56164dff5785e2$export$4338b53315abf666(forwardedRef);
+  let selectionManager = reactExports.useContext($3674c52c6b3c5bce$var$SelectionManagerContext);
+  let { menuItemProps, labelProps, descriptionProps, keyboardShortcutProps, ...states } = $a2e5df62f93c7633$export$9d32628fc2aea7da({
+    ...props,
+    id: id2,
+    key: item.key,
+    selectionManager
+  }, state, ref);
+  let { hoverProps, isHovered } = $6179b936705e76d3$export$ae780daf29e6d456({
+    isDisabled: states.isDisabled
+  });
+  let renderProps = $64fa3d84918910a7$export$4d86445c2cf5e3({
+    ...props,
+    id: void 0,
+    children: item.rendered,
+    defaultClassName: "react-aria-MenuItem",
+    values: {
+      ...states,
+      isHovered,
+      isFocusVisible: states.isFocusVisible,
+      selectionMode: selectionManager.selectionMode,
+      selectionBehavior: selectionManager.selectionBehavior,
+      hasSubmenu: !!props["aria-haspopup"],
+      isOpen: props["aria-expanded"] === "true"
+    }
+  });
+  let ElementType = props.href ? "a" : "div";
+  let DOMProps = $65484d02dcb7eb3e$export$457c3d6518dd4c6f(props, {
+    global: true
+  });
+  delete DOMProps.id;
+  delete DOMProps.onClick;
+  return /* @__PURE__ */ React.createElement(ElementType, {
+    ...$3ef42575df84b30b$export$9d1611c77c2fe928(DOMProps, renderProps, menuItemProps, hoverProps),
+    ref,
+    "data-disabled": states.isDisabled || void 0,
+    "data-hovered": isHovered || void 0,
+    "data-focused": states.isFocused || void 0,
+    "data-focus-visible": states.isFocusVisible || void 0,
+    "data-pressed": states.isPressed || void 0,
+    "data-selected": states.isSelected || void 0,
+    "data-selection-mode": selectionManager.selectionMode === "none" ? void 0 : selectionManager.selectionMode,
+    "data-has-submenu": !!props["aria-haspopup"] || void 0,
+    "data-open": props["aria-expanded"] === "true" || void 0
+  }, /* @__PURE__ */ React.createElement($64fa3d84918910a7$export$2881499e37b75b9a, {
+    values: [
+      [
+        $514c0188e459b4c0$export$9afb8bc826b033ea,
+        {
+          slots: {
+            [$64fa3d84918910a7$export$c62b8e45d58ddad9]: labelProps,
+            label: labelProps,
+            description: descriptionProps
+          }
+        }
+      ],
+      [
+        $63df2425e2108aa8$export$744d98a3b8a94e1c,
+        keyboardShortcutProps
+      ],
+      [
+        $1d5b8b8664671ef2$export$c9549807523555e0,
+        {
+          isSelected: states.isSelected
+        }
+      ]
+    ]
+  }, renderProps.children));
+});
+const $de32f1b87079253c$export$8b93a07348a7730c = /* @__PURE__ */ reactExports.createContext(null);
 const $de32f1b87079253c$export$d2f961adcb0afbe = /* @__PURE__ */ reactExports.createContext(null);
+function $de32f1b87079253c$export$2e1e1122cf0cba88(props) {
+  let state = $a28c903ee9ad8dc5$export$79fefeb1c2091ac3(props);
+  let buttonRef = reactExports.useRef(null);
+  let { triggerProps, overlayProps } = $628037886ba31236$export$f9d5c8beee7d008d({
+    type: "dialog"
+  }, state, buttonRef);
+  let [buttonWidth, setButtonWidth] = reactExports.useState(null);
+  let onResize = reactExports.useCallback(() => {
+    if (buttonRef.current) setButtonWidth(buttonRef.current.offsetWidth + "px");
+  }, [
+    buttonRef
+  ]);
+  $9daab02d461809db$export$683480f191c0e3ea({
+    ref: buttonRef,
+    onResize
+  });
+  triggerProps.id = $bdb11010cef70236$export$f680877a34711e37();
+  overlayProps["aria-labelledby"] = triggerProps.id;
+  return /* @__PURE__ */ React.createElement($64fa3d84918910a7$export$2881499e37b75b9a, {
+    values: [
+      [
+        $de32f1b87079253c$export$d2f961adcb0afbe,
+        state
+      ],
+      [
+        $3674c52c6b3c5bce$export$795aec4671cbae19,
+        state
+      ],
+      [
+        $de32f1b87079253c$export$8b93a07348a7730c,
+        overlayProps
+      ],
+      [
+        $07b14b47974efb58$export$9b9a0cd73afb7ca4,
+        {
+          trigger: "DialogTrigger",
+          triggerRef: buttonRef,
+          "aria-labelledby": overlayProps["aria-labelledby"],
+          style: {
+            "--trigger-width": buttonWidth
+          }
+        }
+      ]
+    ]
+  }, /* @__PURE__ */ React.createElement($f1ab8c75478c6f73$export$3351871ee4b288b8, {
+    ...triggerProps,
+    ref: buttonRef,
+    isPressed: state.isOpen
+  }, props.children));
+}
+const $de32f1b87079253c$export$3ddf2d174ce01153 = /* @__PURE__ */ reactExports.forwardRef(function Dialog(props, ref) {
+  let originalAriaLabelledby = props["aria-labelledby"];
+  [props, ref] = $64fa3d84918910a7$export$29f1550f4b0d4415(props, ref, $de32f1b87079253c$export$8b93a07348a7730c);
+  let { dialogProps, titleProps } = $40df3f8667284809$export$d55e7ee900f34e93({
+    ...props,
+    // Only pass aria-labelledby from props, not context.
+    // Context is used as a fallback below.
+    "aria-labelledby": originalAriaLabelledby
+  }, ref);
+  let state = reactExports.useContext($de32f1b87079253c$export$d2f961adcb0afbe);
+  if (!dialogProps["aria-label"] && !dialogProps["aria-labelledby"]) {
+    if (props["aria-labelledby"]) dialogProps["aria-labelledby"] = props["aria-labelledby"];
+  }
+  let renderProps = $64fa3d84918910a7$export$4d86445c2cf5e3({
+    defaultClassName: "react-aria-Dialog",
+    className: props.className,
+    style: props.style,
+    children: props.children,
+    values: {
+      close: (state === null || state === void 0 ? void 0 : state.close) || (() => {
+      })
+    }
+  });
+  let DOMProps = $65484d02dcb7eb3e$export$457c3d6518dd4c6f(props, {
+    global: true
+  });
+  return /* @__PURE__ */ React.createElement("section", {
+    ...$3ef42575df84b30b$export$9d1611c77c2fe928(DOMProps, renderProps, dialogProps),
+    ref,
+    slot: props.slot || void 0
+  }, /* @__PURE__ */ React.createElement($64fa3d84918910a7$export$2881499e37b75b9a, {
+    values: [
+      [
+        $4e85f108e88277b8$export$d688439359537581,
+        {
+          slots: {
+            [$64fa3d84918910a7$export$c62b8e45d58ddad9]: {},
+            title: {
+              ...titleProps,
+              level: 2
+            }
+          }
+        }
+      ],
+      [
+        $d2b4bc8c273e7be6$export$24d547caef80ccd1,
+        {
+          slots: {
+            [$64fa3d84918910a7$export$c62b8e45d58ddad9]: {},
+            close: {
+              onPress: () => state === null || state === void 0 ? void 0 : state.close()
+            }
+          }
+        }
+      ]
+    ]
+  }, renderProps.children));
+});
+const $40825cdb76e74f70$export$7b3e670c86da5fe8 = /* @__PURE__ */ reactExports.createContext(null);
+const $40825cdb76e74f70$export$8e17ddc448e87c1e = /* @__PURE__ */ reactExports.createContext(null);
+const $40825cdb76e74f70$export$3b08bebcf796eea0 = /* @__PURE__ */ reactExports.createContext(null);
+const $40825cdb76e74f70$export$5d8dc44abd10a920 = /* @__PURE__ */ reactExports.createContext(null);
+const $40825cdb76e74f70$export$5eaee2322dd727eb = /* @__PURE__ */ reactExports.forwardRef(function TimeField(props, ref) {
+  [props, ref] = $64fa3d84918910a7$export$29f1550f4b0d4415(props, ref, $40825cdb76e74f70$export$8e17ddc448e87c1e);
+  let { validationBehavior: formValidationBehavior } = $64fa3d84918910a7$export$fabf2dc03a41866e($d3e0e05bdfcf66bd$export$c24727297075ec6a) || {};
+  var _props_validationBehavior, _ref;
+  let validationBehavior = (_ref = (_props_validationBehavior = props.validationBehavior) !== null && _props_validationBehavior !== void 0 ? _props_validationBehavior : formValidationBehavior) !== null && _ref !== void 0 ? _ref : "native";
+  let { locale: locale2 } = $18f2051aff69b9bf$export$43bb16f9c6d9e3f7();
+  let state = $eff5d8ee529ac4bb$export$fd53cef0cc796101({
+    ...props,
+    locale: locale2,
+    validationBehavior
+  });
+  let fieldRef = reactExports.useRef(null);
+  let [labelRef, label] = $64fa3d84918910a7$export$9d4c57ee4c6ffdd8(!props["aria-label"] && !props["aria-labelledby"]);
+  let inputRef = reactExports.useRef(null);
+  let { labelProps, fieldProps, inputProps, descriptionProps, errorMessageProps, ...validation } = $16f0b7bb276bc17e$export$4c842f6a241dc825({
+    ...$64fa3d84918910a7$export$ef03459518577ad4(props),
+    label,
+    inputRef,
+    validationBehavior
+  }, state, fieldRef);
+  let renderProps = $64fa3d84918910a7$export$4d86445c2cf5e3({
+    ...props,
+    values: {
+      state,
+      isInvalid: state.isInvalid,
+      isDisabled: state.isDisabled,
+      isReadOnly: state.isReadOnly
+    },
+    defaultClassName: "react-aria-TimeField"
+  });
+  let DOMProps = $65484d02dcb7eb3e$export$457c3d6518dd4c6f(props, {
+    global: true
+  });
+  delete DOMProps.id;
+  return /* @__PURE__ */ React.createElement($64fa3d84918910a7$export$2881499e37b75b9a, {
+    values: [
+      [
+        $40825cdb76e74f70$export$5d8dc44abd10a920,
+        state
+      ],
+      [
+        $a049562f99e7db0e$export$f9c6924e160136d1,
+        {
+          ...fieldProps,
+          ref: fieldRef,
+          isInvalid: state.isInvalid,
+          isDisabled: state.isDisabled
+        }
+      ],
+      [
+        $3985021b0ad6602f$export$37fb8590cf2c088c,
+        {
+          ...inputProps,
+          ref: inputRef
+        }
+      ],
+      [
+        $01b77f81d0f07f68$export$75b6ee27786ba447,
+        {
+          ...labelProps,
+          ref: labelRef,
+          elementType: "span"
+        }
+      ],
+      [
+        $514c0188e459b4c0$export$9afb8bc826b033ea,
+        {
+          slots: {
+            description: descriptionProps,
+            errorMessage: errorMessageProps
+          }
+        }
+      ],
+      [
+        $ee014567cb39d3f0$export$ff05c3ac10437e03,
+        validation
+      ]
+    ]
+  }, /* @__PURE__ */ React.createElement("div", {
+    ...DOMProps,
+    ...renderProps,
+    ref,
+    slot: props.slot || void 0,
+    "data-invalid": state.isInvalid || void 0,
+    "data-disabled": state.isDisabled || void 0,
+    "data-readonly": state.isReadOnly || void 0
+  }));
+});
+const $40825cdb76e74f70$export$7edc06cf1783b30f = /* @__PURE__ */ reactExports.forwardRef(function DateInput(props, ref) {
+  let dateFieldState = reactExports.useContext($40825cdb76e74f70$export$3b08bebcf796eea0);
+  let timeFieldState = reactExports.useContext($40825cdb76e74f70$export$5d8dc44abd10a920);
+  return dateFieldState || timeFieldState ? /* @__PURE__ */ React.createElement($40825cdb76e74f70$var$DateInputInner, {
+    ...props,
+    ref
+  }) : /* @__PURE__ */ React.createElement($40825cdb76e74f70$var$DateInputStandalone, {
+    ...props,
+    ref
+  });
+});
+const $40825cdb76e74f70$var$DateInputStandalone = /* @__PURE__ */ reactExports.forwardRef((props, ref) => {
+  let [dateFieldProps, fieldRef] = $64fa3d84918910a7$export$29f1550f4b0d4415({
+    slot: props.slot
+  }, ref, $40825cdb76e74f70$export$7b3e670c86da5fe8);
+  let { locale: locale2 } = $18f2051aff69b9bf$export$43bb16f9c6d9e3f7();
+  let state = $3c0fc76039f1c516$export$60e84778edff6d26({
+    ...dateFieldProps,
+    locale: locale2,
+    createCalendar: $64244302c3013299$export$dd0bbc9b26defe37
+  });
+  let inputRef = reactExports.useRef(null);
+  let { fieldProps, inputProps } = $16f0b7bb276bc17e$export$5591b0b878c1a989({
+    ...dateFieldProps,
+    inputRef
+  }, state, fieldRef);
+  return /* @__PURE__ */ React.createElement($64fa3d84918910a7$export$2881499e37b75b9a, {
+    values: [
+      [
+        $40825cdb76e74f70$export$3b08bebcf796eea0,
+        state
+      ],
+      [
+        $3985021b0ad6602f$export$37fb8590cf2c088c,
+        {
+          ...inputProps,
+          ref: inputRef
+        }
+      ],
+      [
+        $a049562f99e7db0e$export$f9c6924e160136d1,
+        {
+          ...fieldProps,
+          ref: fieldRef,
+          isInvalid: state.isInvalid,
+          isDisabled: state.isDisabled
+        }
+      ]
+    ]
+  }, /* @__PURE__ */ React.createElement($40825cdb76e74f70$var$DateInputInner, props));
+});
+const $40825cdb76e74f70$var$DateInputInner = /* @__PURE__ */ reactExports.forwardRef((props, ref) => {
+  let { className, children } = props;
+  let dateFieldState = reactExports.useContext($40825cdb76e74f70$export$3b08bebcf796eea0);
+  let timeFieldState = reactExports.useContext($40825cdb76e74f70$export$5d8dc44abd10a920);
+  let state = dateFieldState !== null && dateFieldState !== void 0 ? dateFieldState : timeFieldState;
+  return /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement($a049562f99e7db0e$export$eb2fcfdbd7ba97d4, {
+    ...props,
+    ref,
+    slot: props.slot || void 0,
+    className: className !== null && className !== void 0 ? className : "react-aria-DateInput",
+    isReadOnly: state.isReadOnly,
+    isInvalid: state.isInvalid,
+    isDisabled: state.isDisabled
+  }, state.segments.map((segment, i) => /* @__PURE__ */ reactExports.cloneElement(children(segment), {
+    key: i
+  }))), /* @__PURE__ */ React.createElement($3985021b0ad6602f$export$f5b8910cec6cf069, null));
+});
+const $40825cdb76e74f70$export$336ab7fa954c4b5f = /* @__PURE__ */ reactExports.forwardRef(function DateSegment({ segment, ...otherProps }, ref) {
+  let dateFieldState = reactExports.useContext($40825cdb76e74f70$export$3b08bebcf796eea0);
+  let timeFieldState = reactExports.useContext($40825cdb76e74f70$export$5d8dc44abd10a920);
+  let state = dateFieldState !== null && dateFieldState !== void 0 ? dateFieldState : timeFieldState;
+  let domRef = $df56164dff5785e2$export$4338b53315abf666(ref);
+  let { segmentProps } = $32489daedd52963e$export$1315d136e6f7581(segment, state, domRef);
+  let { focusProps, isFocused, isFocusVisible } = $f7dceffc5ad7768b$export$4e328f61c538687f();
+  let { hoverProps, isHovered } = $6179b936705e76d3$export$ae780daf29e6d456({
+    ...otherProps,
+    isDisabled: state.isDisabled || segment.type === "literal"
+  });
+  let renderProps = $64fa3d84918910a7$export$4d86445c2cf5e3({
+    ...otherProps,
+    values: {
+      ...segment,
+      isReadOnly: state.isReadOnly,
+      isInvalid: state.isInvalid,
+      isDisabled: state.isDisabled,
+      isHovered,
+      isFocused,
+      isFocusVisible
+    },
+    defaultChildren: segment.text,
+    defaultClassName: "react-aria-DateSegment"
+  });
+  return /* @__PURE__ */ React.createElement("span", {
+    ...$3ef42575df84b30b$export$9d1611c77c2fe928($65484d02dcb7eb3e$export$457c3d6518dd4c6f(otherProps, {
+      global: true
+    }), segmentProps, focusProps, hoverProps),
+    ...renderProps,
+    style: segmentProps.style,
+    ref: domRef,
+    "data-placeholder": segment.isPlaceholder || void 0,
+    "data-invalid": state.isInvalid || void 0,
+    "data-readonly": state.isReadOnly || void 0,
+    "data-disabled": state.isDisabled || void 0,
+    "data-type": segment.type,
+    "data-hovered": isHovered || void 0,
+    "data-focused": isFocused || void 0,
+    "data-focus-visible": isFocusVisible || void 0
+  });
+});
+const $5cb03073d3f54797$export$a8a3e93435678ff9 = /* @__PURE__ */ reactExports.forwardRef(function Heading(props, ref) {
+  [props, ref] = $64fa3d84918910a7$export$29f1550f4b0d4415(props, ref, $4e85f108e88277b8$export$d688439359537581);
+  let { children, level = 3, className, ...domProps } = props;
+  let Element2 = `h${level}`;
+  return /* @__PURE__ */ React.createElement(Element2, {
+    ...domProps,
+    ref,
+    className: className !== null && className !== void 0 ? className : "react-aria-Heading"
+  }, children);
+});
 const $82d7e5349645de74$export$7540cee5be7dc19b = /* @__PURE__ */ reactExports.createContext(null);
 const $82d7e5349645de74$export$ef445b55be0601bd = /* @__PURE__ */ reactExports.createContext(null);
 const $82d7e5349645de74$export$ef9b1a59e592288f = /* @__PURE__ */ reactExports.forwardRef(function Select(props, ref) {
@@ -34244,15 +41529,22 @@ function mapApiError(error) {
 const locale = () => {
   return new Intl.DateTimeFormat(void 0).resolvedOptions().locale;
 };
+const allDayTimestampPattern = /T00:00(?::00(?:\.\d+)?)?(?:Z|\+00:00)$/;
+const isAllDayTimestamp = (date2) => {
+  return allDayTimestampPattern.test(date2);
+};
 const parseDueDate = (dueDate) => {
   let start;
-  const hasTime = dueDate.date.includes("T");
+  const hasDateTime = dueDate.date.includes("T");
+  const hasTime = hasDateTime && !isAllDayTimestamp(dueDate.date);
   if (hasTime) {
     if (dueDate.date.endsWith("Z")) {
       start = $fae977aafc393c5c$export$5adfdab05168c219(dueDate.date, timezone());
     } else {
       start = $11d87f3f76e88657$export$e57ff100d91bd4b9($fae977aafc393c5c$export$588937bcd60ade55(dueDate.date).toDate(timezone()), timezone());
     }
+  } else if (hasDateTime) {
+    start = $fae977aafc393c5c$export$6b862160d295c8e(dueDate.date.slice(0, 10));
   } else {
     start = $fae977aafc393c5c$export$6b862160d295c8e(dueDate.date);
   }
@@ -34900,6 +42192,7 @@ const Task = ({ tree }) => {
       MotionDiv,
       {
         className: "google-tasks-task-container",
+        "data-due-metadata": tree.status !== "completed" && tree.due !== void 0 && tree.due.start.isOverdue ? "overdue" : void 0,
         initial: {
           opacity: transitionOpacity
         },
@@ -35181,6 +42474,251 @@ class QueryInjector {
     );
   }
 }
+const defaultMaxHeight = 500;
+const Popover2 = ({
+  children,
+  defaultPlacement,
+  maxHeight
+}) => {
+  const modal = ModalContext.use();
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(
+    $07b14b47974efb58$export$5b6b19405a83ff9d,
+    {
+      maxHeight: maxHeight ?? defaultMaxHeight,
+      offset: 5,
+      UNSTABLE_portalContainer: modal.popoverContainerEl,
+      className: "modal-popover",
+      ...getPlacementDetails(defaultPlacement),
+      children
+    }
+  );
+};
+const getPlacementDetails = (defaultPlacement = void 0) => {
+  if (obsidian.Platform.isMobile) {
+    return {
+      placement: "top left",
+      shouldFlip: false
+    };
+  }
+  return {
+    placement: defaultPlacement ?? "bottom left",
+    shouldFlip: false
+  };
+};
+const weekdayFormatter = new $fb18d541ea1ad717$export$ad991b66133851cf("en-US", {
+  weekday: "short"
+});
+const DueDateSelector = ({ selected, setSelected }) => {
+  const label = getLabel(selected);
+  const suggestions = getSuggestions();
+  const selectDate = (date2) => {
+    if (selected === void 0) {
+      setSelected({
+        date: date2,
+        timeInfo: void 0
+      });
+    } else {
+      setSelected({
+        date: date2,
+        timeInfo: selected.timeInfo
+      });
+    }
+  };
+  const selectedDateSuggestion = (key) => {
+    const suggestion = suggestions.find((s) => s.id === key);
+    if (suggestion === void 0) {
+      return;
+    }
+    if (suggestion.target === void 0) {
+      setSelected(void 0);
+    } else {
+      setSelected({
+        date: suggestion.target,
+        timeInfo: selected?.timeInfo
+      });
+    }
+  };
+  const setTimeInfo = (timeInfo) => {
+    if (selected === void 0) {
+      if (timeInfo !== void 0) {
+        setSelected({
+          date: today(),
+          timeInfo
+        });
+      }
+    } else {
+      setSelected({
+        date: selected.date,
+        timeInfo
+      });
+    }
+  };
+  const i18n = t().createTaskModal.dateSelector;
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs($de32f1b87079253c$export$2e1e1122cf0cba88, { children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs($d2b4bc8c273e7be6$export$353f5b6fc5456de1, { className: "due-date-selector", "aria-label": i18n.buttonLabel, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(ObsidianIcon, { size: "s", id: "calendar" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: label })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Popover2, { maxHeight: 600, children: /* @__PURE__ */ jsxRuntimeExports.jsx($de32f1b87079253c$export$3ddf2d174ce01153, { className: "task-option-dialog task-date-menu", "aria-label": i18n.dialogLabel, children: ({ close }) => /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        $3674c52c6b3c5bce$export$d9b273488cd8ce6f,
+        {
+          onAction: (key) => {
+            selectedDateSuggestion(key);
+            close();
+          },
+          "aria-label": i18n.suggestionsLabel,
+          children: /* @__PURE__ */ jsxRuntimeExports.jsx($7135fc7d473fd974$export$6e2c8f0811a474ce, { children: suggestions.map((props) => /* @__PURE__ */ jsxRuntimeExports.jsx(DateSuggestion, { ...props }, props.id)) })
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("hr", {}),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        $dfd62f934fc76fed$export$e1aef45b828286de,
+        {
+          "aria-label": i18n.datePickerLabel,
+          className: "date-picker",
+          value: selected?.date ?? null,
+          onChange: (date2) => {
+            selectDate(date2);
+            close();
+          },
+          minValue: today(),
+          children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("header", { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx($5cb03073d3f54797$export$a8a3e93435678ff9, { level: 4 }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "date-picker-controls", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx($d2b4bc8c273e7be6$export$353f5b6fc5456de1, { slot: "previous", children: "◀" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx($d2b4bc8c273e7be6$export$353f5b6fc5456de1, { slot: "next", children: "▶" })
+              ] })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx($dfd62f934fc76fed$export$5bd780d491cfc46c, { children: (date2) => /* @__PURE__ */ jsxRuntimeExports.jsx($dfd62f934fc76fed$export$5d847498420df57b, { date: date2 }) })
+          ]
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("hr", {}),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "time-picker-container", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs($de32f1b87079253c$export$2e1e1122cf0cba88, { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs($d2b4bc8c273e7be6$export$353f5b6fc5456de1, { className: "time-picker-button", "aria-label": "Set time", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(ObsidianIcon, { size: "xs", id: "clock" }),
+            "Time"
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Popover2, { defaultPlacement: "top", children: /* @__PURE__ */ jsxRuntimeExports.jsx(TimeDialog, { selectedTimeInfo: selected?.timeInfo, setTimeInfo }) })
+        ] }),
+        selected?.timeInfo !== void 0 && /* @__PURE__ */ jsxRuntimeExports.jsx(
+          $d2b4bc8c273e7be6$export$353f5b6fc5456de1,
+          {
+            className: "time-picker-clear-button",
+            onPress: () => setTimeInfo(void 0),
+            "aria-label": "Clear time",
+            children: /* @__PURE__ */ jsxRuntimeExports.jsx(ObsidianIcon, { size: "xs", id: "cross" })
+          }
+        )
+      ] })
+    ] }) }) })
+  ] });
+};
+const getLabel = (selected) => {
+  if (selected === void 0) {
+    return t().createTaskModal.dateSelector.emptyDate;
+  }
+  let dateString;
+  if (selected.timeInfo !== void 0) {
+    dateString = $11d87f3f76e88657$export$84c95a83c799e074(
+      $11d87f3f76e88657$export$b21e0b124e224484(selected.date, selected.timeInfo.time),
+      timezone()
+    ).toAbsoluteString();
+  } else {
+    dateString = selected.date.toString();
+  }
+  const apiDueDate = {
+    date: dateString,
+    isRecurring: false
+  };
+  const dueDate = DueDate.parse(apiDueDate);
+  return DueDate.format(dueDate);
+};
+const DateSuggestion = ({ id: id2, icon, label, target }) => {
+  const dayOfWeek = target !== void 0 ? weekdayFormatter.format(target.toDate(timezone())) : "";
+  return /* @__PURE__ */ jsxRuntimeExports.jsx($3674c52c6b3c5bce$export$2ce376c2cc3355c8, { id: id2, "aria-label": label, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "date-suggestion-elem", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "date-suggestion-label", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(ObsidianIcon, { id: icon, size: "s" }),
+      label
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "date-suggestion-day", children: dayOfWeek })
+  ] }) });
+};
+const getSuggestions = () => {
+  const dateI18n = t().dates;
+  const selectorI18n = t().createTaskModal.dateSelector;
+  const startOfNextWeek = $14e0f24ef4ac5c92$export$ef8b6d9133084f4e(today(), "en-US").add({
+    days: 1
+  });
+  const suggestions = [
+    {
+      id: "today",
+      icon: "calendar",
+      label: dateI18n.today,
+      target: today()
+    },
+    {
+      id: "tomorrow",
+      icon: "sun",
+      label: dateI18n.tomorrow,
+      target: today().add({ days: 1 })
+    },
+    {
+      id: "next-week",
+      icon: "calendar-clock",
+      label: dateI18n.nextWeek,
+      target: startOfNextWeek
+    },
+    {
+      id: "no-date",
+      icon: "ban",
+      label: selectorI18n.noDate,
+      target: void 0
+    }
+  ];
+  return suggestions;
+};
+const TimeDialog = ({ selectedTimeInfo, setTimeInfo }) => {
+  const i18n = t().createTaskModal.dateSelector.timeDialog;
+  const [taskTimeInfo, setTaskTimeInfo] = reactExports.useState(selectedTimeInfo);
+  const onTimeChange = (time2) => {
+    if (time2 === null) {
+      return;
+    }
+    setTaskTimeInfo({ time: time2 });
+  };
+  return /* @__PURE__ */ jsxRuntimeExports.jsx($de32f1b87079253c$export$3ddf2d174ce01153, { className: "task-option-dialog task-time-menu", "aria-label": "Time selector", children: ({ close }) => /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(
+      $40825cdb76e74f70$export$5eaee2322dd727eb,
+      {
+        className: "task-time-picker",
+        value: taskTimeInfo?.time ?? null,
+        onChange: onTimeChange,
+        children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx($01b77f81d0f07f68$export$b04be29aa201d4f5, { className: "task-time-picker-label", children: i18n.timeLabel }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx($40825cdb76e74f70$export$7edc06cf1783b30f, { className: "task-time-picker-input", children: (segment) => /* @__PURE__ */ jsxRuntimeExports.jsx($40825cdb76e74f70$export$336ab7fa954c4b5f, { className: "task-time-picker-input-segment", segment }) })
+        ]
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "task-time-controls", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx($d2b4bc8c273e7be6$export$353f5b6fc5456de1, { onPress: close, children: i18n.cancelButtonLabel }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        $d2b4bc8c273e7be6$export$353f5b6fc5456de1,
+        {
+          className: "mod-cta",
+          onPress: () => {
+            close();
+            setTimeInfo(taskTimeInfo);
+          },
+          children: i18n.saveButtonLabel
+        }
+      )
+    ] })
+  ] }) });
+};
 function _extends() {
   return _extends = Object.assign ? Object.assign.bind() : function(n) {
     for (var e = 1; e < arguments.length; e++) {
@@ -35508,6 +43046,28 @@ const getLinkDestinationMessage = (destination) => {
       return void 0;
   }
 };
+const calculateDefaultDueDate = (setting) => {
+  switch (setting) {
+    case "none":
+      return void 0;
+    case "today":
+      return { date: today(), timeInfo: void 0 };
+    case "tomorrow":
+      return { date: today().add({ days: 1 }), timeInfo: void 0 };
+    default: {
+      throw new Error("Unknown due date default setting");
+    }
+  }
+};
+const getDueRFC3339 = (due) => {
+  if (due === void 0) {
+    return void 0;
+  }
+  if (due.timeInfo !== void 0) {
+    return $11d87f3f76e88657$export$b21e0b124e224484(due.date, due.timeInfo.time).toDate(timezone()).toISOString();
+  }
+  return `${due.date.toString()}T00:00:00.000Z`;
+};
 const CreateTaskModal = ({
   initialContent = "",
   fileContext,
@@ -35517,7 +43077,9 @@ const CreateTaskModal = ({
   const modal = ModalContext.use();
   const [title, setTitle] = reactExports.useState(initialContent);
   const [notes, setNotes] = reactExports.useState("");
-  const [dueDate, setDueDate] = reactExports.useState("");
+  const [dueDate, setDueDate] = reactExports.useState(
+    () => calculateDefaultDueDate(useSettingsStore.getState().taskCreationDefaultDueDate)
+  );
   const [selectedListId, setSelectedListId] = reactExports.useState("");
   const [isSubmitting, setIsSubmitting] = reactExports.useState(false);
   const lists = plugin.services.tasks.getTaskLists();
@@ -35544,7 +43106,7 @@ ${link}` : link;
     }
     try {
       setIsSubmitting(true);
-      const dueRFC3339 = dueDate ? `${dueDate}T00:00:00.000Z` : void 0;
+      const dueRFC3339 = getDueRFC3339(dueDate);
       await plugin.services.tasks.actions.createTask(activeListId, finalTitle, {
         notes: finalNotes || void 0,
         due: dueRFC3339
@@ -35581,17 +43143,8 @@ ${link}` : link;
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "task-creation-selectors", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "task-creation-selectors-group", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx(TaskListSelect, { lists, value: activeListId, onChange: setSelectedListId }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(
-        "input",
-        {
-          type: "date",
-          className: "input task-due-date",
-          value: dueDate,
-          onChange: (e) => setDueDate(e.target.value),
-          "aria-label": "Due date"
-        }
-      )
+      /* @__PURE__ */ jsxRuntimeExports.jsx(DueDateSelector, { selected: dueDate, setSelected: setDueDate }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(TaskListSelect, { lists, value: activeListId, onChange: setSelectedListId })
     ] }) }),
     /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "task-creation-notes", children: /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { children: linkDestinationMessage && /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: linkDestinationMessage }) }) }),
     /* @__PURE__ */ jsxRuntimeExports.jsx("hr", {}),
@@ -35928,7 +43481,7 @@ const makeServices = (plugin) => {
     tasks: new GoogleTasksAdapter()
   };
 };
-const BuildStamp = "v2.6.0-bc0fe66-261111T1917";
+const BuildStamp = "v2.6.0-4775cd7-261111T1954";
 const AutoRefreshIntervalControl = ({ initialValue, onChange }) => {
   const [value, setValue] = reactExports.useState(`${initialValue}`);
   const onInputChange = (ev) => {
@@ -35987,9 +43540,23 @@ const ToggleControl = ({ value, onClick }) => {
   });
   return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className, onClick: onToggle, onKeyDown: onToggle });
 };
+const DropdownControl = ({
+  value,
+  options,
+  onClick
+}) => {
+  const [selected, setSelected] = reactExports.useState(value);
+  const onChange = async (ev) => {
+    const val = ev.target.value;
+    setSelected(val);
+    await onClick(val);
+  };
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("select", { className: "dropdown", value: selected, onChange, children: options.map(({ label, value: value2 }) => /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: value2, children: label }, label)) });
+};
 const Setting = {
   Root,
-  ToggleControl
+  ToggleControl,
+  DropdownControl
 };
 class SettingsTab extends obsidian.PluginSettingTab {
   constructor(app, plugin) {
@@ -36131,6 +43698,35 @@ const SettingsRoot = ({ plugin }) => {
           {
             initialValue: settings.autoRefreshInterval,
             onChange: mkOptionUpdate("autoRefreshInterval")
+          }
+        )
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { children: t().settings.taskCreation.header }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      Setting.Root,
+      {
+        name: t().settings.taskCreation.defaultDueDate.label,
+        description: t().settings.taskCreation.defaultDueDate.description,
+        children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+          Setting.DropdownControl,
+          {
+            value: settings.taskCreationDefaultDueDate,
+            options: [
+              {
+                label: t().settings.taskCreation.defaultDueDate.options.none,
+                value: "none"
+              },
+              {
+                label: t().settings.taskCreation.defaultDueDate.options.today,
+                value: "today"
+              },
+              {
+                label: t().settings.taskCreation.defaultDueDate.options.tomorrow,
+                value: "tomorrow"
+              }
+            ],
+            onClick: mkOptionUpdate("taskCreationDefaultDueDate")
           }
         )
       }

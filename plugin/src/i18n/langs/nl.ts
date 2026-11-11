@@ -64,6 +64,15 @@ export const nl: DeepPartial<Translations> = {
           content: "Taaknaam",
         },
       },
+      defaultDueDate: {
+        label: "Standaard vervaldatum",
+        description: "De standaard vervaldatum voor nieuwe taken",
+        options: {
+          none: "Geen standaard",
+          today: "Vandaag",
+          tomorrow: "Morgen",
+        },
+      },
     },
     advanced: {
       header: "Geavanceerd",

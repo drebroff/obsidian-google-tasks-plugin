@@ -1,9 +1,12 @@
 import { Notice, type TFile } from "obsidian";
 import type React from "react";
 import { useState } from "react";
+import { Button } from "react-aria-components";
 
 import type { TaskList } from "@/api/domain/taskList";
 import { ModalContext, PluginContext } from "@/ui/context";
+
+import { TaskContentInput } from "./TaskContentInput";
 import "./styles.scss";
 
 export type LinkDestination = "content" | "description";
@@ -16,6 +19,19 @@ type CreateTaskProps = {
   initialContent?: string;
   fileContext?: TFile;
   options: TaskCreationOptions;
+};
+
+const getLinkDestinationMessage = (
+  destination: LinkDestination | undefined,
+): string | undefined => {
+  switch (destination) {
+    case "content":
+      return "A link to this page will be appended to the task title.";
+    case "description":
+      return "A link to this page will be appended to the task description.";
+    default:
+      return undefined;
+  }
 };
 
 export const CreateTaskModal: React.FC<CreateTaskProps> = ({
@@ -35,8 +51,7 @@ export const CreateTaskModal: React.FC<CreateTaskProps> = ({
   const lists: TaskList[] = plugin.services.tasks.getTaskLists();
   const activeListId = selectedListId || (lists[0]?.id ?? "");
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const createTask = async () => {
     if (!title.trim()) {
       new Notice("Task title cannot be empty");
       return;
@@ -78,84 +93,67 @@ export const CreateTaskModal: React.FC<CreateTaskProps> = ({
     }
   };
 
+  const linkDestinationMessage = getLinkDestinationMessage(options.appendLinkTo);
+
   return (
-    <div className="google-tasks-create-task-modal">
-      <h2>New Google Task</h2>
-      <form
-        onSubmit={handleSubmit}
-        style={{ display: "flex", flexDirection: "column", gap: "12px" }}
-      >
-        <div>
-          <label style={{ display: "block", marginBottom: "4px", fontWeight: "bold" }}>
-            Task Title
-          </label>
+    <div className="task-creation-modal-root">
+      <TaskContentInput
+        className="task-name"
+        placeholder="What needs to be done?"
+        content={title}
+        onChange={setTitle}
+        autofocus={true}
+        onEnterKey={createTask}
+      />
+      <TaskContentInput
+        className="task-description"
+        placeholder="Add details, markdown or links..."
+        content={notes}
+        onChange={setNotes}
+      />
+      <div className="task-creation-selectors">
+        <div className="task-creation-selectors-group">
+          <select
+            className="dropdown task-list-selector"
+            value={activeListId}
+            onChange={(e) => setSelectedListId(e.target.value)}
+            aria-label="List"
+          >
+            {lists.map((l) => (
+              <option key={l.id} value={l.id}>
+                {l.title}
+              </option>
+            ))}
+          </select>
           <input
-            type="text"
-            className="input"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder="What needs to be done?"
-            autoFocus
-            style={{ width: "100%" }}
+            type="date"
+            className="input task-due-date"
+            value={dueDate}
+            onChange={(e) => setDueDate(e.target.value)}
+            aria-label="Due date"
           />
         </div>
-
-        <div>
-          <label style={{ display: "block", marginBottom: "4px", fontWeight: "bold" }}>
-            Notes / Description
-          </label>
-          <textarea
-            className="input"
-            value={notes}
-            onChange={(e) => setNotes(e.target.value)}
-            placeholder="Add details, markdown or links..."
-            rows={3}
-            style={{ width: "100%", resize: "vertical" }}
-          />
-        </div>
-
-        <div style={{ display: "flex", gap: "16px" }}>
-          <div style={{ flex: 1 }}>
-            <label style={{ display: "block", marginBottom: "4px", fontWeight: "bold" }}>
-              List
-            </label>
-            <select
-              className="dropdown"
-              value={activeListId}
-              onChange={(e) => setSelectedListId(e.target.value)}
-              style={{ width: "100%" }}
-            >
-              {lists.map((l) => (
-                <option key={l.id} value={l.id}>
-                  {l.title}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div style={{ flex: 1 }}>
-            <label style={{ display: "block", marginBottom: "4px", fontWeight: "bold" }}>
-              Due Date
-            </label>
-            <input
-              type="date"
-              className="input"
-              value={dueDate}
-              onChange={(e) => setDueDate(e.target.value)}
-              style={{ width: "100%" }}
-            />
-          </div>
-        </div>
-
-        <div style={{ display: "flex", justifyContent: "flex-end", gap: "8px", marginTop: "12px" }}>
-          <button type="button" onClick={() => modal.close()}>
+      </div>
+      <div className="task-creation-notes">
+        <ul>{linkDestinationMessage && <li>{linkDestinationMessage}</li>}</ul>
+      </div>
+      <hr />
+      <div className="task-creation-controls">
+        <div />
+        <div className="task-creation-action">
+          <Button onPress={() => modal.close()} aria-label="Cancel">
             Cancel
-          </button>
-          <button type="submit" className="mod-cta" disabled={isSubmitting || !title.trim()}>
+          </Button>
+          <Button
+            className="mod-cta"
+            isDisabled={isSubmitting || !title.trim()}
+            onPress={createTask}
+            aria-label="Create Task"
+          >
             {isSubmitting ? "Creating..." : "Create Task"}
-          </button>
+          </Button>
         </div>
-      </form>
+      </div>
     </div>
   );
 };

@@ -764,7 +764,7 @@ const NUMBER_FORMAT_RANGES = {
   float32: [-34028234663852886e22, 34028234663852886e22],
   float64: [-Number.MAX_VALUE, Number.MAX_VALUE]
 };
-function pick(schema2, mask) {
+function pick$1(schema2, mask) {
   const currDef = schema2._zod.def;
   const def = mergeDefs(schema2._zod.def, {
     get shape() {
@@ -2094,11 +2094,11 @@ const $ZodNever = /* @__PURE__ */ $constructor("$ZodNever", (inst, def) => {
     return payload;
   };
 });
-function handleArrayResult(result, final, index) {
+function handleArrayResult(result, final, index2) {
   if (result.issues.length) {
-    final.issues.push(...prefixIssues(index, result.issues));
+    final.issues.push(...prefixIssues(index2, result.issues));
   }
-  final.value[index] = result.value;
+  final.value[index2] = result.value;
 }
 const $ZodArray = /* @__PURE__ */ $constructor("$ZodArray", (inst, def) => {
   $ZodType.init(inst, def);
@@ -2441,14 +2441,14 @@ function mergeValues(a, b) {
       return { valid: false, mergeErrorPath: [] };
     }
     const newArray = [];
-    for (let index = 0; index < a.length; index++) {
-      const itemA = a[index];
-      const itemB = b[index];
+    for (let index2 = 0; index2 < a.length; index2++) {
+      const itemA = a[index2];
+      const itemB = b[index2];
       const sharedValue = mergeValues(itemA, itemB);
       if (!sharedValue.valid) {
         return {
           valid: false,
-          mergeErrorPath: [index, ...sharedValue.mergeErrorPath]
+          mergeErrorPath: [index2, ...sharedValue.mergeErrorPath]
         };
       }
       newArray.push(sharedValue.data);
@@ -3620,7 +3620,7 @@ const ZodObject = /* @__PURE__ */ $constructor("ZodObject", (inst, def) => {
     return safeExtend(inst, incoming);
   };
   inst.merge = (other) => merge$1(inst, other);
-  inst.pick = (mask) => pick(inst, mask);
+  inst.pick = (mask) => pick$1(inst, mask);
   inst.omit = (mask) => omit(inst, mask);
   inst.partial = (...args) => partial(ZodOptional, inst, args[0]);
   inst.required = (...args) => required(ZodNonOptional, inst, args[0]);
@@ -4187,7 +4187,7 @@ function requireReact_production() {
   assign(pureComponentPrototype, Component.prototype);
   pureComponentPrototype.isPureReactComponent = true;
   var isArrayImpl = Array.isArray;
-  function noop2() {
+  function noop3() {
   }
   var ReactSharedInternals = { H: null, A: null, T: null, S: null }, hasOwnProperty = Object.prototype.hasOwnProperty;
   function ReactElement(type2, key, props) {
@@ -4213,8 +4213,8 @@ function requireReact_production() {
     });
   }
   var userProvidedKeyEscapeRegex = /\/+/g;
-  function getElementKey(element, index) {
-    return "object" === typeof element && null !== element && null != element.key ? escape("" + element.key) : index.toString(36);
+  function getElementKey(element, index2) {
+    return "object" === typeof element && null !== element && null != element.key ? escape("" + element.key) : index2.toString(36);
   }
   function resolveThenable(thenable) {
     switch (thenable.status) {
@@ -4223,7 +4223,7 @@ function requireReact_production() {
       case "rejected":
         throw thenable.reason;
       default:
-        switch ("string" === typeof thenable.status ? thenable.then(noop2, noop2) : (thenable.status = "pending", thenable.then(
+        switch ("string" === typeof thenable.status ? thenable.then(noop3, noop3) : (thenable.status = "pending", thenable.then(
           function(fulfilledValue) {
             "pending" === thenable.status && (thenable.status = "fulfilled", thenable.value = fulfilledValue);
           },
@@ -4486,7 +4486,7 @@ function requireReact_production() {
     try {
       var returnValue = scope(), onStartTransitionFinish = ReactSharedInternals.S;
       null !== onStartTransitionFinish && onStartTransitionFinish(currentTransition, returnValue);
-      "object" === typeof returnValue && null !== returnValue && "function" === typeof returnValue.then && returnValue.then(noop2, reportGlobalError);
+      "object" === typeof returnValue && null !== returnValue && "function" === typeof returnValue.then && returnValue.then(noop3, reportGlobalError);
     } catch (error) {
       reportGlobalError(error);
     } finally {
@@ -5519,12 +5519,12 @@ function requireScheduler_production() {
   hasRequiredScheduler_production = 1;
   (function(exports$1) {
     function push(heap, node) {
-      var index = heap.length;
+      var index2 = heap.length;
       heap.push(node);
-      a: for (; 0 < index; ) {
-        var parentIndex = index - 1 >>> 1, parent = heap[parentIndex];
+      a: for (; 0 < index2; ) {
+        var parentIndex = index2 - 1 >>> 1, parent = heap[parentIndex];
         if (0 < compare(parent, node))
-          heap[parentIndex] = node, heap[index] = parent, index = parentIndex;
+          heap[parentIndex] = node, heap[index2] = parent, index2 = parentIndex;
         else break a;
       }
     }
@@ -5536,12 +5536,12 @@ function requireScheduler_production() {
       var first = heap[0], last = heap.pop();
       if (last !== first) {
         heap[0] = last;
-        a: for (var index = 0, length = heap.length, halfLength = length >>> 1; index < halfLength; ) {
-          var leftIndex = 2 * (index + 1) - 1, left = heap[leftIndex], rightIndex = leftIndex + 1, right = heap[rightIndex];
+        a: for (var index2 = 0, length = heap.length, halfLength = length >>> 1; index2 < halfLength; ) {
+          var leftIndex = 2 * (index2 + 1) - 1, left = heap[leftIndex], rightIndex = leftIndex + 1, right = heap[rightIndex];
           if (0 > compare(left, last))
-            rightIndex < length && 0 > compare(right, left) ? (heap[index] = right, heap[rightIndex] = last, index = rightIndex) : (heap[index] = left, heap[leftIndex] = last, index = leftIndex);
+            rightIndex < length && 0 > compare(right, left) ? (heap[index2] = right, heap[rightIndex] = last, index2 = rightIndex) : (heap[index2] = left, heap[leftIndex] = last, index2 = leftIndex);
           else if (rightIndex < length && 0 > compare(right, last))
-            heap[index] = right, heap[rightIndex] = last, index = rightIndex;
+            heap[index2] = right, heap[rightIndex] = last, index2 = rightIndex;
           else break a;
         }
       }
@@ -5793,21 +5793,21 @@ function requireReactDom_production() {
     }
     return "Minified React error #" + code + "; visit " + url + " for the full message or use the non-minified dev environment for full errors and additional helpful warnings.";
   }
-  function noop2() {
+  function noop3() {
   }
   var Internals = {
     d: {
-      f: noop2,
+      f: noop3,
       r: function() {
         throw Error(formatProdErrorMessage(522));
       },
-      D: noop2,
-      C: noop2,
-      L: noop2,
-      m: noop2,
-      X: noop2,
-      S: noop2,
-      M: noop2
+      D: noop3,
+      C: noop3,
+      L: noop3,
+      m: noop3,
+      X: noop3,
+      S: noop3,
+      M: noop3
     },
     p: 0,
     findDOMNode: null
@@ -6131,16 +6131,16 @@ function requireReactDomClient_production() {
     data: null,
     method: null,
     action: null
-  }, valueStack = [], index = -1;
+  }, valueStack = [], index2 = -1;
   function createCursor(defaultValue) {
     return { current: defaultValue };
   }
   function pop(cursor) {
-    0 > index || (cursor.current = valueStack[index], valueStack[index] = null, index--);
+    0 > index2 || (cursor.current = valueStack[index2], valueStack[index2] = null, index2--);
   }
   function push(cursor, value) {
-    index++;
-    valueStack[index] = cursor.current;
+    index2++;
+    valueStack[index2] = cursor.current;
     cursor.current = value;
   }
   var contextStackCursor = createCursor(null), contextFiberStackCursor = createCursor(null), rootInstanceStackCursor = createCursor(null), hostTransitionProviderCursor = createCursor(null);
@@ -6989,7 +6989,7 @@ function requireReactDomClient_production() {
   function sanitizeURL(url) {
     return isJavaScriptProtocol.test("" + url) ? "javascript:throw new Error('React has blocked a javascript: URL as a security precaution.')" : url;
   }
-  function noop$1() {
+  function noop$12() {
   }
   var currentReplayingEvent = null;
   function getEventTarget(nativeEvent) {
@@ -7818,7 +7818,7 @@ function requireReactDomClient_production() {
     treeForkProvider = workInProgress2;
     treeForkCount = totalChildren;
   }
-  function pushTreeId(workInProgress2, totalChildren, index2) {
+  function pushTreeId(workInProgress2, totalChildren, index3) {
     idStack[idStackIndex++] = treeContextId;
     idStack[idStackIndex++] = treeContextOverflow;
     idStack[idStackIndex++] = treeContextProvider;
@@ -7827,17 +7827,17 @@ function requireReactDomClient_production() {
     workInProgress2 = treeContextOverflow;
     var baseLength = 32 - clz32(baseIdWithLeadingBit) - 1;
     baseIdWithLeadingBit &= ~(1 << baseLength);
-    index2 += 1;
+    index3 += 1;
     var length = 32 - clz32(totalChildren) + baseLength;
     if (30 < length) {
       var numberOfOverflowBits = baseLength - baseLength % 5;
       length = (baseIdWithLeadingBit & (1 << numberOfOverflowBits) - 1).toString(32);
       baseIdWithLeadingBit >>= numberOfOverflowBits;
       baseLength -= numberOfOverflowBits;
-      treeContextId = 1 << 32 - clz32(totalChildren) + baseLength | index2 << baseLength | baseIdWithLeadingBit;
+      treeContextId = 1 << 32 - clz32(totalChildren) + baseLength | index3 << baseLength | baseIdWithLeadingBit;
       treeContextOverflow = length + workInProgress2;
     } else
-      treeContextId = 1 << length | index2 << baseLength | baseIdWithLeadingBit, treeContextOverflow = workInProgress2;
+      treeContextId = 1 << length | index3 << baseLength | baseIdWithLeadingBit, treeContextOverflow = workInProgress2;
   }
   function pushMaterializedTreeId(workInProgress2) {
     null !== workInProgress2.return && (pushTreeFork(workInProgress2, 1), pushTreeId(workInProgress2, 1, 0));
@@ -7919,7 +7919,7 @@ function requireReactDomClient_production() {
         listenToNonDelegatedEvent("invalid", instance), initTextarea(instance, props.value, props.defaultValue, props.children);
     }
     type2 = props.children;
-    "string" !== typeof type2 && "number" !== typeof type2 && "bigint" !== typeof type2 || instance.textContent === "" + type2 || true === props.suppressHydrationWarning || checkForUnmatchedText(instance.textContent, type2) ? (null != props.popover && (listenToNonDelegatedEvent("beforetoggle", instance), listenToNonDelegatedEvent("toggle", instance)), null != props.onScroll && listenToNonDelegatedEvent("scroll", instance), null != props.onScrollEnd && listenToNonDelegatedEvent("scrollend", instance), null != props.onClick && (instance.onclick = noop$1), instance = true) : instance = false;
+    "string" !== typeof type2 && "number" !== typeof type2 && "bigint" !== typeof type2 || instance.textContent === "" + type2 || true === props.suppressHydrationWarning || checkForUnmatchedText(instance.textContent, type2) ? (null != props.popover && (listenToNonDelegatedEvent("beforetoggle", instance), listenToNonDelegatedEvent("toggle", instance)), null != props.onScroll && listenToNonDelegatedEvent("scroll", instance), null != props.onScrollEnd && listenToNonDelegatedEvent("scrollend", instance), null != props.onClick && (instance.onclick = noop$12), instance = true) : instance = false;
     instance || throwOnHydrationMismatch(fiber, true);
   }
   function popToNextHostParent(fiber) {
@@ -8223,16 +8223,16 @@ function requireReactDomClient_production() {
     thenable = thenable.status;
     return "fulfilled" === thenable || "rejected" === thenable;
   }
-  function trackUsedThenable(thenableState2, thenable, index2) {
-    index2 = thenableState2[index2];
-    void 0 === index2 ? thenableState2.push(thenable) : index2 !== thenable && (thenable.then(noop$1, noop$1), thenable = index2);
+  function trackUsedThenable(thenableState2, thenable, index3) {
+    index3 = thenableState2[index3];
+    void 0 === index3 ? thenableState2.push(thenable) : index3 !== thenable && (thenable.then(noop$12, noop$12), thenable = index3);
     switch (thenable.status) {
       case "fulfilled":
         return thenable.value;
       case "rejected":
         throw thenableState2 = thenable.reason, checkIfUseWrappedInAsyncCatch(thenableState2), thenableState2;
       default:
-        if ("string" === typeof thenable.status) thenable.then(noop$1, noop$1);
+        if ("string" === typeof thenable.status) thenable.then(noop$12, noop$12);
         else {
           thenableState2 = workInProgressRoot;
           if (null !== thenableState2 && 100 < thenableState2.shellSuspendCounter)
@@ -8289,10 +8289,10 @@ function requireReactDomClient_production() {
   }
   var thenableState$1 = null, thenableIndexCounter$1 = 0;
   function unwrapThenable(thenable) {
-    var index2 = thenableIndexCounter$1;
+    var index3 = thenableIndexCounter$1;
     thenableIndexCounter$1 += 1;
     null === thenableState$1 && (thenableState$1 = []);
-    return trackUsedThenable(thenableState$1, thenable, index2);
+    return trackUsedThenable(thenableState$1, thenable, index3);
   }
   function coerceRef(workInProgress2, element) {
     element = element.props.ref;
@@ -9126,12 +9126,12 @@ function requireReactDomClient_production() {
     return { lastEffect: null, events: null, stores: null, memoCache: null };
   }
   function useThenable(thenable) {
-    var index2 = thenableIndexCounter;
+    var index3 = thenableIndexCounter;
     thenableIndexCounter += 1;
     null === thenableState && (thenableState = []);
-    thenable = trackUsedThenable(thenableState, thenable, index2);
-    index2 = currentlyRenderingFiber;
-    null === (null === workInProgressHook ? index2.memoizedState : workInProgressHook.next) && (index2 = index2.alternate, ReactSharedInternals.H = null === index2 || null === index2.memoizedState ? HooksDispatcherOnMount : HooksDispatcherOnUpdate);
+    thenable = trackUsedThenable(thenableState, thenable, index3);
+    index3 = currentlyRenderingFiber;
+    null === (null === workInProgressHook ? index3.memoizedState : workInProgressHook.next) && (index3 = index3.alternate, ReactSharedInternals.H = null === index3 || null === index3.memoizedState ? HooksDispatcherOnMount : HooksDispatcherOnUpdate);
     return thenable;
   }
   function use(usable) {
@@ -9571,7 +9571,7 @@ function requireReactDomClient_production() {
     null === create2 ? inst.lastEffect = tag.next = tag : (deps = create2.next, create2.next = tag, tag.next = deps, inst.lastEffect = tag);
     return tag;
   }
-  function updateRef() {
+  function updateRef3() {
     return updateWorkInProgressHook().memoizedState;
   }
   function mountEffectImpl(fiberFlags, hookFlags, create2, deps) {
@@ -9730,7 +9730,7 @@ function requireReactDomClient_production() {
       ReactDOMSharedInternals.p = previousPriority, null !== prevTransition && null !== currentTransition.types && (prevTransition.types = currentTransition.types), ReactSharedInternals.T = prevTransition;
     }
   }
-  function noop2() {
+  function noop3() {
   }
   function startHostTransition(formFiber, pendingState, action, formData) {
     if (5 !== formFiber.tag) throw Error(formatProdErrorMessage(476));
@@ -9740,7 +9740,7 @@ function requireReactDomClient_production() {
       queue,
       pendingState,
       sharedNotPendingObject,
-      null === action ? noop2 : function() {
+      null === action ? noop3 : function() {
         requestFormReset$1(formFiber);
         return action(formData);
       }
@@ -10123,7 +10123,7 @@ function requireReactDomClient_production() {
     useLayoutEffect: updateLayoutEffect,
     useMemo: updateMemo,
     useReducer: updateReducer,
-    useRef: updateRef,
+    useRef: updateRef3,
     useState: function() {
       return updateReducer(basicStateReducer);
     },
@@ -10168,7 +10168,7 @@ function requireReactDomClient_production() {
     useLayoutEffect: updateLayoutEffect,
     useMemo: updateMemo,
     useReducer: rerenderReducer,
-    useRef: updateRef,
+    useRef: updateRef3,
     useState: function() {
       return rerenderReducer(basicStateReducer);
     },
@@ -12132,7 +12132,7 @@ function requireReactDomClient_production() {
   function insertOrAppendPlacementNodeIntoContainer(node, before, parent) {
     var tag = node.tag;
     if (5 === tag || 6 === tag)
-      node = node.stateNode, before ? (9 === parent.nodeType ? parent.body : "HTML" === parent.nodeName ? parent.ownerDocument.body : parent).insertBefore(node, before) : (before = 9 === parent.nodeType ? parent.body : "HTML" === parent.nodeName ? parent.ownerDocument.body : parent, before.appendChild(node), parent = parent._reactRootContainer, null !== parent && void 0 !== parent || null !== before.onclick || (before.onclick = noop$1));
+      node = node.stateNode, before ? (9 === parent.nodeType ? parent.body : "HTML" === parent.nodeName ? parent.ownerDocument.body : parent).insertBefore(node, before) : (before = 9 === parent.nodeType ? parent.body : "HTML" === parent.nodeName ? parent.ownerDocument.body : parent, before.appendChild(node), parent = parent._reactRootContainer, null !== parent && void 0 !== parent || null !== before.onclick || (before.onclick = noop$12));
     else if (4 !== tag && (27 === tag && isSingletonScope(node.type) && (parent = node.stateNode, before = null), node = node.child, null !== node))
       for (insertOrAppendPlacementNodeIntoContainer(node, before, parent), node = node.sibling; null !== node; )
         insertOrAppendPlacementNodeIntoContainer(node, before, parent), node = node.sibling;
@@ -13693,7 +13693,7 @@ function requireReactDomClient_production() {
         suspenseyImages: [],
         waitingForImages: true,
         waitingForViewTransition: false,
-        unsuspend: noop$1
+        unsuspend: noop$12
       };
       accumulateSuspenseyCommitOnFiber(
         finishedWork,
@@ -15255,7 +15255,7 @@ function requireReactDomClient_production() {
         domElement.setAttribute(key, value);
         break;
       case "onClick":
-        null != value && (domElement.onclick = noop$1);
+        null != value && (domElement.onclick = noop$12);
         break;
       case "onScroll":
         null != value && listenToNonDelegatedEvent("scroll", domElement);
@@ -15464,7 +15464,7 @@ function requireReactDomClient_production() {
         null != value && listenToNonDelegatedEvent("scrollend", domElement);
         break;
       case "onClick":
-        null != value && (domElement.onclick = noop$1);
+        null != value && (domElement.onclick = noop$12);
         break;
       case "suppressContentEditableWarning":
       case "suppressHydrationWarning":
@@ -17497,11 +17497,11 @@ function toArray(sequence) {
   return [sequence];
 }
 function extend(target, source) {
-  var index, length, key, sourceKeys;
+  var index2, length, key, sourceKeys;
   if (source) {
     sourceKeys = Object.keys(source);
-    for (index = 0, length = sourceKeys.length; index < length; index += 1) {
-      key = sourceKeys[index];
+    for (index2 = 0, length = sourceKeys.length; index2 < length; index2 += 1) {
+      key = sourceKeys[index2];
       target[key] = source[key];
     }
   }
@@ -17714,7 +17714,7 @@ function compileMap() {
       mapping: [],
       fallback: []
     }
-  }, index, length;
+  }, index2, length;
   function collectType(type2) {
     if (type2.multi) {
       result.multi[type2.kind].push(type2);
@@ -17723,8 +17723,8 @@ function compileMap() {
       result[type2.kind][type2.tag] = result["fallback"][type2.tag] = type2;
     }
   }
-  for (index = 0, length = arguments.length; index < length; index += 1) {
-    arguments[index].forEach(collectType);
+  for (index2 = 0, length = arguments.length; index2 < length; index2 += 1) {
+    arguments[index2].forEach(collectType);
   }
   return result;
 }
@@ -17869,19 +17869,19 @@ function isDecCode(c) {
 }
 function resolveYamlInteger(data) {
   if (data === null) return false;
-  var max = data.length, index = 0, hasDigits = false, ch;
+  var max = data.length, index2 = 0, hasDigits = false, ch;
   if (!max) return false;
-  ch = data[index];
+  ch = data[index2];
   if (ch === "-" || ch === "+") {
-    ch = data[++index];
+    ch = data[++index2];
   }
   if (ch === "0") {
-    if (index + 1 === max) return true;
-    ch = data[++index];
+    if (index2 + 1 === max) return true;
+    ch = data[++index2];
     if (ch === "b") {
-      index++;
-      for (; index < max; index++) {
-        ch = data[index];
+      index2++;
+      for (; index2 < max; index2++) {
+        ch = data[index2];
         if (ch === "_") continue;
         if (ch !== "0" && ch !== "1") return false;
         hasDigits = true;
@@ -17889,31 +17889,31 @@ function resolveYamlInteger(data) {
       return hasDigits && ch !== "_";
     }
     if (ch === "x") {
-      index++;
-      for (; index < max; index++) {
-        ch = data[index];
+      index2++;
+      for (; index2 < max; index2++) {
+        ch = data[index2];
         if (ch === "_") continue;
-        if (!isHexCode(data.charCodeAt(index))) return false;
+        if (!isHexCode(data.charCodeAt(index2))) return false;
         hasDigits = true;
       }
       return hasDigits && ch !== "_";
     }
     if (ch === "o") {
-      index++;
-      for (; index < max; index++) {
-        ch = data[index];
+      index2++;
+      for (; index2 < max; index2++) {
+        ch = data[index2];
         if (ch === "_") continue;
-        if (!isOctCode(data.charCodeAt(index))) return false;
+        if (!isOctCode(data.charCodeAt(index2))) return false;
         hasDigits = true;
       }
       return hasDigits && ch !== "_";
     }
   }
   if (ch === "_") return false;
-  for (; index < max; index++) {
-    ch = data[index];
+  for (; index2 < max; index2++) {
+    ch = data[index2];
     if (ch === "_") continue;
-    if (!isDecCode(data.charCodeAt(index))) {
+    if (!isDecCode(data.charCodeAt(index2))) {
       return false;
     }
     hasDigits = true;
@@ -18193,9 +18193,9 @@ var _hasOwnProperty$3 = Object.prototype.hasOwnProperty;
 var _toString$2 = Object.prototype.toString;
 function resolveYamlOmap(data) {
   if (data === null) return true;
-  var objectKeys = [], index, length, pair, pairKey, pairHasKey, object2 = data;
-  for (index = 0, length = object2.length; index < length; index += 1) {
-    pair = object2[index];
+  var objectKeys = [], index2, length, pair, pairKey, pairHasKey, object2 = data;
+  for (index2 = 0, length = object2.length; index2 < length; index2 += 1) {
+    pair = object2[index2];
     pairHasKey = false;
     if (_toString$2.call(pair) !== "[object Object]") return false;
     for (pairKey in pair) {
@@ -18221,25 +18221,25 @@ var omap = new type("tag:yaml.org,2002:omap", {
 var _toString$1 = Object.prototype.toString;
 function resolveYamlPairs(data) {
   if (data === null) return true;
-  var index, length, pair, keys, result, object2 = data;
+  var index2, length, pair, keys, result, object2 = data;
   result = new Array(object2.length);
-  for (index = 0, length = object2.length; index < length; index += 1) {
-    pair = object2[index];
+  for (index2 = 0, length = object2.length; index2 < length; index2 += 1) {
+    pair = object2[index2];
     if (_toString$1.call(pair) !== "[object Object]") return false;
     keys = Object.keys(pair);
     if (keys.length !== 1) return false;
-    result[index] = [keys[0], pair[keys[0]]];
+    result[index2] = [keys[0], pair[keys[0]]];
   }
   return true;
 }
 function constructYamlPairs(data) {
   if (data === null) return [];
-  var index, length, pair, keys, result, object2 = data;
+  var index2, length, pair, keys, result, object2 = data;
   result = new Array(object2.length);
-  for (index = 0, length = object2.length; index < length; index += 1) {
-    pair = object2[index];
+  for (index2 = 0, length = object2.length; index2 < length; index2 += 1) {
+    pair = object2[index2];
     keys = Object.keys(pair);
-    result[index] = [keys[0], pair[keys[0]]];
+    result[index2] = [keys[0], pair[keys[0]]];
   }
   return result;
 }
@@ -18470,13 +18470,13 @@ function captureSegment(state, start, end, checkJson) {
   }
 }
 function mergeMappings(state, destination, source, overridableKeys) {
-  var sourceKeys, key, index, quantity;
+  var sourceKeys, key, index2, quantity;
   if (!common.isObject(source)) {
     throwError(state, "cannot merge mappings; the provided source object is unacceptable");
   }
   sourceKeys = Object.keys(source);
-  for (index = 0, quantity = sourceKeys.length; index < quantity; index += 1) {
-    key = sourceKeys[index];
+  for (index2 = 0, quantity = sourceKeys.length; index2 < quantity; index2 += 1) {
+    key = sourceKeys[index2];
     if (!_hasOwnProperty$1.call(destination, key)) {
       setProperty(destination, key, source[key]);
       overridableKeys[key] = true;
@@ -18484,15 +18484,15 @@ function mergeMappings(state, destination, source, overridableKeys) {
   }
 }
 function storeMappingPair(state, _result, overridableKeys, keyTag, keyNode, valueNode, startLine, startLineStart, startPos) {
-  var index, quantity;
+  var index2, quantity;
   if (Array.isArray(keyNode)) {
     keyNode = Array.prototype.slice.call(keyNode);
-    for (index = 0, quantity = keyNode.length; index < quantity; index += 1) {
-      if (Array.isArray(keyNode[index])) {
+    for (index2 = 0, quantity = keyNode.length; index2 < quantity; index2 += 1) {
+      if (Array.isArray(keyNode[index2])) {
         throwError(state, "nested arrays are not supported inside keys");
       }
-      if (typeof keyNode === "object" && _class(keyNode[index]) === "[object Object]") {
-        keyNode[index] = "[object Object]";
+      if (typeof keyNode === "object" && _class(keyNode[index2]) === "[object Object]") {
+        keyNode[index2] = "[object Object]";
       }
     }
   }
@@ -18505,8 +18505,8 @@ function storeMappingPair(state, _result, overridableKeys, keyTag, keyNode, valu
   }
   if (keyTag === "tag:yaml.org,2002:merge") {
     if (Array.isArray(valueNode)) {
-      for (index = 0, quantity = valueNode.length; index < quantity; index += 1) {
-        mergeMappings(state, _result, valueNode[index], overridableKeys);
+      for (index2 = 0, quantity = valueNode.length; index2 < quantity; index2 += 1) {
+        mergeMappings(state, _result, valueNode[index2], overridableKeys);
       }
     } else {
       mergeMappings(state, _result, valueNode, overridableKeys);
@@ -19647,9 +19647,9 @@ function addUniqueItem(arr, item) {
     arr.push(item);
 }
 function removeItem(arr, item) {
-  const index = arr.indexOf(item);
-  if (index > -1)
-    arr.splice(index, 1);
+  const index2 = arr.indexOf(item);
+  if (index2 > -1)
+    arr.splice(index2, 1);
 }
 const clamp = (min, max, v) => {
   if (v > max)
@@ -19675,7 +19675,7 @@ function memo(callback) {
     return result;
   };
 }
-const noop = /* @__NO_SIDE_EFFECTS__ */ (any) => any;
+const noop$1 = /* @__NO_SIDE_EFFECTS__ */ (any) => any;
 const combineFunctions = (a, b) => (v) => b(a(v));
 const pipe = (...transformers) => transformers.reduce(combineFunctions);
 const progress = /* @__NO_SIDE_EFFECTS__ */ (from, to, value) => {
@@ -19735,7 +19735,7 @@ function binarySubdivide(x, lowerBound, upperBound, mX1, mX2) {
 }
 function cubicBezier(mX1, mY1, mX2, mY2) {
   if (mX1 === mY1 && mX2 === mY2)
-    return noop;
+    return noop$1;
   const getTForX = (aX) => binarySubdivide(aX, 0, 1, mX1, mX2);
   return (t2) => t2 === 0 || t2 === 1 ? t2 : calcBezier(getTForX(t2), mY1, mY2);
 }
@@ -19756,7 +19756,7 @@ const isEasingArray = (ease2) => {
 };
 const isBezierDefinition = (easing) => Array.isArray(easing) && typeof easing[0] === "number";
 const easingLookup = {
-  linear: noop,
+  linear: noop$1,
   easeIn,
   easeInOut,
   easeOut,
@@ -19919,7 +19919,7 @@ function createRenderBatcher(scheduleNextBatch, allowKeepAlive) {
   };
   return { schedule, cancel, state, steps };
 }
-const { schedule: frame, cancel: cancelFrame, state: frameData } = /* @__PURE__ */ createRenderBatcher(typeof requestAnimationFrame !== "undefined" ? requestAnimationFrame : noop, true);
+const { schedule: frame, cancel: cancelFrame, state: frameData } = /* @__PURE__ */ createRenderBatcher(typeof requestAnimationFrame !== "undefined" ? requestAnimationFrame : noop$1, true);
 let now;
 function clearTime() {
   now = void 0;
@@ -20618,7 +20618,7 @@ function createMixers(output, ease2, customMixer) {
   for (let i = 0; i < numMixers; i++) {
     let mixer = mixerFactory(output[i], output[i + 1]);
     if (ease2) {
-      const easingFunction = Array.isArray(ease2) ? ease2[i] || noop : ease2;
+      const easingFunction = Array.isArray(ease2) ? ease2[i] || noop$1 : ease2;
       mixer = pipe(easingFunction, mixer);
     }
     mixers.push(mixer);
@@ -20700,8 +20700,8 @@ const isNotNull$1 = (value) => value !== null;
 function getFinalKeyframe$1(keyframes2, { repeat: repeat2, repeatType = "loop" }, finalKeyframe, speed = 1) {
   const resolvedKeyframes = keyframes2.filter(isNotNull$1);
   const useFirstKeyframe = speed < 0 || repeat2 && repeatType !== "loop" && repeat2 % 2 === 1;
-  const index = useFirstKeyframe ? 0 : resolvedKeyframes.length - 1;
-  return !index || finalKeyframe === void 0 ? resolvedKeyframes[index] : finalKeyframe;
+  const index2 = useFirstKeyframe ? 0 : resolvedKeyframes.length - 1;
+  return !index2 || finalKeyframe === void 0 ? resolvedKeyframes[index2] : finalKeyframe;
 }
 const transitionTypeMap = {
   decay: inertia,
@@ -21442,7 +21442,7 @@ class NativeAnimation extends WithPromise {
     this.animation.onfinish = null;
     if (timeline && supportsScrollTimeline()) {
       this.animation.timeline = timeline;
-      return noop;
+      return noop$1;
     } else {
       return observe(this);
     }
@@ -21609,7 +21609,7 @@ class AsyncMotionValueAnimation extends WithPromise {
       ...resolvedOptions,
       element: resolvedOptions.motionValue.owner.current
     }) : new JSAnimation(resolvedOptions);
-    animation.finished.then(() => this.notifyFinished()).catch(noop);
+    animation.finished.then(() => this.notifyFinished()).catch(noop$1);
     if (this.pendingTimeline) {
       this.stopTimeline = animation.attachTimeline(this.pendingTimeline);
       this.pendingTimeline = void 0;
@@ -23162,8 +23162,8 @@ function makeLatestValues(props, context, presenceContext, scrapeMotionValues) {
         for (const key in target) {
           let valueTarget = target[key];
           if (Array.isArray(valueTarget)) {
-            const index = isInitialAnimationBlocked ? valueTarget.length - 1 : 0;
-            valueTarget = valueTarget[index];
+            const index2 = isInitialAnimationBlocked ? valueTarget.length - 1 : 0;
+            valueTarget = valueTarget[index2];
           }
           if (valueTarget !== null) {
             values[key] = valueTarget;
@@ -23980,8 +23980,8 @@ function getOptimisedAppearId(visualElement) {
 const isNotNull = (value) => value !== null;
 function getFinalKeyframe(keyframes2, { repeat: repeat2, repeatType = "loop" }, finalKeyframe) {
   const resolvedKeyframes = keyframes2.filter(isNotNull);
-  const index = repeat2 && repeatType !== "loop" && repeat2 % 2 === 1 ? 0 : resolvedKeyframes.length - 1;
-  return resolvedKeyframes[index];
+  const index2 = repeat2 && repeatType !== "loop" && repeat2 % 2 === 1 ? 0 : resolvedKeyframes.length - 1;
+  return resolvedKeyframes[index2];
 }
 const underDampedSpring = {
   type: "spring",
@@ -24124,11 +24124,11 @@ function animateTarget(visualElement, targetAndTransition, { delay = 0, transiti
   return animations2;
 }
 function calcChildStagger(children, child, delayChildren, staggerChildren = 0, staggerDirection = 1) {
-  const index = Array.from(children).sort((a, b) => a.sortNodePosition(b)).indexOf(child);
+  const index2 = Array.from(children).sort((a, b) => a.sortNodePosition(b)).indexOf(child);
   const numChildren = children.size;
   const maxStaggerDuration = (numChildren - 1) * staggerChildren;
   const delayIsFunction = typeof delayChildren === "function";
-  return delayIsFunction ? delayChildren(index, numChildren) : staggerDirection === 1 ? index * staggerChildren : maxStaggerDuration - index * staggerChildren;
+  return delayIsFunction ? delayChildren(index2, numChildren) : staggerDirection === 1 ? index2 * staggerChildren : maxStaggerDuration - index2 * staggerChildren;
 }
 function animateVariant(visualElement, variant, options = {}) {
   const resolved = resolveVariant(visualElement, variant, options.type === "exit" ? visualElement.presenceContext?.custom : void 0);
@@ -28462,6 +28462,305 @@ class QueryInjector {
     );
   }
 }
+function _extends() {
+  return _extends = Object.assign ? Object.assign.bind() : function(n) {
+    for (var e = 1; e < arguments.length; e++) {
+      var t2 = arguments[e];
+      for (var r2 in t2) ({}).hasOwnProperty.call(t2, r2) && (n[r2] = t2[r2]);
+    }
+    return n;
+  }, _extends.apply(null, arguments);
+}
+function _objectWithoutPropertiesLoose(r2, e) {
+  if (null == r2) return {};
+  var t2 = {};
+  for (var n in r2) if ({}.hasOwnProperty.call(r2, n)) {
+    if (-1 !== e.indexOf(n)) continue;
+    t2[n] = r2[n];
+  }
+  return t2;
+}
+var index$1 = reactExports.useLayoutEffect;
+var useLatest = function useLatest2(value) {
+  var ref = React.useRef(value);
+  index$1(function() {
+    ref.current = value;
+  });
+  return ref;
+};
+var updateRef = function updateRef2(ref, value) {
+  if (typeof ref === "function") {
+    ref(value);
+    return;
+  }
+  ref.current = value;
+};
+var useComposedRef = function useComposedRef2(libRef, userRef) {
+  var prevUserRef = React.useRef();
+  return React.useCallback(function(instance) {
+    libRef.current = instance;
+    if (prevUserRef.current) {
+      updateRef(prevUserRef.current, null);
+    }
+    prevUserRef.current = userRef;
+    if (!userRef) {
+      return;
+    }
+    updateRef(userRef, instance);
+  }, [userRef]);
+};
+var HIDDEN_TEXTAREA_STYLE = {
+  "min-height": "0",
+  "max-height": "none",
+  height: "0",
+  visibility: "hidden",
+  overflow: "hidden",
+  position: "absolute",
+  "z-index": "-1000",
+  top: "0",
+  right: "0",
+  display: "block"
+};
+var forceHiddenStyles = function forceHiddenStyles2(node) {
+  Object.keys(HIDDEN_TEXTAREA_STYLE).forEach(function(key) {
+    node.style.setProperty(key, HIDDEN_TEXTAREA_STYLE[key], "important");
+  });
+};
+var forceHiddenStyles$1 = forceHiddenStyles;
+var hiddenTextarea = null;
+var getHeight = function getHeight2(node, sizingData) {
+  var height = node.scrollHeight;
+  if (sizingData.sizingStyle.boxSizing === "border-box") {
+    return height + sizingData.borderSize;
+  }
+  return height - sizingData.paddingSize;
+};
+function calculateNodeHeight(sizingData, value, minRows, maxRows) {
+  if (minRows === void 0) {
+    minRows = 1;
+  }
+  if (maxRows === void 0) {
+    maxRows = Infinity;
+  }
+  if (!hiddenTextarea) {
+    hiddenTextarea = document.createElement("textarea");
+    hiddenTextarea.setAttribute("tabindex", "-1");
+    hiddenTextarea.setAttribute("aria-hidden", "true");
+    forceHiddenStyles$1(hiddenTextarea);
+  }
+  if (hiddenTextarea.parentNode === null) {
+    document.body.appendChild(hiddenTextarea);
+  }
+  var paddingSize = sizingData.paddingSize, borderSize = sizingData.borderSize, sizingStyle = sizingData.sizingStyle;
+  var boxSizing = sizingStyle.boxSizing;
+  Object.keys(sizingStyle).forEach(function(_key) {
+    var key = _key;
+    hiddenTextarea.style[key] = sizingStyle[key];
+  });
+  forceHiddenStyles$1(hiddenTextarea);
+  hiddenTextarea.value = value;
+  var height = getHeight(hiddenTextarea, sizingData);
+  hiddenTextarea.value = value;
+  height = getHeight(hiddenTextarea, sizingData);
+  hiddenTextarea.value = "x";
+  var rowHeight = hiddenTextarea.scrollHeight - paddingSize;
+  var minHeight = rowHeight * minRows;
+  if (boxSizing === "border-box") {
+    minHeight = minHeight + paddingSize + borderSize;
+  }
+  height = Math.max(minHeight, height);
+  var maxHeight = rowHeight * maxRows;
+  if (boxSizing === "border-box") {
+    maxHeight = maxHeight + paddingSize + borderSize;
+  }
+  height = Math.min(maxHeight, height);
+  return [height, rowHeight];
+}
+var noop = function noop2() {
+};
+var pick = function pick2(props, obj) {
+  return props.reduce(function(acc, prop) {
+    acc[prop] = obj[prop];
+    return acc;
+  }, {});
+};
+var SIZING_STYLE = [
+  "borderBottomWidth",
+  "borderLeftWidth",
+  "borderRightWidth",
+  "borderTopWidth",
+  "boxSizing",
+  "fontFamily",
+  "fontSize",
+  "fontStyle",
+  "fontWeight",
+  "letterSpacing",
+  "lineHeight",
+  "paddingBottom",
+  "paddingLeft",
+  "paddingRight",
+  "paddingTop",
+  // non-standard
+  "tabSize",
+  "textIndent",
+  // non-standard
+  "textRendering",
+  "textTransform",
+  "width",
+  "wordBreak",
+  "wordSpacing",
+  "scrollbarGutter"
+];
+var isIE = !!document.documentElement.currentStyle;
+var getSizingData = function getSizingData2(node) {
+  var style = window.getComputedStyle(node);
+  if (style === null) {
+    return null;
+  }
+  var sizingStyle = pick(SIZING_STYLE, style);
+  var boxSizing = sizingStyle.boxSizing;
+  if (boxSizing === "") {
+    return null;
+  }
+  if (isIE && boxSizing === "border-box") {
+    sizingStyle.width = parseFloat(sizingStyle.width) + parseFloat(sizingStyle.borderRightWidth) + parseFloat(sizingStyle.borderLeftWidth) + parseFloat(sizingStyle.paddingRight) + parseFloat(sizingStyle.paddingLeft) + "px";
+  }
+  var paddingSize = parseFloat(sizingStyle.paddingBottom) + parseFloat(sizingStyle.paddingTop);
+  var borderSize = parseFloat(sizingStyle.borderBottomWidth) + parseFloat(sizingStyle.borderTopWidth);
+  return {
+    sizingStyle,
+    paddingSize,
+    borderSize
+  };
+};
+var getSizingData$1 = getSizingData;
+function useListener(target, type2, listener) {
+  var latestListener = useLatest(listener);
+  reactExports.useLayoutEffect(function() {
+    var handler = function handler2(ev) {
+      return latestListener.current(ev);
+    };
+    if (!target) {
+      return;
+    }
+    target.addEventListener(type2, handler);
+    return function() {
+      return target.removeEventListener(type2, handler);
+    };
+  }, []);
+}
+var useFormResetListener = function useFormResetListener2(libRef, listener) {
+  useListener(document.body, "reset", function(ev) {
+    if (libRef.current.form === ev.target) {
+      listener(ev);
+    }
+  });
+};
+var useWindowResizeListener = function useWindowResizeListener2(listener) {
+  useListener(window, "resize", listener);
+};
+var useFontsLoadedListener = function useFontsLoadedListener2(listener) {
+  useListener(document.fonts, "loadingdone", listener);
+};
+var _excluded = ["cacheMeasurements", "maxRows", "minRows", "onChange", "onHeightChange"];
+var TextareaAutosize = function TextareaAutosize2(_ref, userRef) {
+  var cacheMeasurements = _ref.cacheMeasurements, maxRows = _ref.maxRows, minRows = _ref.minRows, _ref$onChange = _ref.onChange, onChange = _ref$onChange === void 0 ? noop : _ref$onChange, _ref$onHeightChange = _ref.onHeightChange, onHeightChange = _ref$onHeightChange === void 0 ? noop : _ref$onHeightChange, props = _objectWithoutPropertiesLoose(_ref, _excluded);
+  var isControlled = props.value !== void 0;
+  var libRef = reactExports.useRef(null);
+  var ref = useComposedRef(libRef, userRef);
+  var heightRef = reactExports.useRef(0);
+  var measurementsCacheRef = reactExports.useRef();
+  var resizeTextarea = function resizeTextarea2() {
+    var node = libRef.current;
+    var nodeSizingData = cacheMeasurements && measurementsCacheRef.current ? measurementsCacheRef.current : getSizingData$1(node);
+    if (!nodeSizingData) {
+      return;
+    }
+    measurementsCacheRef.current = nodeSizingData;
+    var _calculateNodeHeight = calculateNodeHeight(nodeSizingData, node.value || node.placeholder || "x", minRows, maxRows), height = _calculateNodeHeight[0], rowHeight = _calculateNodeHeight[1];
+    if (heightRef.current !== height) {
+      heightRef.current = height;
+      node.style.setProperty("height", height + "px", "important");
+      onHeightChange(height, {
+        rowHeight
+      });
+    }
+  };
+  var handleChange = function handleChange2(event) {
+    if (!isControlled) {
+      resizeTextarea();
+    }
+    onChange(event);
+  };
+  {
+    reactExports.useLayoutEffect(resizeTextarea);
+    useFormResetListener(libRef, function() {
+      if (!isControlled) {
+        var currentValue = libRef.current.value;
+        requestAnimationFrame(function() {
+          var node = libRef.current;
+          if (node && currentValue !== node.value) {
+            resizeTextarea();
+          }
+        });
+      }
+    });
+    useWindowResizeListener(resizeTextarea);
+    useFontsLoadedListener(resizeTextarea);
+    return /* @__PURE__ */ reactExports.createElement("textarea", _extends({}, props, {
+      onChange: handleChange,
+      ref
+    }));
+  }
+};
+var index = /* @__PURE__ */ reactExports.forwardRef(TextareaAutosize);
+const TaskContentInput = ({
+  className,
+  placeholder,
+  content,
+  onChange,
+  onEnterKey,
+  autofocus
+}) => {
+  const onInputChange = (ev) => {
+    onChange(ev.target.value);
+  };
+  const onKeyDown = async (ev) => {
+    if (onEnterKey === void 0) {
+      return;
+    }
+    if (ev.nativeEvent.isComposing) {
+      return;
+    }
+    if (ev.key === "Enter") {
+      ev.preventDefault();
+      await onEnterKey();
+    }
+  };
+  const classes = classNames("task-content-input", className);
+  return /* @__PURE__ */ jsxRuntimeExports.jsx($bcdf0525bf22703d$export$2c73285ae9390cec, { className: classes, "aria-label": placeholder, children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+    index,
+    {
+      className: classes,
+      placeholder,
+      value: content,
+      onChange: onInputChange,
+      "aria-label": placeholder,
+      autoFocus: autofocus,
+      onKeyDown
+    }
+  ) });
+};
+const getLinkDestinationMessage = (destination) => {
+  switch (destination) {
+    case "content":
+      return "A link to this page will be appended to the task title.";
+    case "description":
+      return "A link to this page will be appended to the task description.";
+    default:
+      return void 0;
+  }
+};
 const CreateTaskModal = ({
   initialContent = "",
   fileContext,
@@ -28476,8 +28775,7 @@ const CreateTaskModal = ({
   const [isSubmitting, setIsSubmitting] = reactExports.useState(false);
   const lists = plugin.services.tasks.getTaskLists();
   const activeListId = selectedListId || (lists[0]?.id ?? "");
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const createTask = async () => {
     if (!title.trim()) {
       new obsidian.Notice("Task title cannot be empty");
       return;
@@ -28513,78 +28811,68 @@ ${link}` : link;
       setIsSubmitting(false);
     }
   };
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "google-tasks-create-task-modal", children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { children: "New Google Task" }),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs(
-      "form",
+  const linkDestinationMessage = getLinkDestinationMessage(options.appendLinkTo);
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "task-creation-modal-root", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      TaskContentInput,
       {
-        onSubmit: handleSubmit,
-        style: { display: "flex", flexDirection: "column", gap: "12px" },
-        children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("label", { style: { display: "block", marginBottom: "4px", fontWeight: "bold" }, children: "Task Title" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              "input",
-              {
-                type: "text",
-                className: "input",
-                value: title,
-                onChange: (e) => setTitle(e.target.value),
-                placeholder: "What needs to be done?",
-                autoFocus: true,
-                style: { width: "100%" }
-              }
-            )
-          ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("label", { style: { display: "block", marginBottom: "4px", fontWeight: "bold" }, children: "Notes / Description" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              "textarea",
-              {
-                className: "input",
-                value: notes,
-                onChange: (e) => setNotes(e.target.value),
-                placeholder: "Add details, markdown or links...",
-                rows: 3,
-                style: { width: "100%", resize: "vertical" }
-              }
-            )
-          ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", gap: "16px" }, children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { flex: 1 }, children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("label", { style: { display: "block", marginBottom: "4px", fontWeight: "bold" }, children: "List" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(
-                "select",
-                {
-                  className: "dropdown",
-                  value: activeListId,
-                  onChange: (e) => setSelectedListId(e.target.value),
-                  style: { width: "100%" },
-                  children: lists.map((l) => /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: l.id, children: l.title }, l.id))
-                }
-              )
-            ] }),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { flex: 1 }, children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("label", { style: { display: "block", marginBottom: "4px", fontWeight: "bold" }, children: "Due Date" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(
-                "input",
-                {
-                  type: "date",
-                  className: "input",
-                  value: dueDate,
-                  onChange: (e) => setDueDate(e.target.value),
-                  style: { width: "100%" }
-                }
-              )
-            ] })
-          ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", justifyContent: "flex-end", gap: "8px", marginTop: "12px" }, children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("button", { type: "button", onClick: () => modal.close(), children: "Cancel" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("button", { type: "submit", className: "mod-cta", disabled: isSubmitting || !title.trim(), children: isSubmitting ? "Creating..." : "Create Task" })
-          ] })
-        ]
+        className: "task-name",
+        placeholder: "What needs to be done?",
+        content: title,
+        onChange: setTitle,
+        autofocus: true,
+        onEnterKey: createTask
       }
-    )
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      TaskContentInput,
+      {
+        className: "task-description",
+        placeholder: "Add details, markdown or links...",
+        content: notes,
+        onChange: setNotes
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "task-creation-selectors", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "task-creation-selectors-group", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "select",
+        {
+          className: "dropdown task-list-selector",
+          value: activeListId,
+          onChange: (e) => setSelectedListId(e.target.value),
+          "aria-label": "List",
+          children: lists.map((l) => /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: l.id, children: l.title }, l.id))
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "input",
+        {
+          type: "date",
+          className: "input task-due-date",
+          value: dueDate,
+          onChange: (e) => setDueDate(e.target.value),
+          "aria-label": "Due date"
+        }
+      )
+    ] }) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "task-creation-notes", children: /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { children: linkDestinationMessage && /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: linkDestinationMessage }) }) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("hr", {}),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "task-creation-controls", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", {}),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "task-creation-action", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx($d2b4bc8c273e7be6$export$353f5b6fc5456de1, { onPress: () => modal.close(), "aria-label": "Cancel", children: "Cancel" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          $d2b4bc8c273e7be6$export$353f5b6fc5456de1,
+          {
+            className: "mod-cta",
+            isDisabled: isSubmitting || !title.trim(),
+            onPress: createTask,
+            "aria-label": "Create Task",
+            children: isSubmitting ? "Creating..." : "Create Task"
+          }
+        )
+      ] })
+    ] })
   ] });
 };
 const OnboardingModal = () => {
@@ -28902,7 +29190,7 @@ const makeServices = (plugin) => {
     tasks: new GoogleTasksAdapter()
   };
 };
-const BuildStamp = "v2.6.0-03bc6ff-261111T1408";
+const BuildStamp = "v2.6.0-840f6fb-261111T1418";
 const AutoRefreshIntervalControl = ({ initialValue, onChange }) => {
   const [value, setValue] = reactExports.useState(`${initialValue}`);
   const onInputChange = (ev) => {

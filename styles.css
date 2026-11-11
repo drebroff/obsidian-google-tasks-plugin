@@ -468,18 +468,31 @@ body {
 .task-creation-modal-root .task-creation-selectors .task-creation-selectors-group > * + * {
   margin-left: 0.5em;
 }
-.task-creation-modal-root .task-creation-selectors button {
+.task-creation-modal-root .task-creation-selectors button,
+.task-creation-modal-root .task-creation-selectors select,
+.task-creation-modal-root .task-creation-selectors input[type=date] {
   box-shadow: none;
   background-color: unset;
   border: 1px solid var(--color-base-25);
   color: var(--text-muted);
+  font-size: var(--font-ui-small);
 }
-.task-creation-modal-root .task-creation-selectors button > * + * {
+.task-creation-modal-root .task-creation-selectors button > * + *,
+.task-creation-modal-root .task-creation-selectors select > * + *,
+.task-creation-modal-root .task-creation-selectors input[type=date] > * + * {
   margin-left: 0.5em;
 }
-.task-creation-modal-root .task-creation-selectors button:hover, .task-creation-modal-root .task-creation-selectors button:focus {
+.task-creation-modal-root .task-creation-selectors button:hover, .task-creation-modal-root .task-creation-selectors button:focus,
+.task-creation-modal-root .task-creation-selectors select:hover,
+.task-creation-modal-root .task-creation-selectors select:focus,
+.task-creation-modal-root .task-creation-selectors input[type=date]:hover,
+.task-creation-modal-root .task-creation-selectors input[type=date]:focus {
   border: 1px solid var(--interactive-accent);
   box-shadow: var(--box-shadow-hover);
+}
+.task-creation-modal-root .task-creation-selectors select,
+.task-creation-modal-root .task-creation-selectors input[type=date] {
+  padding: var(--size-2-1) var(--size-2-2);
 }
 .task-creation-modal-root .task-creation-notes ul {
   padding-inline-start: 16px;

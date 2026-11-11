@@ -27473,7 +27473,7 @@ const HeaderButton = ({ iconId, action, className, tooltip }) => {
       await result;
     }
   };
-  return /* @__PURE__ */ jsxRuntimeExports.jsx($d2b4bc8c273e7be6$export$353f5b6fc5456de1, { onPress: handler, ref: buttonRef, children: /* @__PURE__ */ jsxRuntimeExports.jsx(ObsidianIcon, { id: iconId, size: "s" }) });
+  return /* @__PURE__ */ jsxRuntimeExports.jsx($d2b4bc8c273e7be6$export$353f5b6fc5456de1, { className: classNames("google-tasks-query-control-button", className), onPress: handler, ref: buttonRef, children: /* @__PURE__ */ jsxRuntimeExports.jsx(ObsidianIcon, { id: iconId, size: "s" }) });
 };
 const renderContents = (content) => {
   if (typeof content === "string") {
@@ -28902,7 +28902,7 @@ const makeServices = (plugin) => {
     tasks: new GoogleTasksAdapter()
   };
 };
-const BuildStamp = "v2.6.0-5c319b4-261110T2039";
+const BuildStamp = "v2.6.0-03bc6ff-261111T1408";
 const AutoRefreshIntervalControl = ({ initialValue, onChange }) => {
   const [value, setValue] = reactExports.useState(`${initialValue}`);
   const onInputChange = (ev) => {

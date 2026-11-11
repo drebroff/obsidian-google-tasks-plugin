@@ -91,7 +91,7 @@ const HeaderButton: React.FC<ButtonProps> = ({ iconId, action, className, toolti
   };
 
   return (
-    <Button onPress={handler} ref={buttonRef}>
+    <Button className={classNames("google-tasks-query-control-button", className)} onPress={handler} ref={buttonRef}>
       <ObsidianIcon id={iconId} size="s" />
     </Button>
   );

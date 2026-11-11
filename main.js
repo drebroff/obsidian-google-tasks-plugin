@@ -19560,7 +19560,7 @@ const taskQuerySchema = object({
   sorting: _enum(["date", "my-order", "title"]).optional().default("date"),
   sortOrder: _enum(["asc", "desc"]).optional().default("asc"),
   groupBy: _enum(["none", "list", "date"]).optional().default("none"),
-  show: array(_enum(["notes", "due", "list"])).optional().default(["notes", "due"]),
+  show: array(_enum(["notes", "due", "list"])).optional().default(["notes", "due", "list"]),
   limit: number$1().positive().optional(),
   autorefresh: number$1().nonnegative().optional(),
   view: object({
@@ -28111,12 +28111,12 @@ const listMeta = {
     }
   ],
   icons: {
-    after: {
-      id: "list",
+    before: {
+      id: "bullet-list",
       shouldRender: (settings) => settings.renderListIcon
     }
   },
-  side: "right"
+  side: "left"
 };
 const dueDateMeta = {
   name: "due",
@@ -28135,7 +28135,7 @@ const dueDateMeta = {
   },
   side: "left"
 };
-const metadata = [listMeta, dueDateMeta];
+const metadata = [dueDateMeta, listMeta];
 const TaskMetadata = ({ task, query, settings }) => {
   const show = query.show;
   const leftElements = metadata.filter((m) => m.side === "left" && m.isShown(show, task)).map((m) => renderMetadata(m, task, settings));
@@ -29190,7 +29190,7 @@ const makeServices = (plugin) => {
     tasks: new GoogleTasksAdapter()
   };
 };
-const BuildStamp = "v2.6.0-840f6fb-261111T1418";
+const BuildStamp = "v2.6.0-b250d0e-261111T1547";
 const AutoRefreshIntervalControl = ({ initialValue, onChange }) => {
   const [value, setValue] = reactExports.useState(`${initialValue}`);
   const onInputChange = (ev) => {

@@ -25,7 +25,7 @@ export const taskQuerySchema = z.object({
   show: z
     .array(z.enum(["notes", "due", "list"]))
     .optional()
-    .default(["notes", "due"]),
+    .default(["notes", "due", "list"]),
   limit: z.number().positive().optional(),
   autorefresh: z.number().nonnegative().optional(),
   view: z

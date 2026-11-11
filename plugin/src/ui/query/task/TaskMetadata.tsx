@@ -34,12 +34,12 @@ const listMeta: MetadataDefinition = {
     },
   ],
   icons: {
-    after: {
-      id: "list",
+    before: {
+      id: "bullet-list",
       shouldRender: (settings) => settings.renderListIcon,
     },
   },
-  side: "right",
+  side: "left",
 };
 
 const dueDateMeta: MetadataDefinition = {
@@ -61,7 +61,7 @@ const dueDateMeta: MetadataDefinition = {
   side: "left",
 };
 
-const metadata: MetadataDefinition[] = [listMeta, dueDateMeta];
+const metadata: MetadataDefinition[] = [dueDateMeta, listMeta];
 
 type Props = {
   task: Task;

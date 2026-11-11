@@ -195,6 +195,10 @@
           margin-left: 0.25em;
         }
 
+        &[data-meta="list"] {
+          color: #808080;
+        }
+
         &[data-task-metadata-kind="project"] .obsidian-icon {
           color: var(--google-tasks-project-color);
         }

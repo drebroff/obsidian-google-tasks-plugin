@@ -262,6 +262,9 @@ body {
 .google-tasks-task-container .google-tasks-task .google-tasks-task-metadata .google-tasks-task-metadata-item > * + * {
   margin-left: 0.25em;
 }
+.google-tasks-task-container .google-tasks-task .google-tasks-task-metadata .google-tasks-task-metadata-item[data-meta=list] {
+  color: #808080;
+}
 .google-tasks-task-container .google-tasks-task .google-tasks-task-metadata .google-tasks-task-metadata-item[data-task-metadata-kind=project] .obsidian-icon {
   color: var(--google-tasks-project-color);
 }

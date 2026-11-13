@@ -55,15 +55,22 @@ jobs:
           git checkout -b "$BRANCH"
           git add .
           git commit -m "chore: prepare release $VERSION"
-          git push -u origin "$BRANCH"
+          # Force-push so a re-run after a partial failure overwrites any
+          # stale branch left behind by a previous attempt.
+          git push --force -u origin "$BRANCH"
 
       - name: Create pull request
         run: |
-          PR_URL=$(gh pr create \
-            --title "chore: prepare release $VERSION" \
-            --body "Automated release preparation for version $VERSION." \
-            --base master \
-            --head "$BRANCH")
+          # Reuse the PR for this branch when one already exists (e.g. from a
+          # previous partial run) instead of failing to create a duplicate.
+          PR_URL=$(gh pr list --head "$BRANCH" --json url -q '.[0].url')
+          if [ -z "$PR_URL" ]; then
+            PR_URL=$(gh pr create \
+              --title "chore: prepare release $VERSION" \
+              --body "Automated release preparation for version $VERSION." \
+              --base master \
+              --head "$BRANCH")
+          fi
           echo "PR_NUMBER=${PR_URL##*/}" >> "$GITHUB_ENV"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

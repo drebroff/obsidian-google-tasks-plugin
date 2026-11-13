@@ -78,6 +78,10 @@ version files must already be correct on the tagged commit.
 - **Actions** enabled with workflow permissions allowing **Read and write** for
   contents and pull requests (the workflows also declare the needed
   `permissions` blocks).
+- **Allow GitHub Actions to create and approve pull requests** (Settings →
+  Actions → General → Workflow permissions): the `prepare-release` job opens
+  the release PR with `GITHUB_TOKEN` and fails without it. Equivalent API
+  call: `gh api -X PUT repos/<owner>/<repo>/actions/permissions/workflow -f default_workflow_permissions=write -F can_approve_pull_request_reviews=true`.
 - **Allow auto-merge** (optional but recommended): Settings → General → Pull
   Requests → *Allow auto-merge*. When disabled, the pipeline falls back to
   watching checks and merging directly.

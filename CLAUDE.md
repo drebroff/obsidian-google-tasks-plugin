@@ -4,10 +4,9 @@ Last verified: 2026-03-07
 
 ## Monorepo Structure
 
-Three npm workspaces:
+Two npm workspaces:
 
 - **`plugin/`** - Obsidian plugin source code (TypeScript, React, Vite)
-- **`docs/`** - Documentation site (Docusaurus)
 - **`scripts/`** - Release and code generation scripts
 
 Each workspace has its own `package.json` and commands. See workspace-specific `CLAUDE.md` files for details.
@@ -15,6 +14,7 @@ Each workspace has its own `package.json` and commands. See workspace-specific `
 ## Top-Level Commands
 
 - `npm run gen` - Run code generation scripts (delegates to `scripts/` workspace)
+- `npm run release -- <version>` - Trigger the automated release workflow (delegates to `scripts/` workspace). See [RELEASING.md](RELEASING.md).
 
 ## Shared Tooling
 

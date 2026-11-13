@@ -43522,7 +43522,7 @@ const makeServices = (plugin) => {
     tasks: new GoogleTasksAdapter()
   };
 };
-const BuildStamp = "v2.6.0-7a4d975-261113T1614";
+const BuildStamp = "v1.0.0-dff5525-261113T1726";
 const AutoRefreshIntervalControl = ({ initialValue, onChange }) => {
   const [value, setValue] = reactExports.useState(`${initialValue}`);
   const onInputChange = (ev) => {

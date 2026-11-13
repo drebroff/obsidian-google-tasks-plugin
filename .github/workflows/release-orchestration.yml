@@ -1,0 +1,126 @@
+name: "Release"
+
+# Fully automated release pipeline. Triggered manually with a version input:
+#
+#   1. prepare-release: bumps CHANGELOG.md, manifest.json, plugin/package.json
+#      and versions.json, then opens and merges a release PR.
+#   2. push-tag: creates and pushes the release tag on master.
+#   3. build-and-publish: delegates to release-build.yml to test, build and
+#      publish the GitHub release.
+#
+# Everything runs in a single workflow so that the tag push does not need to
+# trigger another workflow (tags pushed with GITHUB_TOKEN do not trigger
+# workflow runs).
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Release version (semver, e.g. 1.0.0)"
+        required: true
+        type: string
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  prepare-release:
+    name: "Prepare release PR"
+    runs-on: ubuntu-latest
+    env:
+      VERSION: ${{ inputs.version }}
+      BRANCH: chore/prepare-release-${{ inputs.version }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: master
+
+      - name: Setup
+        uses: ./.github/actions/setup
+
+      - name: Prepare release files
+        run: npm run prepare-release -- "$VERSION"
+        working-directory: ./scripts
+
+      - name: Commit and push release branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$BRANCH"
+          git add .
+          git commit -m "chore: prepare release $VERSION"
+          git push -u origin "$BRANCH"
+
+      - name: Create pull request
+        run: |
+          PR_URL=$(gh pr create \
+            --title "chore: prepare release $VERSION" \
+            --body "Automated release preparation for version $VERSION." \
+            --base master \
+            --head "$BRANCH")
+          echo "PR_NUMBER=${PR_URL##*/}" >> "$GITHUB_ENV"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Merge pull request
+        run: |
+          # Prefer auto-merge; fall back to watching checks and merging
+          # directly when the repository does not have auto-merge enabled.
+          if gh pr merge "$PR_NUMBER" --rebase --auto --delete-branch 2>/dev/null; then
+            echo "Auto-merge enabled, waiting for the pull request to merge..."
+          else
+            echo "Auto-merge unavailable, waiting for checks and merging directly..."
+            gh pr checks "$PR_NUMBER" --watch --interval 20
+            gh pr merge "$PR_NUMBER" --rebase --delete-branch
+          fi
+
+          # Wait until the PR is actually merged (up to ~30 minutes).
+          for _ in $(seq 1 90); do
+            STATE=$(gh pr view "$PR_NUMBER" --json state -q .state 2>/dev/null || echo "UNKNOWN")
+            if [ "$STATE" = "MERGED" ]; then
+              echo "Pull request merged."
+              exit 0
+            fi
+            if [ "$STATE" = "CLOSED" ]; then
+              echo "Pull request was closed without merging." >&2
+              exit 1
+            fi
+            sleep 20
+          done
+
+          echo "Timed out waiting for the pull request to merge." >&2
+          exit 1
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  push-tag:
+    name: "Tag release"
+    needs: prepare-release
+    runs-on: ubuntu-latest
+    env:
+      VERSION: ${{ inputs.version }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: master
+
+      - name: Create and push tag
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git tag -a "$VERSION" -m "Release $VERSION"
+          git push origin "$VERSION"
+
+  build-and-publish:
+    name: "Build and publish release"
+    needs: push-tag
+    uses: ./.github/workflows/release-build.yml
+    with:
+      version: ${{ inputs.version }}

@@ -1,0 +1,67 @@
+name: "Release Build"
+
+# Reusable workflow: validates, tests, builds the plugin and publishes the
+# GitHub release. Called by release-orchestration.yml (primary path) and
+# release.yml (fallback for manually pushed tags).
+#
+# The release is published immediately (not as a draft): the Obsidian
+# community registry only serves published releases.
+
+on:
+  workflow_call:
+    inputs:
+      version:
+        description: "Version to release (must match the pushed tag)"
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.version }}
+
+      - name: Setup
+        uses: ./.github/actions/setup
+
+      - name: Lint
+        run: npm run lint:check
+        working-directory: ./plugin
+
+      - name: Check
+        run: npm run check
+        working-directory: ./plugin
+
+      - name: Test
+        run: npm run test
+        working-directory: ./plugin
+
+      - name: Build
+        run: npm run build
+        working-directory: ./plugin
+
+      - name: Validate release
+        run: npm run validate-release -- ${{ inputs.version }}
+        working-directory: ./scripts
+
+      - name: Extract changelog
+        run: npm run extract-changelog -- ${{ inputs.version }} > "$GITHUB_WORKSPACE/release-notes.md"
+        working-directory: ./scripts
+
+      - name: Publish release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ inputs.version }}
+          name: Sync with Google Tasks Plugin - v${{ inputs.version }}
+          body_path: release-notes.md
+          draft: false
+          files: |
+            plugin/dist/main.js
+            plugin/dist/manifest.json
+            plugin/dist/styles.css

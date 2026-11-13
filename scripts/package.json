@@ -6,6 +6,9 @@
   "scripts": {
     "gen": "vite-node src/gen-lang-status.ts",
     "release": "vite-node src/release.ts",
+    "prepare-release": "vite-node src/prepare-release.ts",
+    "extract-changelog": "vite-node src/extract-changelog.ts",
+    "validate-release": "vite-node src/validate-release.ts",
     "check": "tsgo --noEmit",
     "lint:check": "biome check .",
     "lint:fix": "biome check --write ."

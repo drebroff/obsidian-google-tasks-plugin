@@ -2,14 +2,14 @@ import type { Plugin } from "obsidian";
 import React from "react";
 import ReactDOM from "react-dom/client";
 
-import { parseQuery } from "@/query/parser";
+import { parseQuery, type QueryWarning } from "@/query/parser";
 import type { TaskQuery } from "@/query/schema/tasks";
 import { taskQueryDefinition } from "@/query/schema/tasks";
 import { PluginContext, QueryContext } from "@/ui/context";
 import { QueryRoot } from "@/ui/query/QueryRoot";
 
 export class QueryInjector {
-  private plugin: Plugin;
+  private readonly plugin: Plugin;
 
   constructor(plugin: Plugin) {
     this.plugin = plugin;
@@ -19,20 +19,19 @@ export class QueryInjector {
     try {
       const [query, warnings] = parseQuery(source, taskQueryDefinition);
 
-      // Show warnings as tooltips or notices
       warnings.forEach((warning) => {
         console.warn("Query warning:", warning);
       });
 
       // Mount React component using existing QueryRoot
-      this.mountReactQuery(query, el);
+      this.mountReactQuery(query, el, warnings);
     } catch (error) {
       console.error("Failed to parse query:", error);
       el.innerHTML = `<div class="gtasks-error">Error parsing query: ${(error as Error).message}</div>`;
     }
   };
 
-  private mountReactQuery(query: TaskQuery, container: HTMLElement) {
+  private mountReactQuery(query: TaskQuery, container: HTMLElement, warnings: QueryWarning[]) {
     // Clear existing content
     container.innerHTML = "";
 
@@ -51,7 +50,7 @@ export class QueryInjector {
           { value: query },
           React.createElement(QueryRoot, {
             query,
-            warnings: [],
+            warnings,
           }),
         ),
       ),

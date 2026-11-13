@@ -12,7 +12,7 @@ import { makeServices, type Services } from "@/services";
 import { type Settings, useSettingsStore } from "@/settings";
 import { SettingsTab } from "@/ui/settings";
 
-const metadataSyncIntervalMs = secondsToMillis(300);
+const focusSyncThrottleMs = secondsToMillis(10);
 
 // biome-ignore lint/style/noDefaultExport: We must use default export for Obsidian plugins
 export default class GoogleTasksPlugin extends Plugin {
@@ -43,11 +43,24 @@ export default class GoogleTasksPlugin extends Plugin {
       await this.loadApiClient();
     });
 
-    this.registerInterval(
-      window.setInterval(async () => {
-        await this.services.tasks.sync();
-      }, metadataSyncIntervalMs),
-    );
+    this.registerFocusRefresh();
+  }
+
+  /**
+   * Refreshes tasks whenever the Obsidian window regains focus.
+   * Throttled to avoid hammering the API on rapid window switches.
+   */
+  private registerFocusRefresh(): void {
+    let lastFocusSync = 0;
+
+    this.registerDomEvent(window, "focus", async () => {
+      const now = Date.now();
+      if (now - lastFocusSync < focusSyncThrottleMs) {
+        return;
+      }
+      lastFocusSync = now;
+      await this.services.tasks.sync();
+    });
   }
 
   public async loadApiClient(): Promise<void> {

@@ -27,7 +27,6 @@ export const taskQuerySchema = z.object({
     .optional()
     .default(["notes", "due", "list"]),
   limit: z.number().positive().optional(),
-  autorefresh: z.number().nonnegative().optional(),
   view: z
     .object({
       hideNoTasks: z.boolean().optional(),

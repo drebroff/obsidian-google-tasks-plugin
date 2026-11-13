@@ -56,8 +56,10 @@ export function parseQuery<T extends z.ZodObject>(
     }
   }
 
-  if (obj === null) {
-    obj = {};
+  obj ??= {};
+
+  if (isPlainObject(obj)) {
+    obj = expandDottedKeys(obj);
   }
 
   const [query, parsingWarnings] = parseObjectZod(obj, definition);
@@ -82,6 +84,66 @@ function tryParseAsYaml(raw: string): Record<string, unknown> {
   }
 }
 
+function isPlainObject(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+/**
+ * Expands flat dotted keys (e.g. `filter.status`) into nested objects
+ * (e.g. `{ filter: { status: ... } }`).
+ *
+ * In YAML, `filter.status: needsAction` is a single key containing a dot,
+ * not a nested object. Since query fields are documented using dot notation
+ * (e.g. `filter.due`), users naturally write them as flat keys. Without this
+ * expansion those keys would be silently stripped as unknown, and defaults
+ * would be applied instead.
+ */
+function expandDottedKeys(obj: Record<string, unknown>): Record<string, unknown> {
+  const result: Record<string, unknown> = {};
+
+  const assign = (target: Record<string, unknown>, key: string, value: unknown): void => {
+    const existing = target[key];
+    if (isPlainObject(existing) && isPlainObject(value)) {
+      target[key] = { ...existing, ...value };
+      return;
+    }
+    target[key] = value;
+  };
+
+  for (const [key, value] of Object.entries(obj)) {
+    if (!key.includes(".")) {
+      assign(result, key, value);
+      continue;
+    }
+
+    const parts = key.split(".");
+    let cursor: Record<string, unknown> = result;
+    let expandable = true;
+
+    for (const part of parts.slice(0, -1)) {
+      const existing = cursor[part];
+      if (existing !== undefined && !isPlainObject(existing)) {
+        expandable = false;
+        break;
+      }
+      if (existing === undefined) {
+        cursor[part] = {};
+      }
+      cursor = cursor[part] as Record<string, unknown>;
+    }
+
+    if (expandable) {
+      assign(cursor, parts[parts.length - 1], value);
+    } else {
+      // Cannot expand (e.g. 'filter' is already a non-object value); keep as-is.
+      // Schema validation / unknown-key warnings will report it.
+      assign(result, key, value);
+    }
+  }
+
+  return result;
+}
+
 function findUnknownKeys(obj: Record<string, unknown>, schema: z.ZodObject): string[] {
   const keys: string[] = [];
 
@@ -98,21 +160,7 @@ function findUnknownKeys(obj: Record<string, unknown>, schema: z.ZodObject): str
       continue;
     }
 
-    let childSchema: z.ZodObject | undefined;
-    const schemaField = schema.shape[key];
-
-    // If the subobject is directly a ZodObject, use that.
-    if (schemaField instanceof z.ZodObject) {
-      childSchema = schemaField;
-    }
-
-    // If the subobject is optional, unwrap it and use the type.
-    if (schemaField instanceof z.ZodOptional) {
-      const unwrapped = schemaField.unwrap();
-      if (unwrapped instanceof z.ZodObject) {
-        childSchema = unwrapped;
-      }
-    }
+    const childSchema = unwrapToObject(schema.shape[key]);
 
     if (childSchema !== undefined) {
       const nestedKeys = findUnknownKeys(value as Record<string, unknown>, childSchema);
@@ -121,6 +169,28 @@ function findUnknownKeys(obj: Record<string, unknown>, schema: z.ZodObject): str
   }
 
   return keys;
+}
+
+/**
+ * Unwraps wrapper schemas (optional, default, nullable, etc.) until the
+ * underlying ZodObject is found, if any.
+ */
+function unwrapToObject(schema: z.ZodType): z.ZodObject | undefined {
+  let current: z.ZodType = schema;
+
+  for (let depth = 0; depth < 10; depth++) {
+    if (current instanceof z.ZodObject) {
+      return current;
+    }
+
+    const unwrapped = (current as unknown as { unwrap?: () => z.ZodType }).unwrap?.();
+    if (unwrapped === undefined) {
+      return undefined;
+    }
+    current = unwrapped;
+  }
+
+  return undefined;
 }
 
 function parseObjectZod<T extends z.ZodObject>(

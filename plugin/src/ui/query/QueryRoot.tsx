@@ -74,7 +74,7 @@ export const QueryRoot: React.FC<Props> = ({ query, warnings }) => {
   );
 
   useEffect(() => {
-    const interval = getAutorefreshInterval(query, settings);
+    const interval = getAutorefreshInterval(settings);
 
     if (interval === undefined) {
       return;
@@ -85,7 +85,7 @@ export const QueryRoot: React.FC<Props> = ({ query, warnings }) => {
     }, secondsToMillis(interval));
 
     return () => window.clearInterval(id);
-  }, [query, settings, refresh]);
+  }, [settings, refresh]);
 
   return (
     <LazyMotion features={domAnimation}>
@@ -101,11 +101,7 @@ export const QueryRoot: React.FC<Props> = ({ query, warnings }) => {
   );
 };
 
-const getAutorefreshInterval = (query: TaskQuery, settings: Settings): number | undefined => {
-  if (query.autorefresh !== undefined && query.autorefresh !== 0) {
-    return query.autorefresh;
-  }
-
+const getAutorefreshInterval = (settings: Settings): number | undefined => {
   if (!settings.autoRefreshToggle) {
     return undefined;
   }

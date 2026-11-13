@@ -714,7 +714,7 @@ const allowsEval = cached(() => {
     return false;
   }
 });
-function isPlainObject(o) {
+function isPlainObject$1(o) {
   if (isObject$2(o) === false)
     return false;
   const ctor = o.constructor;
@@ -731,7 +731,7 @@ function isPlainObject(o) {
   return true;
 }
 function shallowClone(o) {
-  if (isPlainObject(o))
+  if (isPlainObject$1(o))
     return { ...o };
   if (Array.isArray(o))
     return [...o];
@@ -816,7 +816,7 @@ function omit(schema2, mask) {
   return clone(schema2, def);
 }
 function extend$1(schema2, shape) {
-  if (!isPlainObject(shape)) {
+  if (!isPlainObject$1(shape)) {
     throw new Error("Invalid input to extend: expected a plain object");
   }
   const checks = schema2._zod.def.checks;
@@ -835,7 +835,7 @@ function extend$1(schema2, shape) {
   return clone(schema2, def);
 }
 function safeExtend(schema2, shape) {
-  if (!isPlainObject(shape)) {
+  if (!isPlainObject$1(shape)) {
     throw new Error("Invalid input to safeExtend: expected a plain object");
   }
   const def = {
@@ -2431,7 +2431,7 @@ function mergeValues(a, b) {
   if (a instanceof Date && b instanceof Date && +a === +b) {
     return { valid: true, data: a };
   }
-  if (isPlainObject(a) && isPlainObject(b)) {
+  if (isPlainObject$1(a) && isPlainObject$1(b)) {
     const bKeys = Object.keys(b);
     const sharedKeys = Object.keys(a).filter((key) => bKeys.indexOf(key) !== -1);
     const newObj = { ...a, ...b };
@@ -20621,8 +20621,9 @@ function parseQuery(raw, definition) {
       throw new ParsingError(["Unable to parse as YAML or JSON"]);
     }
   }
-  if (obj === null) {
-    obj = {};
+  obj ??= {};
+  if (isPlainObject(obj)) {
+    obj = expandDottedKeys(obj);
   }
   const [query, parsingWarnings] = parseObjectZod(obj, definition);
   warnings.push(...parsingWarnings);
@@ -20642,6 +20643,46 @@ function tryParseAsYaml(raw) {
     throw new ParsingError(["Invalid YAML"], e);
   }
 }
+function isPlainObject(value) {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+function expandDottedKeys(obj) {
+  const result = {};
+  const assign = (target, key, value) => {
+    const existing = target[key];
+    if (isPlainObject(existing) && isPlainObject(value)) {
+      target[key] = { ...existing, ...value };
+      return;
+    }
+    target[key] = value;
+  };
+  for (const [key, value] of Object.entries(obj)) {
+    if (!key.includes(".")) {
+      assign(result, key, value);
+      continue;
+    }
+    const parts = key.split(".");
+    let cursor = result;
+    let expandable = true;
+    for (const part of parts.slice(0, -1)) {
+      const existing = cursor[part];
+      if (existing !== void 0 && !isPlainObject(existing)) {
+        expandable = false;
+        break;
+      }
+      if (existing === void 0) {
+        cursor[part] = {};
+      }
+      cursor = cursor[part];
+    }
+    if (expandable) {
+      assign(cursor, parts[parts.length - 1], value);
+    } else {
+      assign(result, key, value);
+    }
+  }
+  return result;
+}
 function findUnknownKeys(obj, schema2) {
   const keys = [];
   const validKeys = schema2.keyof().options;
@@ -20654,23 +20695,27 @@ function findUnknownKeys(obj, schema2) {
     if (typeof value !== "object" || value === null) {
       continue;
     }
-    let childSchema;
-    const schemaField = schema2.shape[key];
-    if (schemaField instanceof ZodObject) {
-      childSchema = schemaField;
-    }
-    if (schemaField instanceof ZodOptional) {
-      const unwrapped = schemaField.unwrap();
-      if (unwrapped instanceof ZodObject) {
-        childSchema = unwrapped;
-      }
-    }
+    const childSchema = unwrapToObject(schema2.shape[key]);
     if (childSchema !== void 0) {
       const nestedKeys = findUnknownKeys(value, childSchema);
       keys.push(...nestedKeys.map((w) => `${key}.${w}`));
     }
   }
   return keys;
+}
+function unwrapToObject(schema2) {
+  let current = schema2;
+  for (let depth = 0; depth < 10; depth++) {
+    if (current instanceof ZodObject) {
+      return current;
+    }
+    const unwrapped = current.unwrap?.();
+    if (unwrapped === void 0) {
+      return void 0;
+    }
+    current = unwrapped;
+  }
+  return void 0;
 }
 function parseObjectZod(query, definition) {
   const warnings = [];
@@ -20726,7 +20771,6 @@ const taskQuerySchema = object({
   groupBy: _enum(["none", "list", "date"]).optional().default("none"),
   show: array(_enum(["notes", "due", "list"])).optional().default(["notes", "due", "list"]),
   limit: number$1().positive().optional(),
-  autorefresh: number$1().nonnegative().optional(),
   view: object({
     hideNoTasks: boolean().optional(),
     noTasksMessage: string().optional()
@@ -42383,7 +42427,7 @@ const QueryRoot = ({ query, warnings }) => {
     setResult
   );
   reactExports.useEffect(() => {
-    const interval = getAutorefreshInterval(query, settings);
+    const interval = getAutorefreshInterval(settings);
     if (interval === void 0) {
       return;
     }
@@ -42391,7 +42435,7 @@ const QueryRoot = ({ query, warnings }) => {
       await refresh();
     }, secondsToMillis(interval));
     return () => window.clearInterval(id2);
-  }, [query, settings, refresh]);
+  }, [settings, refresh]);
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(LazyMotion, { features: domAnimation, children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx(
       QueryHeader,
@@ -42406,10 +42450,7 @@ const QueryRoot = ({ query, warnings }) => {
     hasFetchedOnce && /* @__PURE__ */ jsxRuntimeExports.jsx(QueryResponseHandler, { result, query })
   ] });
 };
-const getAutorefreshInterval = (query, settings) => {
-  if (query.autorefresh !== void 0 && query.autorefresh !== 0) {
-    return query.autorefresh;
-  }
+const getAutorefreshInterval = (settings) => {
   if (!settings.autoRefreshToggle) {
     return void 0;
   }
@@ -42445,7 +42486,7 @@ class QueryInjector {
         warnings.forEach((warning) => {
           console.warn("Query warning:", warning);
         });
-        this.mountReactQuery(query, el);
+        this.mountReactQuery(query, el, warnings);
       } catch (error) {
         console.error("Failed to parse query:", error);
         el.innerHTML = `<div class="gtasks-error">Error parsing query: ${error.message}</div>`;
@@ -42453,7 +42494,7 @@ class QueryInjector {
     };
     this.plugin = plugin;
   }
-  mountReactQuery(query, container) {
+  mountReactQuery(query, container, warnings) {
     container.innerHTML = "";
     const rootDiv = document.createElement("div");
     container.appendChild(rootDiv);
@@ -42467,7 +42508,7 @@ class QueryInjector {
           { value: query },
           React.createElement(QueryRoot, {
             query,
-            warnings: []
+            warnings
           })
         )
       )
@@ -43481,7 +43522,7 @@ const makeServices = (plugin) => {
     tasks: new GoogleTasksAdapter()
   };
 };
-const BuildStamp = "v2.6.0-4775cd7-261111T1954";
+const BuildStamp = "v2.6.0-7a4d975-261113T1614";
 const AutoRefreshIntervalControl = ({ initialValue, onChange }) => {
   const [value, setValue] = reactExports.useState(`${initialValue}`);
   const onInputChange = (ev) => {
@@ -43743,7 +43784,7 @@ const SettingsRoot = ({ plugin }) => {
     /* @__PURE__ */ jsxRuntimeExports.jsx(Setting.Root, { name: "Build Version", description: "Plugin build version info.", children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: "var(--text-muted)" }, children: BuildStamp }) })
   ] }) });
 };
-const metadataSyncIntervalMs = secondsToMillis(300);
+const focusSyncThrottleMs = secondsToMillis(10);
 class GoogleTasksPlugin extends obsidian.Plugin {
   constructor(app, pluginManifest) {
     super(app, pluginManifest);
@@ -43763,11 +43804,22 @@ class GoogleTasksPlugin extends obsidian.Plugin {
     this.app.workspace.onLayoutReady(async () => {
       await this.loadApiClient();
     });
-    this.registerInterval(
-      window.setInterval(async () => {
-        await this.services.tasks.sync();
-      }, metadataSyncIntervalMs)
-    );
+    this.registerFocusRefresh();
+  }
+  /**
+   * Refreshes tasks whenever the Obsidian window regains focus.
+   * Throttled to avoid hammering the API on rapid window switches.
+   */
+  registerFocusRefresh() {
+    let lastFocusSync = 0;
+    this.registerDomEvent(window, "focus", async () => {
+      const now2 = Date.now();
+      if (now2 - lastFocusSync < focusSyncThrottleMs) {
+        return;
+      }
+      lastFocusSync = now2;
+      await this.services.tasks.sync();
+    });
   }
   async loadApiClient() {
     try {

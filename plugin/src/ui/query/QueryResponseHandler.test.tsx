@@ -14,7 +14,7 @@ describe("QueryResponseHandler - no tasks rendering", () => {
   };
 
   it("should render empty display when there are no tasks", () => {
-    const query = makeQuery({ filter: "today" });
+    const query = makeQuery({ filter: { status: "needsAction", due: "today" } });
 
     render(<QueryResponseHandler result={emptyResult} query={query} />);
 
@@ -23,7 +23,7 @@ describe("QueryResponseHandler - no tasks rendering", () => {
 
   it("should render custom message when noTasksMessage is set", () => {
     const query = makeQuery({
-      filter: "today",
+      filter: { status: "needsAction", due: "today" },
       view: { noTasksMessage: "All caught up!" },
     });
 
@@ -34,7 +34,7 @@ describe("QueryResponseHandler - no tasks rendering", () => {
 
   it("should render nothing when hideNoTasks is true", () => {
     const query = makeQuery({
-      filter: "today",
+      filter: { status: "needsAction", due: "today" },
       view: { hideNoTasks: true },
     });
 
@@ -45,7 +45,7 @@ describe("QueryResponseHandler - no tasks rendering", () => {
 
   it("should render empty display when hideNoTasks is false", () => {
     const query = makeQuery({
-      filter: "today",
+      filter: { status: "needsAction", due: "today" },
       view: { hideNoTasks: false },
     });
 
@@ -56,7 +56,7 @@ describe("QueryResponseHandler - no tasks rendering", () => {
 });
 
 describe("QueryResponseHandler - error rendering", () => {
-  const query = makeQuery({ filter: "today" });
+  const query = makeQuery({ filter: { status: "needsAction", due: "today" } });
 
   it("should render ErrorDisplay for bad request errors", () => {
     const result: SubscriptionResult = {
@@ -118,7 +118,7 @@ describe("QueryResponseHandler - error rendering", () => {
 describe("QueryResponseHandler - not ready rendering", () => {
   it("should render NotReadyDisplay for not-ready results", () => {
     const result: SubscriptionResult = { type: "not-ready" };
-    const query = makeQuery({ filter: "today" });
+    const query = makeQuery({ filter: { status: "needsAction", due: "today" } });
 
     const { container } = render(<QueryResponseHandler result={result} query={query} />);
 

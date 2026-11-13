@@ -57,9 +57,9 @@ describe("GoogleTasksAdapter", () => {
 
       await adapter.initialize(mockApi);
 
-      let captured: SubscriptionResult = { type: "not-ready" };
+      const captured: { current: SubscriptionResult } = { current: { type: "not-ready" } };
       const callback: OnSubscriptionChange = (r) => {
-        captured = r;
+        captured.current = r;
       };
 
       const [, refresh] = adapter.subscribe(
@@ -68,13 +68,13 @@ describe("GoogleTasksAdapter", () => {
       );
       await refresh();
 
-      expect(captured.type).toBe("success");
-      if (captured.type !== "success") {
+      expect(captured.current.type).toBe("success");
+      if (captured.current.type !== "success") {
         return;
       }
 
-      expect(captured.tasks).toHaveLength(1);
-      expect(captured.tasks[0].id).toBe("task-1");
+      expect(captured.current.tasks).toHaveLength(1);
+      expect(captured.current.tasks[0].id).toBe("task-1");
     });
 
     it("should toggle task status optimistically", async () => {
@@ -97,9 +97,9 @@ describe("GoogleTasksAdapter", () => {
 
       await adapter.initialize(mockApi);
 
-      let captured: SubscriptionResult = { type: "not-ready" };
+      const captured: { current: SubscriptionResult } = { current: { type: "not-ready" } };
       const callback: OnSubscriptionChange = (r) => {
-        captured = r;
+        captured.current = r;
       };
 
       const [, refresh] = adapter.subscribe(
@@ -111,12 +111,12 @@ describe("GoogleTasksAdapter", () => {
       // Toggle task
       await adapter.actions.toggleTask("task-1", "needsAction");
 
-      expect(captured.type).toBe("success");
-      if (captured.type !== "success") {
+      expect(captured.current.type).toBe("success");
+      if (captured.current.type !== "success") {
         return;
       }
 
-      expect(captured.tasks[0].status).toBe("completed");
+      expect(captured.current.tasks[0].status).toBe("completed");
     });
   });
 });

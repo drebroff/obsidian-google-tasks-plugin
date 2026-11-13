@@ -4,7 +4,6 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "gen": "vite-node src/gen-lang-status.ts",
     "release": "vite-node src/release.ts",
     "prepare-release": "vite-node src/prepare-release.ts",
     "extract-changelog": "vite-node src/extract-changelog.ts",

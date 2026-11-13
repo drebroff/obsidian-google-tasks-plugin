@@ -32,18 +32,6 @@ jobs:
         with:
           name: Bundle analysis
           path: ./plugin/dist/stats.html
-  docs:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup
-        uses: ./.github/actions/setup
-
-      - name: Build
-        run: npm run build
-        working-directory: ./docs
   scripts:
     runs-on: ubuntu-latest
     steps:
@@ -60,18 +48,3 @@ jobs:
       - name: Lint
         run: npm run lint:check
         working-directory: ./scripts
-
-      - name: Generate files
-        run: npm run gen
-        working-directory: ./scripts
-
-      - name: Check for generated file changes
-        run: |
-          git add -A
-          if git diff --staged --quiet; then
-            echo "✅ No changes detected in generated files"
-          else
-            echo "❌ Generated files have changed. Please commit these changes:"
-            git diff --staged
-            exit 1
-          fi

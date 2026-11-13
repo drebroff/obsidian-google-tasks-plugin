@@ -10,7 +10,7 @@ interface MarkdownProps {
 }
 
 export const Markdown: React.FC<MarkdownProps> = ({ content, className }) => {
-  let renderChild: any;
+  let renderChild: Component;
   try {
     renderChild = RenderChildContext.use();
   } catch {

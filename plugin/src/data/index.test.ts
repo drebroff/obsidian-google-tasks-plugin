@@ -3,6 +3,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { GoogleTasksApiClient } from "@/api";
 import type { SubscriptionResult } from "@/data/index";
 import { GoogleTasksAdapter, type OnSubscriptionChange } from "@/data/index";
+import type { TaskQuery } from "@/query/schema/tasks";
 
 const makeMockApi = (): GoogleTasksApiClient => {
   return {
@@ -14,6 +15,15 @@ const makeMockApi = (): GoogleTasksApiClient => {
     uncompleteTask: vi.fn(),
     deleteTask: vi.fn(),
   } as unknown as GoogleTasksApiClient;
+};
+
+const baseQuery: TaskQuery = {
+  list: "all",
+  filter: { status: "all", due: "all" },
+  sorting: "date",
+  sortOrder: "asc",
+  groupBy: "none",
+  show: ["notes", "due", "list"],
 };
 
 describe("GoogleTasksAdapter", () => {
@@ -32,10 +42,7 @@ describe("GoogleTasksAdapter", () => {
         captured = r;
       };
 
-      const [, refresh] = adapter.subscribe(
-        { list: "all", filter: { status: "all" } } as any,
-        callback,
-      );
+      const [, refresh] = adapter.subscribe(baseQuery, callback);
       await refresh();
 
       expect(captured.type).toBe("not-ready");
@@ -62,10 +69,7 @@ describe("GoogleTasksAdapter", () => {
         captured.current = r;
       };
 
-      const [, refresh] = adapter.subscribe(
-        { list: "all", filter: { status: "all" } } as any,
-        callback,
-      );
+      const [, refresh] = adapter.subscribe(baseQuery, callback);
       await refresh();
 
       expect(captured.current.type).toBe("success");
@@ -102,10 +106,7 @@ describe("GoogleTasksAdapter", () => {
         captured.current = r;
       };
 
-      const [, refresh] = adapter.subscribe(
-        { list: "all", filter: { status: "all" } } as any,
-        callback,
-      );
+      const [, refresh] = adapter.subscribe(baseQuery, callback);
       await refresh();
 
       // Toggle task

@@ -1,14 +1,13 @@
 import type { GoogleTasksApiClient } from "@/api";
 import type { GoogleTask } from "@/api/domain/googleTask";
 import type { TaskList, TaskListId } from "@/api/domain/taskList";
-import { mapApiError, QueryErrorKind } from "@/data/errors";
+import { mapApiError } from "@/data/errors";
 import { type DataAccessor, hydrate } from "@/data/hydrate";
 import { Repository } from "@/data/repository";
 import {
   type OnSubscriptionChange,
   type Refresh,
   SubscriptionManager,
-  type SubscriptionResult,
   type UnsubscribeCallback,
 } from "@/data/subscriptions";
 import type { Task, TaskId } from "@/data/task";
@@ -40,7 +39,9 @@ export class GoogleTasksAdapter {
   public actions = {
     toggleTask: async (id: TaskId, currentStatus: "needsAction" | "completed") => {
       const task = this.tasks.get(id);
-      if (!task) return;
+      if (!task) {
+        return;
+      }
 
       const newStatus = currentStatus === "needsAction" ? "completed" : "needsAction";
       // Optimistic update
@@ -84,7 +85,9 @@ export class GoogleTasksAdapter {
       try {
         await this.api.withInner((api) => api.deleteTask(taskListId, taskId));
       } catch (err) {
-        if (prev) this.tasks.set(taskId, prev);
+        if (prev) {
+          this.tasks.set(taskId, prev);
+        }
         this.notifySubscriptions();
         throw err;
       }

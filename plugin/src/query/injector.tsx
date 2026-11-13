@@ -1,7 +1,7 @@
-import type { Plugin } from "obsidian";
 import React from "react";
 import ReactDOM from "react-dom/client";
 
+import type GoogleTasksPlugin from "@/index";
 import { parseQuery, type QueryWarning } from "@/query/parser";
 import type { TaskQuery } from "@/query/schema/tasks";
 import { taskQueryDefinition } from "@/query/schema/tasks";
@@ -9,9 +9,9 @@ import { PluginContext, QueryContext } from "@/ui/context";
 import { QueryRoot } from "@/ui/query/QueryRoot";
 
 export class QueryInjector {
-  private readonly plugin: Plugin;
+  private readonly plugin: GoogleTasksPlugin;
 
-  constructor(plugin: Plugin) {
+  constructor(plugin: GoogleTasksPlugin) {
     this.plugin = plugin;
   }
 
@@ -44,7 +44,7 @@ export class QueryInjector {
     root.render(
       React.createElement(
         PluginContext.Provider,
-        { value: this.plugin as any },
+        { value: this.plugin },
         React.createElement(
           QueryContext.Provider,
           { value: query },

@@ -3,6 +3,7 @@ import { OAuthLoopbackServer } from "@/api/oauth/server";
 import { useSettingsStore } from "@/settings";
 
 const REFRESH_MARGIN_MS = 60_000; // 1 minute buffer
+const MS_PER_SECOND = 1000;
 
 export class GoogleAuthManager {
   private readonly oauthClient = new GoogleOAuthClient();
@@ -34,7 +35,7 @@ export class GoogleAuthManager {
     }
 
     const tokens = await this.oauthClient.refreshAccessToken(refreshToken, clientId, clientSecret);
-    const expiresAt = Date.now() + tokens.expires_in * 1000;
+    const expiresAt = Date.now() + tokens.expires_in * MS_PER_SECOND;
 
     useSettingsStore.setState({
       accessToken: tokens.access_token,
@@ -63,7 +64,7 @@ export class GoogleAuthManager {
         redirectUri,
       );
 
-      const expiresAt = Date.now() + tokens.expires_in * 1000;
+      const expiresAt = Date.now() + tokens.expires_in * MS_PER_SECOND;
       let email: string | null = null;
 
       try {

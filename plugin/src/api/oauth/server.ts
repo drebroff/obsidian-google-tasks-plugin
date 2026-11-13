@@ -3,6 +3,8 @@ import { URL } from "node:url";
 
 const OAUTH_TIMEOUT_MS = 120_000; // 2 minutes timeout
 const DEFAULT_PORT = 42_813;
+const HTTP_OK = 200;
+const HTTP_BAD_REQUEST = 400;
 
 export class OAuthLoopbackServer {
   private server: http.Server | null = null;
@@ -18,7 +20,7 @@ export class OAuthLoopbackServer {
           const error = reqUrl.searchParams.get("error");
 
           if (error) {
-            res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
+            res.writeHead(HTTP_OK, { "Content-Type": "text/html; charset=utf-8" });
             res.end(`
               <!DOCTYPE html>
               <html>
@@ -36,7 +38,7 @@ export class OAuthLoopbackServer {
           }
 
           if (code) {
-            res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
+            res.writeHead(HTTP_OK, { "Content-Type": "text/html; charset=utf-8" });
             res.end(`
               <!DOCTYPE html>
               <html>
@@ -54,7 +56,7 @@ export class OAuthLoopbackServer {
             return;
           }
 
-          res.writeHead(400, { "Content-Type": "text/plain" });
+          res.writeHead(HTTP_BAD_REQUEST, { "Content-Type": "text/plain" });
           res.end("Missing authorization code.");
         } catch (err) {
           cleanup();

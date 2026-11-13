@@ -31,16 +31,26 @@ export function filterAndSortTasks(tasks: Task[], query: TaskQuery): Task[] {
         const { isOverdue, flag } = task.due.start;
         switch (dueFilter) {
           case "today":
-            if (flag !== "today") return false;
+            if (flag !== "today") {
+              return false;
+            }
             break;
           case "overdue":
-            if (!isOverdue) return false;
+            if (!isOverdue) {
+              return false;
+            }
             break;
           case "today-and-overdue":
-            if (flag !== "today" && !isOverdue) return false;
+            if (flag !== "today" && !isOverdue) {
+              return false;
+            }
             break;
           case "upcoming":
-            if (isOverdue || flag === "today") return false;
+            if (isOverdue || flag === "today") {
+              return false;
+            }
+            break;
+          default:
             break;
         }
       } else {
@@ -71,17 +81,15 @@ export function filterAndSortTasks(tasks: Task[], query: TaskQuery): Task[] {
       cmp = a.content.localeCompare(b.content);
     } else if (sorting === "my-order") {
       cmp = a.position.localeCompare(b.position);
-    } else {
+    } else if (!a.due && !b.due) {
       // date
-      if (!a.due && !b.due) {
-        cmp = a.position.localeCompare(b.position);
-      } else if (!a.due) {
-        cmp = 1;
-      } else if (b.due) {
-        cmp = a.due.start.raw.getTime() - b.due.start.raw.getTime();
-      } else {
-        cmp = -1;
-      }
+      cmp = a.position.localeCompare(b.position);
+    } else if (!a.due) {
+      cmp = 1;
+    } else if (b.due) {
+      cmp = a.due.start.raw.getTime() - b.due.start.raw.getTime();
+    } else {
+      cmp = -1;
     }
     return isAsc ? cmp : -cmp;
   });

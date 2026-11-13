@@ -10,7 +10,7 @@ flowchart TD
     A[Trigger Release workflow with version input] --> B[prepare-release job]
     B --> B1[Bump CHANGELOG manifest versions.json package-lock]
     B1 --> B2[Open PR chore/prepare-release-X.Y.Z]
-    B2 --> B3[Wait for premerge checks and merge]
+    B2 --> B3[Merge the release PR]
     B3 --> C[push-tag job]
     C --> C1[Create and push tag X.Y.Z on master]
     C1 --> D[build-and-publish job]
@@ -51,8 +51,8 @@ gh workflow run release-orchestration.yml -f version=1.2.3 --ref master
      - Syncs `minAppVersion` in the manifest from the `obsidian` dependency version.
      - Adds the version to [versions.json](versions.json) and refreshes `package-lock.json`.
    - Pushes `chore/prepare-release-<version>`, opens a PR and merges it
-     (auto-merge when enabled in the repo settings, otherwise it waits for the
-     `premerge` checks and merges directly).
+     (auto-merge when enabled in the repo settings, otherwise it merges
+     directly).
 2. **push-tag** - creates an annotated tag `<version>` on merged `master` and
    pushes it. The tag name must equal the manifest version (validated later).
 3. **build-and-publish** ([release-build.yml](.github/workflows/release-build.yml), reusable)
@@ -83,10 +83,12 @@ version files must already be correct on the tagged commit.
   the release PR with `GITHUB_TOKEN` and fails without it. Equivalent API
   call: `gh api -X PUT repos/<owner>/<repo>/actions/permissions/workflow -f default_workflow_permissions=write -F can_approve_pull_request_reviews=true`.
 - **Allow auto-merge** (optional but recommended): Settings → General → Pull
-  Requests → *Allow auto-merge*. When disabled, the pipeline falls back to
-  watching checks and merging directly.
-- For the strongest guarantee that a release PR only merges with green checks,
-  mark the `premerge` checks as **required** in branch protection for `master`.
+  Requests → *Allow auto-merge*. When disabled, the pipeline merges the release
+  PR directly instead.
+- The release PR does not run the `premerge` checks: the pipeline pushes the
+  release branch with `GITHUB_TOKEN`, and pushes made with `GITHUB_TOKEN` do
+  not trigger other workflows. The `build-and-publish` job is the safety net -
+  it re-runs lint, typecheck, tests and the build before publishing.
 
 ## Obsidian community deployment
 

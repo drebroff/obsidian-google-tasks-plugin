@@ -77,13 +77,17 @@ jobs:
 
       - name: Merge pull request
         run: |
-          # Prefer auto-merge; fall back to watching checks and merging
-          # directly when the repository does not have auto-merge enabled.
+          # Prefer auto-merge; fall back to merging directly when the
+          # repository does not have auto-merge enabled. Checks are not
+          # awaited here: the release branch is pushed with GITHUB_TOKEN,
+          # which does not trigger the premerge workflow, so no checks are
+          # ever reported for the release PR. The build-and-publish job is
+          # the safety net - it re-runs lint, typecheck, tests and the build
+          # before publishing.
           if gh pr merge "$PR_NUMBER" --rebase --auto --delete-branch 2>/dev/null; then
             echo "Auto-merge enabled, waiting for the pull request to merge..."
           else
-            echo "Auto-merge unavailable, waiting for checks and merging directly..."
-            gh pr checks "$PR_NUMBER" --watch --interval 20
+            echo "Auto-merge unavailable, merging directly..."
             gh pr merge "$PR_NUMBER" --rebase --delete-branch
           fi
 

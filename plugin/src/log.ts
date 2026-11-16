@@ -1,15 +1,23 @@
 import { useSettingsStore } from "@/settings";
 
-export function debug(log: string | LogMessage) {
+export function debug(log: string | LogMessage, ...context: unknown[]) {
+  logIfEnabled("log", log, context);
+}
+
+export function debugWarn(log: string | LogMessage, ...context: unknown[]) {
+  logIfEnabled("warn", log, context);
+}
+
+function logIfEnabled(level: "log" | "warn", log: string | LogMessage, context: unknown[]) {
   if (!useSettingsStore.getState().debugLogging) {
     return;
   }
 
   if (isComplexLog(log)) {
-    console.log(log.msg);
-    console.log(log.context);
+    console[level](log.msg);
+    console[level](log.context);
   } else {
-    console.log(log);
+    console[level](log, ...context);
   }
 }
 

@@ -4591,15 +4591,21 @@ const defaultSettings = {
 const useSettingsStore = create(() => ({
   ...defaultSettings
 }));
-function debug(log) {
+function debug(log, ...context) {
+  logIfEnabled("log", log, context);
+}
+function debugWarn(log, ...context) {
+  logIfEnabled("warn", log, context);
+}
+function logIfEnabled(level, log, context) {
   if (!useSettingsStore.getState().debugLogging) {
     return;
   }
   if (isComplexLog(log)) {
-    console.log(log.msg);
-    console.log(log.context);
+    console[level](log.msg);
+    console[level](log.context);
   } else {
-    console.log(log);
+    console[level](log, ...context);
   }
 }
 function isComplexLog(log) {
@@ -41988,7 +41994,7 @@ class GoogleTasksAdapter {
         this.tasks.set(t2.id, t2);
       }
       this.hasSynced = true;
-      console.log(`Google Tasks: Synced ${allTasks.length} tasks`);
+      debug(`Google Tasks: Synced ${allTasks.length} tasks`);
       this.notifySubscriptions();
     } catch (error) {
       console.error("Failed to sync Google Tasks:", error);
@@ -42015,7 +42021,7 @@ class GoogleTasksAdapter {
         await this.sync();
         return;
       }
-      console.log("Google Tasks: Refreshing...");
+      debug("Google Tasks: Refreshing...");
       await this.sync();
       const hydrated = this.getHydratedTasks();
       const filtered = filterAndSortTasks(hydrated, query);
@@ -42472,7 +42478,7 @@ class QueryInjector {
       try {
         const [query, warnings] = parseQuery(source, taskQueryDefinition);
         warnings.forEach((warning) => {
-          console.warn("Query warning:", warning);
+          debugWarn("Query warning:", warning);
         });
         this.mountReactQuery(query, el, warnings);
       } catch (error) {
@@ -43448,7 +43454,7 @@ class GoogleAuthManager {
         const userInfo = await this.oauthClient.fetchUserInfo(tokens.access_token);
         email2 = userInfo.email;
       } catch (err) {
-        console.warn("Could not fetch user email:", err);
+        debugWarn("Could not fetch user email:", err);
       }
       useSettingsStore.setState({
         accessToken: tokens.access_token,
@@ -43486,7 +43492,7 @@ const makeServices = (plugin) => {
     tasks: new GoogleTasksAdapter()
   };
 };
-const BuildStamp = "v1.0.0-f0fad14-261116T1444";
+const BuildStamp = "v1.0.0-25511fa-261116T1520";
 const AutoRefreshIntervalControl = ({ initialValue, onChange }) => {
   const [value, setValue] = reactExports.useState(`${initialValue}`);
   const onInputChange = (ev) => {
@@ -43794,7 +43800,7 @@ class GoogleTasksPlugin extends obsidian.Plugin {
       );
       await this.services.tasks.initialize(apiClient);
     } catch (err) {
-      console.log("Google Tasks: not authenticated or token expired", err);
+      debug("Google Tasks: not authenticated or token expired", err);
     }
   }
   async loadOptions() {

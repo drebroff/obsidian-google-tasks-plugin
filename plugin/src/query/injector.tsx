@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 
 import type GoogleTasksPlugin from "@/index";
+import { debugWarn } from "@/log";
 import { parseQuery, type QueryWarning } from "@/query/parser";
 import type { TaskQuery } from "@/query/schema/tasks";
 import { taskQueryDefinition } from "@/query/schema/tasks";
@@ -20,7 +21,7 @@ export class QueryInjector {
       const [query, warnings] = parseQuery(source, taskQueryDefinition);
 
       warnings.forEach((warning) => {
-        console.warn("Query warning:", warning);
+        debugWarn("Query warning:", warning);
       });
 
       // Mount React component using existing QueryRoot

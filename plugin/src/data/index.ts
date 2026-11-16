@@ -11,6 +11,7 @@ import {
   type UnsubscribeCallback,
 } from "@/data/subscriptions";
 import type { Task, TaskId } from "@/data/task";
+import { debug } from "@/log";
 import { filterAndSortTasks } from "@/query/filter";
 import type { TaskQuery } from "@/query/schema/tasks";
 import { Maybe } from "@/utils/maybe";
@@ -132,7 +133,7 @@ export class GoogleTasksAdapter {
       }
 
       this.hasSynced = true;
-      console.log(`Google Tasks: Synced ${allTasks.length} tasks`);
+      debug(`Google Tasks: Synced ${allTasks.length} tasks`);
       this.notifySubscriptions();
     } catch (error) {
       console.error("Failed to sync Google Tasks:", error);
@@ -166,7 +167,7 @@ export class GoogleTasksAdapter {
         return;
       }
 
-      console.log("Google Tasks: Refreshing...");
+      debug("Google Tasks: Refreshing...");
       await this.sync();
       const hydrated = this.getHydratedTasks();
       const filtered = filterAndSortTasks(hydrated, query);

@@ -7,6 +7,7 @@ import { GoogleTasksApiClient } from "@/api";
 import { ObsidianFetcher } from "@/api/fetcher";
 import { registerCommands } from "@/commands";
 import { secondsToMillis } from "@/infra/time";
+import { debug } from "@/log";
 import { QueryInjector } from "@/query/injector";
 import { makeServices, type Services } from "@/services";
 import { type Settings, useSettingsStore } from "@/settings";
@@ -72,7 +73,7 @@ export default class GoogleTasksPlugin extends Plugin {
       );
       await this.services.tasks.initialize(apiClient);
     } catch (err) {
-      console.log("Google Tasks: not authenticated or token expired", err);
+      debug("Google Tasks: not authenticated or token expired", err);
     }
   }
 

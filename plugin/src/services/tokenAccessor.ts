@@ -1,5 +1,6 @@
 import { GoogleOAuthClient } from "@/api/oauth/client";
 import { OAuthLoopbackServer } from "@/api/oauth/server";
+import { debugWarn } from "@/log";
 import { useSettingsStore } from "@/settings";
 
 const REFRESH_MARGIN_MS = 60_000; // 1 minute buffer
@@ -71,7 +72,7 @@ export class GoogleAuthManager {
         const userInfo = await this.oauthClient.fetchUserInfo(tokens.access_token);
         email = userInfo.email;
       } catch (err) {
-        console.warn("Could not fetch user email:", err);
+        debugWarn("Could not fetch user email:", err);
       }
 
       useSettingsStore.setState({

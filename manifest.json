@@ -1,7 +1,7 @@
 {
   "id": "obsidian-google-tasks-plugin",
   "name": "Google Tasks Sync",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "minAppVersion": "1.11.4",
   "description": "Materialize Google Tasks within Obsidian notes.",
   "author": "Dmitrij Rebrov",

@@ -1,10 +1,6 @@
 import type { Command as ObsidianCommand } from "obsidian";
 
-import {
-  addTask,
-  addTaskWithPageInContent,
-  addTaskWithPageInDescription,
-} from "@/commands/addTask";
+import { addTask } from "@/commands/addTask";
 import type GoogleTasksPlugin from "@/index";
 import { debug } from "@/log";
 
@@ -23,8 +19,6 @@ const syncCommand: MakeCommand = (plugin: GoogleTasksPlugin) => {
 const commands = {
   "google-tasks-sync": syncCommand,
   "add-task": addTask,
-  "add-task-page-content": addTaskWithPageInContent,
-  "add-task-page-description": addTaskWithPageInDescription,
 };
 
 export type CommandId = keyof typeof commands;

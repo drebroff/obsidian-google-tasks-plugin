@@ -514,11 +514,6 @@ body {
 .task-creation-modal-root .task-creation-selectors .task-list-select-trigger .task-list-select-chevron {
   color: var(--text-faint);
 }
-.task-creation-modal-root .task-creation-notes ul {
-  padding-inline-start: 16px;
-  font-size: var(--font-smallest);
-  color: var(--text-muted);
-}
 .task-creation-modal-root .task-creation-controls {
   display: flex;
   justify-content: space-between;

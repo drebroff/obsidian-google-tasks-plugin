@@ -1,5 +1,5 @@
 import { toCalendarDateTime } from "@internationalized/date";
-import { Notice, type TFile } from "obsidian";
+import { Notice } from "obsidian";
 import type React from "react";
 import { useState } from "react";
 import { Button } from "react-aria-components";
@@ -14,29 +14,8 @@ import { TaskContentInput } from "./TaskContentInput";
 import { TaskListSelect } from "./TaskListSelect";
 import "./styles.scss";
 
-export type LinkDestination = "content" | "description";
-
-export type TaskCreationOptions = {
-  appendLinkTo?: LinkDestination;
-};
-
 type CreateTaskProps = {
   initialContent?: string;
-  fileContext?: TFile;
-  options: TaskCreationOptions;
-};
-
-const getLinkDestinationMessage = (
-  destination: LinkDestination | undefined,
-): string | undefined => {
-  switch (destination) {
-    case "content":
-      return "A link to this page will be appended to the task title.";
-    case "description":
-      return "A link to this page will be appended to the task description.";
-    default:
-      return undefined;
-  }
 };
 
 const calculateDefaultDueDate = (setting: DueDateDefaultSetting): DueDate | undefined => {
@@ -66,11 +45,7 @@ const getDueRFC3339 = (due: DueDate | undefined): string | undefined => {
   return `${due.date.toString()}T00:00:00.000Z`;
 };
 
-export const CreateTaskModal: React.FC<CreateTaskProps> = ({
-  initialContent = "",
-  fileContext,
-  options,
-}) => {
+export const CreateTaskModal: React.FC<CreateTaskProps> = ({ initialContent = "" }) => {
   const plugin = PluginContext.use();
   const modal = ModalContext.use();
 
@@ -96,24 +71,12 @@ export const CreateTaskModal: React.FC<CreateTaskProps> = ({
       return;
     }
 
-    let finalTitle = title.trim();
-    let finalNotes = notes.trim();
-
-    if (fileContext && options.appendLinkTo) {
-      const link = `[[${fileContext.basename}]]`;
-      if (options.appendLinkTo === "content") {
-        finalTitle = `${finalTitle} ${link}`;
-      } else {
-        finalNotes = finalNotes ? `${finalNotes}\n${link}` : link;
-      }
-    }
-
     try {
       setIsSubmitting(true);
       const dueRFC3339 = getDueRFC3339(dueDate);
 
-      await plugin.services.tasks.actions.createTask(activeListId, finalTitle, {
-        notes: finalNotes || undefined,
+      await plugin.services.tasks.actions.createTask(activeListId, title.trim(), {
+        notes: notes.trim() || undefined,
         due: dueRFC3339,
       });
 
@@ -126,8 +89,6 @@ export const CreateTaskModal: React.FC<CreateTaskProps> = ({
       setIsSubmitting(false);
     }
   };
-
-  const linkDestinationMessage = getLinkDestinationMessage(options.appendLinkTo);
 
   return (
     <div className="task-creation-modal-root">
@@ -150,9 +111,6 @@ export const CreateTaskModal: React.FC<CreateTaskProps> = ({
           <DueDateSelector selected={dueDate} setSelected={setDueDate} />
           <TaskListSelect lists={lists} value={activeListId} onChange={setSelectedListId} />
         </div>
-      </div>
-      <div className="task-creation-notes">
-        <ul>{linkDestinationMessage && <li>{linkDestinationMessage}</li>}</ul>
       </div>
       <hr />
       <div className="task-creation-controls">

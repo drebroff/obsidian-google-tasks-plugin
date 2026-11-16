@@ -270,8 +270,6 @@ export const en: Translations = {
   commands: {
     sync: "Sync with Google Tasks",
     addTask: "Add task",
-    addTaskPageContent: "Add task with current page in task content",
-    addTaskPageDescription: "Add task with current page in task description",
   },
   tokenValidation: {
     emptyTokenError: "API token must not be empty",

@@ -1,8 +1,7 @@
-import { MarkdownView, type TFile } from "obsidian";
+import { MarkdownView } from "obsidian";
 
 import type { MakeCommand } from "@/commands";
 import type GoogleTasksPlugin from "@/index";
-import type { TaskCreationOptions } from "@/ui/createTaskModal";
 
 export const addTask: MakeCommand = (plugin: GoogleTasksPlugin) => {
   return {
@@ -11,32 +10,10 @@ export const addTask: MakeCommand = (plugin: GoogleTasksPlugin) => {
   };
 };
 
-export const addTaskWithPageInContent: MakeCommand = (plugin: GoogleTasksPlugin) => {
-  return {
-    name: "Add Google Task with page link in title",
-    callback: makeCallback(plugin, {
-      appendLinkTo: "content",
-    }),
-  };
-};
-
-export const addTaskWithPageInDescription: MakeCommand = (plugin: GoogleTasksPlugin) => {
-  return {
-    name: "Add Google Task with page link in notes",
-    callback: makeCallback(plugin, {
-      appendLinkTo: "description",
-    }),
-  };
-};
-
-const makeCallback = (plugin: GoogleTasksPlugin, opts?: Partial<TaskCreationOptions>) => {
+const makeCallback = (plugin: GoogleTasksPlugin) => {
   return () => {
     plugin.services.modals.taskCreation({
       initialContent: grabSelection(plugin),
-      fileContext: getFileContext(plugin),
-      options: {
-        ...(opts ?? {}),
-      },
     });
   };
 };
@@ -49,9 +26,4 @@ const grabSelection = (plugin: GoogleTasksPlugin): string | undefined => {
 
   const selection = activeView.editor.getSelection();
   return selection.length > 0 ? selection : undefined;
-};
-
-const getFileContext = (plugin: GoogleTasksPlugin): TFile | undefined => {
-  const activeView = plugin.app.workspace.getActiveViewOfType(MarkdownView);
-  return activeView?.file ?? undefined;
 };

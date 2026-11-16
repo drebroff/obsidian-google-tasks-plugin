@@ -255,9 +255,7 @@ const en = {
   },
   commands: {
     sync: "Sync with Google Tasks",
-    addTask: "Add task",
-    addTaskPageContent: "Add task with current page in task content",
-    addTaskPageDescription: "Add task with current page in task description"
+    addTask: "Add task"
   },
   tokenValidation: {
     emptyTokenError: "API token must not be empty",
@@ -471,9 +469,7 @@ const nl = {
   },
   commands: {
     sync: "Synchroniseer met Google Tasks",
-    addTask: "Taak toevoegen",
-    addTaskPageContent: "Taak toevoegen met huidige pagina in taakinhoud",
-    addTaskPageDescription: "Taak toevoegen met huidige pagina in taakbeschrijving"
+    addTask: "Taak toevoegen"
   },
   tokenValidation: {
     emptyTokenError: "API-token mag niet leeg zijn",
@@ -4080,30 +4076,10 @@ const addTask = (plugin) => {
     callback: makeCallback(plugin)
   };
 };
-const addTaskWithPageInContent = (plugin) => {
-  return {
-    name: "Add Google Task with page link in title",
-    callback: makeCallback(plugin, {
-      appendLinkTo: "content"
-    })
-  };
-};
-const addTaskWithPageInDescription = (plugin) => {
-  return {
-    name: "Add Google Task with page link in notes",
-    callback: makeCallback(plugin, {
-      appendLinkTo: "description"
-    })
-  };
-};
-const makeCallback = (plugin, opts) => {
+const makeCallback = (plugin) => {
   return () => {
     plugin.services.modals.taskCreation({
-      initialContent: grabSelection(plugin),
-      fileContext: getFileContext(plugin),
-      options: {
-        ...opts ?? {}
-      }
+      initialContent: grabSelection(plugin)
     });
   };
 };
@@ -4114,10 +4090,6 @@ const grabSelection = (plugin) => {
   }
   const selection = activeView.editor.getSelection();
   return selection.length > 0 ? selection : void 0;
-};
-const getFileContext = (plugin) => {
-  const activeView = plugin.app.workspace.getActiveViewOfType(obsidian.MarkdownView);
-  return activeView?.file ?? void 0;
 };
 const createStoreImpl = (createState2) => {
   let state;
@@ -4644,9 +4616,7 @@ const syncCommand = (plugin) => {
 };
 const commands = {
   "google-tasks-sync": syncCommand,
-  "add-task": addTask,
-  "add-task-page-content": addTaskWithPageInContent,
-  "add-task-page-description": addTaskWithPageInDescription
+  "add-task": addTask
 };
 const registerCommands = (plugin) => {
   for (const [id2, make] of Object.entries(commands)) {
@@ -41521,7 +41491,15 @@ const HeaderButton = ({ iconId, action, className, tooltip }) => {
       await result;
     }
   };
-  return /* @__PURE__ */ jsxRuntimeExports.jsx($d2b4bc8c273e7be6$export$353f5b6fc5456de1, { className: classNames("google-tasks-query-control-button", className), onPress: handler, ref: buttonRef, children: /* @__PURE__ */ jsxRuntimeExports.jsx(ObsidianIcon, { id: iconId, size: "s" }) });
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(
+    $d2b4bc8c273e7be6$export$353f5b6fc5456de1,
+    {
+      className: classNames("google-tasks-query-control-button", className),
+      onPress: handler,
+      ref: buttonRef,
+      children: /* @__PURE__ */ jsxRuntimeExports.jsx(ObsidianIcon, { id: iconId, size: "s" })
+    }
+  );
 };
 const renderContents = (content) => {
   if (typeof content === "string") {
@@ -41840,16 +41818,24 @@ function filterAndSortTasks(tasks, query) {
         const { isOverdue, flag } = task.due.start;
         switch (dueFilter) {
           case "today":
-            if (flag !== "today") return false;
+            if (flag !== "today") {
+              return false;
+            }
             break;
           case "overdue":
-            if (!isOverdue) return false;
+            if (!isOverdue) {
+              return false;
+            }
             break;
           case "today-and-overdue":
-            if (flag !== "today" && !isOverdue) return false;
+            if (flag !== "today" && !isOverdue) {
+              return false;
+            }
             break;
           case "upcoming":
-            if (isOverdue || flag === "today") return false;
+            if (isOverdue || flag === "today") {
+              return false;
+            }
             break;
         }
       } else {
@@ -41874,16 +41860,14 @@ function filterAndSortTasks(tasks, query) {
       cmp = a.content.localeCompare(b.content);
     } else if (sorting === "my-order") {
       cmp = a.position.localeCompare(b.position);
+    } else if (!a.due && !b.due) {
+      cmp = a.position.localeCompare(b.position);
+    } else if (!a.due) {
+      cmp = 1;
+    } else if (b.due) {
+      cmp = a.due.start.raw.getTime() - b.due.start.raw.getTime();
     } else {
-      if (!a.due && !b.due) {
-        cmp = a.position.localeCompare(b.position);
-      } else if (!a.due) {
-        cmp = 1;
-      } else if (b.due) {
-        cmp = a.due.start.raw.getTime() - b.due.start.raw.getTime();
-      } else {
-        cmp = -1;
-      }
+      cmp = -1;
     }
     return isAsc ? cmp : -cmp;
   });
@@ -41927,7 +41911,9 @@ class GoogleTasksAdapter {
     this.actions = {
       toggleTask: async (id2, currentStatus) => {
         const task = this.tasks.get(id2);
-        if (!task) return;
+        if (!task) {
+          return;
+        }
         const newStatus = currentStatus === "needsAction" ? "completed" : "needsAction";
         const updated = { ...task, status: newStatus };
         this.tasks.set(id2, updated);
@@ -41961,7 +41947,9 @@ class GoogleTasksAdapter {
         try {
           await this.api.withInner((api) => api.deleteTask(taskListId, taskId));
         } catch (err) {
-          if (prev) this.tasks.set(taskId, prev);
+          if (prev) {
+            this.tasks.set(taskId, prev);
+          }
           this.notifySubscriptions();
           throw err;
         }
@@ -43077,16 +43065,6 @@ const TaskListSelect = ({ lists, value, onChange }) => {
     }
   );
 };
-const getLinkDestinationMessage = (destination) => {
-  switch (destination) {
-    case "content":
-      return "A link to this page will be appended to the task title.";
-    case "description":
-      return "A link to this page will be appended to the task description.";
-    default:
-      return void 0;
-  }
-};
 const calculateDefaultDueDate = (setting) => {
   switch (setting) {
     case "none":
@@ -43109,11 +43087,7 @@ const getDueRFC3339 = (due) => {
   }
   return `${due.date.toString()}T00:00:00.000Z`;
 };
-const CreateTaskModal = ({
-  initialContent = "",
-  fileContext,
-  options
-}) => {
+const CreateTaskModal = ({ initialContent = "" }) => {
   const plugin = PluginContext.use();
   const modal = ModalContext.use();
   const [title, setTitle] = reactExports.useState(initialContent);
@@ -43134,22 +43108,11 @@ const CreateTaskModal = ({
       new obsidian.Notice("No Google Task list available");
       return;
     }
-    let finalTitle = title.trim();
-    let finalNotes = notes.trim();
-    if (fileContext && options.appendLinkTo) {
-      const link = `[[${fileContext.basename}]]`;
-      if (options.appendLinkTo === "content") {
-        finalTitle = `${finalTitle} ${link}`;
-      } else {
-        finalNotes = finalNotes ? `${finalNotes}
-${link}` : link;
-      }
-    }
     try {
       setIsSubmitting(true);
       const dueRFC3339 = getDueRFC3339(dueDate);
-      await plugin.services.tasks.actions.createTask(activeListId, finalTitle, {
-        notes: finalNotes || void 0,
+      await plugin.services.tasks.actions.createTask(activeListId, title.trim(), {
+        notes: notes.trim() || void 0,
         due: dueRFC3339
       });
       new obsidian.Notice("Google Task created!");
@@ -43161,7 +43124,6 @@ ${link}` : link;
       setIsSubmitting(false);
     }
   };
-  const linkDestinationMessage = getLinkDestinationMessage(options.appendLinkTo);
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "task-creation-modal-root", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx(
       TaskContentInput,
@@ -43187,7 +43149,6 @@ ${link}` : link;
       /* @__PURE__ */ jsxRuntimeExports.jsx(DueDateSelector, { selected: dueDate, setSelected: setDueDate }),
       /* @__PURE__ */ jsxRuntimeExports.jsx(TaskListSelect, { lists, value: activeListId, onChange: setSelectedListId })
     ] }) }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "task-creation-notes", children: /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { children: linkDestinationMessage && /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: linkDestinationMessage }) }) }),
     /* @__PURE__ */ jsxRuntimeExports.jsx("hr", {}),
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "task-creation-controls", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx("div", {}),
@@ -43354,6 +43315,8 @@ class GoogleOAuthClient {
 }
 const OAUTH_TIMEOUT_MS = 12e4;
 const DEFAULT_PORT = 42813;
+const HTTP_OK = 200;
+const HTTP_BAD_REQUEST = 400;
 class OAuthLoopbackServer {
   constructor() {
     this.server = null;
@@ -43367,7 +43330,7 @@ class OAuthLoopbackServer {
           const code = reqUrl.searchParams.get("code");
           const error = reqUrl.searchParams.get("error");
           if (error) {
-            res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
+            res.writeHead(HTTP_OK, { "Content-Type": "text/html; charset=utf-8" });
             res.end(`
               <!DOCTYPE html>
               <html>
@@ -43384,7 +43347,7 @@ class OAuthLoopbackServer {
             return;
           }
           if (code) {
-            res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
+            res.writeHead(HTTP_OK, { "Content-Type": "text/html; charset=utf-8" });
             res.end(`
               <!DOCTYPE html>
               <html>
@@ -43401,7 +43364,7 @@ class OAuthLoopbackServer {
             resolve({ code, redirectUri });
             return;
           }
-          res.writeHead(400, { "Content-Type": "text/plain" });
+          res.writeHead(HTTP_BAD_REQUEST, { "Content-Type": "text/plain" });
           res.end("Missing authorization code.");
         } catch (err) {
           cleanup();
@@ -43434,6 +43397,7 @@ class OAuthLoopbackServer {
   }
 }
 const REFRESH_MARGIN_MS = 6e4;
+const MS_PER_SECOND = 1e3;
 class GoogleAuthManager {
   constructor(saveCallback) {
     this.oauthClient = new GoogleOAuthClient();
@@ -43456,7 +43420,7 @@ class GoogleAuthManager {
       throw new Error("Client ID or Client Secret is missing. Please check plugin settings.");
     }
     const tokens = await this.oauthClient.refreshAccessToken(refreshToken, clientId, clientSecret);
-    const expiresAt = Date.now() + tokens.expires_in * 1e3;
+    const expiresAt = Date.now() + tokens.expires_in * MS_PER_SECOND;
     useSettingsStore.setState({
       accessToken: tokens.access_token,
       tokenExpiresAt: expiresAt
@@ -43478,7 +43442,7 @@ class GoogleAuthManager {
         clientSecret,
         redirectUri
       );
-      const expiresAt = Date.now() + tokens.expires_in * 1e3;
+      const expiresAt = Date.now() + tokens.expires_in * MS_PER_SECOND;
       let email2 = null;
       try {
         const userInfo = await this.oauthClient.fetchUserInfo(tokens.access_token);
@@ -43522,7 +43486,7 @@ const makeServices = (plugin) => {
     tasks: new GoogleTasksAdapter()
   };
 };
-const BuildStamp = "v1.0.0-dff5525-261113T1726";
+const BuildStamp = "v1.0.0-f0fad14-261116T1444";
 const AutoRefreshIntervalControl = ({ initialValue, onChange }) => {
   const [value, setValue] = reactExports.useState(`${initialValue}`);
   const onInputChange = (ev) => {

@@ -196,8 +196,6 @@ export const nl: DeepPartial<Translations> = {
   commands: {
     sync: "Synchroniseer met Google Tasks",
     addTask: "Taak toevoegen",
-    addTaskPageContent: "Taak toevoegen met huidige pagina in taakinhoud",
-    addTaskPageDescription: "Taak toevoegen met huidige pagina in taakbeschrijving",
   },
   tokenValidation: {
     emptyTokenError: "API-token mag niet leeg zijn",

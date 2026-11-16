@@ -243,8 +243,6 @@ export type Translations = {
   commands: {
     sync: string;
     addTask: string;
-    addTaskPageContent: string;
-    addTaskPageDescription: string;
   };
   tokenValidation: {
     emptyTokenError: string;

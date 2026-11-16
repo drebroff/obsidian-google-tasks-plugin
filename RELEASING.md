@@ -101,7 +101,7 @@ adding an entry to `community-plugins.json`:
 
 ```json
 {
-  "id": "obsidian-google-tasks-plugin",
+  "id": "google-tasks-sync",
   "name": "Google Tasks Sync",
   "author": "Dmitrij Rebrov",
   "description": "Materialize Google Tasks within Obsidian notes.",

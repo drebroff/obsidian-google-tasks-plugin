@@ -21,9 +21,7 @@ const apiTask: GoogleTask = {
   ],
 };
 
-const taskLists = [
-  { id: "list-1", title: "My Tasks" },
-];
+const taskLists = [{ id: "list-1", title: "My Tasks" }];
 
 const dataAccessor = {
   taskLists: {

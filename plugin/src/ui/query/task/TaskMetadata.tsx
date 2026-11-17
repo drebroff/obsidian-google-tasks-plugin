@@ -73,7 +73,8 @@ const emailLinkMeta: MetadataDefinition = {
   icons: {
     before: {
       id: "lucide-mail",
-      shouldRender: (settings, task) => settings.renderEmailLinkIcon && getEmailLink(task) !== undefined,
+      shouldRender: (settings, task) =>
+        settings.renderEmailLinkIcon && getEmailLink(task) !== undefined,
       href: (task) => getEmailLink(task)?.link,
       title: (task) => getEmailLink(task)?.description ?? "Open linked email",
     },

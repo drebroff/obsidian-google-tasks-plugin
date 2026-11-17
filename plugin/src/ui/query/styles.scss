@@ -199,6 +199,19 @@
           color: #808080;
         }
 
+        &[data-meta="email-link"] {
+          .google-tasks-task-metadata-icon-link {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            color: var(--google-tasks-yellow);
+
+            .obsidian-icon:hover {
+              color: var(--interactive-accent);
+            }
+          }
+        }
+
         &[data-task-metadata-kind="project"] .obsidian-icon {
           color: var(--google-tasks-project-color);
         }
@@ -223,6 +236,12 @@
   &[data-due-metadata="overdue"] {
     .google-tasks-task-metadata-item[data-meta="due"] {
       color: var(--google-tasks-red);
+    }
+  }
+
+  &[data-due-metadata="today"] {
+    .google-tasks-task-metadata-item[data-meta="due"] {
+      color: var(--google-tasks-light-blue);
     }
   }
 }

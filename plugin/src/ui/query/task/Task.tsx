@@ -34,15 +34,13 @@ export const Task: React.FC<Props> = ({ tree }) => {
 
   const transitionOpacity = settings.fadeToggle ? 0 : 1;
 
+  const dueMetadata = getDueMetadata(tree);
+
   return (
     <>
       <motion.div
         className="google-tasks-task-container"
-        data-due-metadata={
-          tree.status !== "completed" && tree.due !== undefined && tree.due.start.isOverdue
-            ? "overdue"
-            : undefined
-        }
+        data-due-metadata={dueMetadata}
         initial={{
           opacity: transitionOpacity,
         }}
@@ -83,6 +81,19 @@ export const Task: React.FC<Props> = ({ tree }) => {
 
 const sanitizeContent = (content: string): string => {
   return content.replace(/^[*_~]{1,2}|[*_~]{1,2}$/g, "").trim();
+};
+
+const getDueMetadata = (tree: TaskTree): "overdue" | "today" | undefined => {
+  if (tree.status === "completed" || tree.due === undefined) {
+    return undefined;
+  }
+  if (tree.due.start.isOverdue) {
+    return "overdue";
+  }
+  if (tree.due.start.flag === "today") {
+    return "today";
+  }
+  return undefined;
 };
 
 const DescriptionRenderer: React.FC<{ content: string }> = ({ content }) => {

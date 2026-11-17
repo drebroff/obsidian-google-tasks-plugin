@@ -6,6 +6,14 @@ export type TaskId = z.infer<typeof taskIdSchema>;
 export const taskStatusSchema = z.enum(["needsAction", "completed"]);
 export type TaskStatus = z.infer<typeof taskStatusSchema>;
 
+export const taskLinkSchema = z.object({
+  type: z.string().optional(),
+  description: z.string().optional(),
+  link: z.string(),
+});
+
+export type TaskLink = z.infer<typeof taskLinkSchema>;
+
 export const googleTaskSchema = z.object({
   id: taskIdSchema,
   title: z.string().default(""),
@@ -17,6 +25,7 @@ export const googleTaskSchema = z.object({
   deleted: z.boolean().optional(),
   hidden: z.boolean().optional(),
   position: z.string().optional(),
+  links: z.array(taskLinkSchema).optional(),
 });
 
 export type GoogleTask = z.infer<typeof googleTaskSchema> & {

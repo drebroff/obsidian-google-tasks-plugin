@@ -157,6 +157,13 @@ const SettingsRoot: React.FC<Props> = ({ plugin }) => {
           <Setting.ToggleControl {...toggleProps("renderDateIcon")} />
         </Setting.Root>
 
+        <Setting.Root
+          name="Render email link icon"
+          description="Show a clickable mail icon on tasks created from Gmail."
+        >
+          <Setting.ToggleControl {...toggleProps("renderEmailLinkIcon")} />
+        </Setting.Root>
+
         <Setting.Root name="Render list icon" description="Show list icon next to tasklist names.">
           <Setting.ToggleControl {...toggleProps("renderListIcon")} />
         </Setting.Root>

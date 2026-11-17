@@ -15,6 +15,8 @@ type IconDefinition = {
   id: string;
   shouldRender: (settings: Settings, task: Task) => boolean;
   size?: React.ComponentProps<typeof ObsidianIcon>["size"];
+  href?: (task: Task) => string | undefined;
+  title?: (task: Task) => string | undefined;
 };
 
 type MetadataDefinition = {
@@ -61,7 +63,25 @@ const dueDateMeta: MetadataDefinition = {
   side: "left",
 };
 
-const metadata: MetadataDefinition[] = [dueDateMeta, listMeta];
+const emailLinkMeta: MetadataDefinition = {
+  name: "email-link",
+  // The email link is an attribute of the task itself, so it is shown
+  // regardless of the query's `show` filter; visibility is controlled
+  // by the `renderEmailLinkIcon` setting on the icon definition instead.
+  isShown: (_show, task) => getEmailLink(task) !== undefined,
+  content: () => [],
+  icons: {
+    before: {
+      id: "lucide-mail",
+      shouldRender: (settings, task) => settings.renderEmailLinkIcon && getEmailLink(task) !== undefined,
+      href: (task) => getEmailLink(task)?.link,
+      title: (task) => getEmailLink(task)?.description ?? "Open linked email",
+    },
+  },
+  side: "left",
+};
+
+const metadata: MetadataDefinition[] = [dueDateMeta, listMeta, emailLinkMeta];
 
 type Props = {
   task: Task;
@@ -92,14 +112,44 @@ export const TaskMetadata: React.FC<Props> = ({ task, query, settings }) => {
   );
 };
 
+function getEmailLink(task: Task): { description?: string; link: string } | undefined {
+  return task.links?.find((link) => link.type === "email" && link.link !== "");
+}
+
+function renderIcon(icon: IconDefinition, task: Task): React.ReactNode {
+  const node = <ObsidianIcon id={icon.id} size={icon.size ?? "s"} />;
+  const href = icon.href?.(task);
+  const title = icon.title?.(task);
+
+  if (href === undefined) {
+    return node;
+  }
+
+  return (
+    <a
+      href={href}
+      className="google-tasks-task-metadata-icon-link"
+      onClick={(event) => {
+        event.preventDefault();
+        window.open(href, "_blank");
+      }}
+      aria-label={title}
+    >
+      {node}
+    </a>
+  );
+}
+
 function renderMetadata(def: MetadataDefinition, task: Task, settings: Settings): React.ReactNode {
   const contents = def.content(task);
-  const beforeIcon = def.icons.before?.shouldRender(settings, task) ? (
-    <ObsidianIcon id={def.icons.before.id} size={def.icons.before.size ?? "s"} />
-  ) : null;
-  const afterIcon = def.icons.after?.shouldRender(settings, task) ? (
-    <ObsidianIcon id={def.icons.after.id} size={def.icons.after.size ?? "s"} />
-  ) : null;
+  const beforeIcon =
+    def.icons.before?.shouldRender(settings, task) && def.icons.before
+      ? renderIcon(def.icons.before, task)
+      : null;
+  const afterIcon =
+    def.icons.after?.shouldRender(settings, task) && def.icons.after
+      ? renderIcon(def.icons.after, task)
+      : null;
 
   return (
     <span key={def.name} className={`google-tasks-task-metadata-item`} data-meta={def.name}>

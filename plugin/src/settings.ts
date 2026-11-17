@@ -17,6 +17,7 @@ const defaultSettings: Settings = {
 
   renderDateIcon: true,
   renderListIcon: true,
+  renderEmailLinkIcon: true,
 
   shouldWrapLinksInParens: false,
   taskCreationDefaultDueDate: "none",
@@ -40,6 +41,7 @@ export type Settings = {
 
   renderDateIcon: boolean;
   renderListIcon: boolean;
+  renderEmailLinkIcon: boolean;
 
   shouldWrapLinksInParens: boolean;
   taskCreationDefaultDueDate: DueDateDefaultSetting;

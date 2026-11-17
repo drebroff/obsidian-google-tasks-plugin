@@ -3858,6 +3858,11 @@ function superRefine(fn) {
 }
 const taskIdSchema = string();
 const taskStatusSchema = _enum(["needsAction", "completed"]);
+const taskLinkSchema = object({
+  type: string().optional(),
+  description: string().optional(),
+  link: string()
+});
 const googleTaskSchema = object({
   id: taskIdSchema,
   title: string().default(""),
@@ -3868,7 +3873,8 @@ const googleTaskSchema = object({
   completed: string().optional(),
   deleted: boolean().optional(),
   hidden: boolean().optional(),
-  position: string().optional()
+  position: string().optional(),
+  links: array(taskLinkSchema).optional()
 });
 const tasksResponseSchema = object({
   kind: string().optional(),
@@ -4582,6 +4588,7 @@ const defaultSettings = {
   autoRefreshInterval: 60,
   renderDateIcon: true,
   renderListIcon: true,
+  renderEmailLinkIcon: true,
   shouldWrapLinksInParens: false,
   taskCreationDefaultDueDate: "none",
   taskCreationDefaultListId: null,
@@ -41732,7 +41739,8 @@ function hydrate(apiTask, data, order = 0) {
     due,
     position: apiTask.position ?? "",
     completed: apiTask.completed,
-    order
+    order,
+    links: apiTask.links
   };
 }
 class Repository {
@@ -42184,7 +42192,24 @@ const dueDateMeta = {
   },
   side: "left"
 };
-const metadata = [dueDateMeta, listMeta];
+const emailLinkMeta = {
+  name: "email-link",
+  // The email link is an attribute of the task itself, so it is shown
+  // regardless of the query's `show` filter; visibility is controlled
+  // by the `renderEmailLinkIcon` setting on the icon definition instead.
+  isShown: (_show, task) => getEmailLink(task) !== void 0,
+  content: () => [],
+  icons: {
+    before: {
+      id: "lucide-mail",
+      shouldRender: (settings, task) => settings.renderEmailLinkIcon && getEmailLink(task) !== void 0,
+      href: (task) => getEmailLink(task)?.link,
+      title: (task) => getEmailLink(task)?.description ?? "Open linked email"
+    }
+  },
+  side: "left"
+};
+const metadata = [dueDateMeta, listMeta, emailLinkMeta];
 const TaskMetadata = ({ task, query, settings }) => {
   const show = query.show;
   const leftElements = metadata.filter((m) => m.side === "left" && m.isShown(show, task)).map((m) => renderMetadata(m, task, settings));
@@ -42197,10 +42222,34 @@ const TaskMetadata = ({ task, query, settings }) => {
     /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "google-tasks-task-metadata-group", children: rightElements })
   ] });
 };
+function getEmailLink(task) {
+  return task.links?.find((link) => link.type === "email" && link.link !== "");
+}
+function renderIcon(icon, task) {
+  const node = /* @__PURE__ */ jsxRuntimeExports.jsx(ObsidianIcon, { id: icon.id, size: icon.size ?? "s" });
+  const href = icon.href?.(task);
+  const title = icon.title?.(task);
+  if (href === void 0) {
+    return node;
+  }
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(
+    "a",
+    {
+      href,
+      className: "google-tasks-task-metadata-icon-link",
+      onClick: (event) => {
+        event.preventDefault();
+        window.open(href, "_blank");
+      },
+      "aria-label": title,
+      children: node
+    }
+  );
+}
 function renderMetadata(def, task, settings) {
   const contents = def.content(task);
-  const beforeIcon = def.icons.before?.shouldRender(settings, task) ? /* @__PURE__ */ jsxRuntimeExports.jsx(ObsidianIcon, { id: def.icons.before.id, size: def.icons.before.size ?? "s" }) : null;
-  const afterIcon = def.icons.after?.shouldRender(settings, task) ? /* @__PURE__ */ jsxRuntimeExports.jsx(ObsidianIcon, { id: def.icons.after.id, size: def.icons.after.size ?? "s" }) : null;
+  const beforeIcon = def.icons.before?.shouldRender(settings, task) && def.icons.before ? renderIcon(def.icons.before, task) : null;
+  const afterIcon = def.icons.after?.shouldRender(settings, task) && def.icons.after ? renderIcon(def.icons.after, task) : null;
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: `google-tasks-task-metadata-item`, "data-meta": def.name, children: [
     beforeIcon,
     contents.map((c, i) => (
@@ -42225,12 +42274,13 @@ const Task = ({ tree }) => {
   };
   const shouldRenderDescription = (!query.show || query.show.includes("notes")) && tree.description !== "";
   const transitionOpacity = settings.fadeToggle ? 0 : 1;
+  const dueMetadata = getDueMetadata(tree);
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
     /* @__PURE__ */ jsxRuntimeExports.jsxs(
       MotionDiv,
       {
         className: "google-tasks-task-container",
-        "data-due-metadata": tree.status !== "completed" && tree.due !== void 0 && tree.due.start.isOverdue ? "overdue" : void 0,
+        "data-due-metadata": dueMetadata,
         initial: {
           opacity: transitionOpacity
         },
@@ -42277,6 +42327,18 @@ const Task = ({ tree }) => {
 };
 const sanitizeContent = (content) => {
   return content.replace(/^[*_~]{1,2}|[*_~]{1,2}$/g, "").trim();
+};
+const getDueMetadata = (tree) => {
+  if (tree.status === "completed" || tree.due === void 0) {
+    return void 0;
+  }
+  if (tree.due.start.isOverdue) {
+    return "overdue";
+  }
+  if (tree.due.start.flag === "today") {
+    return "today";
+  }
+  return void 0;
 };
 const DescriptionRenderer = ({ content }) => {
   return /* @__PURE__ */ jsxRuntimeExports.jsx(Markdown, { className: "google-tasks-task-description", content });
@@ -43492,7 +43554,7 @@ const makeServices = (plugin) => {
     tasks: new GoogleTasksAdapter()
   };
 };
-const BuildStamp = "v1.0.0-25511fa-261116T1520";
+const BuildStamp = "v1.0.2-543720a-261117T1347";
 const AutoRefreshIntervalControl = ({ initialValue, onChange }) => {
   const [value, setValue] = reactExports.useState(`${initialValue}`);
   const onInputChange = (ev) => {
@@ -43687,6 +43749,14 @@ const SettingsRoot = ({ plugin }) => {
         name: "Render date icon",
         description: "Show calendar icon next to task due dates.",
         children: /* @__PURE__ */ jsxRuntimeExports.jsx(Setting.ToggleControl, { ...toggleProps("renderDateIcon") })
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      Setting.Root,
+      {
+        name: "Render email link icon",
+        description: "Show a clickable mail icon on tasks created from Gmail.",
+        children: /* @__PURE__ */ jsxRuntimeExports.jsx(Setting.ToggleControl, { ...toggleProps("renderEmailLinkIcon") })
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsx(Setting.Root, { name: "Render list icon", description: "Show list icon next to tasklist names.", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Setting.ToggleControl, { ...toggleProps("renderListIcon") }) }),

@@ -13,6 +13,7 @@ export function makeSettings(overrides?: Partial<Settings>): Settings {
     autoRefreshInterval: 60,
     renderDateIcon: true,
     renderListIcon: true,
+    renderEmailLinkIcon: true,
     shouldWrapLinksInParens: false,
     taskCreationDefaultDueDate: "none",
     taskCreationDefaultListId: null,

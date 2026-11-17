@@ -26,5 +26,6 @@ export function hydrate(apiTask: GoogleTask, data: DataAccessor, order = 0): Tas
     position: apiTask.position ?? "",
     completed: apiTask.completed,
     order,
+    links: apiTask.links,
   };
 }

@@ -1,3 +1,4 @@
+import type { TaskLink } from "@/api/domain/googleTask";
 import type { TaskList } from "@/api/domain/taskList";
 import type { DueDate } from "@/data/dueDate";
 
@@ -13,4 +14,5 @@ export type Task = {
   position: string;
   completed?: string;
   order: number;
+  links?: TaskLink[];
 };

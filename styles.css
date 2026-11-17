@@ -265,6 +265,15 @@ body {
 .google-tasks-task-container .google-tasks-task .google-tasks-task-metadata .google-tasks-task-metadata-item[data-meta=list] {
   color: #808080;
 }
+.google-tasks-task-container .google-tasks-task .google-tasks-task-metadata .google-tasks-task-metadata-item[data-meta=email-link] .google-tasks-task-metadata-icon-link {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: var(--google-tasks-yellow);
+}
+.google-tasks-task-container .google-tasks-task .google-tasks-task-metadata .google-tasks-task-metadata-item[data-meta=email-link] .google-tasks-task-metadata-icon-link .obsidian-icon:hover {
+  color: var(--interactive-accent);
+}
 .google-tasks-task-container .google-tasks-task .google-tasks-task-metadata .google-tasks-task-metadata-item[data-task-metadata-kind=project] .obsidian-icon {
   color: var(--google-tasks-project-color);
 }
@@ -393,6 +402,9 @@ body {
 }
 .google-tasks-task-container[data-due-metadata=overdue] .google-tasks-task-metadata-item[data-meta=due] {
   color: var(--google-tasks-red);
+}
+.google-tasks-task-container[data-due-metadata=today] .google-tasks-task-metadata-item[data-meta=due] {
+  color: var(--google-tasks-light-blue);
 }
 
 .google-tasks-group + .google-tasks-group {

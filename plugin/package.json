@@ -1,6 +1,6 @@
 {
   "name": "@obsidian-google-tasks/plugin",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "A Google Tasks plugin for Obsidian",
   "scripts": {
     "check": "tsgo --noEmit",
